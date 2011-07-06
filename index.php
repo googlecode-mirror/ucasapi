@@ -6,7 +6,6 @@
 	<body>
 		<?php		
 			phpinfo();
-			// probando
 		?>
 	</body>
 </html>
