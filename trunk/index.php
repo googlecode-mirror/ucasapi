@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<?php		
-			echo "Prueba inicial"
+			phpinfo();
 		?>
 	</body>
 </html>
