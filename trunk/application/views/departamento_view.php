@@ -1,9 +1,10 @@
 <html>
 	<head>
 		<title>Test</title>		
-		<link type="text/css" href="<?php echo base_url(); ?>application/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />	
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/js/jquery-1.5.1.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/js/jquery-ui-1.8.14.custom.min.js"></script>
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-1.5.1.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/departamento.js"></script>
 		
 	</head>
 	
@@ -36,109 +37,4 @@
 	
 		
 	</body>
-
-	<!-- Javascript Code -->
-	
-	<script type="text/javascript">	
-	
-		$(document).ready(function(){
-			departmentAutocomplete();		
-		});	
-
-		function departmentAutocomplete(){
-			$.ajax({				
-		        type: "POST",
-		        url:  "index.php/departamento/departmentAutocompleteRead",
-		        data: "",
-		        dataType : "json",
-		        success: function(dat){
-		        	$( "#txtRecords" ).autocomplete({
-		        		minChars: 0,  
-				        source: dat,
-				        minLength: 1,
-				        select: function( event, ui) {
-					        $("#idDepto").val(ui.item.id);					
-						}
-					});
-		      }
-		      
-			});			
-		}
-
-
-		function save(){			
-			var formData= "";
-			formData += "idDepto=" + $("#idDepto").val();
-			formData += "&nombreDepto=" + $("#txtDepartmentName").val();
-			formData += "&descripcion=" + $("#txtDepartmentDesc").val();		
-			
-			$.ajax({				
-		        type: "POST",
-		        url:  "index.php/departamento/departmentValidateAndSave",
-		        data: formData,
-		        dataType : "json",
-		        success: function(retrievedData){
-					        switch(retrievedData.status){
-					        	case 0 : alert("Mensaje de error: "+ retrievedData.msg);
-					        			 break;
-					        	case 1 : alert("Mensaje de éxito: "+ retrievedData.msg);
-			        			 		 break;
-			        			case 2 : alert("Mensaje de información: "+ retrievedData.msg);
-		   			 		 			 break;			        
-					        }
-		      	}
-		      
-			});
-			
-		}
-
-		function edit(){			
-			var formData = "idDepto=" + $("#idDepto").val();	
-			
-			$.ajax({				
-		        type: "POST",
-		        url:  "index.php/departamento/departmentRead",
-		        data: formData,
-		        dataType : "json",
-		        success: function(retrievedData){
-					       $("#txtDepartmentName").val(retrievedData.nombreDepto);
-					       $("#txtDepartmentDesc").val(retrievedData.descripcion);
-		      	}
-		      
-			});
-			
-		}
-
-		function deleteData(){		
-			alert("Pendiente....");	
-			/*var formData = "idDepto=" + $("#idDepto").val();	
-			
-			$.ajax({				
-		        type: "POST",
-		        url:  "index.php/departamento/departmentDelete",
-		        data: formData,
-		        dataType : "json",
-		        success: function(retrievedData){
-					       $("#txtDepartmentName").val(retrievedData.nombreDepto);
-					       $("#txtDepartmentDesc").val(retrievedData.descripcion);
-		      	}
-		      
-			});*/
-			
-		}
-
-		function cancel(){
-			clear();
-		}
-
-		function clear(){
-			$(".inputField").val("");
-			$(".hiddenId").val("");
-			$("#txtRecords").val("");
-		}
-
-		
-
-	</script>
-	
 </html>
