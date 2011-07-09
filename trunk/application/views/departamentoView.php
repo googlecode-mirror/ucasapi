@@ -10,7 +10,7 @@
 	
 	<body>
 	
-		<div id="divCRUD" class="CRUD_Pane">	
+		<div id="divActions" class="ActionPane">	
 			
 			<div id="divCRUDRecords">
 				<span class = "recordsLabel">Departamentos</span>
