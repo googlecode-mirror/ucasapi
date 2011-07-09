@@ -1076,7 +1076,8 @@ class CI_Form_validation {
 	 */
 	function alpha($str)
 	{
-		return ( ! preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE;
+		//return ( ! preg_match("/^([a-z])+$/i", $str)) ? FALSE : TRUE; //No permite espacios en blanco
+		return ( ! preg_match("/^([a-z-\s])+$/i", $str)) ? FALSE : TRUE;
 	}
 
 	// --------------------------------------------------------------------
