@@ -1,13 +1,13 @@
 
 $(document).ready(function(){
-	departmentAutocomplete();		
+	rolAutocomplete();	
 });	
 
-function departmentAutocomplete(){
+function rolAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/departamento/departmentAutocompleteRead",
-        data: "departmentAutocomplete",
+        url:  "index.php/rol/rolAutocompleteRead",
+        data: "rolAutocomplete",
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
@@ -19,7 +19,7 @@ function departmentAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 1,
     		        select: function(event, ui) {
-    			        $("#idDepto").val(ui.item.id);					
+    			        $("#idRol").val(ui.item.id);					
     				}
     			});
         		
@@ -31,23 +31,12 @@ function departmentAutocomplete(){
 
 function save(){			
 	var formData= "";
-	formData += "idDepto=" + $("#idDepto").val();
-	formData += "&nombreDepto=" + $("#txtDepartmentName").val();
-	formData += "&descripcion=" + $("#txtDepartmentDesc").val();
-	
-	/*var Departamento = {
-			"idDepto" : $("#idDepto").val(),
-			"nombreDepto" : $("#txtDepartmentName").val(),
-			"descripcion" : $("#txtDepartmentDesc").val()			
-	}
-	
-	departamentoStr = JSON.stringify(Departamento);
-	
-	alert(departamentoStr);*/
+	formData += "idRol=" + $("#idRol").val();	
+	formData += "&nombreRol=" + $("#txtRolName").val();
 	
 	$.ajax({				
         type: "POST",
-        url:  "index.php/departamento/departmentValidateAndSave",
+        url:  "index.php/rol/rolValidateAndSave",
         data: formData,
         dataType : "json",
         success: function(retrievedData){
@@ -55,13 +44,13 @@ function save(){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}
         	else{
-        		if($("idDepto").val()==""){
+        		if($("idRol").val()==""){
         			alert("Registro agregado con éxito");
         		}
         		else{
         			alert("Registro actualizado con éxito");
         		}
-        		departmentAutocomplete();
+        		rolAutocomplete();
         		clear();
         	}
       	}
@@ -71,19 +60,18 @@ function save(){
 }
 
 function edit(){			
-	var formData = "idDepto=" + $("#idDepto").val();	
+	var formData = "idRol=" + $("#idRol").val();	
 	
 	$.ajax({				
         type: "POST",
-        url:  "index.php/departamento/departmentRead",
+        url:  "index.php/rol/rolRead",
         data: formData,
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}else{
-        		$("#txtDepartmentName").val(retrievedData.data.nombreDepto);
-			    $("#txtDepartmentDesc").val(retrievedData.data.descripcion);
+        		$("#txtRolName").val(retrievedData.data.nombreRol);
         	}			       
       	}      
 	});
@@ -91,14 +79,14 @@ function edit(){
 }
 
 function deleteData(){
-	var formData = "idDepto=" + $("#idDepto").val();
+	var formData = "idRol=" + $("#idRol").val();
 	
 	var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
 	
 	if (answer){		
 		$.ajax({				
 	        type: "POST",
-	        url:  "index.php/departamento/departmentDelete",
+	        url:  "index.php/rol/rolDelete",
 	        data: formData,
 	        dataType : "json",
 	        success: function(retrievedData){
@@ -107,7 +95,7 @@ function deleteData(){
 	        	}
 	        	else{
 	        		alert("Registro eliminado con éxito");
-	        		departmentAutocomplete();
+	        		rolAutocomplete();
 	        		clear();
 	        	}
 	      	}

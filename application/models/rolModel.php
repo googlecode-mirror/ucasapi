@@ -1,5 +1,5 @@
 <?php
-class departamentoModel extends CI_Model{
+class rolModel extends CI_Model{
 	
 	
 	function create(){
@@ -7,11 +7,11 @@ class departamentoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$nombreDepto = $this->input->post("nombreDepto");
-		$descripcion = $this->input->post("descripcion");		
+		$nombreRol = $this->input->post("nombreRol");
+				
 		
-		$sql = "INSERT INTO DEPARTAMENTO (nombreDepto, descripcion) 
-   				VALUES (".$this->db->escape($nombreDepto).", ".$this->db->escape($descripcion).")";
+		$sql = "INSERT INTO ROL (idRol,nombreRol) 
+   				VALUES (DEFAULT,".$this->db->escape($nombreRol).")";
 		
 		$query = $this->db->query($sql);
 		
@@ -29,10 +29,9 @@ class departamentoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$idDepto = $this->input->post("idDepto");		
+		$idRol = $this->input->post("idRol");			
 		
-		$sql = "SELECT nombreDepto, descripcion
-				FROM DEPARTAMENTO WHERE idDepto = ".$idDepto;
+		$sql = "SELECT nombreRol FROM ROL WHERE idRol = ".$idRol;
 		
 		$query = $this->db->query($sql);
 		
@@ -55,14 +54,12 @@ class departamentoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idDepto = $this->input->post("idDepto");
-		$nombreDepto = $this->input->post("nombreDepto");
-		$descripcion = $this->input->post("descripcion");		
+		$idRol = $this->input->post("idRol");
+		$nombreRol = $this->input->post("nombreRol");				
 		
-		$sql = "UPDATE DEPARTAMENTO 
-				SET nombreDepto = ".$this->db->escape($nombreDepto).",
-				    descripcion = ".$this->db->escape($descripcion)."
-				WHERE idDepto = ". $idDepto; 
+		$sql = "UPDATE ROL 
+				SET nombreRol = ".$this->db->escape($nombreRol)."				    
+				WHERE idRol = ". $idRol; 
 		
 		$query = $this->db->query($sql);
 		
@@ -80,10 +77,10 @@ class departamentoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idDepto = $this->input->post("idDepto");
+		$idRol = $this->input->post("idRol");
 		
-		$sql = "DELETE FROM DEPARTAMENTO 
-				WHERE idDepto = ". $idDepto;
+		$sql = "DELETE FROM ROL 
+				WHERE idRol = ". $idRol;
    				
 		$query = $this->db->query($sql);
 		
@@ -101,21 +98,21 @@ class departamentoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idDepto, nombreDepto FROM DEPARTAMENTO";
+		$sql = "SELECT idRol, nombreRol FROM ROL";
 		$query = $this->db->query($sql);		
 	
 		if($query){
 			if($query->num_rows > 0){			
 				foreach ($query->result() as $row){		
 					$rowArray = array();
-					$rowArray["id"] = $row->idDepto;
-					$rowArray["value"] = $row->nombreDepto;
+					$rowArray["id"] = $row->idRol;
+					$rowArray["value"] = $row->nombreRol;
 					
 					$retArray["data"][] = $rowArray;				
 				}							
 			}
 		}
-		else{
+		else{			
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
@@ -133,17 +130,14 @@ class departamentoModel extends CI_Model{
 		
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
-		$this->form_validation->set_rules("nombreDepto", "Nombre", 'required|alpha');
-		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha');		
+		$this->form_validation->set_rules("nombreRol", "Nombre", 'required|alpha');				
 		
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 			
-			$retArray["msg"] .= form_error("nombreDepto");
-			$retArray["msg"] .= form_error("descripcion");			
-		}
-		
+			$retArray["msg"] .= form_error("nombreRol");						
+		}		
 		return $retArray;
 	}	
 	
