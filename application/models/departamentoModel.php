@@ -26,7 +26,7 @@ class departamentoModel extends CI_Model{
 	
 	function read(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
 		$idDepto = $this->input->post("idDepto");		

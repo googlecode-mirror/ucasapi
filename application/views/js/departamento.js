@@ -1,4 +1,5 @@
 
+
 $(document).ready(function(){
 	departmentAutocomplete();		
 });	
@@ -34,16 +35,6 @@ function save(){
 	formData += "idDepto=" + $("#idDepto").val();
 	formData += "&nombreDepto=" + $("#txtDepartmentName").val();
 	formData += "&descripcion=" + $("#txtDepartmentDesc").val();
-	
-	/*var Departamento = {
-			"idDepto" : $("#idDepto").val(),
-			"nombreDepto" : $("#txtDepartmentName").val(),
-			"descripcion" : $("#txtDepartmentDesc").val()			
-	}
-	
-	departamentoStr = JSON.stringify(Departamento);
-	
-	alert(departamentoStr);*/
 	
 	$.ajax({				
         type: "POST",
