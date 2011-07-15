@@ -37,7 +37,6 @@ function save(){
 	var formData = "";
 	formData += "idTipo=" + $("#idTipo").val();
 	formData += "&nombreTipo=" + $("#txtTipoName").val();
-	formData += "&descripcion=" + $("#txtTipoDesc").val();
 
 	$.ajax({
 		type: "POST",
@@ -55,7 +54,7 @@ function save(){
 				else{
 					alert("Tipo actualizada con exito");
 				}
-				TipoAutocomplete();
+				tipoAutocomplete();
 				clear();
 					
 			}
@@ -99,7 +98,7 @@ function edit(){
 				alert("Mensaje de error: " + retrievedData.msg);
 			}
 			else{
-				$("#txtTipoName").val(retrievedData.data.nombreTipo);
+				$("#txtTipoName").val(retrievedData.data.tipo);
 			}
 		}
 	});

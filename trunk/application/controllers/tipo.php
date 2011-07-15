@@ -12,4 +12,38 @@ class Tipo extends CI_Controller{
 		echo json_encode($autocompleteData);
 	}
 	
+	function tipoRead(){
+		$this->load->model("tipoModel");
+		echo json_encode($this->tipoModel->read());
+	}
+	
+	function tipoDelete(){
+		$this->load->model("tipoModel");
+		echo json_encode($this->tipoModel->delete());
+	}
+	
+	function tipoValidateAndSave(){
+		$this->load->model("tipoModel");
+		$retArray = array();
+		
+		$validationInfo = $this->tipoModel->saveValidation();
+		
+		if($validationInfo["status"] == 0){
+			$idTipo = $this->input->post("idTipo");
+			
+			if($idTipo == ""){
+				$retArray = $this->tipoModel->create();
+			}
+			else{
+				$retArray = $this->tipoModel->update();
+			}
+			
+		}
+		else{
+			$retArray = $validationInfo;
+		}
+		
+		echo json_encode($retArray);
+	}
+	
 }
