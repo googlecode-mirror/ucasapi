@@ -6,7 +6,7 @@ class faseModel extends CI_Model{
 		$this->load->database();
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		
-		$sql = "SELECT idFase, nombreFase FROM fase";
+		$sql = "SELECT idFase, nombreFase FROM FASE";
 		$query = $this->db->query($sql);
 		
 		if($query){
@@ -35,7 +35,7 @@ class faseModel extends CI_Model{
 		$retArray = array("status" => "0", "msg" => "");
 		$idFase = $this->input->post("idFase");
 		
-		$sql = "DELETE FROM Fase WHERE idFase = " .$idFase;
+		$sql = "DELETE FROM FASE WHERE idFase = " .$idFase;
 		
 		$query = $this->db->query($sql);
 		
@@ -51,7 +51,7 @@ class faseModel extends CI_Model{
 	function saveValidation(){
 		$this->load->library('form_validation');
 		
-		$retArray = array("status" => 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "");
 		
 		$this->form_validation->set_rules("nombreFase", "Nombre", 'required|alpha');
 		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha');	
@@ -59,8 +59,8 @@ class faseModel extends CI_Model{
 		if($this->form_validation->run() == false){
 			$retArray["status"] = 1;
 			
-			$retArray .= form_error("nombreFase");
-			$retArray .= form_error("descripcion");
+			$retArray["msg"] .= form_error("nombreFase");
+			$retArray["msg"] .= form_error("descripcion");
 		}
 		
 		return $retArray;
@@ -92,7 +92,7 @@ class faseModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idFase = $this->input->post("idFase");
 		
-		$sql = 	"SELECT nombreFase, descripcion FROM Fase WHERE idFase = " .$idFase;
+		$sql = 	"SELECT nombreFase, descripcion FROM FASE WHERE idFase = " .$idFase;
 		
 		$query = $this->db->query($sql);
 		
@@ -118,7 +118,7 @@ class faseModel extends CI_Model{
 		$nombreFase = $this->input->post("nombreFase");
 		$descripcion = $this->input->post("descripcion");		
 		
-		$sql = "UPDATE Fase SET nombreFase = ".$this->db->escape($nombreFase).", descripcion = ".$this->db->escape($descripcion). " WHERE idFase = " .$idFase; 
+		$sql = "UPDATE FASE SET nombreFase = ".$this->db->escape($nombreFase).", descripcion = ".$this->db->escape($descripcion). " WHERE idFase = " .$idFase; 
 		
 		$query = $this->db->query($sql);
 		
