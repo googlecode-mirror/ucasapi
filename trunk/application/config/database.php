@@ -41,7 +41,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'nirux.no-ip.org';
+$db['default']['hostname'] = '192.168.1.2';
 $db['default']['username'] = 'jlozano';
 $db['default']['password'] = 'jlozano';
 $db['default']['database'] = 'DSGI';
