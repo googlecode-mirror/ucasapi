@@ -1,6 +1,13 @@
 
 
 $(document).ready(function(){
+	 $('.divActions').addClass("ui-corner-all");
+	 $('.divDataForm').addClass("ui-corner-all");
+	 $('.container').addClass("ui-corner-bottom");
+	
+	//$(".button").button();
+	$("input[type=button]").button();
+	//$("input[type=button]").toggleClass('ui-state-focus');
 	departmentAutocomplete();		
 });	
 
@@ -108,6 +115,7 @@ function deleteData(){
 }
 
 function cancel(){
+	//$("#btnCancel").toggleClass('ui-state-active');
 	clear();
 }
 
@@ -116,3 +124,4 @@ function clear(){
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
 }
+
