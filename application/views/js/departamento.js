@@ -3,12 +3,10 @@
 $(document).ready(function(){
 	 $('.divActions').addClass("ui-corner-all");
 	 $('.divDataForm').addClass("ui-corner-all");
-	 $('.container').addClass("ui-corner-bottom");
-	
-	//$(".button").button();
-	$("input[type=button]").button();
-	//$("input[type=button]").toggleClass('ui-state-focus');
-	departmentAutocomplete();		
+	 $('.container').addClass("ui-corner-bottom");	
+	 $("button").button();
+	 
+	 departmentAutocomplete();		
 });	
 
 function departmentAutocomplete(){
