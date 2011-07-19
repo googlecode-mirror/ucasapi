@@ -38,7 +38,6 @@
 					<button id="btnEdit" onClick="edit()">Editar</button>
 					<button id="btnDelete" onClick="deleteData()">Eliminar</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
-
 				</div>
 			</div>
 				
