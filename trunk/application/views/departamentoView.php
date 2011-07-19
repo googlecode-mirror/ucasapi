@@ -11,7 +11,7 @@
 	<body>
 		<div class="menuBar">
 			<ul>
-				<li><span class="menu_button_to"><a href="http://www.googlecom"><span class="menu_button_text">Dinamic</span></a></span></li>
+				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
 				<li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
 				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
 				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
