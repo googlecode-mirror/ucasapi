@@ -36,8 +36,6 @@ function save(){
 	formData += "idAccion=" + $("#idAccion").val();
 	formData += "&nombreAccion=" + $("#txtAccionName").val();	
 	
-
-	
 	$.ajax({				
         type: "POST",
         url:  "index.php/accion/accionValidateAndSave",
