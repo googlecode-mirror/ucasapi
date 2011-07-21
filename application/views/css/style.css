@@ -3,7 +3,7 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: Lucida Grande, Lucida Sans, Arial;
-	font-size: 0.7em;
+	font-size: 0.8em;
 	color: #000
 }
 
@@ -133,7 +133,7 @@ body {
 	margin-top : 20px;
 	margin-botom : 20px;
 	margin-left : 32px;	
-	font-size: 1.2em;	
+	font-size: 1em;	
 }
 .divLogin input[type="text"], input[type="password"]{
 	height: 20px;
@@ -143,7 +143,7 @@ body {
 	margin-top : 20px;
 	margin-right : 32px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
-	font-size: 1.2em;	
+	font-size: 1em;	
 }
 
 .divLogin .loginButtons{
@@ -158,6 +158,8 @@ body {
 	margin-bottom : 20px;
 	margin-top : 20px;
 	width : 96px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
 }
 
 #invalidUser{
@@ -174,7 +176,7 @@ body {
 	background: #FFFFFF;
 	width : 576px;
 	margin: 0 auto;
-	margin-bottom : 30px;
+	margin-bottom : 20px;
 	border-style:solid;
 	border-width:1px;
 	border-color: #BFBFBF;
@@ -206,7 +208,63 @@ body {
 	margin-left : 10px;
 	margin-bottom : 20px;
 	width : 120px;
+	font-size: 0.9em;	
 }
+
+/*-------------------------------Div de mensaje informativo------------------------------*/
+#msgBox{
+	display:none;
+}
+
+#msgBox p{
+	margin-bottom: 2px;
+	margin-top: 2px;
+}
+
+
+.msgBoxInfo{
+	width: 556px;
+	height : 76px;
+	background: #C6D8F0;
+	margin : 0 auto;
+	margin-bottom: 20px;
+	padding:10px;
+	border-style:solid;
+	border-width:1px;
+	border-color: #548BD4;
+	color: #548BD4;
+	font-size: 1em;	
+}
+
+.msgBoxSucces{
+	width: 556px;
+	height : 76px;
+	background: #B9D3B5;
+	margin : 0 auto;
+	margin-bottom: 20px;
+	padding:10px;
+	border-style:solid;
+	border-width:1px;
+	border-color: #288A26;
+	color: #288A26;
+	font-size: 1em;	
+}
+
+.msgBoxError{
+	width: 556px;
+	height : 76px;
+	background: #E2C1BE;
+	margin : 0 auto;
+	margin-bottom: 20px;
+	padding:10px;
+	border-style:solid;
+	border-width:1px;
+	border-color: #C00000;
+	color: #C00000;
+	font-size: 1em;	
+}
+
+
 
 /*-------------------------------Div de  de ingreso de datos-----------------------------*/
 
@@ -251,5 +309,6 @@ body {
 }
 
 
-
+/************************************** jQuery ******************************************/
+.ui-autocomplete { max-height: 128px; overflow-y: scroll; overflow-x: hidden; }
 
