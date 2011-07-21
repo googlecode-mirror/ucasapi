@@ -1,12 +1,7 @@
 
 
 $(document).ready(function(){
-	 $('.divActions').addClass("ui-corner-all");
-	 $('.divDataForm').addClass("ui-corner-all");
-	 $('.container').addClass("ui-corner-bottom");
-	 
-	 $("button").button({icons: {primary: "ui-icon-locked"}});
-	 
+	 js_ini();	 
 	 departmentAutocomplete();		
 });	
 
@@ -22,7 +17,8 @@ function departmentAutocomplete(){
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
-            		minChars: 0,  
+            		minChars: 0,
+            		matchContains: true,
     		        source: retrievedData.data,
     		        minLength: 1,
     		        select: function(event, ui) {
@@ -49,14 +45,17 @@ function save(){
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		msgBoxInfo(retrievedData.msg);
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}
         	else{
-        		if($("idDepto").val()==""){
-        			alert("Registro agregado con éxito");
+        		if($("#idDepto").val()==""){
+        			msgBoxSucces("<p>Registro agregado con éxito</p>");
+        			//alert();
         		}
         		else{
-        			alert("Registro actualizado con éxito");
+        			msgBoxSucces("<p>Registro actualizado con éxito</p>");
+        			//alert("Registro actualizado con éxito");
         		}
         		departmentAutocomplete();
         		clear();
@@ -100,10 +99,12 @@ function deleteData(){
 	        dataType : "json",
 	        success: function(retrievedData){
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+	        		msgBoxInfo(retrievedData.msg);
+	        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
 	        	}
 	        	else{
-	        		alert("Registro eliminado con éxito");
+	        		msgBoxSucces("<p>Registro eliminado con éxito</p>");
+	        		//alert("Registro eliminado con éxito");
 	        		departmentAutocomplete();
 	        		clear();
 	        	}
@@ -122,5 +123,6 @@ function clear(){
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	$("#msgBox").hide();
 }
 
