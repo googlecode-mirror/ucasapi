@@ -1,12 +1,18 @@
 <html>
 	<head>
-		<title>Test</title>		
+		<title>Test</title>	
+		<?php 
+			require_once("application/models/menuBarModel.php");
+			//echo "menuBarModel.php";
+			//$menuBarModel = new menuBarModel();
+			//$menuBarModel->showMenu();		
+		?>			
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-1.5.1.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/departamento.js"></script>
-		
 	</head>	
 	<body>
 		<div class="menuBar">
@@ -38,6 +44,7 @@
 					<button id="btnEdit" onClick="edit()">Editar</button>
 					<button id="btnDelete" onClick="deleteData()">Eliminar</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
+
 				</div>
 			</div>
 				
