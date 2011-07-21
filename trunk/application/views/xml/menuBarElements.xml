@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menuBar>
+	<rol>
+		<idRol>1</idRol>
+		<name>Administrador</name>
+		<button>
+			<text>Departamento</text>
+			<controller>departamento</controller>				
+		</button>
+		<button>
+			<text>Estado</text>
+			<controller>estado</controller>				
+		</button>
+	</rol>
+</menuBar>
