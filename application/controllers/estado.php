@@ -45,9 +45,9 @@ class Estado extends CI_Controller{
 		$validationInfo = $this->estadoModel->saveValidation();
 		
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
-			$idDepto =  $this->input->post("idDepto");
+			$idEstado =  $this->input->post("idEstado");
 			
-			if($idDepto == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($idEstado == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->estadoModel->create();
 			}
 			else{

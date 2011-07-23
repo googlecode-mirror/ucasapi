@@ -110,11 +110,11 @@ class proyectoModel extends CI_Model{
 				foreach ($query->result() as $row){		
 					$rowArray = array();
 					$rowArray["id"] = $row->idProyecto;
-					$rowArray["value"] = $row->nombreProyecto;
-					
+					$rowArray["value"] = $row->nombreProyecto;					
 					$retArray["data"][] = $rowArray;				
 				}							
 			}
+			
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
