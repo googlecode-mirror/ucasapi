@@ -17,7 +17,7 @@ function procesoAutocomplete(){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}
         	else{        		
-        		$("#txtRecords").autocomplete({
+        		$("#txtRecordsProc").autocomplete({
             		minChars: 0,  
     		        source: retrievedData.data,
     		        minLength: 1,
@@ -43,7 +43,7 @@ function procesoProyectoAutocomplete(){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}
         	else{        		
-        		$("#txtProyectoName").autocomplete({
+        		$("#txtRecordsProy").autocomplete({
             		minChars: 0,  
     		        source: retrievedData.data,
     		        minLength: 1,
@@ -146,20 +146,20 @@ function save(){
 }
 
 function edit(){			
-	var formData = "idEstado=" + $("#idEstado").val();	
+	var formData = "idProceso=" + $("#idProceso").val();	
 	
 	$.ajax({				
         type: "POST",
-        url:  "index.php/estado/statusRead",
+        url:  "index.php/proceso/procesoRead",
         data: formData,
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}else{
-        		$("#txtStatusName").val(retrievedData.data.estado);
-        		$("#txtStatusTypeName").val(retrievedData.data.nombreTipoEstado);
-			    $("#idTipoEstado").val(retrievedData.data.idTipoEstado);
+        		$("#txtProcesoName").val(retrievedData.data.nombreProceso);
+        		$("#txtProyecto").val
+			
         	}			       
       	}      
 	});

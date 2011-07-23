@@ -46,13 +46,14 @@
 			<div id ="msgBox"></div>	
 				
 			<div class="divDataForm">
-				<input id="idTipoEstado" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idTipoEstado" type="hidden" value="" class="hiddenId"/>
 			
 				<span class = "inputFieldLabel">Nombre del estado: </span>
-				<input id="txtStatusTypeName" type="text"  value="" class = "inputField"/><br>
+				<input id="txtStatusName" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Descripción: </span>
-				<textArea id="txtStatusName" cols=20 rows=6 class = "inputField"></textArea>
+				<span class = "inputFieldLabel">Tipo de estado: </span>
+				<input id="txtStatusTypeName" type="text" class = "inputField"></textArea>
 			</div>
 			
 		</div>

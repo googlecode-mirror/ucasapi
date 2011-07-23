@@ -33,7 +33,7 @@ class estadoModel extends CI_Model{
 		
 		$sql = "SELECT e.estado, e.idTipoEstado, te.nombreTipoEstado
 				FROM ESTADO e INNER JOIN TIPO_ESTADO te  ON e.idTipoEstado = te.idTipoEstado
-				WHERE idEstado = ".$idEstado;
+				WHERE e.idEstado = ".$idEstado;
 		
 		$query = $this->db->query($sql);
 		

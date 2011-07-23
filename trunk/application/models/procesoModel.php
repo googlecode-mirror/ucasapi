@@ -32,11 +32,11 @@ class procesoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$idEstado = $this->input->post("idEstado");		
+		$idProceso = $this->input->post("idProceso");		
 		
 		$sql = "SELECT e.estado, e.idTipoEstado, te.nombreTipoEstado
 				FROM ESTADO e INNER JOIN TIPO_ESTADO te  ON e.idTipoEstado = te.idTipoEstado
-				WHERE idEstado = ".$idEstado;
+				WHERE idProceso = ".$idProceso;
 		
 		$query = $this->db->query($sql);
 		

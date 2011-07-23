@@ -4,6 +4,7 @@ class faseModel extends CI_Model{
 	
 	function autocompleteRead(){
 		$this->load->database();
+		
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		
 		$sql = "SELECT idFase, nombreFase FROM FASE";
