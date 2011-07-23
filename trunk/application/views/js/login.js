@@ -25,10 +25,10 @@ function userLogin(){
         		alert("Mensaje de error: " + retrievedData.msg);
         	}
         	else{
-        		if(retrievedData.data.length ==0){
+        		if(retrievedData.data.length ==0){//Si los datos del usuario son inválidos
         			$("#invalidUser").css("display", "inline");
         		}
-        		else{
+        		else{//Si los datos del usuario son correctos se redirrecciona a la url proveída en la variable msg
         			window.location = retrievedData.msg;
         		}
         	}
