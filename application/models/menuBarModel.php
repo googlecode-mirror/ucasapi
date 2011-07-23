@@ -1,18 +1,16 @@
 <?php
-class menuBarModel{
+class menuBarModel{	
 	
-	
-	function showMenu(){
-		
-		$xmlDir = base_url()."application/views/xml/menuBarElements.xml";
-		
+	function showMenu(){		
+		$xmlDir = "application/views/xml/menuBarElements.xml";		
 		$xml = simplexml_load_file($xmlDir);
+
+		$query = '/roles/rol[@id="1"]/botonesMenu/botonMenu';
+		$botonesMenu = $xml->xpath($query);
 		
-		echo $xmlDir;	
-	}	
-
+		foreach ($botonesMenu as $botonMenu){
+	    	echo utf8_decode($botonMenu->nombreBoton."");
+		}
+	}
 }
-
-
-
 ?>
