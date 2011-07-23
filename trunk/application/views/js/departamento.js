@@ -50,11 +50,10 @@ function save(){
         	}
         	else{
         		if($("#idDepto").val()==""){
-        			msgBoxSucces("<p>Registro agregado con éxito</p>");
-        			//alert();
+        			msgBoxSucces("Registro agregado con éxito");
         		}
         		else{
-        			msgBoxSucces("<p>Registro actualizado con éxito</p>");
+        			msgBoxSucces("Registro actualizado con éxito");
         			//alert("Registro actualizado con éxito");
         		}
         		departmentAutocomplete();
@@ -103,7 +102,7 @@ function deleteData(){
 	        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
 	        	}
 	        	else{
-	        		msgBoxSucces("<p>Registro eliminado con éxito</p>");
+	        		msgBoxSucces("Registro eliminado con éxito");
 	        		//alert("Registro eliminado con éxito");
 	        		departmentAutocomplete();
 	        		clear();
@@ -117,12 +116,12 @@ function deleteData(){
 function cancel(){
 	//$("#btnCancel").toggleClass('ui-state-active');
 	clear();
+	$("#msgBox").hide();
 }
 
 function clear(){
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
-	$("#msgBox").hide();
 }
 
