@@ -15,7 +15,7 @@ body {
 	margin: 0 auto;
 	padding: 0;
 	font-family: Lucida Grande, Lucida Sans, Arial;
-	font-size: 1em;	
+	font-size: 0.8em;	
 	background: #666666;
 }
 
@@ -297,6 +297,26 @@ body {
 	font-size: 1em;	
 }
 
+.divDataForm input[type="password"]{
+	height : 20px;
+	float:right;
+	width : 256px;
+	margin-top : 20px;
+	margin-right : 96px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
+}
+
+.divDataForm input[type="checkbox"]{
+	height : 20px;
+	float:right;
+	width : 256px;
+	margin-top : 20px;
+	margin-right : 180px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
+}
+
 .divDataForm textArea{
 	float:right;
 	width : 256px;
@@ -312,3 +332,19 @@ body {
 /************************************** jQuery ******************************************/
 .ui-autocomplete { max-height: 128px; overflow-y: scroll; overflow-x: hidden; }
 
+
+/*********************************************************************************/
+#dialog{
+	background: #EBEBE4;
+	width : 500px;
+	height : 320px;
+	margin: 0 auto;
+	display : none;
+}
+
+#titulo{
+	width: 450px;
+}
+#descripcion{
+	width: 450px;
+}
