@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<menuBar>
-	<rol>
-		<idRol>1</idRol>
-		<name>Administrador</name>
-		<button>
-			<text>Departamento</text>
-			<controller>departamento</controller>				
-		</button>
-		<button>
-			<text>Estado</text>
-			<controller>estado</controller>				
-		</button>
+<roles>
+	<rol id = "1">
+		<nombreRol>Administrador</nombreRol>
+		<botonesMenu>
+			<botonMenu>
+				<nombreBoton>Acción</nombreBoton>
+				<controller>accion</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Cargo</nombreBoton>
+				<controller>cargo</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Departamento</nombreBoton>
+				<controller>departamento</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Estado</nombreBoton>
+				<controller>estado</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Fase</nombreBoton>
+				<controller>fase</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Prioridad</nombreBoton>
+				<controller>prioridad</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Recurso humano</nombreBoton>
+				<controller>recursoHumano</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Rol</nombreBoton>
+				<controller>rol</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>Tipo de asociación</nombreBoton>
+				<controller>tipoAsociacion</controller>
+			</botonMenu>
+		</botonesMenu>
 	</rol>
-</menuBar>
+	<rol id = "2">
+		<nombreRol>Bdministrador</nombreRol>
+		<botonesMenu>
+			<botonMenu>
+				<nombreBoton>A</nombreBoton>
+				<controller>accion</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>B</nombreBoton>
+				<controller>cargo</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>C</nombreBoton>
+				<controller>departamento</controller>
+			</botonMenu>
+			<botonMenu>
+				<nombreBoton>D</nombreBoton>
+				<controller>estado</controller>
+			</botonMenu>
+		</botonesMenu>
+	</rol>
+</roles>
