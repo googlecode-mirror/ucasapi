@@ -10,7 +10,7 @@ class userModel extends CI_Model{
 		$username = $this->input->post("username");
 		$password = $this->input->post("password");	
 		
-		$sql = "SELECT u.primerNombre, u.primerApellido, ru.idRol 
+		$sql = "SELECT u.idUsuario, u.primerNombre, u.primerApellido, ru.idRol 
 				FROM USUARIO u INNER JOIN ROL_USUARIO ru ON u.idUsuario = ru.idUsuario
 				WHERE u.username =".$this->db->escape($username)." AND u.password =". $this->db->escape($password);		
 		
