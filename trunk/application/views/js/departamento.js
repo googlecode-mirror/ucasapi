@@ -1,7 +1,8 @@
 
 
 $(document).ready(function(){
-	 js_ini();	 
+	 js_ini();
+	 $("#departamentoButton").addClass("highlight");
 	 departmentAutocomplete();		
 });	
 
