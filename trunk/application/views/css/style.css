@@ -35,7 +35,7 @@ body {
 .menuBar li a {
 	display: block;
 	height: 27px;
-	padding-left: 55px;
+	padding-left: 29px;
 	float: left;
 	color: #C3C3C3;
 	text-decoration : none;
@@ -46,7 +46,7 @@ body {
 	float: left;
 	height: 22px;
 	padding-top: 5px;
-	padding-right: 55px;
+	padding-right: 29px;
 	background: transparent url(img/menu_bar_button.png) top right no-repeat;
 	cursor: pointer;
 }
@@ -61,7 +61,7 @@ body {
 	float: left;
 	height: 22px;
 	padding-top: 5px;
-	padding-right: 55px;
+	padding-right: 29px;
 	background: transparent url(img/menu_bar_button_high.png) top right no-repeat;
 	color: #FFFFFF;
 }
@@ -78,6 +78,7 @@ body {
 /********************************************** Barra de usuario en sesión **************************************************/
 
 .sessionBar {
+	clear: both;
 	width: 960px;
 	height: 27px;
 	margin: 0 auto;
@@ -86,10 +87,27 @@ body {
 	font-size: 0.7em;	
 	background: #FFFFFF;
 }
+
+#sessionUser{
+	float : right;
+	margin-right: 10px;
+	margin-top : 7px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1.2em;
+}
+
+#logoutButton{
+	float : right;
+	margin-right: 20px;
+	margin-top : 5px;
+	width:16x;
+	height:16px;
+	cursor: pointer;
+}
  .sessionBar .login{
  	float : right;
  	margin-top : 5px;
- 	margin-right : 32px; 
+ 	margin-right : 28px; 
  }
 
  .sessionBar .login input{
@@ -132,7 +150,7 @@ body {
 	float : left;
 	margin-top : 20px;
 	margin-botom : 20px;
-	margin-left : 32px;	
+	margin-left : 28px;	
 	font-size: 1em;	
 }
 .divLogin input[type="text"], input[type="password"]{
@@ -141,7 +159,7 @@ body {
 	width : 192px;
 	padding : 0px;
 	margin-top : 20px;
-	margin-right : 32px;
+	margin-right : 28px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
 }
