@@ -78,6 +78,9 @@
 				<span class = "inputFieldLabel">Contraseña</span>
 				<input id="txtUsuarioPassword" type="password"  value="" class = "inputField"/><br>
 				
+				<span class = "inputFieldLabel">Confirmar</span>
+				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputField"/><br>
+				
 				<span class = "inputFieldLabel">DUI:</span>
 				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField"/><br>				
 				
