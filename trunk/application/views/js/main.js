@@ -3,7 +3,8 @@ function js_ini(){
 	$("#msgBox" ).addClass("ui-corner-all");
 	$('.divActions').addClass("ui-corner-all");
 	$('.divDataForm').addClass("ui-corner-all");
-	$('.container').addClass("ui-corner-bottom");	 
+	$('.container').addClass("ui-corner-bottom");
+	//$("#logoutButton").tooltip();
 	$("button").button({icons: {primary: "ui-icon-locked"}});
 }
 
