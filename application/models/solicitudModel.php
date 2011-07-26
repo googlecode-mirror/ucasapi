@@ -4,7 +4,6 @@ class solicitudModel extends CI_Model {
 	
 	function saveValidation(){
 		$this->load->library('form_validation');
-		//print_r($_POST);
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
@@ -34,29 +33,32 @@ class solicitudModel extends CI_Model {
 		$prioridad = $this->input->post("prioridad");
 		$descripcion = $this->input->post("descripcion");
 		$anioSolicitud = strftime('%Y');
-		//$correlAnio = $anioSolicitud . time();
 		$correlAnio = time();
-		$idInteresados = explode(',', $this->input->post("usuariosInteresados"));
-		echo $idInteresados;
+		$idInteresados = explode(',', $this->input->post("observadores"));
+		
+		
 		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, activo, idPrioridadCliente) 
    				VALUES (" . 
 						$this->db->escape(intval($anioSolicitud)) . ", " . 
-						$this->db->escape(intval($correlAnio)).", ". 
+						$this->db->escape($correlAnio).", ". 
 						$this->db->escape($asunto) . ", " .
 						$this->db->escape($descripcion) . ", " .
 						$this->db->escape(1) . ", " .
 						$this->db->escape($prioridad) . ")";
 		
-		$sql2 = "INSERT INTO USUARIO_SOLICITUD (idUsuario, anioSolicitud, correlAnio) VALUES (" . 
+		$sql2 = "INSERT INTO USUARIO_SOLICITUD (idUsuario, anioSolicitud, correlAnio, esAutor) VALUES (" . 
 					$this->db->escape($this->session->userdata("idUsuario")) . ", " . 
-					$this->db->escape($anioSolicitud) . ", " . 
-					$this->db->escape($correlAnio) . ")";
+					$this->db->escape(intval($anioSolicitud)) . ", " . 
+					$this->db->escape($correlAnio) . "," . 
+					$this->db->escape(1) . ")";
 		
 		foreach ($idInteresados as $idUser){
 			$sql2 .= ",(" . $this->db->escape($idUser) . ", " . 
 					$this->db->escape($anioSolicitud) . ", " . 
-					$this->db->escape($correlAnio) .  ")";
+					$this->db->escape($correlAnio) . "," . 
+					$this->db->escape(0) . ")";
 		}
+		
 		
 		$this->db->trans_begin();
 		//$query = $this->db->query($sql);
