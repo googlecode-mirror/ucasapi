@@ -33,13 +33,15 @@ class solicitudModel extends CI_Model {
 		$asunto = $this->input->post("asunto");
 		$prioridad = $this->input->post("prioridad");
 		$descripcion = $this->input->post("descripcion");
-		$anioSolicitud = intval(strftime('%Y'));
-		$correlAnio = $anioSolicitud . time();
-		
+		$anioSolicitud = strftime('%Y');
+		//$correlAnio = $anioSolicitud . time();
+		$correlAnio = time();
+		$idInteresados = explode(',', $this->input->post("usuariosInteresados"));
+		echo $idInteresados;
 		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, activo, idPrioridadCliente) 
    				VALUES (" . 
-						$this->db->escape($anioSolicitud) . ", " . 
-						$this->db->escape($correlAnio).", ". 
+						$this->db->escape(intval($anioSolicitud)) . ", " . 
+						$this->db->escape(intval($correlAnio)).", ". 
 						$this->db->escape($asunto) . ", " .
 						$this->db->escape($descripcion) . ", " .
 						$this->db->escape(1) . ", " .
@@ -49,6 +51,12 @@ class solicitudModel extends CI_Model {
 					$this->db->escape($this->session->userdata("idUsuario")) . ", " . 
 					$this->db->escape($anioSolicitud) . ", " . 
 					$this->db->escape($correlAnio) . ")";
+		
+		foreach ($idInteresados as $idUser){
+			$sql2 .= ",(" . $this->db->escape($idUser) . ", " . 
+					$this->db->escape($anioSolicitud) . ", " . 
+					$this->db->escape($correlAnio) .  ")";
+		}
 		
 		$this->db->trans_begin();
 		//$query = $this->db->query($sql);
@@ -63,6 +71,8 @@ class solicitudModel extends CI_Model {
 	    } else {
 	    	$this->db->trans_commit();
 	    }
+	    
+	    
 	    
 		return $retArray;
 	}

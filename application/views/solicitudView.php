@@ -12,11 +12,20 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-1.5.1.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/solicitud.js"></script> 
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/solicitud.js"></script>
 
 		<style type="text/css">
 			.divDataForm select{
 				height : 20px;
+				float:right;
+				width : 256px;
+				margin-top : 20px;
+				margin-right : 96px;
+				font-family: Lucida Grande, Lucida Sans, Arial;
+				font-size: 1em;	
+			}
+			
+			.divActions select{
 				float:right;
 				width : 256px;
 				margin-top : 20px;
@@ -48,21 +57,21 @@
 		<div class="container">
 			<div style="height: 20px"></div>
 			
-			<!-- 
 			<div class="divActions">				
 				<div class="divCRUDRecords">
-					<span class = "recordsLabel">Buscar proceso: </span>
+					<span class="recordsLabel">Nombre: </span>
 					<input id="txtRecords" type="text"  value=""/><br>
+				</div>
+				
+				<div class="divCRUDRecords">
+					<span class="recordsLabel">Agregados: </span>
+					<select class="inputField" size="5" multiple="multiple" id="cbxInteresados"></select><br>
 				</div>
 							
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="save()">Guardar</button>
-					<button id="btnEdit" onClick="edit()">Editar</button>
-					<button id="btnDelete" onClick="deleteData()">Eliminar</button>
-					<button id="btnCancel" onClick="cancel()">Cancelar</button>
+					<button id="btnSave" onClick="">Quitar interesado</button>
 				</div>
 			</div>
-			-->
 				
 			<div id ="msgBox"></div>	
 				
@@ -85,15 +94,8 @@
 				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputField"></textArea><br>				
 				<br><br><br><br><br><br><br><br><br><br>
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="save()">Guardar</button>
+					<button id="btnSave" onClick="enviarSolicitud()">Guardar</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
-				</div>
-			</div>
-			
-			<div class="divActions">				
-				<div class="divCRUDRecords">
-					<span class = "recordsLabel">Nombre de empleado: </span>
-					<input id="txtRecords" type="text"  value=""/><br>
 				</div>
 			</div>
 			
