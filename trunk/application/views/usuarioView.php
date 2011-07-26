@@ -5,7 +5,7 @@
 			require_once("application/models/menuBarModel.php");
 			//echo "menuBarModel.php";
 			//$menuBarModel = new menuBarModel();
-			//$menuBarModel->showMenu();		
+			//$menuBarModel->showMenu();	 	
 		?>			
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
