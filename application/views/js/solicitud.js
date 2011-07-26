@@ -1,14 +1,14 @@
 
 $(document).ready(function(){
-	 js_ini();	 
-	 departmentAutocomplete();		
-});	
+	 //js_ini();
+	 usuarioAutocomplete();	
+});
 
-function empleadosAutocomplete(){
+function usuarioAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/departamento/departmentAutocompleteRead",
-        data: "departmentAutocomplete",
+        url:  "index.php/usuario/usuarioAutocompleteRead",
+        data: "usuarioAutocomplete",
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
@@ -21,7 +21,8 @@ function empleadosAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 1,
     		        select: function(event, ui) {
-    			        $("#idDepto").val(ui.item.id);					
+    			        //$("#idUsuario").val(ui.item.id);					
+    		        	$("#cbxInteresados").append('<option value="' + ui.item.id + '">' + ui.item.value + '</option>');
     				}
     			});
         		
@@ -31,11 +32,21 @@ function empleadosAutocomplete(){
 	});		
 }
 
-function save(){			
+function enviarSolicitud(){
+	var interesados = ''; 
+
+	$('#cbxInteresados option').each(function(i, selected){
+		interesados += $(selected).val() + ",";
+	});
+	
+	interesados = interesados.substr(0, interesados.length - 1);
+	
 	var formData= "";
 	formData += "asunto=" + $("#txtSolicitudAsunto").val();
 	formData += "&prioridad=" + $("#cbxPrioridades").val();
 	formData += "&descripcion=" + $("#txtSolicitudDesc").val();
+	formData += "&observadores=" + interesados;
+	
 	
 	$.ajax({				
         type: "POST",
