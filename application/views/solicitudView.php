@@ -60,12 +60,12 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class="recordsLabel">Nombre: </span>
-					<input id="txtRecords" type="text"  value=""/><br>
+					<input id="txtRecords" type="text"  value="" class="inputFiled" /><br>
 				</div>
 				
 				<div class="divCRUDRecords">
 					<span class="recordsLabel">Agregados: </span>
-					<select class="inputField" size="5" multiple="multiple" id="cbxInteresados"></select><br>
+					<select size="5" multiple="multiple" id="cbxInteresados"></select><br>
 				</div>
 							
 				<div class="divCRUDButtons">
