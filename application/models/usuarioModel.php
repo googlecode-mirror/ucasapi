@@ -52,7 +52,7 @@ class UsuarioModel extends CI_Model{
 		
 		$idUsuario = $this->input->post("idUsuario");		
 		
-		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo  
+		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, d.nombreDepto nombreDepto, c.nombreCargo nombreCargo, d.idDepto, c.idCargo 
 				FROM DEPARTAMENTO D, USUARIO U, CARGO C
 				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
 				idUsuario = ".$idUsuario;
@@ -98,7 +98,7 @@ class UsuarioModel extends CI_Model{
 		$idCargo = $this->input->post("idCargo");	
 		
 		$sql = "UPDATE USUARIO 
-				SET username=.".$this->db->escape($username).",
+				SET username=".$this->db->escape($username).",
 				    password=".$this->db->escape($password).",
 				    primerNombre=".$this->db->escape($primerNombre).",
 				    primerApellido=".$this->db->escape($primerApellido).",
@@ -108,20 +108,20 @@ class UsuarioModel extends CI_Model{
 				    dui=".$this->db->escape($dui).",
 				    nit=".$this->db->escape($nit).",
 				    isss=".$this->db->escape($isss).",
-				    emailPersona=".$this->db->escape($emailPersonal).",
+				    emailPersonal=".$this->db->escape($emailPersonal).",
 				    emailInstitucional=".$this->db->escape($emailInstitucional).",
 				    nup=".$this->db->escape($nup).",
 				    carnet=".$this->db->escape($carnet).",
 				    idDepto=".$this->db->escape($idDepto).",
 				    idCargo=".$this->db->escape($idCargo)."
-				    WHERE idUsuario = ". $idUsuario;
+				     WHERE idUsuario = ". $idUsuario;	
 		
 		$query = $this->db->query($sql);
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }		
+	    }
 		return $retArray;		
 	}
 	
@@ -131,10 +131,11 @@ class UsuarioModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idDepto = $this->input->post("idDepto");
+		$idUsuario = $this->input->post("idUsuario");
 		
-		$sql = "DELETE FROM DEPARTAMENTO 
-				WHERE idDepto = ". $idDepto;
+		$sql = "UPDATE USUARIO
+				SET ACTIVO = '1' 
+				WHERE idUsuarios = ". $idUsuario;
    				
 		$query = $this->db->query($sql);
 		

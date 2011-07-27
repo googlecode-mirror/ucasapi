@@ -125,7 +125,7 @@ function save() {
 	formData += "&primerNombre=" + $("#txtUsuarioPrimerNombre").val();
 	formData += "&otrosNombres=" + $("#txtUsuarioOtrosNombres").val();
 	formData += "&primerApellido=" + $("#txtUsuarioPrimerApellido").val();
-	formData += "&otrosApellidos=" + $("#txtusuarioOtrosApellidos").val();
+	formData += "&otrosApellidos=" + $("#txtUsuarioOtrosApellidos").val();
 	formData += "&username=" + $("#txtUsuarioUserName").val();
 	formData += "&password=" + $("#txtUsuarioPassword").val();
 	formData += "&confirmacion=" + $("#txtUsuarioConfirmacion").val();
@@ -140,6 +140,8 @@ function save() {
 	formData += "&carnet=" + $("#txtUsuarioCarnet").val();
 	formData += "&idCargo=" + $("#idCargo").val();
 	formData += "&idDepto=" + $("#idDepto").val();
+	
+	alert(formData);
 
 	if (validar_campos()) {
 
@@ -183,11 +185,11 @@ function save() {
 }
 
 function edit() {
-	var formData = "idDepto=" + $("#idDepto").val();
+	var formData = "idUsuario=" + $("#idUsuario").val();
 
 	$.ajax({
 		type : "POST",
-		url : "index.php/departamento/departmentRead",
+		url : "index.php/usuario/usuarioRead",
 		data : formData,
 		dataType : "json",
 		success : function(retrievedData) {
@@ -206,8 +208,26 @@ function edit() {
 				// de
 				// depuración
 			} else {
-				$("#txtDepartmentName").val(retrievedData.data.nombreDepto);
-				$("#txtDepartmentDesc").val(retrievedData.data.descripcion);
+				$("#txtUsuarioCodigo").val(retrievedData.data.codEmp);
+				$("#txtUsuarioPrimerNombre").val(retrievedData.data.primerNombre);
+				$("#txtUsuarioOtrosNombres").val(retrievedData.data.otrosNombres);
+				$("#txtUsuarioPrimerApellido").val(retrievedData.data.primerApellido);
+				$("#txtUsuarioOtrosApellidos").val(retrievedData.data.otrosApellidos);
+				$("#txtUsuarioUserName").val(retrievedData.data.username);
+				$("#txtUsuarioPassword").val(retrievedData.data.password);
+				$("#txtUsuarioConfirmar").val(retrievedData.data.password);
+				$("#txtUsuarioDUI").val(retrievedData.data.dui);
+				$("#txtUsuarioNIT").val(retrievedData.data.nit);
+				$("#txtUsuarioISSS").val(retrievedData.data.isss);
+				$("#txtUsuarioNUP").val(retrievedData.data.nup);
+				$("#txtUsuarioDepartamento").val(retrievedData.data.nombreDepto);
+				$("#txtUsuarioCargo").val(retrievedData.data.nombreCargo);
+				$("#txtUsuarioCarnet").val(retrievedData.data.carnet);
+				$("#txtUsuarioEmailPersonal").val(retrievedData.data.emailPersonal);
+				$("#txtUsuarioEmailInstitucional").val(retrievedData.data.emailInstitucional);
+				$("#txtUsuarioExtension").val(retrievedData.data.extension);				
+				$("#idDepto").val(retrievedData.data.idDepto);
+				$("#idCargo").val(retrievedData.data.idCargo);
 			}
 		}
 	});
