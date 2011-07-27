@@ -257,7 +257,7 @@ function edit() {
 }
 
 function deleteData() {
-	var formData = "idDepto=" + $("#idDepto").val();
+	var formData = "idUsuario=" + $("#idUsuario").val();
 
 	var answer = confirm("Está seguro que quiere eliminar el registro: "
 			+ $("#txtRecords").val() + " ?");
