@@ -3,7 +3,7 @@
 $(document).ready(function(){
 	 js_ini();
 	 $("#departamentoButton").addClass("highlight");
-	 departmentAutocomplete();		
+	 departmentAutocomplete();	
 });	
 
 function departmentAutocomplete(){
@@ -80,6 +80,8 @@ function edit(){
         	}else{
         		$("#txtDepartmentName").val(retrievedData.data.nombreDepto);
 			    $("#txtDepartmentDesc").val(retrievedData.data.descripcion);
+			    
+			    loadGridData($("#idDepto").val()); // <-------------------------------------
         	}			       
       	}      
 	});
@@ -113,6 +115,32 @@ function deleteData(){
 		});		
 	}	
 }
+
+function loadGridData(idDep){
+	
+	 $("#list").jqGrid({
+		   	url:  "index.php/departamento/gridRead/"+idDep,
+		    datatype: 'json',
+		    mtype: 'POST',
+		    colNames:['Id','Departamento'],
+		    colModel :[ 
+		      {name:'id', index:'id', width:63}, 
+		      {name:'value', index:'value', width:190} 
+		    ],
+		    pager: '#pager',
+		    rowNum:10,
+		    rowList:[10,20,30],
+		    sortname: 'id',
+		    sortorder: 'desc',
+		    cmon : 'grsb',
+		    viewrecords: true,
+		    gridview: true,
+		    caption: 'Departamentos'
+	  });	 
+	
+}
+
+
 
 function cancel(){
 	//$("#btnCancel").toggleClass('ui-state-active');
