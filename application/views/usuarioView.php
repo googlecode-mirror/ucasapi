@@ -15,7 +15,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/usuario.js"></script>
 	</head>	
 	<body>
-		<div class="menuBar">
+		<div class="menuBar"> 
 	     	<ul>
 	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Acción</span></a></span></li>
 	            <li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Departamento</span></a></span></li>
