@@ -62,4 +62,10 @@ class Departamento extends CI_Controller{
 		echo json_encode($retArray);	
 	}
 	
+	
+	function gridRead($idDepto){
+		$this->load->model("departamentoModel");	
+		echo json_encode($this->departamentoModel->gridDepartamentoRead($idDepto));
+	}
+	
 }
