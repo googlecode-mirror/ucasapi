@@ -7,11 +7,20 @@ class proyectoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$estado = $this->input->post("estado");	
-		$idTipoEstado = $this->input->post("idTipoEstado");
+		$idUsuarioDuenho = $this->input->post("idUsuarioDuenho");
+		$nombreProyecto = $this->input->post("nombreProyecto");
+		$fechaPlanIni = $this->input->post("fechaPlanIni");	
+		$fechaPlanFin = $this->input->post("fechaPlanFin");	
+		$fechaRealIni = $this->input->post("fechaRealIni");	
+		$fechaRealFin = $this->input->post("fechaRealFin");		
+		$activo = $this->input->post("activo");
 		
-		$sql = "INSERT INTO ESTADO (estado,idTipoEstado) 
-   				VALUES (".$this->db->escape($estado).", ".$idTipoEstado.")";
+		
+		$sql = "INSERT INTO PROYECTO (idUsuario, nombreProyecto, fechaPlanIni, fechaPlanFin, fechaRealIni, fechaRealFin, activo) 
+   				VALUES (".$this->db->escape(idUsuario).", ".$this->db->escape($nombreProyecto)."
+   				, ".$this->db->escape($fechaPlanIni).", ".$this->db->escape($fechaPlanFin)."
+   				, ".$this->db->escape($fechaRealIni).", ".$this->db->escape($fechaRealFin)."
+   				, ".$this->db->escape($activo).")";
 		
 		$query = $this->db->query($sql);
 		
@@ -29,11 +38,12 @@ class proyectoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$idEstado = $this->input->post("idEstado");		
+		$idProyecto = $this->input->post("idProyecto");		
 		
-		$sql = "SELECT e.estado, e.idTipoEstado, te.nombreTipoEstado
-				FROM ESTADO e INNER JOIN TIPO_ESTADO te  ON e.idTipoEstado = te.idTipoEstado
-				WHERE idEstado = ".$idEstado;
+		$sql = "SELECT p.idProyecto, p.idUsuario, p.nombreProyecto, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, CONCAT(u.primerNombre,' ',u.OtrosNombres,' ',u.primerApellido,' ',u.otrosApellidos,' ') nombreUsuario
+				FROM PROYECTO p, USUARIO u
+				WHERE p.idUsuario = u.idUsuario AND
+				idProyecto = ".$idProyecto;
 		
 		$query = $this->db->query($sql);
 		
@@ -56,14 +66,25 @@ class proyectoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idEstado = $this->input->post("idEstado");
-		$estado = $this->input->post("estado");
-		$idTipoEstado = $this->input->post("idTipoEstado");
+		$idProyecto = $this->input->post("idProyecto");
 		
-		$sql = "UPDATE ESTADO 
-				SET estado = ".$this->db->escape($estado).",
-				    idTipoEstado = ".$idTipoEstado."
-				WHERE idEstado = ". $idEstado; 
+		$idUsuarioDuenho = $this->input->post("idUsuarioDuenho");
+		$nombreProyecto = $this->input->post("nombreProyecto");
+		$fechaPlanIni = $this->input->post("fechaPlanIni");	
+		$fechaPlanFin = $this->input->post("fechaPlanFin");	
+		$fechaRealIni = $this->input->post("fechaRealIni");	
+		$fechaRealFin = $this->input->post("fechaRealFin");		
+		$activo = $this->input->post("activo");
+						
+		$sql = "UPDATE PROYECTO 
+				SET idUsuarioDuenho = ".$this->db->escape($idUsuarioDuenho).",
+					nombreProyecto = ".$this->db->escape($nombreProyecto).",
+					fechaPlanIni = ".$this->db->escape($fechaPlanIni).",	
+					fechaPlanFin = ".$this->db->escape($fechaPlanFin).",	
+					fechaRealIni = ".$this->db->escape($fechaRealIni).",	
+					fechaRealFin = ".$this->db->escape($fechaRealFin).",		
+					activo = ".$this->db->escape($activo)."
+					WHERE idProyecto = ". $idProyecto; 
 		
 		$query = $this->db->query($sql);
 		
@@ -81,10 +102,11 @@ class proyectoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idEstado = $this->input->post("idEstado");
+		$idProyecto = $this->input->post("idProyecto");
 		
-		$sql = "DELETE FROM ESTADO
-				WHERE idEstado = ". $idEstado;
+		$sql = "UPDATE PROYECTO
+				SET activo = 0
+				WHERE idProyecto = ". $idProyecto;
    				
 		$query = $this->db->query($sql);
 		
@@ -133,43 +155,15 @@ class proyectoModel extends CI_Model{
 		
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
-		$this->form_validation->set_rules("estado", "Estado", 'required|alpha');
-		$this->form_validation->set_rules("idTipoEstado", "Tipo estado", 'required');
+		$this->form_validation->set_rules("nombreProyecto", "Nombre proyecto", 'required');
+		$this->form_validation->set_rules("idUsuarioDuenho", "Dueño del proyecto", 'required');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 			
-			$retArray["msg"] .= form_error("estado");
-			$retArray["msg"] .= form_error("idTipoEstado");			
-		}
-		
-		return $retArray;
-	}
-	
-	
-	function statusTypeAutocomplete(){
-		$this->load->database();
-		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$sql = "SELECT idTipoEstado, nombreTipoEstado FROM TIPO_ESTADO";
-		$query = $this->db->query($sql);		
-	
-		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
-					$rowArray = array();
-					$rowArray["id"] = $row->idTipoEstado;
-					$rowArray["value"] = $row->nombreTipoEstado;
-					
-					$retArray["data"][] = $rowArray;				
-				}							
-			}
-		}
-		else{
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] .= form_error("nombreProyecto");
+			$retArray["msg"] .= form_error("idUsuarioDuenho");			
 		}
 		
 		return $retArray;
