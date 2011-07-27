@@ -26,7 +26,6 @@ class departamentoModel extends CI_Model{
 	
 	function read(){
 		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
 		$idDepto = $this->input->post("idDepto");		
@@ -136,6 +135,8 @@ class departamentoModel extends CI_Model{
 		$this->form_validation->set_rules("nombreDepto", "Nombre", 'required|alpha');
 		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha');		
 		
+		$this->form_validation->set_message('required', 'El campo "%s" es requerido');
+		
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
@@ -145,6 +146,61 @@ class departamentoModel extends CI_Model{
 		}
 		
 		return $retArray;
-	}	
+	}
+	
+	
+	function gridDepartamentoRead($idDepto=null){
+		$this->load->database();		
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		$idDepto = is_null($idDepto) ? -1 : $idDepto;
+		
+		
+		$sql = "SELECT COUNT(*) AS count FROM DEPARTAMENTO WHERE idDepto = ".$this->db->escape($idDepto);
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		//-------------------------
+		
+		$sql = "SELECT idDepto, nombreDepto FROM DEPARTAMENTO WHERE idDepto = ".$this->db->escape($idDepto);
+		$query = $this->db->query($sql);		
+	
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $row->idDepto;
+					$response->rows[$i]["cell"] = array($row->idDepto, $row->nombreDepto);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+	}
 	
 }
