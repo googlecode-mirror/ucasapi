@@ -22,16 +22,16 @@ class UsuarioModel extends CI_Model{
 		$nup = $this->input->post("nup");
 		$carnet = $this->input->post("carnet");
 		$activo = $this->input->post("activo");
-		$idDepto = $this->input->post("idDepto");
-		$idCargo = $this->input->post("idCargo");
+		$idDepto = (int) $this->input->post("idDepto");
+		$idCargo = (int) $this->input->post("idCargo");
 		
 		
 		
 		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo)
 				VALUES (".$this->db->escape($username).", ".$this->db->escape($password).", ".$this->db->escape($primerNombre).", ".$this->db->escape($primerApellido)."
 				, ".$this->db->escape($otrosNombres).", ".$this->db->escape($otrosApellidos).", ".$this->db->escape($codEmp).", ".$this->db->escape($dui).", ".$this->db->escape($nit)."
-				, ".$this->db->escape($isss).", ".$this->db->escape($emailPersonal).", ".$this->db->escape($emailInstitucional).", ".$this->db->escape($nup).", ".$this->input->post("activo")."
-				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).")";
+				, ".$this->db->escape($isss).", ".$this->db->escape($emailPersonal).", ".$this->db->escape($emailInstitucional).", ".$this->db->escape($nup)."
+				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).")";
 		
 		
 		$query = $this->db->query($sql);
