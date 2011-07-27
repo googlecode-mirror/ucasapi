@@ -2,7 +2,7 @@
 	<head>
 		<title>Test</title>	
 		<?php 
-			require_once("application/models/menuBarModel.php");
+			//require_once("application/models/menuBarModel.php");
 			//echo "menuBarModel.php";
 			//$menuBarModel = new menuBarModel();
 			//$menuBarModel->showMenu();	 	
