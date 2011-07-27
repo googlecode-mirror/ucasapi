@@ -9,7 +9,7 @@
 		?>			
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.1.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/usuario.js"></script>
