@@ -4,6 +4,8 @@ $(document).ready(function(){
 	 js_ini();
 	 $("#departamentoButton").addClass("highlight");
 	 departmentAutocomplete();	
+	 
+	 loadGrid();
 });	
 
 function departmentAutocomplete(){
@@ -81,7 +83,7 @@ function edit(){
         		$("#txtDepartmentName").val(retrievedData.data.nombreDepto);
 			    $("#txtDepartmentDesc").val(retrievedData.data.descripcion);
 			    
-			    loadGridData($("#idDepto").val()); // <-------------------------------------
+			    $('#list').setGridParam({url:"index.php/departamento/gridRead/"+$("#idDepto").val()}).trigger("reloadGrid");
         	}			       
       	}      
 	});
@@ -116,26 +118,25 @@ function deleteData(){
 	}	
 }
 
-function loadGridData(idDep){
+function loadGrid(){
 	
 	 $("#list").jqGrid({
-		   	url:  "index.php/departamento/gridRead/"+idDep,
-		    datatype: 'json',
-		    mtype: 'POST',
-		    colNames:['Id','Departamento'],
+		   	url:  "index.php/departamento/gridRead/",
+		    datatype: "json",
+		    mtype: "POST",
+		    colNames:["Id","Departamento"],
 		    colModel :[ 
-		      {name:'id', index:'id', width:63}, 
-		      {name:'value', index:'value', width:190} 
+		      {name:"id", index:"id", width:63}, 
+		      {name:"value", index:"value", width:190} 
 		    ],
-		    pager: '#pager',
+		    pager: "#pager",
 		    rowNum:10,
 		    rowList:[10,20,30],
-		    sortname: 'id',
-		    sortorder: 'desc',
-		    cmon : 'grsb',
+		    sortname: "id",
+		    sortorder: "desc",
 		    viewrecords: true,
 		    gridview: true,
-		    caption: 'Departamentos'
+		    caption: "Departamentos"
 	  });	 
 	
 }
