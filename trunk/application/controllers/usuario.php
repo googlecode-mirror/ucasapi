@@ -17,7 +17,7 @@ class Usuario extends CI_Controller{
 		$this->load->view("usuarioView");
 	}
 
-	function departmentRead(){
+	function usuarioRead(){
 		$this->load->model("usuarioModel");
 		echo json_encode($this->usuarioModel->read());
 	}
