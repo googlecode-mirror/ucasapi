@@ -282,7 +282,9 @@ function deleteData() {
 					msgBoxSucces("Registro eliminado con éxito");
 					// alert("Registro eliminado con éxito");
 
-					departmentAutocomplete();
+					usuarioAutocomplete();
+					usuarioCargoAutocomplete();
+					usuarioDepartamentoAutocomplete()
 					clear();
 				}
 			}
