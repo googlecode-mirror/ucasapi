@@ -50,10 +50,12 @@ class UsuarioModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$idDepto = $this->input->post("idDepto");		
+		$idUsuario = $this->input->post("idUsuario");		
 		
-		$sql = "SELECT nombreDepto, descripcion
-				FROM DEPARTAMENTO WHERE idDepto = ".$idDepto;
+		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo  
+				FROM DEPARTAMENTO D, USUARIO U, CARGO C
+				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
+				idUsuario = ".$idUsuario;
 		
 		$query = $this->db->query($sql);
 		
@@ -76,22 +78,50 @@ class UsuarioModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
+		$idUsuario = $this->input->post("idUsuario");
+		$username = $this->input->post("username");
+		$password = $this->input->post("password");
+		$primerNombre = $this->input->post("primerNombre");
+		$primerApellido = $this->input->post("primerApellido");
+		$otrosNombres = $this->input->post("otrosNombres");
+		$otrosApellidos = $this->input->post("otrosApellidos");
+		$codEmp = $this->input->post("codEmp");
+		$dui = $this->input->post("dui");
+		$nit = $this->input->post("nit");
+		$isss = $this->input->post("isss");
+		$emailPersonal = $this->input->post("emailPersonal");
+		$emailInstitucional = $this->input->post("emailInstitucional");
+		$nup = $this->input->post("nup");
+		$carnet = $this->input->post("carnet");
+		$activo = 'a';//$this->input->post("acivo");
 		$idDepto = $this->input->post("idDepto");
-		$nombreDepto = $this->input->post("nombreDepto");
-		$descripcion = $this->input->post("descripcion");		
+		$idCargo = $this->input->post("idCargo");	
 		
-		$sql = "UPDATE DEPARTAMENTO 
-				SET nombreDepto = ".$this->db->escape($nombreDepto).",
-				    descripcion = ".$this->db->escape($descripcion)."
-				WHERE idDepto = ". $idDepto; 
+		$sql = "UPDATE USUARIO 
+				SET username=.".$this->db->escape($username).",
+				    password=".$this->db->escape($password).",
+				    primerNombre=".$this->db->escape($primerNombre).",
+				    primerApellido=".$this->db->escape($primerApellido).",
+				    otrosNombres=".$this->db->escape($otrosNombres).",
+				    otrosApellidos=".$this->db->escape($otrosApellidos).",
+				    codEmp=".$this->db->escape($codEmp).",
+				    dui=".$this->db->escape($dui).",
+				    nit=".$this->db->escape($nit).",
+				    isss=".$this->db->escape($isss).",
+				    emailPersona=".$this->db->escape($emailPersonal).",
+				    emailInstitucional=".$this->db->escape($emailInstitucional).",
+				    nup=".$this->db->escape($nup).",
+				    carnet=".$this->db->escape($carnet).",
+				    idDepto=".$this->db->escape($idDepto).",
+				    idCargo=".$this->db->escape($idCargo)."
+				    WHERE idUsuario = ". $idUsuario;
 		
 		$query = $this->db->query($sql);
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }
-		
+	    }		
 		return $retArray;		
 	}
 	
