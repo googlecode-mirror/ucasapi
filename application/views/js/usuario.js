@@ -39,7 +39,7 @@ function usuarioAutocomplete() {
 				});
 
 			}
-		} 
+		}
 
 	});
 }
@@ -134,13 +134,20 @@ function save() {
 	formData += "&isss=" + $("#txtUsuarioISSS").val();
 	formData += "&nup=" + $("#txtUsuarioNUP").val();
 	formData += "&emailPersonal=" + $("#txtUsuarioEmailPersonal").val();
-	formData += "&activo=1";
 	formData += "&emailInstitucional="
 			+ $("#txtUsuarioEmailInstitucional").val();
 	formData += "&carnet=" + $("#txtUsuarioCarnet").val();
 	formData += "&idCargo=" + $("#idCargo").val();
 	formData += "&idDepto=" + $("#idDepto").val();
-	
+
+	if ($("#chkUsuarioActivo").is(':checked')) {
+		alert('ACTIVO');
+		formData += "&activo=1";
+	} else {
+		alert('INACTIVO');
+		formData += "&activo=0";
+	}
+
 	alert(formData);
 
 	if (validar_campos()) {
@@ -209,10 +216,14 @@ function edit() {
 				// depuración
 			} else {
 				$("#txtUsuarioCodigo").val(retrievedData.data.codEmp);
-				$("#txtUsuarioPrimerNombre").val(retrievedData.data.primerNombre);
-				$("#txtUsuarioOtrosNombres").val(retrievedData.data.otrosNombres);
-				$("#txtUsuarioPrimerApellido").val(retrievedData.data.primerApellido);
-				$("#txtUsuarioOtrosApellidos").val(retrievedData.data.otrosApellidos);
+				$("#txtUsuarioPrimerNombre").val(
+						retrievedData.data.primerNombre);
+				$("#txtUsuarioOtrosNombres").val(
+						retrievedData.data.otrosNombres);
+				$("#txtUsuarioPrimerApellido").val(
+						retrievedData.data.primerApellido);
+				$("#txtUsuarioOtrosApellidos").val(
+						retrievedData.data.otrosApellidos);
 				$("#txtUsuarioUserName").val(retrievedData.data.username);
 				$("#txtUsuarioPassword").val(retrievedData.data.password);
 				$("#txtUsuarioConfirmar").val(retrievedData.data.password);
@@ -220,14 +231,25 @@ function edit() {
 				$("#txtUsuarioNIT").val(retrievedData.data.nit);
 				$("#txtUsuarioISSS").val(retrievedData.data.isss);
 				$("#txtUsuarioNUP").val(retrievedData.data.nup);
-				$("#txtUsuarioDepartamento").val(retrievedData.data.nombreDepto);
+				$("#txtUsuarioDepartamento")
+						.val(retrievedData.data.nombreDepto);
 				$("#txtUsuarioCargo").val(retrievedData.data.nombreCargo);
 				$("#txtUsuarioCarnet").val(retrievedData.data.carnet);
-				$("#txtUsuarioEmailPersonal").val(retrievedData.data.emailPersonal);
-				$("#txtUsuarioEmailInstitucional").val(retrievedData.data.emailInstitucional);
-				$("#txtUsuarioExtension").val(retrievedData.data.extension);				
+				$("#txtUsuarioEmailPersonal").val(
+						retrievedData.data.emailPersonal);
+				$("#txtUsuarioEmailInstitucional").val(
+						retrievedData.data.emailInstitucional);
+				$("#txtUsuarioExtension").val(retrievedData.data.extension);
 				$("#idDepto").val(retrievedData.data.idDepto);
 				$("#idCargo").val(retrievedData.data.idCargo);
+				alert(retrievedData.data.activo);
+				if(retrievedData.data.activo == '1'){
+					alert('ACTIVO');
+					$("#chkUsuarioActivo").attr('checked', true);
+				} else {
+					alert('INACTIVO');
+					$("#chkUsuarioActivo").attr('checked', false);
+				}
 			}
 		}
 	});
@@ -243,7 +265,7 @@ function deleteData() {
 	if (answer) {
 		$.ajax({
 			type : "POST",
-			url : "index.php/departamento/departmentDelete",
+			url : "index.php/usuario/usuarioDelete",
 			data : formData,
 			dataType : "json",
 			success : function(retrievedData) {
@@ -290,7 +312,7 @@ function validar_campos() {
 		alert("La contraseña confirmada no concuerda con la contraseña escrita");
 		return (false);
 	}
-	
+
 	return (true)
 }
 
