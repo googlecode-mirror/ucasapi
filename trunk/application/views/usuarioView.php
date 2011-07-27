@@ -108,9 +108,6 @@
 				<span class = "inputFieldLabel">Email Institucional</span>
 				<input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Telefono</span>
-				<input id="txtUsuarioTelefono" type="text"  value="" class = "inputField"/><br>
-				
 				<span class = "inputFieldLabel">Extension</span>
 				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField"/><br>
 				
