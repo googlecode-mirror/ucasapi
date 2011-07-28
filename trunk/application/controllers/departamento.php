@@ -5,14 +5,15 @@ class Departamento extends CI_Controller{
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));		
 		
-		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
+		//$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
 		
-		if($idRol == ""){//Si el dato no está en sesión, se redirige a la página de login
+		/*if($idRol == ""){//Si el dato no está en sesión, se redirige a la página de login
 			redirect("login", "refresh");
 		}
 		else{
 			$this->load->view("departamentoView");
-		}
+		}*/
+		$this->load->view("departamentoView");
 	}
 	
 	function departmentRead(){

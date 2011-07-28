@@ -38,7 +38,7 @@ class Usuario extends CI_Controller{
 
 		echo json_encode($autocompleteData);
 	}
-	
+
 	function usuarioCargoAutocompleteRead(){
 		$this->load->model("cargoModel");
 
@@ -46,8 +46,24 @@ class Usuario extends CI_Controller{
 
 		echo json_encode($autocompleteData);
 	}
-	
-	
+
+	function usuarioRolAutocompleteRead(){
+		$this->load->model("rolModel");
+
+		$autocompleteData = $this->rolModel->autocompleteRead();
+
+		echo json_encode($autocompleteData);
+	}
+
+	function gridRead($idUsuario){
+		$this->load->model("usuarioModel");
+		echo json_encode($this->usuarioModel->gridUsuarioRead($idUsuario));
+	}
+
+	function gridRolesUsuarioRead($idUsuario){
+		$this->load->model("usuarioModel");
+		echo json_encode($this->usuarioModel->gridRolesUsuarioRead($idUsuario));
+	}
 
 	function usuarioDelete(){
 		$this->load->model("usuarioModel");
@@ -66,7 +82,7 @@ class Usuario extends CI_Controller{
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idUsuario =  $this->input->post("idUsuario");
-				
+
 			if($idUsuario == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->usuarioModel->create();
 			}
