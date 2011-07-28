@@ -4,10 +4,13 @@ $(document).ready(function() {
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
 	usuarioDepartamentoAutocomplete()
+	usuarioRolAutocomplete()
+	loadGrid();
+	loadGridTR();
 });
 
 function usuarioAutocomplete() {
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/usuario/usuarioAutocompleteRead",
 		data : "usuarioAutocomplete",
@@ -15,20 +18,9 @@ function usuarioAutocomplete() {
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+
 			} else {
-				$("#txtRecords").autocomplete({
+				$("#txtRecords").autocomplete( {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
@@ -45,7 +37,7 @@ function usuarioAutocomplete() {
 }
 
 function usuarioDepartamentoAutocomplete() {
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/usuario/usuarioDepartamentoAutocompleteRead",
 		data : "usuarioDepartamentoAutocomplete",
@@ -53,20 +45,9 @@ function usuarioDepartamentoAutocomplete() {
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+
 			} else {
-				$("#txtUsuarioDepartamento").autocomplete({
+				$("#txtUsuarioDepartamento").autocomplete( {
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -82,7 +63,7 @@ function usuarioDepartamentoAutocomplete() {
 }
 
 function usuarioCargoAutocomplete() {
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/usuario/usuarioCargoAutocompleteRead",
 		data : "usuarioCargoAutocomplete",
@@ -90,20 +71,9 @@ function usuarioCargoAutocomplete() {
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+
 			} else {
-				$("#txtUsuarioCargo").autocomplete({
+				$("#txtUsuarioCargo").autocomplete( {
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -116,6 +86,139 @@ function usuarioCargoAutocomplete() {
 		}
 
 	});
+}
+
+function usuarioRolAutocomplete() {
+	$.ajax( {
+		type : "POST",
+		url : "index.php/usuario/usuarioRolAutocompleteRead",
+		data : "usuarioRolAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				$("#txtUsuarioRolNombre").autocomplete( {
+					minChars : 0,
+					source : retrievedData.data,
+					minLength : 1,
+					select : function(event, ui) {
+						$("#idRol").val(ui.item.id);
+					}
+				});
+
+			}
+		}
+
+	});
+}
+
+function loadGrid() {
+
+	$("#list").jqGrid(
+			{
+				url : "index.php/usuario/gridRolesUsuarioRead/"
+						+ $("#idUsuario").val(),
+				datatype : "json",
+				mtype : "POST",
+				colNames : [ "ID", "Rol", "Asignado" ],
+				colModel : [ {
+					name : "idRol",
+					index : "idRol",
+					width : 63
+				}, {
+					name : "nombreRol",
+					index : "nombreRol",
+					width : 190
+				}, {
+					name : "fechaAsignacionSistema",
+					index : "fechaAsignacionSistema",
+					width : 190
+				} ],
+				pager : "#pager",
+				rowNum : 10,
+				rowList : [ 10, 20, 30 ],
+				sortname : "id",
+				sortorder : "desc",
+				viewrecords : true,
+				gridview : true,
+				caption : "Roles"
+			});
+}
+
+function loadGridTR() {
+
+	$("#todosRoles").jqGrid( {
+		url : "index.php/usuario/gridRead/" + $("#idUsuario").val(),
+		datatype : "json",
+		mtype : "POST",
+		colNames : [ "ID", "Rol", "ASIGNADO" ],
+		colModel : [ {
+			name : "idRol",
+			index : "idRol",
+			width : 63
+		}, {
+			name : "nombreRol",
+			index : "nombreRol",
+			width : 190
+		}, {
+			name : "fechaAsignacionSistema",
+			index : "fechaAsignacionSistema",
+			width : 190
+		} ],
+		pager : "#pagerTR",
+		rowNum : 10,
+		rowList : [ 10, 20, 30 ],
+		sortname : "id",
+		sortorder : "desc",
+		viewrecords : true,
+		gridview : true,
+		caption : "Roles"
+	});
+}
+
+function agregarRol() {
+	// obteniendo el rol seleccionado del grid de todos los roles
+	row_id = $("#todosRoles").jqGrid("getGridParam", "selrow");
+	row_data = $("#todosRoles").jqGrid("getRowData", row_id);
+
+	// insertando los valores en el otro grid
+	if (row_id != null) {
+		num_rows = $("#list").getGridParam("records");// Número de filas en el
+		// grid
+		new_row_data = {
+			"idRol" : row_data["idRol"],
+			"nombreRol" : row_data["nombreRol"],
+			"fechaAsignacionSistema" : row_data["fechaAsignacionSistema"]
+		};
+		$("#list").addRowData(num_rows + 1, new_row_data);
+
+		// borrando del grid de todos los roles, el rol que ya se selecciono
+		$("#todosRoles").delRowData(row_id);
+	}
+
+}
+
+function eliminarRol() {
+	// obteniendo el rol seleccionado del grid de todos los roles
+	row_id = $("#list").jqGrid("getGridParam", "selrow");
+	row_data = $("#list").jqGrid("getRowData", row_id);
+
+	// insertando los valores en el otro grid
+	if (row_id != null) {
+		num_rows = $("#todosRoles").getGridParam("records");// Número de filas
+															// en el
+		// grid
+		new_row_data = {
+			"idRol" : row_data["idRol"],
+			"nombreRol" : row_data["nombreRol"],
+			"fechaAsignacionSistema" : row_data["fechaAsignacionSistema"]
+		};
+		$("#todosRoles").addRowData(num_rows + 1, new_row_data);
+
+		// borrando del grid de todos los roles, el rol que ya se selecciono
+		$("#list").delRowData(row_id);
+	}
 }
 
 function save() {
@@ -140,6 +243,16 @@ function save() {
 	formData += "&idCargo=" + $("#idCargo").val();
 	formData += "&idDepto=" + $("#idDepto").val();
 
+	rol_rows = $("#list").jqGrid("getRowData");
+	var gridData = "";
+	for ( var Elemento in rol_rows) {
+		for ( var Propiedad in rol_rows[Elemento]) {
+			gridData += rol_rows[Elemento][Propiedad] + "|";
+		}
+	};
+	
+	formData += "&rol_data=" + gridData;
+
 	if ($("#chkUsuarioActivo").is(':checked')) {
 		alert('ACTIVO');
 		formData += "&activo=1";
@@ -152,7 +265,7 @@ function save() {
 
 	if (validar_campos()) {
 
-		$.ajax({
+		$.ajax( {
 			type : "POST",
 			url : "index.php/usuario/usuarioValidateAndSave",
 			data : formData,
@@ -193,8 +306,13 @@ function save() {
 
 function edit() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
-
-	$.ajax({
+	alert($("#idUsuario").val());
+	
+	$('#list').setGridParam({url:"index.php/usuario/gridRolesUsuarioRead/"+$("#idUsuario").val()}).trigger("reloadGrid");
+	$('#todosRoles').setGridParam({url:"index.php/usuario/gridRead/"+$("#idUsuario").val()}).trigger("reloadGrid");
+	loadGrid();
+	loadGridTR();
+	$.ajax( {
 		type : "POST",
 		url : "index.php/usuario/usuarioRead",
 		data : formData,
@@ -243,7 +361,7 @@ function edit() {
 				$("#idDepto").val(retrievedData.data.idDepto);
 				$("#idCargo").val(retrievedData.data.idCargo);
 				alert(retrievedData.data.activo);
-				if(retrievedData.data.activo == '1'){
+				if (retrievedData.data.activo == '1') {
 					alert('ACTIVO');
 					$("#chkUsuarioActivo").attr('checked', true);
 				} else {
@@ -263,7 +381,7 @@ function deleteData() {
 			+ $("#txtRecords").val() + " ?");
 
 	if (answer) {
-		$.ajax({
+		$.ajax( {
 			type : "POST",
 			url : "index.php/usuario/usuarioDelete",
 			data : formData,

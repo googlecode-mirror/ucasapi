@@ -59,8 +59,10 @@
 			</div>
 			
 		</div>
-		<table id="list"><tr><td/></tr></table> 
-		<div id="pager"></div>
+		<div>
+			<table id="list"><tr><td/></tr></table> 
+			<div id="pager"></div>
+		</div>
 		
 	</body>
 </html>

@@ -8,9 +8,12 @@
 			//$menuBarModel->showMenu();	 	
 		?>			
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/usuario.js"></script>
 	</head>	
@@ -32,7 +35,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style = "height : 1000px">
+		<div class="container" style = "height : 1050px">
 			<div style="height: 20px"></div>
 			
 			<div class="divActions">				
@@ -52,33 +55,33 @@
 				
 			<div id ="msgBox"></div>	
 				
-			<div class="divDataForm" style="height: 810px">
+			<div class="divDataForm" style="height: 850px">
 				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="idCargo" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>				
 				
 				<span class = "inputFieldLabel">Codigo empleado:</span>
 				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField"/><br>
 							
-				<span class = "inputFieldLabel">Primer nombre</span>
+				<span class = "inputFieldLabel">Primer nombre:</span>
 				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Otros Nombre</span>
+				<span class = "inputFieldLabel">Otros Nombre:</span>
 				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Primer Apellido</span>
+				<span class = "inputFieldLabel">Primer Apellido:</span>
 				<input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Otros Apellidos</span>
+				<span class = "inputFieldLabel">Otros Apellidos:</span>
 				<input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Usuario sistema</span>
+				<span class = "inputFieldLabel">Usuario sistema:</span>
 				<input id="txtUsuarioUserName" type="text"  value="" class = "inputField"/><br>
 
-				<span class = "inputFieldLabel">Contraseña</span>
+				<span class = "inputFieldLabel">Contraseña:</span>
 				<input id="txtUsuarioPassword" type="password"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Confirmar</span>
+				<span class = "inputFieldLabel">Confirmar:</span>
 				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputField"/><br>
 				
 				<span class = "inputFieldLabel">DUI:</span>
@@ -93,31 +96,59 @@
 				<span class = "inputFieldLabel">NUP:</span>
 				<input id="txtUsuarioNUP" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Departamento</span>
+				<span class = "inputFieldLabel">Departamento:</span>
 				<input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Cargo</span>
+				<span class = "inputFieldLabel">Cargo:</span>
 				<input id="txtUsuarioCargo" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Carnet</span>
+				<span class = "inputFieldLabel">Carnet:</span>
 				<input id="txtUsuarioCarnet" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Email Personal</span>
+				<span class = "inputFieldLabel">Email Personal:</span>
 				<input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Email Institucional</span>
+				<span class = "inputFieldLabel">Email Institucional:</span>
 				<input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Extension</span>
+				<span class = "inputFieldLabel">Extension:</span>
 				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField"/><br>
 				
-				<span class = "inputFieldLabel">Activo</span>
+				<span class = "inputFieldLabel">Activo:</span>
 				<input id="chkUsuarioActivo" type="checkbox" value="1"/><br>
 				
 			</div>
-			
+			<!-- <div class="divDataForm" style="height: 250px" align="center">  -->
+				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>
+			<!-- 
+				<span class = "inputFieldLabel">Rol:</span>
+				<input id="txtUsuarioRolNombre" type="text"  value="" class = "inputField"/><br>
+				 -->
+				
+				
+				<table>
+				<tr>
+					<td>
+						<table id="todosRoles" align="center"><tr><td/></tr></table>
+						<div id="pagerTR"></div>
+					</td>
+					<td>
+						<button id="btnCancel" onClick="agregarRol()">Agregar</button>
+						<button id="btnCancel" onClick="eliminarRol()">Elminar Rol</button>
+					</td>	
+					<td>
+						<table id="list" align="center"><tr><td/></tr></table>
+						<div id="pager"></div>
+					</td>				
+				</table>				
+				
+				
+				
+				
+				
+				
+			<!-- </div>  -->	
 		</div>
-	
 		
 	</body>
 </html>

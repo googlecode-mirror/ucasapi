@@ -1,12 +1,12 @@
 <?php
 class UsuarioModel extends CI_Model{
-	
-	
+
+
 	function create(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		$username = $this->input->post("username");
 		$password = $this->input->post("password");
 		$primerNombre = $this->input->post("primerNombre");
@@ -24,60 +24,62 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = (int) $this->input->post("idDepto");
 		$idCargo = (int) $this->input->post("idCargo");
-		
-		
-		
+
+
+
 		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo)
 				VALUES (".$this->db->escape($username).", ".$this->db->escape($password).", ".$this->db->escape($primerNombre).", ".$this->db->escape($primerApellido)."
 				, ".$this->db->escape($otrosNombres).", ".$this->db->escape($otrosApellidos).", ".$this->db->escape($codEmp).", ".$this->db->escape($dui).", ".$this->db->escape($nit)."
 				, ".$this->db->escape($isss).", ".$this->db->escape($emailPersonal).", ".$this->db->escape($emailInstitucional).", ".$this->db->escape($nup)."
 				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).")";
-		
-		
+
+
 		$query = $this->db->query($sql);
 		
+		
+
 		if (!$query){
-	     	$retArray["status"] = $this->db->_error_number();
+			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }
-	    
-		return $retArray;		
+		}
+		 
+		return $retArray;
 	}
-	
-	
+
+
 	function read(){
 		$this->load->database();
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$idUsuario = $this->input->post("idUsuario");		
-		
-		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, d.nombreDepto nombreDepto, c.nombreCargo nombreCargo, d.idDepto, c.idCargo 
+
+		$idUsuario = $this->input->post("idUsuario");
+
+		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo
 				FROM DEPARTAMENTO D, USUARIO U, CARGO C
 				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
 				idUsuario = ".$idUsuario;
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query) {
 			$row = $query->row_array();
-	    	$retArray["data"] = $row;	     	
-	    }
-	    else{
-	    	$retArray["status"] = $this->db->_error_number();
+			$retArray["data"] = $row;
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    	
-	    }
-	    
-	    return $retArray;
+
+		}
+		 
+		return $retArray;
 	}
-	
+
 
 	function update(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		$idUsuario = $this->input->post("idUsuario");
 		$username = $this->input->post("username");
 		$password = $this->input->post("password");
@@ -95,9 +97,9 @@ class UsuarioModel extends CI_Model{
 		$carnet = $this->input->post("carnet");
 		$activo = $this->input->post("activo");
 		$idDepto = $this->input->post("idDepto");
-		$idCargo = $this->input->post("idCargo");	
-		
-		$sql = "UPDATE USUARIO 
+		$idCargo = $this->input->post("idCargo");
+
+		$sql = "UPDATE USUARIO
 				SET username=".$this->db->escape($username).",
 				    password=".$this->db->escape($password).",
 				    primerNombre=".$this->db->escape($primerNombre).",
@@ -116,92 +118,92 @@ class UsuarioModel extends CI_Model{
 				    idCargo=".$this->db->escape($idCargo).",
 				    activo=".$this->db->escape($activo)."
 				     WHERE idUsuario = ". $idUsuario;	
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }
-		return $retArray;		
+		}
+		return $retArray;
 	}
-	
+
 
 	function delete(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		$idUsuario = $this->input->post("idUsuario");
-		
+
 		$sql = "UPDATE USUARIO
 				SET ACTIVO = '1' 
 				WHERE idUsuarios = ". $idUsuario;
-   				
+			
 		$query = $this->db->query($sql);
-		
+
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }
-		
-		return $retArray;	
+		}
+
+		return $retArray;
 	}
-	
-	
+
+
 	function autocompleteRead(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
+
 		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,' ') nombreUsuario FROM USUARIO";
-		$query = $this->db->query($sql);		
-	
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idUsuario;
 					$rowArray["value"] = $row->nombreUsuario;
-					
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
-		
+
 		return $retArray;
 	}
-	
-	
+
+
 	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librería form_validation
 	function saveValidation(){
 		$this->load->library('form_validation');
 		//print_r($_POST);
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
 		$this->form_validation->set_rules("primerNombre", "Primer Nombre", 'required');
 		$this->form_validation->set_rules("primerApellido", "Apellidos", 'required');
 		$this->form_validation->set_rules("username", "username", 'required');
 		$this->form_validation->set_rules("password", "password", 'required');
-		$this->form_validation->set_rules("dui", "DUI", 'required');	
-		$this->form_validation->set_rules("nit", "NIT", 'required');	
+		$this->form_validation->set_rules("dui", "DUI", 'required');
+		$this->form_validation->set_rules("nit", "NIT", 'required');
 		$this->form_validation->set_rules("isss", "ISSS", 'required');
 		$this->form_validation->set_rules("codEmp", "Codigo Empleado", 'required');
-		$this->form_validation->set_rules("isss", "ISSS", 'required');		
-		
+		$this->form_validation->set_rules("isss", "ISSS", 'required');
+
 		$this->form_validation->set_message('required', 'El campo "%s" es requerido');
-		
+
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
-			
+
 			$retArray["msg"] .= form_error("primerNombre");
 			$retArray["msg"] .= form_error("primerApellido");
 			$retArray["msg"] .= form_error("username");
@@ -211,10 +213,118 @@ class UsuarioModel extends CI_Model{
 			$retArray["msg"] .= form_error("isss");
 			$retArray["msg"] .= form_error("codEmp");
 			$retArray["msg"] .= form_error("isss");
-			
+
 		}
-		
+
 		return $retArray;
-	}	
-	
+	}
+
+	function gridUsuarioRead($idUsuario=null){
+		$this->load->database();
+
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+
+		$idUsuario = is_null($idUsuario) ? -1 : $idUsuario;
+
+
+		$sql = "SELECT COUNT(*) AS count FROM ROL R WHERE idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+
+		//-------------------------
+
+		$sql = "SELECT idRol, nombreRol FROM ROL WHERE idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
+		$query = $this->db->query($sql);
+
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $row->idRol;
+					$response->rows[$i]["cell"] = array($row->idRol, $row->nombreRol,null);
+					$i++;
+				}
+			}
+		}
+
+		return $response;
+	}
+
+	function gridRolesUsuarioRead($idUsuario=null){
+		$this->load->database();
+
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+
+		$idUsuario = is_null($idUsuario) ? -1 : $idUsuario;
+
+
+		$sql = "SELECT COUNT(*) AS count FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario);
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+
+		//-------------------------
+
+		$sql = "SELECT ru.idRol idRol, r.nombreRol nombreRol, ru.fechaAsigancionSistema fechaAsignacionSistema FROM ROL r, ROL_USUARIO ru WHERE ru.idRol = r.idRol AND ru.idUsuario = ".$this->db->escape($idUsuario);
+		$query = $this->db->query($sql);
+
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $row->idRol;
+					$response->rows[$i]["cell"] = array($row->idRol, $row->nombreRol, $row->fechaAsignacionSistema);
+					$i++;
+				}
+			}
+		}
+
+		return $response;
+	}
+
 }
