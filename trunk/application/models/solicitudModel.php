@@ -37,14 +37,15 @@ class solicitudModel extends CI_Model {
 		$idInteresados = explode(',', $this->input->post("observadores"));
 		
 		
-		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, activo, idPrioridadCliente) 
+		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, activo, idPrioridadCliente, idPrioridadInterna) 
    				VALUES (" . 
 						$this->db->escape(intval($anioSolicitud)) . ", " . 
 						$this->db->escape($correlAnio).", ". 
 						$this->db->escape($asunto) . ", " .
 						$this->db->escape($descripcion) . ", " .
 						$this->db->escape(1) . ", " .
-						$this->db->escape($prioridad) . ")";
+						$this->db->escape(intval($prioridad)) . ", " . 
+						$this->db->escape(intval($prioridad)) . ")";
 		
 		$sql2 = "INSERT INTO USUARIO_SOLICITUD (idUsuario, anioSolicitud, correlAnio, esAutor) VALUES (" . 
 					$this->db->escape($this->session->userdata("idUsuario")) . ", " . 
@@ -53,10 +54,12 @@ class solicitudModel extends CI_Model {
 					$this->db->escape(1) . ")";
 		
 		foreach ($idInteresados as $idUser){
+			if($idUser != '') {
 			$sql2 .= ",(" . $this->db->escape($idUser) . ", " . 
 					$this->db->escape($anioSolicitud) . ", " . 
 					$this->db->escape($correlAnio) . "," . 
 					$this->db->escape(0) . ")";
+			}
 		}
 		
 		
