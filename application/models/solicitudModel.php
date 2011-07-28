@@ -81,4 +81,58 @@ class solicitudModel extends CI_Model {
 	    
 		return $retArray;
 	}
+	
+	function gridDepartamentoRead($idDepto=null){
+		$this->load->database();		
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		$idDepto = is_null($idDepto) ? -1 : $idDepto;
+		
+		
+		$sql = "SELECT COUNT(*) AS count FROM SOLICITUD";
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		//-------------------------
+		
+		$sql = "SELECT anioSolicitud, tituloSolicitud FROM SOLICITUD";
+		$query = $this->db->query($sql);		
+	
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $row->anioSolicitud;
+					$response->rows[$i]["cell"] = array($row->anioSolicitud, $row->tituloSolicitud);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+	}
 }
