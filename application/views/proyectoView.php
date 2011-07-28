@@ -62,23 +62,23 @@
 				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 				
-				<span class = "inputFieldLabel">Nombre del proyecto:</span>
-				<input id="txtProyectoNombre" type="text"  value="" class = "inputField"/><br>
+				<span class = "inputFieldLabel">Nombre:</span>
+				<input id="txtProyectoNombre" type="text"  value="" class = "jqcalendario"/><br>
 				
-				<span class = "inputFieldLabel">Dueño del proyecto:</span>
-				<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField"/><br>
+				<span class = "inputFieldLabel">Dueño:</span>
+				<input id="txtProyectoNombreDuenho" type="text"  value="" class = "jqcalendario"/><br>
 							
 				<span class = "inputFieldLabel">Inicio planificado:</span>
-				<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "inputField"/><br>
+				<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario"/><br>
 				
 				<span class = "inputFieldLabel">Fin planificado:</span>
-				<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "inputField"/><br>
+				<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "jqcalendario"/><br>
 				
 				<span class = "inputFieldLabel">Inicio real:</span>
-				<input id="txtProyectoFechaRealIni" type="text"  value="" class = "inputField"/><br>
+				<input id="txtProyectoFechaRealIni" type="text"  value="" class = "jqcalendario"/><br>
 				
 				<span class = "inputFieldLabel">Fin real:</span>
-				<input id="txtProyectoFechaRealFin" type="text"  value="" class = "inputField"/><br>
+				<input id="txtProyectoFechaRealFin" type="text"  value="" class = "jqcalendario"/><br>
 				
 				<span class = "inputFieldLabel">Activo</span>
 				<input id="chkProyectoActivo" type="checkbox" value="1"/><br>				
