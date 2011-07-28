@@ -74,5 +74,8 @@ function enviarSolicitud(){
 function clear(){
 	$(".inputField").val("");
 	$("#txtRecords").val("");
-	$("cbxPrioridades").val(0);
+	$("#cbxPrioridades").val(0);
+	
+	$('option', $("#cbxInteresados")).remove();
+
 }
