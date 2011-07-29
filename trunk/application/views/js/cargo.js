@@ -124,7 +124,7 @@ function verifica(){
 					var msg = "";
 					//Nombre Accion
 					if($(this).attr("id") == "txtCargoName"){
-						if($(this).val().length > 4 && $(this).val().length < 40) msg = "correcto";
+						if($(this).val().length > 4 && $(this).val().length < 40 && !($(this).val().split(" ").length== $(this).val().length+1)) msg = "correcto";
 						else msg = "incorrecto";
 						switch (msg){
 							case "correcto":
