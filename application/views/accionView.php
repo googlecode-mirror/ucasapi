@@ -46,10 +46,11 @@
 			<div id ="msgBox"></div>	
 				
 			<div class="divDataForm">
-				<input id="idAccion" type="hidden"  value="" class = "hiddenId"/><br>
-			
-				<span class = "inputFieldLabel">Nombre de la accion: </span>
-				<input id="txtAccionName" type="text"  value="" class = "inputField"/><br>
+				<input id="idAccion" type="hidden"  value="" class = "hiddenId"/>
+				<span class = "inputFieldLabel" >Nombre de la accion: </span>
+				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la accion, sin numeros"/>
+				<span id="spanaccion"></span>
+				
 			</div>
 			
 		</div>
