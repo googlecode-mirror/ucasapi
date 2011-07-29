@@ -1,11 +1,10 @@
 <?php
 
-require_once("application/models/mainModel.php");
 class UsuarioModel extends CI_Model{
 
 
 	function create(){
-		$mainModel = new mainModel();
+
 		$idUsuario;
 
 		$this->load->database();
@@ -45,8 +44,8 @@ class UsuarioModel extends CI_Model{
 		// insertando el usuario
 		$this->db->query($sql);
 
-		/*if($rol_rows != ""){
-
+		if($rol_rows != ""){
+			echo "hola";
 			// tomar el id del usuario que estoy guardando, pregunatando por el username
 			$sql = "SELECT idUsuario FROM USUARIO WHERE username = ".$username;
 			$query = $this->db->query($sql);
@@ -61,7 +60,7 @@ class UsuarioModel extends CI_Model{
 			foreach ($insert_statements as $queryRoles) {
 				$this->db->query($queryRoles);
 			}
-		}*/
+		}
 
 		//controlando la transaccion
 		if($this->db->trans_status() == FALSE) {
@@ -75,14 +74,14 @@ class UsuarioModel extends CI_Model{
 		return $retArray;
 	}
 
-	/*function getRolInsert($data_array, $idUsuario){
+	function getRolInsert($data_array, $idUsuario){
 		$counter = 1;
 		$idRolInsert;
 		$idUsuarioInsert;
 		$fechaAsignacionSistema;
 		$index = 0;
 		$indexTrippin = 0;
-		$trippin[];
+		$trippin;
 
 		foreach ($data_array as $value) {
 			if($counter == 1){
@@ -104,7 +103,7 @@ class UsuarioModel extends CI_Model{
 		}
 
 		return  $trippin;
-	}*/
+	}
 
 
 	function read(){
