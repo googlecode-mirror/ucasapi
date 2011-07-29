@@ -4,7 +4,7 @@ body {
 	padding: 0;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 0.8em;
-	color: #000
+	color: #276534
 }
 
 /***************************************************** Barra de menú ***********************************************************/
@@ -348,24 +348,26 @@ body {
 
 
 /************************************** jQuery ******************************************/
-.ui-autocomplete { max-height: 128px; overflow-y: scroll; overflow-x: hidden; }
+.ui-autocomplete {
+	 max-height: 128px;
+	 overflow-y: scroll;
+	 overflow-x: hidden; 
+	 font-size: 1em;	
+}
+
+#tabs{ 
+	background: #FFFFFF;
+	width : 576px;
+	height : 320px;
+	margin: 0 auto;
+	border-style:solid;
+	border-width:1px;
+	border-color: #BFBFBF;
+	font-size: 1em;	
+}
+
 
 /*---------------------tooltips----------------------------*/
-.tinyTip{ 
-	width: 325px;
-	padding: 17px 0px 0px 0px;
-	display: block;
-	background: url(img/tinyTip-top.png) 0px 0px no-repeat; 
-}
-.tinyTip .content{
-	padding: 0px 15px 0px 15px;
-	color: #010101;
-	background: url(img/tinyTip-content.png) 0px 0px repeat-y; 
-}
-.tinyTip .bottom{
-	height: 47px; 
-	background: url(img/tinyTip-bottom.png) 0px 0px no-repeat; 
-}
 
 
 /*********************************************************************************/
