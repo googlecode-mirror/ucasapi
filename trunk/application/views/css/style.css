@@ -366,7 +366,13 @@ body {
 	font-size: 1em;	
 }
 
-
+/*----jqGrid---*/
+.ui-jqgrid-labels{
+	font-size: 0.8em;	
+}
+.ui-jqgrid td{
+	font-size:0.8em;
+}
 /*---------------------tooltips----------------------------*/
 
 
