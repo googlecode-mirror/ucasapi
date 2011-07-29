@@ -11,27 +11,6 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/solicitud.js"></script>
-
-		<style type="text/css">
-			.divDataForm select{
-				height : 20px;
-				float:right;
-				width : 256px;
-				margin-top : 20px;
-				margin-right : 96px;
-				font-family: Lucida Grande, Lucida Sans, Arial;
-				font-size: 1em;	
-			}
-			
-			.divActions select{
-				float:right;
-				width : 256px;
-				margin-top : 20px;
-				margin-right : 96px;
-				font-family: Lucida Grande, Lucida Sans, Arial;
-				font-size: 1em;	
-			}
-		</style>
 		
 	</head>
 	
@@ -64,7 +43,7 @@
 				</div>
 							
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="">Quitar interesado</button>
+					<button id="btnRemove" onClick="remove()">Quitar interesado</button>
 				</div>
 			</div>
 				
