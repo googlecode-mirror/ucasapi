@@ -34,7 +34,6 @@ class Solicitud extends CI_Controller {
 	}
 	
 	function gridRead($id){
-		echo "en el controller";
 		$this->load->model("solicitudModel");	
 		echo json_encode($this->solicitudModel->gridSolicitudRead($id));
 	}

@@ -95,7 +95,10 @@ class solicitudModel extends CI_Model {
 		// $idDepto = is_null($idDepto) ? -1 : $idDepto;
 		
 		
-		$sql = "SELECT COUNT(*) AS count FROM SOLICITUD";
+		$sql = "SELECT COUNT(*) AS count " .
+				"FROM USUARIO u " .
+				"INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario " .
+				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)";
 		$query = $this->db->query($sql);
 		
 		if ($query->num_rows() > 0){
@@ -118,16 +121,19 @@ class solicitudModel extends CI_Model {
 		$response->records = $count;
 		
 		//-------------------------
-		echo "en el model";
-		$sql = "SELECT anioSolicitud, tituloSolicitud FROM SOLICITUD";
+
+		$sql = "SELECT s.anioSolicitud anio, s.correlAnio correl, s.tituloSolicitud titulo, CONCAT(u.primerNombre, ' ', u.primerApellido) usuarioSolicitante, s.fechaEntrada fechaPeticion " .
+				"FROM USUARIO u " .
+				"INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario " .
+				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)";
 		$query = $this->db->query($sql);		
 	
 		$i = 0;
 		if($query){
 			if($query->num_rows > 0){							
 				foreach ($query->result() as $row){		
-					$response->rows[$i]["id"] = $row->anioSolicitud;
-					$response->rows[$i]["cell"] = array($row->anioSolicitud, $row->tituloSolicitud);
+					$response->rows[$i]["id"] = array($row->anio, $row->correl);
+					$response->rows[$i]["cell"] = array($row->titulo, $row->usuarioSolicitante, $row->fechaPeticion);
 					$i++;				
 				}										
 			}			

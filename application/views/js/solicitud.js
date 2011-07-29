@@ -71,6 +71,12 @@ function enviarSolicitud(){
 	
 }
 
+function remove() {
+	$('#cbxInteresados option:selected').each(function(i, selected){
+		$(selected).remove();
+	});
+}
+
 function clear(){
 	$(".inputField").val("");
 	$("#txtRecords").val("");
