@@ -1,12 +1,18 @@
 <?php
+
+require_once("application/models/mainModel.php");
 class UsuarioModel extends CI_Model{
 
 
 	function create(){
+		$mainModel = new mainModel();
+		$idUsuario;
+
 		$this->load->database();
 
 		$retArray = array("status"=> 0, "msg" => "");
 
+		// tomando la data del post
 		$username = $this->input->post("username");
 		$password = $this->input->post("password");
 		$primerNombre = $this->input->post("primerNombre");
@@ -24,9 +30,9 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = (int) $this->input->post("idDepto");
 		$idCargo = (int) $this->input->post("idCargo");
+		$rol_rows = $this->input->post("rol_rows");
 
-
-
+		// guardar los datos basicos de usuario
 		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo)
 				VALUES (".$this->db->escape($username).", ".$this->db->escape($password).", ".$this->db->escape($primerNombre).", ".$this->db->escape($primerApellido)."
 				, ".$this->db->escape($otrosNombres).", ".$this->db->escape($otrosApellidos).", ".$this->db->escape($codEmp).", ".$this->db->escape($dui).", ".$this->db->escape($nit)."
@@ -34,17 +40,71 @@ class UsuarioModel extends CI_Model{
 				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).")";
 
 
-		$query = $this->db->query($sql);
-		
-		
+		/*********************************************************************************/
+		$this->db->trans_begin();
+		// insertando el usuario
+		$this->db->query($sql);
 
-		if (!$query){
+		/*if($rol_rows != ""){
+
+			// tomar el id del usuario que estoy guardando, pregunatando por el username
+			$sql = "SELECT idUsuario FROM USUARIO WHERE username = ".$username;
+			$query = $this->db->query($sql);
+			if ($query->num_rows() > 0)
+			{
+				$row = $query->row();
+				$idUsuario = $row->idUsuario;
+			}
+			// formando arreglo con los parametros de insert
+			$data_array = explode("|",$rol_rows);
+			$insert_statements = getRolInsert($data_array, $idUsuario);
+			foreach ($insert_statements as $queryRoles) {
+				$this->db->query($queryRoles);
+			}
+		}*/
+
+		//controlando la transaccion
+		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
 		}
-		 
+
 		return $retArray;
 	}
+
+	/*function getRolInsert($data_array, $idUsuario){
+		$counter = 1;
+		$idRolInsert;
+		$idUsuarioInsert;
+		$fechaAsignacionSistema;
+		$index = 0;
+		$indexTrippin = 0;
+		$trippin[];
+
+		foreach ($data_array as $value) {
+			if($counter == 1){
+				$idRolInsert = $value;
+				$counter++;
+				continue;
+			}
+			if($counter == 2){
+				$idUsuarioInsert = $idUsuario;
+				$counter++;
+				continue;
+			}
+			if($counter == 3){
+				$fechaAsignacionSistema = $value;
+				$counter = 1;
+				$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsignacionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",".$fechaAsignacionSistema.")";
+				continue;
+			}
+		}
+
+		return  $trippin;
+	}*/
 
 
 	function read(){
@@ -70,7 +130,7 @@ class UsuarioModel extends CI_Model{
 			$retArray["msg"] = $this->db->_error_message();
 
 		}
-		 
+			
 		return $retArray;
 	}
 
@@ -264,7 +324,7 @@ class UsuarioModel extends CI_Model{
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $row->idRol;
-					$response->rows[$i]["cell"] = array($row->idRol, $row->nombreRol,null);
+					$response->rows[$i]["cell"] = array($row->idRol, $row->nombreRol,"null");
 					$i++;
 				}
 			}

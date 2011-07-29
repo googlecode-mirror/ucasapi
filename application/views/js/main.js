@@ -5,6 +5,7 @@ function js_ini(){
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
 	$(".jqcalendario").datepicker();
+	$( "#tabs" ).tabs();
 	//$("#logoutButton").tooltip();
 	$("button").button({icons: {primary: "ui-icon-locked"}});
 }
