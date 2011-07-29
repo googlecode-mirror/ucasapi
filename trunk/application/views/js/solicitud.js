@@ -1,8 +1,7 @@
 
 $(document).ready(function(){
 	 //js_ini();
-	 usuarioAutocomplete();	
-	 loadGrid();
+	 usuarioAutocomplete();
 });
 
 function usuarioAutocomplete(){
@@ -71,29 +70,6 @@ function enviarSolicitud(){
 	});
 	
 }
-
-function loadGrid(){
-	
-	 $("#list").jqGrid({
-		   	url:  "index.php/solicitud/gridRead/",
-		    datatype: "json",
-		    mtype: "POST",
-		    colNames:["Id","Titulo"],
-		    colModel :[ 
-		      {name:"id", index:"id", width:63}, 
-		      {name:"value", index:"value", width:190} 
-		    ],
-		    pager: "#pager",
-		    rowNum:10,
-		    rowList:[10,20,30],
-		    sortname: "id",
-		    sortorder: "desc",
-		    viewrecords: true,
-		    gridview: true,
-		    caption: "Solicitudes"
-	  });	 
-}
-
 
 function clear(){
 	$(".inputField").val("");
