@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
 	$("button").button({icons: {primary: "ui-icon-locked"}});
+	verifica();
 	accionAutocomplete();			
 });	
 
@@ -15,7 +16,7 @@ function accionAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
@@ -31,37 +32,38 @@ function accionAutocomplete(){
 	});		
 }
 
-function save(){			
-	var formData= "";
-	formData += "idAccion=" + $("#idAccion").val();
-	formData += "&nombreAccion=" + $("#txtAccionName").val();	
-	
-	$.ajax({				
-        type: "POST",
-        url:  "index.php/accion/accionValidateAndSave",
-        data: formData,
-        dataType : "json",
-        success: function(retrievedData){
-        	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-        	}
-        	else{
-        		if($("idAccion").val()==""){
-        			alert("Registro agregado con éxito");
-        		}
-        		else{
-        			alert("Registro actualizado con éxito");
-        		}
-        		accionAutocomplete();
-        		clear();
-        	}
-      	}
-      
-	});
-	
+function save(){
+	if(validate()==true){
+		var formData= "";
+		formData += "idAccion=" + $("#idAccion").val();
+		formData += "&nombreAccion=" + $("#txtAccionName").val();	
+		
+		$.ajax({				
+	        type: "POST",
+	        url:  "index.php/accion/accionValidateAndSave",
+	        data: formData,
+	        dataType : "json",
+	        success: function(retrievedData){
+	        	if(retrievedData.status != 0){
+	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+	        	}
+	        	else{
+	        		if($("idAccion").val()==""){
+	        			alert("Registro agregado con ï¿½xito");
+	        		}
+	        		else{
+	        			alert("Registro actualizado con ï¿½xito");
+	        		}
+	        		accionAutocomplete();
+	        		clear();
+	        	}
+	      	}
+	      
+		});
+	}
 }
 
-function edit(){			
+function edit(){
 	var formData = "idAccion=" + $("#idAccion").val();	
 	
 	$.ajax({				
@@ -71,7 +73,7 @@ function edit(){
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}else{
         		$("#txtAccionName").val(retrievedData.data.nombreAccion);
         	}			       
@@ -83,7 +85,7 @@ function edit(){
 function deleteData(){
 	var formData = "idAccion=" + $("#idAccion").val();
 	
-	var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
+	var answer = confirm("Estï¿½ seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
 	
 	if (answer){		
 		$.ajax({				
@@ -93,10 +95,10 @@ function deleteData(){
 	        dataType : "json",
 	        success: function(retrievedData){
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
 	        	}
 	        	else{
-	        		alert("Registro eliminado con éxito");
+	        		alert("Registro eliminado con ï¿½xito");
 	        		accionAutocomplete();
 	        		clear();
 	        	}
@@ -104,6 +106,57 @@ function deleteData(){
 	      
 		});		
 	}	
+}
+
+function verifica(){
+	$("input").focus(function ()
+			{
+				$(this).next("span").attr("class", "span");
+				$(this).next("span").html($(this).attr("title"));
+			});
+	
+	$("input").blur(function ()
+			{
+				if($(this).val().length > 0){
+					var msg = "";
+					//Nombre Accion
+					if($(this).attr("id") == "txtAccionName"){
+						if($(this).val().length > 4 && $(this).val().length < 256) msg = "correcto";
+						else msg = "incorrecto";
+						switch (msg){
+							case "correcto":
+								$(this).next("span").attr("class", "correct");
+								$(this).next("span").html("OK");
+								break;
+							case "incorrecto":
+								$(this).next("span").attr("class", "incorrect");
+								$(this).next("span").html("incorrecto");
+								break;
+							default:
+								break;
+						}
+					}
+				}else
+					$(this).next("span").html("");
+			});
+}
+
+
+function validate(){
+	var valida = true;
+	$("input").each(function(index){
+		if($(this).attr("id") == "txtAccionName"){
+			if($(this).next("span").text() != "OK"){
+						$(this).next("span").attr("class", "incorrect");
+						$(this).next("span").html("Compruebe este campo!");
+						valida = false;
+			}
+				
+		}
+	});
+	
+	if(valida == true) return true
+	else return false;
 }
 
 function cancel(){
@@ -114,4 +167,5 @@ function clear(){
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	$("#spanaccion").text("");
 }

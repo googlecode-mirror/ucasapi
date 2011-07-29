@@ -49,7 +49,7 @@
 				<input id="idCargo" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre del cargo: </span>
-				<input id="txtCargoName" type="text"  value="" class = "inputField"/><br>
+				<input id="txtCargoName" type="text"  value="" class = "inputField" title="Ingrese el nombre del cargo sin numeros"/><span id="spancargo"></span>
 				
 			</div>
 			
