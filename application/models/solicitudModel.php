@@ -82,7 +82,7 @@ class solicitudModel extends CI_Model {
 		return $retArray;
 	}
 	
-	function gridDepartamentoRead($idDepto=null){
+	function gridSolicitudRead($id=null){
 		$this->load->database();		
 		
 		$page = $this->input->post("page");
@@ -92,7 +92,7 @@ class solicitudModel extends CI_Model {
 		$count = 0;		
 		if(!$sidx) $sidx =1;
 		
-		$idDepto = is_null($idDepto) ? -1 : $idDepto;
+		// $idDepto = is_null($idDepto) ? -1 : $idDepto;
 		
 		
 		$sql = "SELECT COUNT(*) AS count FROM SOLICITUD";
@@ -118,7 +118,7 @@ class solicitudModel extends CI_Model {
 		$response->records = $count;
 		
 		//-------------------------
-		
+		echo "en el model";
 		$sql = "SELECT anioSolicitud, tituloSolicitud FROM SOLICITUD";
 		$query = $this->db->query($sql);		
 	
