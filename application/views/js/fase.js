@@ -126,7 +126,7 @@ function verifica(){
 					var msg = "";
 					//Nombre Accion
 					if($(this).attr("id") == "txtFaseName"){
-						if($(this).val().length > 4 && $(this).val().length < 40) msg = "correcto";
+						if($(this).val().length > 4 && $(this).val().length < 40 && !($(this).val().split(" ").length== $(this).val().length+1)) msg = "correcto";
 						else msg = "incorrecto";
 					}
 					switch (msg){
@@ -159,7 +159,7 @@ function verifica(){
 					var msg = "";
 					//Nombre Accion
 					if($(this).attr("id") == "txtFaseDesc"){
-						if($(this).val().length > 4 && $(this).val().length < 256) msg = "correcto";
+						if($(this).val().length > 4 && $(this).val().length < 256 && !($(this).val().split(" ").length== $(this).val().length+1)) msg = "correcto";
 						else if($(this).val().length > 256) msg = "largo";
 						else msg="incorrecto";
 					}
