@@ -229,6 +229,26 @@ body {
 	font-size: 0.9em;	
 }
 
+/* nilson */
+.divDataForm select{
+	height : 20px;
+	float:right;
+	width : 256px;
+	margin-top : 20px;
+	margin-right : 96px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
+}
+
+.divActions select{
+	float:right;
+	width : 256px;
+	margin-top : 20px;
+	margin-right : 96px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
+}
+
 /*-------------------------------Div de mensaje informativo------------------------------*/
 #msgBox{
 	display:none;
