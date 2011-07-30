@@ -11,7 +11,11 @@ class Proceso extends CI_Controller{
 		$this->load->model("procesoModel");
 		echo json_encode($this->procesoModel->read());
 	}
-
+	
+	function procesoGridRead(){
+		$this->load->model("procesoModel");
+		echo json_encode($this->procesoModel->readGrid());
+	}
 
 	function procesoAutocompleteRead(){
 		$this->load->model("procesoModel");

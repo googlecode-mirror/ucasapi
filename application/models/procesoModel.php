@@ -34,9 +34,9 @@ class procesoModel extends CI_Model{
 		
 		$idProceso = $this->input->post("idProceso");		
 		
-		$sql = "SELECT e.estado, e.idTipoEstado, te.nombreTipoEstado
-				FROM ESTADO e INNER JOIN TIPO_ESTADO te  ON e.idTipoEstado = te.idTipoEstado
-				WHERE idProceso = ".$idProceso;
+		$sql = "SELECT p.nombreProceso, p.descripcion, e.estado
+				FROM PROCESO p INNER JOIN ESTADO e ON p.idEstado = e.idEstado
+				WHERE p.idProceso = " .$idProceso;
 		
 		$query = $this->db->query($sql);
 		
@@ -53,6 +53,41 @@ class procesoModel extends CI_Model{
 	    return $retArray;
 	}
 	
+	function readGrid(){
+		$this->load->database();
+		
+		//$idProceso = $this->input->post("idProceso");
+		
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$idProceso = $this->input->post("idProceso");		
+		
+		$sql = 	"SELECT f.nombreFase, fxp.FechaIniPlan, fxp.FechaFinPlan, fxp.FechaIniReal, fxp.FechaFinReal " .
+			   	"FROM FASE f INNER JOIN FASE_PROCESO fxp ON f.idFase = fxp.idFase INNER JOIN PROCESO p " . 
+				"ON fxp.idProceso = p.idProceso WHERE p.idProceso = 1";
+		
+		$query = $this->db->query($sql);
+		
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["nombreFase"] = $row->nombreFase;
+					$rowArray["fechaIniPlan"] = $row->FechaIniPlan;
+					$rowArray["fechaFinPlan"] = $row->FechaFinPlan;
+					$rowArray["fechaIniReal"] = $row->FechaIniReal;
+					$rowArray["fechaFinReal"] = $row->FechaFinReal;
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}		
+	    
+	    return $retArray;
+	}
 
 	function update(){
 		$this->load->database();
