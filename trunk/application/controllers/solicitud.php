@@ -33,6 +33,11 @@ class Solicitud extends CI_Controller {
 		echo json_encode($retArray);
 	}
 	
+	function getSolicitud () {
+		$this->load->model("solicitudModel");
+		echo json_encode($this->solicitudModel->getSolicitud());
+	}
+	
 	function gridRead($id){
 		$this->load->model("solicitudModel");	
 		echo json_encode($this->solicitudModel->gridSolicitudRead($id));

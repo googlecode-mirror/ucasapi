@@ -33,7 +33,29 @@ class solicitudModel extends CI_Model {
 		$prioridad = $this->input->post("prioridad");
 		$descripcion = $this->input->post("descripcion");
 		$anioSolicitud = strftime('%Y');
-		$correlAnio = time();
+		$correlAnio = 1;
+		
+		$queryId = "SELECT MAX(s.anioSolicitud) maxAnio FROM SOLICITUD s";
+		$result = $this->db->query($queryId);
+		
+		if($result->num_rows() > 0) {
+			$maxAnio = 0;
+			
+			$row = $result->row();
+			$maxAnio = $row->maxAnio;
+			
+			if (intval($anioSolicitud) == $maxAnio) {
+				
+				$queryId = "SELECT MAX(s.correlAnio) + 1 correlAnio FROM SOLICITUD s " .
+							"WHERE s.anioSolicitud = " . $this->db->escape(intval($anioSolicitud));
+				$result2 = $this->db->query($queryId);
+				if($result2->num_rows() > 0) {
+					$row = $result2->row();
+					$correlAnio = $row->correlAnio;
+				}
+			} 
+		}
+		
 		$idInteresados = explode(',', $this->input->post("observadores"));
 		
 		
@@ -82,6 +104,52 @@ class solicitudModel extends CI_Model {
 		return $retArray;
 	}
 	
+	function getSolicitud () {
+		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		//array con la clave de la solicitud -> anioSolicitud-correlAnio
+		$solicitudIds = explode("-", $this->input->post("idSolicitud"));
+		
+		$query = "SELECT " .
+						"s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente, " .
+						"CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente, " .
+						"c.nombreCargo cargo, d.nombreDepto depto, " .
+						"us.esAutor " .
+					"FROM SOLICITUD s " .
+					"INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
+					"INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario) " .
+					"INNER JOIN CARGO c ON (u.idCargo = c.idCargo) " .
+					"INNER JOIN DEPARTAMENTO d ON (u.idDepto = d.idDepto) " .
+					"INNER JOIN PRIORIDAD p ON (p.idPrioridad = s.idPrioridadCliente) " .
+					"WHERE s.anioSolicitud = ? AND s.correlAnio = ? " .
+					"AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (" .
+						"SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio) " .
+						"FROM ACTIVIDAD a " .
+						"WHERE a.anioSolicitud = ? AND a.correlAnio = ?)" .
+					"ORDER BY esAutor DESC";
+		
+		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1], $solicitudIds[0], $solicitudIds[1]));
+		
+		$solicitudes = array();
+		
+		if ($result) {
+			if($result->num_rows() > 0) {
+				foreach ($result->result() as $row) {
+
+					$retArray["data"][] = $row;
+					
+				}
+			}
+		} else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+		
+		return $retArray;
+		
+	}
+	
 	function gridSolicitudRead($id=null){
 		$this->load->database();		
 		
@@ -125,15 +193,16 @@ class solicitudModel extends CI_Model {
 		$sql = "SELECT s.anioSolicitud anio, s.correlAnio correl, s.tituloSolicitud titulo, CONCAT(u.primerNombre, ' ', u.primerApellido) usuarioSolicitante, s.fechaEntrada fechaPeticion " .
 				"FROM USUARIO u " .
 				"INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario " .
-				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)";
+				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " . 
+				"WHERE esAutor=1";
 		$query = $this->db->query($sql);		
 	
 		$i = 0;
 		if($query){
 			if($query->num_rows > 0){							
 				foreach ($query->result() as $row){		
-					$response->rows[$i]["id"] = array($row->anio, $row->correl);
-					$response->rows[$i]["cell"] = array($row->titulo, $row->usuarioSolicitante, $row->fechaPeticion);
+					$response->rows[$i]["id"] = $row->anio . "-" . $row->correl;
+					$response->rows[$i]["cell"] = array($row->fechaPeticion, $row->titulo, $row->usuarioSolicitante, $row->anio, $row->correl);
 					$i++;				
 				}										
 			}			
