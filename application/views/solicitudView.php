@@ -5,7 +5,7 @@
 			require_once("application/models/menuOptionsModel.php");
 			$menuBarModel = new menuBarModel();	
 		?>			
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
@@ -31,22 +31,6 @@
 		<div class="container">
 			<div style="height: 20px"></div>
 			
-			<div class="divActions">				
-				<div class="divCRUDRecords">
-					<span class="recordsLabel">Nombre: </span>
-					<input id="txtRecords" type="text"  value="" class="inputFiled" /><br>
-				</div>
-				
-				<div class="divCRUDRecords">
-					<span class="recordsLabel">Agregados: </span>
-					<select size="5" multiple="multiple" id="cbxInteresados"></select><br>
-				</div>
-							
-				<div class="divCRUDButtons">
-					<button id="btnRemove" onClick="remove()">Quitar interesado</button>
-				</div>
-			</div>
-				
 			<div id ="msgBox"></div>	
 				
 			<div class="divDataForm">
@@ -67,8 +51,24 @@
 				<span class = "inputFieldLabel">Descripci&oacute;n:</span>
 				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputField"></textArea><br>				
 				<br><br><br><br><br><br><br><br><br><br>
+			</div>
+			
+			<div style="height: 20px"></div>
+			
+			<div class="divActions">				
+				<div class="divCRUDRecords">
+					<span class="recordsLabel">Nombre: </span>
+					<input id="txtRecords" type="text"  value="" class="inputFiled" /><br>
+					<span class="recordsLabel">Agregados: </span>
+					<select size="5" multiple="multiple" id="cbxInteresados"></select><br>
+				</div>
+				
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="enviarSolicitud()">Guardar</button>
+					<button id="btnRemove" onClick="remove()">Quitar interesado</button>
+				</div>
+				
+				<div class="divCRUDButtons">
+					<button id="btnSave" onClick="crearSolicitud()">Guardar</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
 				</div>
 			</div>

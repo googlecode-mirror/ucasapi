@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-	 //js_ini();
+	 js_ini();
 	 usuarioAutocomplete();
 });
 
@@ -32,7 +32,7 @@ function usuarioAutocomplete(){
 	});		
 }
 
-function enviarSolicitud(){
+function crearSolicitud(){
 	var interesados = ''; 
 
 	$('#cbxInteresados option').each(function(i, selected){
