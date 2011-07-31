@@ -7,7 +7,11 @@ function js_ini(){
 	$(".jqcalendario").datepicker();
 	$( "#tabs" ).tabs();
 	//$("#logoutButton").tooltip();
-	$("button").button({icons: {primary: "ui-icon-locked"}});
+	$("#btnSave").button({icons: {primary: "ui-icon-disk"}});
+	$("#btnEdit").button({icons: {primary: "ui-icon-pencil"}});
+	$("#btnDelete").button({icons: {primary: "ui-icon-trash"}});
+	$("#btnCancel").button({icons: {primary: "ui-icon-cancel"}});
+	$("#btnUpload").button({icons: {primary: "ui-icon-arrowthick-1-n"}});
 }
 
 
