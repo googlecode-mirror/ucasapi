@@ -59,29 +59,28 @@
 				
 			<div class="divDataForm" style="height: 810px">
 				<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 				
 				<span class = "inputFieldLabel">Nombre:</span>
-				<input id="txtProyectoNombre" type="text"  value="" class = "jqcalendario"/><br>
+				<input id="txtProyectoNombre" type="text"  value="" class = "inputField" title = "Nombre del proyecto"/><br>
 				
 				<span class = "inputFieldLabel">Dueño:</span>
-				<input id="txtProyectoNombreDuenho" type="text"  value="" class = "jqcalendario"/><br>
+				<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField" title = "Dueño del proyecto"/><br>
 							
 				<span class = "inputFieldLabel">Inicio planificado:</span>
-				<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario"/><br>
+				<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario" title = "Fecha planificada para iniciar el proyecto"/><br>
 				
 				<span class = "inputFieldLabel">Fin planificado:</span>
-				<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "jqcalendario"/><br>
+				<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "jqcalendario" title = "Fecha planificada para finalizar el proyecto"/><br>
 				
 				<span class = "inputFieldLabel">Inicio real:</span>
-				<input id="txtProyectoFechaRealIni" type="text"  value="" class = "jqcalendario"/><br>
+				<input id="txtProyectoFechaRealIni" type="text"  value="" class = "jqcalendario" title = "Fecha real en la que inició el proyecto"/><br>
 				
 				<span class = "inputFieldLabel">Fin real:</span>
-				<input id="txtProyectoFechaRealFin" type="text"  value="" class = "jqcalendario"/><br>
+				<input id="txtProyectoFechaRealFin" type="text"  value="" class = "jqcalendario" title = "Fecha real en la que finalizo el proyecto"/><br>
 				
 				<span class = "inputFieldLabel">Activo</span>
-				<input id="chkProyectoActivo" type="checkbox" value="1"/><br>				
+				<input id="chkProyectoActivo" type="checkbox" value="1" title = "Checkear si el proyecto esta activo"/><br>				
 				
 				<span class = "inputFieldLabel">Descripción</span>
 				<textArea id="txtProyectoDescripcion" cols=20 rows=6 class = "inputField" title="Descripción del proyecto"></textArea><br>				
