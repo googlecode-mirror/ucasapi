@@ -46,7 +46,7 @@ class UsuarioModel extends CI_Model{
 
 		if($rol_rows != ""){
 			//echo "hola";
-			// tomar el id del usuario que estoy guardando, pregunatando por el username
+			// tomar el id del usuario que estoy guardando, preguntando por el username
 			$sql = "SELECT idUsuario FROM USUARIO WHERE username = '".$username."'";
 			$query = $this->db->query($sql);
 			if ($query->num_rows() > 0)
@@ -67,7 +67,7 @@ class UsuarioModel extends CI_Model{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
-		} else {			
+		} else {
 			$this->db->trans_commit();
 		}
 
@@ -100,16 +100,15 @@ class UsuarioModel extends CI_Model{
 				if($fechaAsignacionSistema == "null"){
 					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",CURRENT_TIMESTAMP)";
 				}else{
-					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",".$fechaAsignacionSistema.")";
-				}			
-				
+					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",'".$fechaAsignacionSistema."')";
+				}
+
 				continue;
 			}
 		}
 
 		return  $trippin;
 	}
-
 
 	function read(){
 		$this->load->database();
@@ -138,7 +137,6 @@ class UsuarioModel extends CI_Model{
 		return $retArray;
 	}
 
-
 	function update(){
 		$this->load->database();
 
@@ -162,6 +160,8 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = $this->input->post("idDepto");
 		$idCargo = $this->input->post("idCargo");
+		$rol_rows = $this->input->post("rol_data");
+
 
 		$sql = "UPDATE USUARIO
 				SET username=".$this->db->escape($username).",
@@ -183,15 +183,40 @@ class UsuarioModel extends CI_Model{
 				    activo=".$this->db->escape($activo)."
 				     WHERE idUsuario = ". $idUsuario;	
 
+		// transaccion de actualización
+		$this->db->trans_begin();
+
 		$query = $this->db->query($sql);
 
-		if (!$query) {
+		//eliminar los roles que actualmente estan asignados al usuario, primer paso para sobreescribir
+		$sql = "DELETE FROM ROL_USUARIO WHERE idUsuario =".$idUsuario;
+		$query = $this->db->query($sql);
+
+		if($rol_rows != ""){
+				
+			// insertando roles al usuario, segundo paso para sobrescribir
+			$data_array = explode("|",$rol_rows);
+			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
+			foreach ($insert_statements as $queryRoles) {
+				$this->db->query($queryRoles);
+			}
+		}
+
+		//controlando la transaccion
+		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
 		}
+
+		/*if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			}*/
 		return $retArray;
 	}
-
 
 	function delete(){
 		$this->load->database();
@@ -201,8 +226,8 @@ class UsuarioModel extends CI_Model{
 		$idUsuario = $this->input->post("idUsuario");
 
 		$sql = "UPDATE USUARIO
-				SET ACTIVO = '1' 
-				WHERE idUsuarios = ". $idUsuario;
+				SET ACTIVO = '0' 
+				WHERE idUsuario = ". $idUsuario;
 			
 		$query = $this->db->query($sql);
 
@@ -214,13 +239,13 @@ class UsuarioModel extends CI_Model{
 		return $retArray;
 	}
 
-
+	// Buscar usuarios
 	function autocompleteRead(){
 		$this->load->database();
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,' ') nombreUsuario FROM USUARIO";
+		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,' ',if(activo=1,'(ACTIVO)','(INACTIVO)')) nombreUsuario FROM USUARIO";
 		$query = $this->db->query($sql);
 
 		if($query){
@@ -241,7 +266,6 @@ class UsuarioModel extends CI_Model{
 
 		return $retArray;
 	}
-
 
 	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librería form_validation
 	function saveValidation(){
@@ -338,6 +362,7 @@ class UsuarioModel extends CI_Model{
 		return $response;
 	}
 
+	//Este es el grid donde estan los roles que actualemente tiene un usuario
 	function gridRolesUsuarioRead($idUsuario=null){
 		$this->load->database();
 
