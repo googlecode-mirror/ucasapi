@@ -14,13 +14,14 @@ class proyectoModel extends CI_Model{
 		$fechaRealIni = $this->input->post("fechaRealIni");
 		$fechaRealFin = $this->input->post("fechaRealFin");
 		$activo = $this->input->post("activo");
+		$descripcion = $this->input->post("descripcion");
 
 
-		$sql = "INSERT INTO PROYECTO (idUsuario, nombreProyecto, fechaPlanIni, fechaPlanFin, fechaRealIni, fechaRealFin, activo)
+		$sql = "INSERT INTO PROYECTO (idUsuario, nombreProyecto, fechaPlanIni, fechaPlanFin, fechaRealIni, fechaRealFin, activo, descripcion)
    				VALUES (".$this->db->escape($idUsuarioDuenho).", ".$this->db->escape($nombreProyecto)."
    				, ".$this->db->escape($fechaPlanIni).", ".$this->db->escape($fechaPlanFin)."
    				, ".$this->db->escape($fechaRealIni).", ".$this->db->escape($fechaRealFin)."
-   				, ".$this->db->escape($activo).")";
+   				, ".$this->db->escape($activo).", ".$this->db->escape($descripcion).")";
 
 		$query = $this->db->query($sql);
 
@@ -40,7 +41,7 @@ class proyectoModel extends CI_Model{
 
 		$idProyecto = $this->input->post("idProyecto");
 
-		$sql = "SELECT p.idProyecto, p.idUsuario, p.nombreProyecto, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, CONCAT(u.primerNombre,' ',u.OtrosNombres,' ',u.primerApellido,' ',u.otrosApellidos,' ') nombreUsuario 
+		$sql = "SELECT p.idProyecto, p.idUsuario, p.nombreProyecto, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, CONCAT(u.primerNombre,' ',u.OtrosNombres,' ',u.primerApellido,' ',u.otrosApellidos,' ') nombreUsuario, p.descripcion descripcion 
 				FROM PROYECTO p, USUARIO u
 				WHERE p.idUsuario = u.idUsuario AND
 				idProyecto = ".$idProyecto;
@@ -74,6 +75,7 @@ class proyectoModel extends CI_Model{
 		$fechaPlanFin = $this->input->post("fechaPlanFin");
 		$fechaRealIni = $this->input->post("fechaRealIni");
 		$fechaRealFin = $this->input->post("fechaRealFin");
+		$descripcion = $this->input->post("descripcion");
 		$activo = $this->input->post("activo");
 
 		$sql = "UPDATE PROYECTO
@@ -83,8 +85,9 @@ class proyectoModel extends CI_Model{
 					fechaPlanFin = ".$this->db->escape($fechaPlanFin).",	
 					fechaRealIni = ".$this->db->escape($fechaRealIni).",	
 					fechaRealFin = ".$this->db->escape($fechaRealFin).",		
-					activo = ".$this->db->escape($activo)."
-					WHERE idProyecto = ". $idProyecto; 
+					activo = ".$this->db->escape($activo).",
+					descripcion=".$this->db->escape($descripcion)."
+					WHERE idProyecto = ". $idProyecto;
 
 		$query = $this->db->query($sql);
 
