@@ -316,7 +316,7 @@ body {
 	border-color: #BFBFBF;
 }
 
-.divDataForm span{
+.divDataForm .inputFieldLabel, .requiredFieldLabel{
 	float : left;
 	height : 20px;
 	margin-top : 20px;
@@ -324,7 +324,12 @@ body {
 	margin-botom : 20px;
 }
 
-.divDataForm input[type="text"]{
+.requiredFieldLabel{
+	font-weight:bold;
+	text-decoration:underline;
+}
+
+.divDataForm .inputField, .inputFieldAC, .inputFieldPSW, .inputFieldFile{
 	height : 20px;
 	float:right;
 	width : 256px;
@@ -334,17 +339,19 @@ body {
 	font-size: 1em;	
 }
 
-.divDataForm input[type="password"]{
-	height : 20px;
+
+.divDataForm .inputFieldTA{
 	float:right;
 	width : 256px;
-	margin-top : 20px;
 	margin-right : 96px;
+	margin-bottom: 20px;
+	margin-top: 20px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
+	resize : none;
 }
 
-.divDataForm input[type="checkbox"]{
+.divDataForm .inputCHK{
 	height : 20px;
 	float:right;
 	width : 256px;
@@ -365,18 +372,6 @@ body {
 	resize : none;
 }
 
-
-.divDataForm textArea{
-	float:right;
-	width : 256px;
-	margin-right : 96px;
-	margin-bottom: 20px;
-	margin-top: 20px;
-	font-family: Lucida Grande, Lucida Sans, Arial;
-	font-size: 1em;	
-	resize : none;
-}
-
 .divDataForm .span{
 	display: inline;
 	color: blue;
@@ -431,6 +426,20 @@ body {
 	margin-top : 10px;
 	margin-right : 96px;
 }
+
+
+.divUploadButton {
+	clear : both;
+	text-align: center;
+}
+
+.divUploadButton span{
+	float : none;
+	margin-top : auto;
+	margin-left : auto;
+	margin-botom : auto;
+}
+
 /************************************** jQuery ******************************************/
 .ui-autocomplete {
 	 max-height: 128px;
@@ -450,15 +459,18 @@ body {
 	font-size: 1em;	
 }
 
-/*----jqGrid---*/
+
+/*----------------------Grids -----------------------------*/
 .ui-jqgrid-labels{
 	font-size: 0.8em;	
 }
 .ui-jqgrid td{
 	font-size:0.8em;
 }
-/*---------------------tooltips----------------------------*/
-
+.gridView{
+	clear : both;
+	text-align : center;
+}
 
 /*********************************************************************************/
 #dialog{
