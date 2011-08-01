@@ -113,8 +113,8 @@ function usuarioRolAutocomplete() {
 	});
 }
 
+// grid donde estan lo roles que el usuario tiene asignados actualmente
 function loadGrid() {
-
 	$("#list").jqGrid(
 			{
 				url : "index.php/usuario/gridRolesUsuarioRead/"
@@ -133,20 +133,21 @@ function loadGrid() {
 				}, {
 					name : "fechaAsignacionSistema",
 					index : "fechaAsignacionSistema",
-					width : 190
+					width : 200
 				} ],
 				pager : "#pager",
 				rowNum : 10,
 				rowList : [ 10, 20, 30 ],
 				sortname : "id",
 				sortorder : "desc",
-				loadonce : true,
+				//loadonce : true,
 				viewrecords : true,
 				gridview : true,
 				caption : "Roles"
 			});
 }
 
+// grid donde se encuentran todos los roles asignables
 function loadGridTR() {
 
 	$("#todosRoles").jqGrid( {
@@ -244,6 +245,8 @@ function save() {
 	formData += "&carnet=" + $("#txtUsuarioCarnet").val();
 	formData += "&idCargo=" + $("#idCargo").val();
 	formData += "&idDepto=" + $("#idDepto").val();
+	formData += "&extension=" + $("#txtUsuarioExtension").val();
+	formData += "&telefonoContacto=" + $("#txtUsuarioTelefono").val();
 
 	rol_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
@@ -308,10 +311,14 @@ function save() {
 
 function edit() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
-	alert($("#idUsuario").val());
 	
+	//alert($("#idUsuario").val());
+	
+	// grid donde se cargan los roles que un usuario tiene asignados
 	$('#list').setGridParam({url:"index.php/usuario/gridRolesUsuarioRead/"+$("#idUsuario").val()}).trigger("reloadGrid");
+	// grid donde se cargan todos los roles que son asignables
 	$('#todosRoles').setGridParam({url:"index.php/usuario/gridRead/"+$("#idUsuario").val()}).trigger("reloadGrid");
+	
 	loadGrid();
 	loadGridTR();
 	$.ajax( {
@@ -364,10 +371,10 @@ function edit() {
 				$("#idCargo").val(retrievedData.data.idCargo);
 				alert(retrievedData.data.activo);
 				if (retrievedData.data.activo == '1') {
-					alert('ACTIVO');
+					//alert('ACTIVO');
 					$("#chkUsuarioActivo").attr('checked', true);
 				} else {
-					alert('INACTIVO');
+					//alert('INACTIVO');
 					$("#chkUsuarioActivo").attr('checked', false);
 				}
 			}
