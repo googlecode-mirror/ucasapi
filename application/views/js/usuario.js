@@ -172,7 +172,7 @@ function loadGridTR() {
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
 		sortorder : "desc",
-		loadonce : true,
+		//loadonce : true,
 		viewrecords : true,
 		gridview : true,
 		caption : "Roles"
