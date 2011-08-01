@@ -29,14 +29,19 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = (int) $this->input->post("idDepto");
 		$idCargo = (int) $this->input->post("idCargo");
-		$rol_rows = $this->input->post("rol_data");
+		$fechaNacimiento = (int) $this->input->post("fechaNacimiento");
+		$telefonoContacto = (int) $this->input->post("telefonoContacto");
+		$extension = (int) $this->input->post("extension");
+		
+		
+		$rol_rows = $this->input->post("rol_data");		
 
 		// guardar los datos basicos de usuario
-		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo)
+		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo, fechaNacimiento, telefonoContacto, extension)
 				VALUES (".$this->db->escape($username).", ".$this->db->escape($password).", ".$this->db->escape($primerNombre).", ".$this->db->escape($primerApellido)."
 				, ".$this->db->escape($otrosNombres).", ".$this->db->escape($otrosApellidos).", ".$this->db->escape($codEmp).", ".$this->db->escape($dui).", ".$this->db->escape($nit)."
 				, ".$this->db->escape($isss).", ".$this->db->escape($emailPersonal).", ".$this->db->escape($emailInstitucional).", ".$this->db->escape($nup)."
-				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).")";
+				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).",".$this->db->escape($fechaNacimiento).",'".$this->db->escape($telefonoContacto)."',".$this->db->escape($extension).")";
 
 
 		/*********************************************************************************/
@@ -117,7 +122,7 @@ class UsuarioModel extends CI_Model{
 
 		$idUsuario = $this->input->post("idUsuario");
 
-		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo
+		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo, fechaNacimiento, telefonoContacto, extension 
 				FROM DEPARTAMENTO D, USUARIO U, CARGO C
 				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
 				idUsuario = ".$idUsuario;
@@ -160,6 +165,10 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = $this->input->post("idDepto");
 		$idCargo = $this->input->post("idCargo");
+		$fechaNacimiento = $this->input->post("fechaNacimiento");
+		$telefonoContacto = $this->input->post("telefonoContacto");
+		$extension = $this->input->post("extension");
+		
 		$rol_rows = $this->input->post("rol_data");
 
 
@@ -180,7 +189,10 @@ class UsuarioModel extends CI_Model{
 				    carnet=".$this->db->escape($carnet).",
 				    idDepto=".$this->db->escape($idDepto).",
 				    idCargo=".$this->db->escape($idCargo).",
-				    activo=".$this->db->escape($activo)."
+				    activo=".$this->db->escape($activo).",
+				    telefonoContacto=".$this->db->escape($telefonoContacto).",
+				    extension=".$this->db->escape($extension).",
+				    fechaNacimiento=".$this->db->escape($fechaNacimiento)."
 				     WHERE idUsuario = ". $idUsuario;	
 
 		// transaccion de actualización
