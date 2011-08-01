@@ -457,8 +457,10 @@ function cancel() {
 
 function clear() {
 	$(".inputField").val("");
+	$(".jqcalendario").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	$("#chkUsuarioActivo").attr('checked', false);
 }
 
 $("#chkUsuarioActivo").change(function() {

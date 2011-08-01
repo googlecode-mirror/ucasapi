@@ -2,12 +2,12 @@ $(document).ready(function() {
 	js_ini();
 	// $("#chkUsuarioActivo").button();
 	proyectoAutocomplete();
-	//proyectoUsuarioAutocomplete();
-	proyectoUsuarioDuenhoAutocomplete();	
+	// proyectoUsuarioAutocomplete();
+	proyectoUsuarioDuenhoAutocomplete();
 });
 
 function proyectoAutocomplete() {
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/proyecto/proyectoAutocompleteRead",
 		data : "proyectoAutocomplete",
@@ -16,7 +16,7 @@ function proyectoAutocomplete() {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
 			} else {
-				$("#txtRecords").autocomplete({
+				$("#txtRecords").autocomplete( {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
@@ -33,7 +33,7 @@ function proyectoAutocomplete() {
 }
 
 function proyectoUsuarioAutocomplete() {
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/proyecto/proyectoUsuarioAutocompleteRead",
 		data : "proyectoUsuarioAutocomplete",
@@ -42,7 +42,7 @@ function proyectoUsuarioAutocomplete() {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
-				$("#txtRecordsUsuario").autocomplete({
+				$("#txtRecordsUsuario").autocomplete( {
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -58,7 +58,7 @@ function proyectoUsuarioAutocomplete() {
 }
 
 function proyectoUsuarioDuenhoAutocomplete() {
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/proyecto/proyectoUsuarioAutocompleteRead",
 		data : "proyectoUsuarioDuenhoAutocomplete",
@@ -67,7 +67,7 @@ function proyectoUsuarioDuenhoAutocomplete() {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
-				$("#txtProyectoNombreDuenho").autocomplete({
+				$("#txtProyectoNombreDuenho").autocomplete( {
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -82,7 +82,6 @@ function proyectoUsuarioDuenhoAutocomplete() {
 	});
 }
 
-
 function save() {
 	var formData = "";
 	formData += "idProyecto=" + $("#idProyecto").val();
@@ -93,7 +92,7 @@ function save() {
 	formData += "&fechaRealFin=" + $("#txtProyectoFechaRealFin").val();
 	formData += "&descripcion=" + $("#txtProyectoDescripcion").val();
 	formData += "&idUsuarioDuenho=" + $("#idUsuarioDuenho").val();
-	
+
 	if ($("#chkProyectoActivo").is(':checked')) {
 		alert('ACTIVO');
 		formData += "&activo=1";
@@ -106,7 +105,7 @@ function save() {
 
 	if (validar_campos()) {
 
-		$.ajax({
+		$.ajax( {
 			type : "POST",
 			url : "index.php/proyecto/proyectoValidateAndSave",
 			data : formData,
@@ -122,7 +121,7 @@ function save() {
 						alert("Registro actualizado con éxito");
 					}
 					proyectoAutocomplete();
-					proyectoUsuarioDuenhoAutocomplete();	
+					proyectoUsuarioDuenhoAutocomplete();
 					clear();
 				}
 			}
@@ -136,7 +135,7 @@ function save() {
 function edit() {
 	var formData = "idProyecto=" + $("#idProyecto").val();
 
-	$.ajax({
+	$.ajax( {
 		type : "POST",
 		url : "index.php/proyecto/proyectoRead",
 		data : formData,
@@ -147,7 +146,8 @@ function edit() {
 
 			} else {
 				$("#txtProyectoNombre").val(retrievedData.data.nombreProyecto);
-				$("#txtProyectoNombreDuenho").val(retrievedData.data.nombreUsuario);
+				$("#txtProyectoNombreDuenho").val(
+						retrievedData.data.nombreUsuario);
 				$("#txtProyectoFechaPlanIni").val(
 						retrievedData.data.fechaPlanIni);
 				$("#txtProyectoFechaPlanFin").val(
@@ -155,9 +155,11 @@ function edit() {
 				$("#txtProyectoFechaRealIni").val(
 						retrievedData.data.fechaRealIni);
 				$("#txtProyectoFechaRealFin").val(
-						retrievedData.data.fechaRealFin);				
+						retrievedData.data.fechaRealFin);
 				$("#idUsuarioDuenho").val(retrievedData.data.idUsuario);
-				if(retrievedData.data.activo == '1'){
+				$("#txtProyectoDescripcion")
+						.val(retrievedData.data.descripcion);
+				if (retrievedData.data.activo == '1') {
 					alert('ACTIVO');
 					$("#chkProyectoActivo").attr('checked', true);
 				} else {
@@ -177,7 +179,7 @@ function deleteData() {
 			+ $("#txtRecords").val() + " ?");
 
 	if (answer) {
-		$.ajax({
+		$.ajax( {
 			type : "POST",
 			url : "index.php/proyecto/proyectoDelete",
 			data : formData,
@@ -191,7 +193,7 @@ function deleteData() {
 					msgBoxSucces("Registro eliminado con éxito");
 
 					proyectoAutocomplete();
-					proyectoUsuarioAutocomplete();	
+					proyectoUsuarioAutocomplete();
 					clear();
 				}
 			}
@@ -200,7 +202,7 @@ function deleteData() {
 	}
 }
 
-function validar_campos() {	
+function validar_campos() {
 	// aqui poner las validaciones
 	return (true)
 }
@@ -213,8 +215,10 @@ function cancel() {
 
 function clear() {
 	$(".inputField").val("");
+	$(".jqcalendario").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	$("#chkProyectoActivo").attr('checked', false);
 }
 
 $("#chkUsuarioActivo").change(function() {
