@@ -114,8 +114,7 @@ class solicitudModel extends CI_Model {
 		$query = "SELECT " .
 						"s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente, " .
 						"CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente, " .
-						"c.nombreCargo cargo, d.nombreDepto depto, " .
-						"us.esAutor " .
+						"c.nombreCargo cargo, d.nombreDepto depto " .
 					"FROM SOLICITUD s " .
 					"INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
 					"INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario) " .
@@ -210,4 +209,71 @@ class solicitudModel extends CI_Model {
 		
 		return $response;
 	}
+
+	function misSolicitudes($esAutor) {
+		$this->load->database();
+		$this->load->library('session');	
+		$idUsuario = $this->session->userdata("idUsuario"); 
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		// $idDepto = is_null($idDepto) ? -1 : $idDepto;
+		
+		
+		$sql = "SELECT COUNT(*) " .
+				"FROM SOLICITUD s " .
+				"INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
+				"WHERE us.idUsuario = ? AND us.esAutor = ?";
+		$query = $this->db->query($sql, array($idUsuario, $esAutor));
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		//-------------------------
+
+		$sql = "SELECT " .
+					"s.anioSolicitud anio, s.correlAnio correl, s.tituloSolicitud titulo, s.fechaEntrada fechaEntrada " .
+				"FROM SOLICITUD s " .
+				"INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
+				"WHERE us.idUsuario = ? AND us.esAutor = ?";
+		
+		$query = $this->db->query($sql, array($idUsuario, $esAutor));
+		
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $row->anio . "-" . $row->correl;
+					$response->rows[$i]["cell"] = array($row->fechaEntrada, $row->titulo);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+		
+	}
+	
+	
 }

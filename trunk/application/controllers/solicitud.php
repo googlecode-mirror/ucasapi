@@ -42,4 +42,9 @@ class Solicitud extends CI_Controller {
 		$this->load->model("solicitudModel");	
 		echo json_encode($this->solicitudModel->gridSolicitudRead($id));
 	}
+	
+	function misSolicitudes($esAutor) {
+		$this->load->model("solicitudModel");
+		echo json_encode($this->solicitudModel->misSolicitudes($esAutor));
+	}
 } 
