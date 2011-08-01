@@ -19,8 +19,8 @@ class Proyecto extends CI_Controller{
 	}
 
 	function proyectoUsuarioAutocompleteRead(){
-		$this->load->model("usuarioModel");
-		echo json_encode($this->usuarioModel->autocompleteRead());
+		$this->load->model("proyectoModel");
+		echo json_encode($this->proyectoModel->autocompleteUsuarioProyectoRead());
 	}
 
 
