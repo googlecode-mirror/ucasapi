@@ -29,7 +29,7 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = (int) $this->input->post("idDepto");
 		$idCargo = (int) $this->input->post("idCargo");
-		$rol_rows = $this->input->post("rol_rows");
+		$rol_rows = $this->input->post("rol_data");
 
 		// guardar los datos basicos de usuario
 		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo)
@@ -45,9 +45,9 @@ class UsuarioModel extends CI_Model{
 		$this->db->query($sql);
 
 		if($rol_rows != ""){
-			echo "hola";
+			//echo "hola";
 			// tomar el id del usuario que estoy guardando, pregunatando por el username
-			$sql = "SELECT idUsuario FROM USUARIO WHERE username = ".$username;
+			$sql = "SELECT idUsuario FROM USUARIO WHERE username = '".$username."'";
 			$query = $this->db->query($sql);
 			if ($query->num_rows() > 0)
 			{
@@ -56,7 +56,7 @@ class UsuarioModel extends CI_Model{
 			}
 			// formando arreglo con los parametros de insert
 			$data_array = explode("|",$rol_rows);
-			$insert_statements = getRolInsert($data_array, $idUsuario);
+			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
 			foreach ($insert_statements as $queryRoles) {
 				$this->db->query($queryRoles);
 			}
@@ -67,7 +67,7 @@ class UsuarioModel extends CI_Model{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
-		} else {
+		} else {			
 			$this->db->trans_commit();
 		}
 
@@ -97,7 +97,12 @@ class UsuarioModel extends CI_Model{
 			if($counter == 3){
 				$fechaAsignacionSistema = $value;
 				$counter = 1;
-				$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsignacionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",".$fechaAsignacionSistema.")";
+				if($fechaAsignacionSistema == "null"){
+					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",CURRENT_TIMESTAMP)";
+				}else{
+					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",".$fechaAsignacionSistema.")";
+				}			
+				
 				continue;
 			}
 		}
@@ -278,6 +283,7 @@ class UsuarioModel extends CI_Model{
 		return $retArray;
 	}
 
+	// este es el grid donde estan todos los roles asignables
 	function gridUsuarioRead($idUsuario=null){
 		$this->load->database();
 
@@ -288,7 +294,7 @@ class UsuarioModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 
-		$idUsuario = is_null($idUsuario) ? -1 : $idUsuario;
+		$idUsuario = is_null($idUsuario) ? -1 : (int)$idUsuario;
 
 
 		$sql = "SELECT COUNT(*) AS count FROM ROL R WHERE idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
@@ -342,7 +348,7 @@ class UsuarioModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 
-		$idUsuario = is_null($idUsuario) ? -1 : $idUsuario;
+		$idUsuario = is_null($idUsuario) ? -1 :(int) $idUsuario;
 
 
 		$sql = "SELECT COUNT(*) AS count FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario);
