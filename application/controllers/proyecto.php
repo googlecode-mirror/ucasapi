@@ -12,7 +12,6 @@ class Proyecto extends CI_Controller{
 		echo json_encode($this->proyectoModel->read());
 	}
 
-
 	function proyectoAutocompleteRead(){
 		$this->load->model("proyectoModel");
 		echo json_encode($this->proyectoModel->autocompleteRead());
@@ -31,7 +30,6 @@ class Proyecto extends CI_Controller{
 
 		echo json_encode($deleteInfo);
 	}
-
 
 	function proyectoValidateAndSave(){
 		$this->load->model("proyectoModel");
