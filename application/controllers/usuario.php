@@ -22,7 +22,6 @@ class Usuario extends CI_Controller{
 		echo json_encode($this->usuarioModel->read());
 	}
 
-
 	function usuarioDepartamentoAutocompleteRead(){
 		$this->load->model("departamentoModel");
 
@@ -72,7 +71,6 @@ class Usuario extends CI_Controller{
 
 		echo json_encode($deleteInfo);
 	}
-
 
 	function usuarioValidateAndSave(){
 		$this->load->model("usuarioModel");
