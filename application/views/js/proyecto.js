@@ -147,6 +147,7 @@ function edit() {
 
 			} else {
 				$("#txtProyectoNombre").val(retrievedData.data.nombreProyecto);
+				$("#txtProyectoNombreDuenho").val(retrievedData.data.nombreUsuario);
 				$("#txtProyectoFechaPlanIni").val(
 						retrievedData.data.fechaPlanIni);
 				$("#txtProyectoFechaPlanFin").val(
@@ -155,7 +156,7 @@ function edit() {
 						retrievedData.data.fechaRealIni);
 				$("#txtProyectoFechaRealFin").val(
 						retrievedData.data.fechaRealFin);				
-				$("#idUsuario").val(retrievedData.data.idUsuario);
+				$("#idUsuarioDuenho").val(retrievedData.data.idUsuario);
 				if(retrievedData.data.activo == '1'){
 					alert('ACTIVO');
 					$("#chkProyectoActivo").attr('checked', true);

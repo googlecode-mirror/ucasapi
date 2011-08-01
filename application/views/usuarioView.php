@@ -61,64 +61,67 @@
 				<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>				
 				
 				<span class = "inputFieldLabel">Codigo empleado:</span>
-				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA"/><br>
 							
 				<span class = "inputFieldLabel">Primer nombre:</span>
-				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField" title = "Primer nombre del usuario"/><br>
 				
 				<span class = "inputFieldLabel">Otros Nombre:</span>
-				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField" title = "Otros nombres del usuario"/><br>
 				
 				<span class = "inputFieldLabel">Primer Apellido:</span>
-				<input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField" title = "Primer apellido del usuario "/><br>
 				
 				<span class = "inputFieldLabel">Otros Apellidos:</span>
-				<input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField" title = "Otros apellidos del usuario"/><br>
+				
+				<span class = "inputFieldLabel">Fecha nacimiento:</span>
+				<input id="txtProyectoFechaNacimiento" type="text"  value="" class = "jqcalendario" title = "Fecha nacimiento del usuario"/><br>
 				
 				<span class = "inputFieldLabel">Usuario sistema:</span>
-				<input id="txtUsuarioUserName" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioUserName" type="text"  value="" class = "inputField" title = "Nombre de usuario de sistema"/><br>
 
 				<span class = "inputFieldLabel">Contraseña:</span>
-				<input id="txtUsuarioPassword" type="password"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioPassword" type="password"  value="" class = "inputField" title = "Contraseña para el usuario"/><br>
 				
 				<span class = "inputFieldLabel">Confirmar:</span>
-				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputField" title = "Confirmación de contrasela"/><br>
 				
 				<span class = "inputFieldLabel">DUI:</span>
-				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField"/><br>				
+				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario"/><br>				
 				
 				<span class = "inputFieldLabel">NIT:</span>
-				<input id="txtUsuarioNIT" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria"/><br>
 				
 				<span class = "inputFieldLabel">ISSS:</span>
-				<input id="txtUsuarioISSS" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS"/><br>
 				
 				<span class = "inputFieldLabel">NUP:</span>
-				<input id="txtUsuarioNUP" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP"/><br>
 				
 				<span class = "inputFieldLabel">Departamento:</span>
-				<input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField" title = "Departamento universitario al que pertenece"/><br>
 				
 				<span class = "inputFieldLabel">Cargo:</span>
-				<input id="txtUsuarioCargo" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioCargo" type="text"  value="" class = "inputField" title = "Cargo que desempeña en la universidad"/><br>
 				
 				<span class = "inputFieldLabel">Carnet:</span>
-				<input id="txtUsuarioCarnet" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA"/><br>
 				
 				<span class = "inputFieldLabel">Email Personal:</span>
-				<input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField" title = "Dirección de correo electronico personal"/><br>
 				
 				<span class = "inputFieldLabel">Email Institucional:</span>
-				<input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField" title = "Dirección de correo electronico institucional"/><br>
 				
 				<span class = "inputFieldLabel">Telefono Contacto:</span>
-				<input id="txtUsuarioTelefono" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioTelefono" type="text"  value="" class = "inputField" title = "Teléfono de contacto personal"/><br>
 				
 				<span class = "inputFieldLabel">Extension:</span>
-				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField"/><br>
+				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA"/><br>
 				
 				<span class = "inputFieldLabel">Activo:</span>
-				<input id="chkUsuarioActivo" type="checkbox" value="1"/><br>
+				<input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema"/><br>
 				
 			</div>
 			<!-- <div class="divDataForm" style="height: 250px" align="center">  -->

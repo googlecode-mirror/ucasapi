@@ -247,6 +247,7 @@ function save() {
 	formData += "&idDepto=" + $("#idDepto").val();
 	formData += "&extension=" + $("#txtUsuarioExtension").val();
 	formData += "&telefonoContacto=" + $("#txtUsuarioTelefono").val();
+	formData += "&fechaNacimiento=" + $("#txtProyectoFechaNacimiento").val();
 
 	rol_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
@@ -259,10 +260,10 @@ function save() {
 	formData += "&rol_data=" + gridData;
 
 	if ($("#chkUsuarioActivo").is(':checked')) {
-		alert('ACTIVO');
+		//alert('ACTIVO');
 		formData += "&activo=1";
 	} else {
-		alert('INACTIVO');
+		//alert('INACTIVO');
 		formData += "&activo=0";
 	}
 
@@ -369,7 +370,10 @@ function edit() {
 				$("#txtUsuarioExtension").val(retrievedData.data.extension);
 				$("#idDepto").val(retrievedData.data.idDepto);
 				$("#idCargo").val(retrievedData.data.idCargo);
-				alert(retrievedData.data.activo);
+				$("#txtProyectoFechaNacimiento").val(retrievedData.data.fechaNacimiento);
+				$("#txtUsuarioTelefono").val(retrievedData.data.telefonoContacto);
+				$("#txtUsuarioExtension").val(retrievedData.data.extension);
+				//alert(retrievedData.data.activo);
 				if (retrievedData.data.activo == '1') {
 					//alert('ACTIVO');
 					$("#chkUsuarioActivo").attr('checked', true);

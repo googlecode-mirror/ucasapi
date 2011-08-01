@@ -4,7 +4,7 @@ function js_ini(){
 	$('.divActions').addClass("ui-corner-all");
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
-	$(".jqcalendario").datepicker();
+	$(".jqcalendario").datepicker({ dateFormat: 'yy-mm-dd' });
 	$( "#tabs" ).tabs();
 	//$("#logoutButton").tooltip();
 	$("#btnSave").button({icons: {primary: "ui-icon-disk"}});
