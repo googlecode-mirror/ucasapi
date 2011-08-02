@@ -150,7 +150,7 @@ function loadGrid() {
 // grid donde se encuentran todos los roles asignables
 function loadGridTR() {
 
-	$("#todosRoles").jqGrid( {
+	$("#list").jqGrid( {
 		url : "index.php/usuario/gridRead/" + $("#idUsuario").val(),
 		datatype : "json",
 		mtype : "POST",
