@@ -1,5 +1,5 @@
 <?php
-class Usuario extends CI_Controller{
+class historicoUsuario extends CI_Controller{
 
 	function index(){
 		$this->load->library('session');
@@ -14,7 +14,7 @@ class Usuario extends CI_Controller{
 			$this->load->view("usuarioView");
 			}*/
 
-		$this->load->view("usuarioView");
+		$this->load->view("historicoUsuarioView");
 	}
 
 	function usuarioRead(){
@@ -31,9 +31,9 @@ class Usuario extends CI_Controller{
 	}
 
 	function usuarioAutocompleteRead(){
-		$this->load->model("usuarioModel");
+		$this->load->model("historicoUsuarioModel");
 
-		$autocompleteData = $this->usuarioModel->autocompleteRead();
+		$autocompleteData = $this->historicoUsuarioModel->autocompleteRead();
 
 		echo json_encode($autocompleteData);
 	}
@@ -59,9 +59,9 @@ class Usuario extends CI_Controller{
 		echo json_encode($this->usuarioModel->gridUsuarioRead($idUsuario));
 	}
 
-	function gridRolesUsuarioRead($idUsuario){
-		$this->load->model("usuarioModel");
-		echo json_encode($this->usuarioModel->gridRolesUsuarioRead($idUsuario));
+	function gridContratoUsuarioRead($idUsuario){
+		$this->load->model("historicoUsuarioModel");
+		echo json_encode($this->historicoUsuarioModel->gridContratoUsuarioRead($idUsuario));
 	}
 
 	function usuarioDelete(){
