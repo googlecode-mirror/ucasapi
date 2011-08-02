@@ -144,7 +144,7 @@ function loadGrid() {
 				viewrecords : true,
 				gridview : true,
 				caption : "Roles"
-			});
+			});z
 }
 
 // grid donde se encuentran todos los roles asignables
