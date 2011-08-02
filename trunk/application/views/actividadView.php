@@ -102,13 +102,13 @@
 						<div id="pager"></div>
 					</td>
 					<td align="center">
-						<button id="btnAsignar" onClick="asignar()">Asignar</button>
-						<button id="btnDesasignar" onClick="desasignar()">Desasignar</button>
+						<button id="btnAsignar" onClick="asignar()">Asignar >></button>
 					</td>	
 					<td>
 						<table id="list" align="center"><tr><td/></tr></table>
 						<div id="pagerTR"></div>
-					</td>				
+					</td>
+				</tr>			
 		</table>
 		<br><br>
 		<div class="divActions">

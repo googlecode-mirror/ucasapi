@@ -213,3 +213,14 @@ function desasignar() {
 		$("#list").delRowData(row_id);
 	}
 }
+
+function cancel() {
+	// $("#btnCancel").toggleClass('ui-state-active');
+	clear();
+}
+
+function clear() {
+	$(".inputField").val("");
+	$(".jqcalendario").val("");
+	$(".hiddenId").val("");
+}
