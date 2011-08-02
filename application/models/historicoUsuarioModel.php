@@ -1,6 +1,6 @@
 <?php
 
-class UsuarioModel extends CI_Model{
+class historicoUsuarioModel extends CI_Model{
 
 
 	function create(){
@@ -257,7 +257,7 @@ class UsuarioModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,' ',if(activo=1,'(ACTIVO)','(INACTIVO)')) nombreUsuario FROM USUARIO";
+		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,) nombreUsuario FROM USUARIO WHERE activo='1'";
 		$query = $this->db->query($sql);
 
 		if($query){
@@ -319,8 +319,8 @@ class UsuarioModel extends CI_Model{
 		return $retArray;
 	}
 
-	// este es el grid donde estan todos los roles asignables
-	function gridUsuarioRead($idUsuario=null){
+	// llena el grid de los contratos del usuario
+	function gridContratoUsuarioRead($idUsuario=null){
 		$this->load->database();
 
 		$page = $this->input->post("page");
@@ -333,7 +333,7 @@ class UsuarioModel extends CI_Model{
 		$idUsuario = is_null($idUsuario) ? -1 : (int)$idUsuario;
 
 
-		$sql = "SELECT COUNT(*) AS count FROM ROL R WHERE idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
+		$sql = "SELECT COUNT(*) AS count FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0){
@@ -357,15 +357,15 @@ class UsuarioModel extends CI_Model{
 
 		//-------------------------
 
-		$sql = "SELECT idRol, nombreRol FROM ROL WHERE idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
+		$sql = "SELECT idUsuario, correlativoUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
 		$query = $this->db->query($sql);
 
 		$i = 0;
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
-					$response->rows[$i]["id"] = $row->idRol;
-					$response->rows[$i]["cell"] = array($row->idRol, $row->nombreRol,"null");
+					$response->rows[$i]["id"] = $i;// de esto no estoy del todo seguro
+					$response->rows[$i]["cell"] = array($row->fechaInicioContrato,$row->fechaFinContrato,$row->tiempoContrato,$row->correlativoUsuarioHistorico, $row->idUsuario,"null");
 					$i++;
 				}
 			}
