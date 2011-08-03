@@ -917,7 +917,7 @@ class CI_Upload {
 	 * @param	string
 	 * @return	string
 	 */
-	public function display_errors($open = '<p>', $close = '</p>')
+	public function display_errors($open = '', $close = '')//modificado por problemilla con eval, anteriormente: ($open = '<p>', $close = '</p>')
 	{
 		$str = '';
 		foreach ($this->error_msg as $val)
