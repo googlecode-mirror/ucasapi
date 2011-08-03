@@ -230,7 +230,7 @@ body {
 }
 
 /* nilson */
-/*.divDataForm select{
+.divDataForm select{
 	height : 20px;
 	float:right;
 	width : 256px;
@@ -238,7 +238,7 @@ body {
 	margin-right : 96px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
-}*/
+}
 
 .divActions select{
 	float:right;
@@ -331,7 +331,17 @@ body {
 	text-decoration:underline;
 }
 
-.divDataForm .inputField, .inputFieldAC, .inputFieldPSW, .inputFieldFile{
+.divDataForm .inputField, .inputFieldAC, .inputFieldFile, .jqcalendario{
+	height : 20px;
+	float:right;
+	width : 256px;
+	margin-top : 20px;
+	margin-right : 96px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
+}
+
+.divDataForm  .inputFieldPSW{
 	height : 20px;
 	float:right;
 	width : 256px;
@@ -358,12 +368,12 @@ body {
 	float:right;
 	width : 256px;
 	margin-top : 20px;
-	margin-right : 180px;
+	margin-right : 160px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
 }
 
-/*.divDataForm select{
+.divDataForm select{
 	float:right;
 	width : 100px;
 	margin-right : 252px;
@@ -372,7 +382,7 @@ body {
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
 	resize : none;
-}*/
+}
 
 .divDataForm .span{
 	display: inline;
