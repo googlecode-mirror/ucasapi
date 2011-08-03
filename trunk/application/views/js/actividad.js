@@ -9,6 +9,8 @@ $(document).ready(function(){
 	loadGridTR();
 });
 
+var idUsuariosQuitar = new Array();
+
 function estadoAutocomplete(){
 	$.ajax({				
 		type: "POST",
@@ -53,6 +55,12 @@ function save(){
 	};
 	
 	formData += "&user_data=" + gridData;
+	if(idUsuariosQuitar.length != 0){
+		formData += "&remove_data=" + idUsuariosQuitar;
+	}
+	else{
+		formData += "&remove_data=0"; 
+	}
 
 	$.ajax({
 		type: "POST",
@@ -180,7 +188,7 @@ function loadGridTR() {
 function asignar() {
 	row_id = $("#todosUsuarios").jqGrid("getGridParam", "selrow");
 	row_data = $("#todosUsuarios").jqGrid("getRowData", row_id);
-
+	
 	if (row_id != null) {
 		num_rows = $("#list").getGridParam("records"); 
 		new_row_data = {
@@ -189,6 +197,10 @@ function asignar() {
 				"nombre" : row_data["nombre"],
 				"nombreRol" : row_data["nombreRol"]
 		};
+		//Eliminar del array el ID del usuario que ya no se va desasignar...
+		var index = idUsuariosQuitar.indexOf(row_data["idUsuario"]);
+		if(index != -1) idUsuariosQuitar.splice(index,1);
+		
 		$("#list").addRowData(num_rows + 1, new_row_data);
 		$("#todosUsuarios").delRowData(row_id);
 	}
@@ -198,7 +210,7 @@ function asignar() {
 function desasignar() {
 	row_id = $("#list").jqGrid("getGridParam", "selrow");
 	row_data = $("#list").jqGrid("getRowData", row_id);
-
+	
 	if (row_id != null) {
 		num_rows = $("#todosUsuarios").getGridParam("records");
 	
@@ -208,6 +220,9 @@ function desasignar() {
 				"nombre" : row_data["nombre"],
 				"nombreRol" : row_data["nombreRol"]
 		};
+		//Insertar en array de IDs el id del usuario que se va a desasignar...
+		idUsuariosQuitar.push(row_data["idUsuario"]);
+		
 		$("#todosUsuarios").addRowData(num_rows + 1, new_row_data);
 
 		$("#list").delRowData(row_id);
