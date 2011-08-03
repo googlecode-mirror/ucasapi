@@ -249,6 +249,16 @@ body {
 	font-size: 1em;	
 }
 
+.divDataForm textArea{
+	float:right;
+	width : 256px;
+	margin-top : 20px;
+	margin-right : 96px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;
+	resize: none;
+}
+
 /*-------------------------------Div de mensaje informativo------------------------------*/
 #msgBox{
 	display:none;
@@ -338,7 +348,7 @@ body {
 	margin-top : 20px;
 	margin-right : 96px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
-	font-size: 1em;	
+	font-size: 1em;
 }
 
 .divDataForm  .inputFieldPSW{
@@ -438,7 +448,6 @@ body {
 	margin-top : 10px;
 	margin-right : 96px;
 }
-
 
 .divUploadButton, .divAddButton {
 	margin-top: 30px;

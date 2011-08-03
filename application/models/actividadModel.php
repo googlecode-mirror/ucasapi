@@ -68,16 +68,29 @@ class actividadModel extends CI_Model{
 		$progreso = $this->input->post("progreso");
 		$comentario = $this->input->post("comentario");
 		$user_rows = $this->input->post("user_data");
+		$remove_ids = $this->input->post("remove_data");
 		
-		
+		//Manejando la transaccion
 		$this->db->trans_begin();
+		//Actualizando el estado de la actividad
 		$sql = "UPDATE ACTIVIDAD SET idEstado = ".$idEstado." WHERE idActividad = ".$idActividad;
-		//echo "QUERY 1: " .$sql; 
-		$query = $this->db->query($sql);
-		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1)";
-		//echo "QUERY 2: " .$sql;
 		$query = $this->db->query($sql);
 		
+		//Desasignando a los usuarios de la actividad
+		$id_array = explode(",",$remove_ids);
+		echo "COUNT IDs: " .count($id_array);
+		if($id_array[0] != 0){
+			foreach ($id_array as $element){
+				$sql = "UPDATE usuario_actividad SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;
+				$this->db->query($sql);
+			}
+		}
+		
+		//Actualizando la informacion de la actividad
+		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1)";
+		$query = $this->db->query($sql);
+		
+		//Asignando a los usuarios a la actividad
 		$statements = new actividadModel();
 		$data_array = explode("|",$user_rows);
 		$insert_statements = $statements->execUAInsert($data_array, $idUsuario);
@@ -175,11 +188,8 @@ class actividadModel extends CI_Model{
 				FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
         			ON rxu.idUsuario = u.idUsuario
         		WHERE (r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5)
-            		AND u.idUsuario NOT IN (SELECT u.idUsuario
-                		FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
-	                    	ON rxu.idUsuario = u.idUsuario INNER JOIN Usuario_Actividad uxa
-                    		ON u.idUsuario = uxa.idUsuario
-                		WHERE uxa.idActividad = " . $idActividad . ")";
+            		AND u.idUsuario NOT IN (SELECT u.idUsuario FROM Usuario u INNER JOIN Usuario_Actividad uxa
+                ON u.idUsuario = uxa.idUsuario WHERE uxa.idActividad = " . $idActividad ." AND uxa.activo = '1')";
 		
 		
 		$query = $this->db->query($sql);
@@ -243,7 +253,7 @@ class actividadModel extends CI_Model{
     			FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
     			ON rxu.idUsuario = u.idUsuario INNER JOIN Usuario_Actividad uxa
     			ON u.idUsuario = uxa.idUsuario
-    			WHERE uxa.idActividad = 1";
+    			WHERE uxa.idActividad = 1 AND uxa.activo = '1'";
 		
 		$query = $this->db->query($sql);
 
