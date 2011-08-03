@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	js_ini();
 	// $("#chkUsuarioActivo").button();
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
@@ -143,14 +142,14 @@ function loadGrid() {
 				//loadonce : true,
 				viewrecords : true,
 				gridview : true,
-				caption : "Roles"
-			});z
+				caption : "Roles del usuario"
+			});
 }
 
 // grid donde se encuentran todos los roles asignables
 function loadGridTR() {
 
-	$("#list").jqGrid( {
+	$("#todosRoles").jqGrid( {
 		url : "index.php/usuario/gridRead/" + $("#idUsuario").val(),
 		datatype : "json",
 		mtype : "POST",
@@ -176,7 +175,7 @@ function loadGridTR() {
 		//loadonce : true,
 		viewrecords : true,
 		gridview : true,
-		caption : "Roles"
+		caption : "Roles asignables"
 	});
 }
 
