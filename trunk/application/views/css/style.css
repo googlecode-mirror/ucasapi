@@ -230,7 +230,7 @@ body {
 }
 
 /* nilson */
-.divDataForm select{
+/*.divDataForm select{
 	height : 20px;
 	float:right;
 	width : 256px;
@@ -238,7 +238,7 @@ body {
 	margin-right : 96px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
-}
+}*/
 
 .divActions select{
 	float:right;
@@ -311,6 +311,8 @@ body {
 	width : 576px;
 	height : 320px;
 	margin: 0 auto;
+	padding-left : 0px;
+	padding-right : 0px;
 	border-style:solid;
 	border-width:1px;
 	border-color: #BFBFBF;
@@ -361,7 +363,7 @@ body {
 	font-size: 1em;	
 }
 
-.divDataForm select{
+/*.divDataForm select{
 	float:right;
 	width : 100px;
 	margin-right : 252px;
@@ -370,7 +372,7 @@ body {
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
 	resize : none;
-}
+}*/
 
 .divDataForm .span{
 	display: inline;
@@ -428,7 +430,8 @@ body {
 }
 
 
-.divUploadButton {
+.divUploadButton, .divAddButton {
+	margin-top: 30px;
 	clear : both;
 	text-align: center;
 }
@@ -468,8 +471,9 @@ body {
 	font-size:0.8em;
 }
 .gridView{
-	clear : both;
-	text-align : center;
+	clear:both;
+	margin: 0 auto;
+	margin-top : 30px;
 }
 
 /*********************************************************************************/
@@ -486,4 +490,19 @@ body {
 }
 #descripcion{
 	width: 450px;
+}
+
+/*---------------------- MARVIN css ---------------------*/
+.divContratoButtons{
+	margin-top : 30px;
+	clear : both;
+	text-align : center;
+}
+
+.divContratoButtons button{
+	clear : both;
+	margin-left : 10px;
+	margin-bottom : 20px;
+	width : 120px;
+	font-size: 0.9em;	
 }
