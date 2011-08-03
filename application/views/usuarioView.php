@@ -63,31 +63,31 @@
 				<span class = "inputFieldLabel">Codigo empleado:</span>
 				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA"/><br>
 							
-				<span class = "inputFieldLabel">Primer nombre:</span>
+				<span class = "requiredFieldLabel">Primer nombre:</span>
 				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField" title = "Primer nombre del usuario"/><br>
 				
 				<span class = "inputFieldLabel">Otros Nombre:</span>
 				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField" title = "Otros nombres del usuario"/><br>
 				
-				<span class = "inputFieldLabel">Primer Apellido:</span>
+				<span class = "requiredFieldLabel">Primer Apellido:</span>
 				<input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField" title = "Primer apellido del usuario "/><br>
 				
 				<span class = "inputFieldLabel">Otros Apellidos:</span>
 				<input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField" title = "Otros apellidos del usuario"/><br>
 				
-				<span class = "inputFieldLabel">Fecha nacimiento:</span>
+				<span class = "requiredFieldLabel">Fecha nacimiento:</span>
 				<input id="txtProyectoFechaNacimiento" type="text"  value="" class = "jqcalendario" title = "Fecha nacimiento del usuario"/><br>
 				
-				<span class = "inputFieldLabel">Usuario sistema:</span>
+				<span class = "requiredFieldLabel">Usuario sistema:</span>
 				<input id="txtUsuarioUserName" type="text"  value="" class = "inputField" title = "Nombre de usuario de sistema"/><br>
 
-				<span class = "inputFieldLabel">Contraseña:</span>
-				<input id="txtUsuarioPassword" type="password"  value="" class = "inputField" title = "Contraseña para el usuario"/><br>
+				<span class = "requiredFieldLabel">Contraseña:</span>
+				<input id="txtUsuarioPassword" type="password"  value="" class = "inputFieldPSW" title = "Contraseña para el usuario"/><br>
 				
-				<span class = "inputFieldLabel">Confirmar:</span>
-				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputField" title = "Confirmación de contrasela"/><br>
+				<span class = "requiredFieldLabel">Confirmar:</span>
+				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contrasela"/><br>
 				
-				<span class = "inputFieldLabel">DUI:</span>
+				<span class = "requiredFieldLabel">DUI:</span>
 				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario"/><br>				
 				
 				<span class = "inputFieldLabel">NIT:</span>
@@ -99,10 +99,10 @@
 				<span class = "inputFieldLabel">NUP:</span>
 				<input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP"/><br>
 				
-				<span class = "inputFieldLabel">Departamento:</span>
+				<span class = "requiredFieldLabel">Departamento:</span>
 				<input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField" title = "Departamento universitario al que pertenece"/><br>
 				
-				<span class = "inputFieldLabel">Cargo:</span>
+				<span class = "requiredFieldLabel">Cargo:</span>
 				<input id="txtUsuarioCargo" type="text"  value="" class = "inputField" title = "Cargo que desempeña en la universidad"/><br>
 				
 				<span class = "inputFieldLabel">Carnet:</span>
@@ -121,7 +121,7 @@
 				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA"/><br>
 				
 				<span class = "inputFieldLabel">Activo:</span>
-				<input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema"/><br>
+				<input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema" class="inputCHK"/><br>
 				
 			</div>
 			<!-- <div class="divDataForm" style="height: 250px" align="center">  -->
