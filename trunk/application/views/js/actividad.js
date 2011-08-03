@@ -4,7 +4,6 @@ $(document).ready(function(){
 	$('.container').addClass("ui-corner-bottom");
 	$("button").button({icons: {primary: "ui-icon-locked"}});
 	estadoAutocomplete();
-	actividadData();
 	loadGrid();
 	loadGridTR();
 });
@@ -21,9 +20,9 @@ function estadoAutocomplete(){
 			options = '<option value="">--Estado--</option>';
 			$.each(retrievedData.data, function(i,obj) {
 				options += '<option value="' + obj.idEstado + '">' + obj.estado + '</option>';
-			});
-
+			});			
 			$("#cbEstado").html(options);
+			actividadData();
 
 		}
 
