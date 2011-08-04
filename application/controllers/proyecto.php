@@ -4,8 +4,11 @@ class Proyecto extends CI_Controller{
 
 	function index(){
 		$this->load->helper(array('form', 'url'));
-		$this->load->view("proyectoView");
+
+		$filePath = array('filePath' => base_url()."uploads/");
+		$this->load->view("proyectoView", $filePath);
 	}
+
 
 	function proyectoRead(){
 		$this->load->model("proyectoModel");
@@ -39,7 +42,7 @@ class Proyecto extends CI_Controller{
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idProyecto =  $this->input->post("idProyecto");
-				
+
 			if($idProyecto == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->proyectoModel->create();
 			}
@@ -54,9 +57,9 @@ class Proyecto extends CI_Controller{
 
 		echo json_encode($retArray);
 	}
-	
+
 	/*------------------------------------- FUNCIONES BIBLIOTECA -------------------------------------*/
-	
+
 	function gridDocumentsLoad($idProyecto){
 		$this->load->model("proyectoModel");
 		echo json_encode($this->proyectoModel->projectFilesRead($idProyecto));
@@ -96,8 +99,8 @@ class Proyecto extends CI_Controller{
 		echo json_encode($deleteInfo);
 	}
 
-	
-	
+
+
 }
 
 ?>
