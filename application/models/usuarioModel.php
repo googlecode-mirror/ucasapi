@@ -32,9 +32,9 @@ class UsuarioModel extends CI_Model{
 		$fechaNacimiento = (int) $this->input->post("fechaNacimiento");
 		$telefonoContacto = (int) $this->input->post("telefonoContacto");
 		$extension = (int) $this->input->post("extension");
-		
-		
-		$rol_rows = $this->input->post("rol_data");		
+
+
+		$rol_rows = $this->input->post("rol_data");
 
 		// guardar los datos basicos de usuario
 		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo, fechaNacimiento, telefonoContacto, extension)
@@ -122,7 +122,7 @@ class UsuarioModel extends CI_Model{
 
 		$idUsuario = $this->input->post("idUsuario");
 
-		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo, fechaNacimiento, telefonoContacto, extension 
+		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo, fechaNacimiento, telefonoContacto, extension
 				FROM DEPARTAMENTO D, USUARIO U, CARGO C
 				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
 				idUsuario = ".$idUsuario;
@@ -168,7 +168,7 @@ class UsuarioModel extends CI_Model{
 		$fechaNacimiento = $this->input->post("fechaNacimiento");
 		$telefonoContacto = $this->input->post("telefonoContacto");
 		$extension = $this->input->post("extension");
-		
+
 		$rol_rows = $this->input->post("rol_data");
 
 
@@ -205,7 +205,7 @@ class UsuarioModel extends CI_Model{
 		$query = $this->db->query($sql);
 
 		if($rol_rows != ""){
-				
+
 			// insertando roles al usuario, segundo paso para sobrescribir
 			$data_array = explode("|",$rol_rows);
 			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
@@ -428,5 +428,8 @@ class UsuarioModel extends CI_Model{
 
 		return $response;
 	}
+
+
+
 
 }
