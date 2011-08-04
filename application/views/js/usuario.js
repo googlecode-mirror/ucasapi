@@ -1,10 +1,11 @@
 $(document).ready(function() {
 	// $("#chkUsuarioActivo").button();
+	js_ini();
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
 	usuarioDepartamentoAutocomplete()
 	usuarioRolAutocomplete()
-	loadGrid();
+	loadGrid();	
 	loadGridTR();
 });
 
