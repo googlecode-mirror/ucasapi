@@ -43,7 +43,7 @@ class actividadModel extends CI_Model{
 				
 		$query = $this->db->query($sql);
 
-	if($query) {
+		if($query) {
 			$row = $query->row_array();
 	    	$retArray["data"] = $row;	     	
 	    }
@@ -78,7 +78,6 @@ class actividadModel extends CI_Model{
 		
 		//Desasignando a los usuarios de la actividad
 		$id_array = explode(",",$remove_ids);
-		echo "COUNT IDs: " .count($id_array);
 		if($id_array[0] != 0){
 			foreach ($id_array as $element){
 				$sql = "UPDATE usuario_actividad SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;

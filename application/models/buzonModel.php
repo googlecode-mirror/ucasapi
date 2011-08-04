@@ -12,7 +12,7 @@ class buzonModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) AS count  FROM NOTIFICACION";
+		$sql = "SELECT COUNT(*) AS count FROM Notificacion";
 		
 		$query = $this->db->query($sql);
 
@@ -40,10 +40,10 @@ class buzonModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idNotificacion = $this->input->post("idNotificacion");
 		
-		$sql = "SELECT n.idNotificacion idNotificacion, n.subject subject, n.fechaNotificacion fechaNotificacion, uxn.idEstado idEstado
-				FROM NOTIFICACION n INNER JOIN USUARIO_NOTIFICACION uxn ON n.idNotificacion = uxn.idNotificacion
-    				INNER JOIN USUARIO u ON uxn.idUsuario = u.idUsuario INNER JOIN ESTADO e ON uxn.idEstado = e.idEstado
-    				INNER JOIN TIPO_ESTADO te ON e.idTipoEstado = te.idTipoEstado
+		$sql = "SELECT n.idNotificacion, n.subject, n.fechaNotificacion, uxn.idEstado
+				FROM Notificacion n INNER JOIN Usuario_Notificacion uxn ON n.idNotificacion = uxn.idNotificacion
+    				INNER JOIN Usuario u ON uxn.idUsuario = u.idUsuario INNER JOIN Estado e ON uxn.idEstado = e.idEstado
+    				INNER JOIN Tipo_Estado te ON e.idTipoEstado = te.idTipoEstado
 				WHERE u.idUsuario = " .$idUsuario.
 				" ORDER BY n.fechaNotificacion";
 		
@@ -70,6 +70,56 @@ class buzonModel extends CI_Model{
 		
 		//return $retArray;
 		return $response;
+	}
+	
+	function readMensaje(){
+		$this->load->database();
+		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$idNotificacion = $this->input->post("idNotificacion");
+		$idUsuario = $this->input->post("idUsuario");
+		
+		$sql = "SELECT n.subject, n.notificacion
+				FROM Notificacion n INNER JOIN Usuario_Notificacion uxn ON n.idNotificacion = uxn.idNotificacion
+    				INNER JOIN Usuario u ON uxn.idUsuario = u.idUsuario
+				WHERE u.idUsuario = ".$idUsuario." AND n.idNotificacion = ".$idNotificacion;
+		
+		$query = $this->db->query($sql);
+		
+		if($query) {
+			$row = $query->row_array();
+	    	$retArray["data"] = $row;	     	
+	    }
+	    else{
+	    	$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+	    	
+	    }
+		
+		return $retArray;
+		
+	}
+	
+	function updateMessage($idN){
+		$this->load->database();
+		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$idUsuario = $this->input->post("idUsuario");
+		
+		$sql = "UPDATE USUARIO_NOTIFICACION SET idEstado = 5 WHERE idNotificacion = ".$idN." AND idUsuario = ".$idUsuario;
+		
+		$query = $this->db->query($sql);
+		
+		if($query) {
+			$row = $query->row_array();
+	    	$retArray["data"] = $row;	     	
+	    }
+	    else{
+	    	$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+	    	
+	    }
+		
+		return $retArray;
+		
 	}
 	
 }

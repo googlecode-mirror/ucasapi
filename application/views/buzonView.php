@@ -11,9 +11,12 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/buzon.js"></script>
-
+		<style>
+			.mybold td {font-weight : bold !important}
+		</style>
 </head>
 <body>
+	
 	<div class="menuBar">
 		<ul>
 			<li><span class="menu_button_to"><a href="http://www.google.com"><span
@@ -57,15 +60,6 @@
 		</div>
 
 		<br>
-		<div id="msg" class="divActions" align="center" style="display: none">
-			<table border="0" width="300px">
-
-				<tr>
-					<td><textArea id="message" cols="35" rows="4" class="inputField"></textArea>
-					</td>
-				</tr>
-			</table>
-		</div>
 
 	</div>
 
