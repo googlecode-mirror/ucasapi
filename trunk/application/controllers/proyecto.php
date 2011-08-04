@@ -54,7 +54,50 @@ class Proyecto extends CI_Controller{
 
 		echo json_encode($retArray);
 	}
+	
+	/*------------------------------------- FUNCIONES BIBLIOTECA -------------------------------------*/
+	
+	function gridDocumentsLoad($idProyecto){
+		$this->load->model("proyectoModel");
+		echo json_encode($this->proyectoModel->projectFilesRead($idProyecto));
+	}
 
+	function fileValidateAndSave(){
+		$this->load->model("proyectoModel");
+
+		$retArray = array();
+
+		$validationInfo = $this->proyectoModel->fileSaveValidation();
+
+		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
+			$idArchivo =  $this->input->post("idArchivo");
+			if($idArchivo == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+				$retArray = $this->proyectoModel->createProjectFile();
+			}
+			else{
+				$retArray = $this->proyectoModel->updateProjectFile();
+			}
+
+		}
+		else{//Los datos ingresados no pasaron las validaciones
+			$retArray = $validationInfo;
+		}
+
+		echo json_encode($retArray);
+		//echo json_encode($this->proyectoModel->createProjectFile());
+	}
+
+
+	function fileDelete(){
+		$this->load->model("proyectoModel");
+
+		$deleteInfo = $this->proyectoModel->fileDataDelete();
+
+		echo json_encode($deleteInfo);
+	}
+
+	
+	
 }
 
 ?>
