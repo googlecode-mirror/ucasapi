@@ -12,7 +12,7 @@ class buzonModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) AS count  FROM Notificacion";
+		$sql = "SELECT COUNT(*) AS count  FROM NOTIFICACION";
 		
 		$query = $this->db->query($sql);
 
@@ -40,22 +40,26 @@ class buzonModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idNotificacion = $this->input->post("idNotificacion");
 		
-		$sql = "SELECT n.subject, n.fechaNotificacion, uxn.idEstado
-				FROM Notificacion n INNER JOIN Usuario_Notificacion uxn ON n.idNotificacion = uxn.idNotificacion
-    				INNER JOIN Usuario u ON uxn.idUsuario = u.idUsuario INNER JOIN Estado e ON uxn.idEstado = e.idEstado
-    				INNER JOIN Tipo_Estado te ON e.idTipoEstado = te.idTipoEstado
+		$sql = "SELECT n.idNotificacion idNotificacion, n.subject subject, n.fechaNotificacion fechaNotificacion, uxn.idEstado idEstado
+				FROM NOTIFICACION n INNER JOIN USUARIO_NOTIFICACION uxn ON n.idNotificacion = uxn.idNotificacion
+    				INNER JOIN USUARIO u ON uxn.idUsuario = u.idUsuario INNER JOIN ESTADO e ON uxn.idEstado = e.idEstado
+    				INNER JOIN TIPO_ESTADO te ON e.idTipoEstado = te.idTipoEstado
 				WHERE u.idUsuario = " .$idUsuario.
 				" ORDER BY n.fechaNotificacion";
 		
 		$query = $this->db->query($sql);
 		
+		$i = 0;
 		if($query->num_rows > 0){			
 			foreach ($query->result() as $row){		
-				$rowArray = array();
-				$rowArray["subject"] = $row->subject;
-				$rowArray["fechaNotificacion"] = $row->fechaNotificacion;
-				$rowArray["idEstado"] = $row->idEstado;
-				$retArray["data"][] = $rowArray;				
+				//$rowArray = array();
+				//$rowArray["subject"] = $row->subject;
+				//$rowArray["fechaNotificacion"] = $row->fechaNotificacion;
+				//$rowArray["idEstado"] = $row->idEstado;
+				//$retArray["data"][] = $rowArray;
+				$response->rows[$i]["id"] = $row->idNotificacion;
+				$response->rows[$i]["cell"] = array($row->subject, $row->fechaNotificacion, $row->idEstado);
+				$i++;		
 			}							
 		}
 		
@@ -64,7 +68,8 @@ class buzonModel extends CI_Model{
 			$retArray["msg"] = $this->db->_error_message();
 		}
 		
-		return $retArray;
+		//return $retArray;
+		return $response;
 	}
 	
 }
