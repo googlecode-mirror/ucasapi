@@ -14,8 +14,12 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/usuario.js"></script>
+		
+		
 	</head>	
 	<body>
 		<div class="menuBar"> 
@@ -37,6 +41,7 @@
 		
 		<div class="container" style = "height : 1050px">
 			<div style="height: 20px"></div>
+			<input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/><br>
 			
 			<div class="divActions">				
 				<div class="divCRUDRecords">
