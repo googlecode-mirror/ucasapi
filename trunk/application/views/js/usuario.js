@@ -1,16 +1,23 @@
 $(document).ready(function() {
 	// $("#chkUsuarioActivo").button();
 	js_ini();
+
+	idArchivo = "";
+	upload = null;
+	ajaxUpload();
+	loadGridDocuments();
+
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
 	usuarioDepartamentoAutocomplete()
 	usuarioRolAutocomplete()
-	loadGrid();	
+	loadGrid();
 	loadGridTR();
+
 });
 
 function usuarioAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/usuario/usuarioAutocompleteRead",
 		data : "usuarioAutocomplete",
@@ -20,7 +27,7 @@ function usuarioAutocomplete() {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
 
 			} else {
-				$("#txtRecords").autocomplete( {
+				$("#txtRecords").autocomplete({
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
@@ -37,7 +44,7 @@ function usuarioAutocomplete() {
 }
 
 function usuarioDepartamentoAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/usuario/usuarioDepartamentoAutocompleteRead",
 		data : "usuarioDepartamentoAutocomplete",
@@ -47,7 +54,7 @@ function usuarioDepartamentoAutocomplete() {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
 
 			} else {
-				$("#txtUsuarioDepartamento").autocomplete( {
+				$("#txtUsuarioDepartamento").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -63,7 +70,7 @@ function usuarioDepartamentoAutocomplete() {
 }
 
 function usuarioCargoAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/usuario/usuarioCargoAutocompleteRead",
 		data : "usuarioCargoAutocomplete",
@@ -73,7 +80,7 @@ function usuarioCargoAutocomplete() {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
 
 			} else {
-				$("#txtUsuarioCargo").autocomplete( {
+				$("#txtUsuarioCargo").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -89,7 +96,7 @@ function usuarioCargoAutocomplete() {
 }
 
 function usuarioRolAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/usuario/usuarioRolAutocompleteRead",
 		data : "usuarioRolAutocomplete",
@@ -98,7 +105,7 @@ function usuarioRolAutocomplete() {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
-				$("#txtUsuarioRolNombre").autocomplete( {
+				$("#txtUsuarioRolNombre").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -140,7 +147,7 @@ function loadGrid() {
 				rowList : [ 10, 20, 30 ],
 				sortname : "id",
 				sortorder : "desc",
-				//loadonce : true,
+				// loadonce : true,
 				viewrecords : true,
 				gridview : true,
 				caption : "Roles del usuario"
@@ -150,7 +157,7 @@ function loadGrid() {
 // grid donde se encuentran todos los roles asignables
 function loadGridTR() {
 
-	$("#todosRoles").jqGrid( {
+	$("#todosRoles").jqGrid({
 		url : "index.php/usuario/gridRead/" + $("#idUsuario").val(),
 		datatype : "json",
 		mtype : "POST",
@@ -173,7 +180,7 @@ function loadGridTR() {
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
 		sortorder : "desc",
-		//loadonce : true,
+		// loadonce : true,
 		viewrecords : true,
 		gridview : true,
 		caption : "Roles asignables"
@@ -210,7 +217,7 @@ function eliminarRol() {
 	// insertando los valores en el otro grid
 	if (row_id != null) {
 		num_rows = $("#todosRoles").getGridParam("records");// Número de filas
-															// en el
+		// en el
 		// grid
 		new_row_data = {
 			"idRol" : row_data["idRol"],
@@ -255,15 +262,16 @@ function save() {
 		for ( var Propiedad in rol_rows[Elemento]) {
 			gridData += rol_rows[Elemento][Propiedad] + "|";
 		}
-	};
-	
+	}
+	;
+
 	formData += "&rol_data=" + gridData;
 
 	if ($("#chkUsuarioActivo").is(':checked')) {
-		//alert('ACTIVO');
+		// alert('ACTIVO');
 		formData += "&activo=1";
 	} else {
-		//alert('INACTIVO');
+		// alert('INACTIVO');
 		formData += "&activo=0";
 	}
 
@@ -271,7 +279,7 @@ function save() {
 
 	if (validar_campos()) {
 
-		$.ajax( {
+		$.ajax({
 			type : "POST",
 			url : "index.php/usuario/usuarioValidateAndSave",
 			data : formData,
@@ -312,17 +320,21 @@ function save() {
 
 function edit() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
-	
-	//alert($("#idUsuario").val());
-	
+
+	// alert($("#idUsuario").val());
+
 	// grid donde se cargan los roles que un usuario tiene asignados
-	$('#list').setGridParam({url:"index.php/usuario/gridRolesUsuarioRead/"+$("#idUsuario").val()}).trigger("reloadGrid");
+	$('#list').setGridParam({
+		url : "index.php/usuario/gridRolesUsuarioRead/" + $("#idUsuario").val()
+	}).trigger("reloadGrid");
 	// grid donde se cargan todos los roles que son asignables
-	$('#todosRoles').setGridParam({url:"index.php/usuario/gridRead/"+$("#idUsuario").val()}).trigger("reloadGrid");
-	
+	$('#todosRoles').setGridParam({
+		url : "index.php/usuario/gridRead/" + $("#idUsuario").val()
+	}).trigger("reloadGrid");
+
 	loadGrid();
 	loadGridTR();
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/usuario/usuarioRead",
 		data : formData,
@@ -370,17 +382,21 @@ function edit() {
 				$("#txtUsuarioExtension").val(retrievedData.data.extension);
 				$("#idDepto").val(retrievedData.data.idDepto);
 				$("#idCargo").val(retrievedData.data.idCargo);
-				$("#txtProyectoFechaNacimiento").val(retrievedData.data.fechaNacimiento);
-				$("#txtUsuarioTelefono").val(retrievedData.data.telefonoContacto);
+				$("#txtProyectoFechaNacimiento").val(
+						retrievedData.data.fechaNacimiento);
+				$("#txtUsuarioTelefono").val(
+						retrievedData.data.telefonoContacto);
 				$("#txtUsuarioExtension").val(retrievedData.data.extension);
-				//alert(retrievedData.data.activo);
+				// alert(retrievedData.data.activo);
 				if (retrievedData.data.activo == '1') {
-					//alert('ACTIVO');
+					// alert('ACTIVO');
 					$("#chkUsuarioActivo").attr('checked', true);
 				} else {
-					//alert('INACTIVO');
+					// alert('INACTIVO');
 					$("#chkUsuarioActivo").attr('checked', false);
 				}
+				
+				
 			}
 		}
 	});
@@ -394,7 +410,7 @@ function deleteData() {
 			+ $("#txtRecords").val() + " ?");
 
 	if (answer) {
-		$.ajax( {
+		$.ajax({
 			type : "POST",
 			url : "index.php/usuario/usuarioDelete",
 			data : formData,
