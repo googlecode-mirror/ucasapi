@@ -4,6 +4,8 @@ $(document).ready(function() {
 	proyectoAutocomplete();
 	// proyectoUsuarioAutocomplete();
 	proyectoUsuarioDuenhoAutocomplete();
+	
+	loadGridDocuments();
 });
 
 function proyectoAutocomplete() {
