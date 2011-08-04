@@ -2,20 +2,11 @@
 class Usuario extends CI_Controller{
 
 	function index(){
-		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
-
-		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
-
-		/*if($idRol == ""){//Si el dato no está en sesión, se redirige a la página de login
-			redirect("login", "refresh");
-			}
-			else{
-			$this->load->view("usuarioView");
-			}*/
-
-		$this->load->view("usuarioView");
+		$filePath = array('filePath' => base_url()."uploads/");
+		$this->load->view("proyectoView", $filePath);
 	}
+
 
 	function usuarioRead(){
 		$this->load->model("usuarioModel");
@@ -96,4 +87,5 @@ class Usuario extends CI_Controller{
 		echo json_encode($retArray);
 	}
 
+	
 }
