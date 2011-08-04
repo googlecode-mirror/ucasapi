@@ -2,11 +2,6 @@ $(document).ready(function() {
 	// $("#chkUsuarioActivo").button();
 	js_ini();
 
-	idArchivo = "";
-	upload = null;
-	ajaxUpload();
-	loadGridDocuments();
-
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
 	usuarioDepartamentoAutocomplete()
