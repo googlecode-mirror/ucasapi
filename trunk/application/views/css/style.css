@@ -230,8 +230,7 @@ body {
 }
 
 /* nilson */
-.divDataForm select{
-	height : 20px;
+.selectList{
 	float:right;
 	width : 256px;
 	margin-top : 20px;
@@ -240,15 +239,7 @@ body {
 	font-size: 1em;	
 }
 
-.divActions select{
-	float:right;
-	width : 256px;
-	margin-top : 20px;
-	margin-right : 96px;
-	font-family: Lucida Grande, Lucida Sans, Arial;
-	font-size: 1em;	
-}
-
+/*
 .divDataForm textArea{
 	float:right;
 	width : 256px;
@@ -258,6 +249,7 @@ body {
 	font-size: 1em;
 	resize: none;
 }
+*/
 
 /*-------------------------------Div de mensaje informativo------------------------------*/
 #msgBox{
