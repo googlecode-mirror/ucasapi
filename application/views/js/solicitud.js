@@ -2,6 +2,7 @@
 $(document).ready(function(){
 	 js_ini();
 	 usuarioAutocomplete();
+	 llenarPrioridades();
 });
 
 function usuarioAutocomplete(){
@@ -32,6 +33,25 @@ function usuarioAutocomplete(){
 	});		
 }
 
+// HAY QUE CAMBIARLO DESPUES A 'PRIORIDAD'
+function llenarPrioridades() {
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/solicitud/cargarPrioridades",
+        dataType : "json",
+        success: function(retrievedData){
+        	if(retrievedData.status != 0){
+        		// msgBoxInfo(retrievedData.msg);
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{
+        		$("#cbxPrioridades").html(retrievedData.data);
+        	}
+      	}
+      
+	});	
+}
+
 function crearSolicitud(){
 	var interesados = ''; 
 
@@ -60,7 +80,7 @@ function crearSolicitud(){
         	}
         	else{
         		
-        			msgBoxSucces("Solicitud creada con éxito");
+        			msgBoxSucces("Solicitud creada con &eacute;xito");
         			//alert("Registro actualizado con �xito");
         		
         		clear();
@@ -80,6 +100,7 @@ function remove() {
 function clear(){
 	$(".inputField").val("");
 	$("#txtRecords").val("");
+	$("#txtSolicitudDesc").val("");
 	$("#cbxPrioridades").val(0);
 	
 	$('option', $("#cbxInteresados")).remove();

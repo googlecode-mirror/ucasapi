@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/listaSolicitudes.js"></script>
 		
@@ -38,7 +39,7 @@
 				
 			<div class="divDataForm">
 				
-				<h2 class="inputFieldLabel">Solicitudes que he enviado:</h2>
+				<span class="inputFieldLabel">Solicitudes que he enviado:</span><br/><br/><br/>
 				
 				<div align="center">
 					<table id="list"><tr><td/></tr></table> 
@@ -46,7 +47,7 @@
 				</div>
 				<br/><br/>
 				
-				<h2 class="inputFieldLabel">Solicitudes que observo:</h2>
+				<span class="inputFieldLabel">Solicitudes que observo:</span><br/><br/><br/>
 				
 				<div align="center">
 					<table id="list2"><tr><td/></tr></table> 
