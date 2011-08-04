@@ -2,32 +2,41 @@ $(document).ready(function(){
 	 $('.divActions').addClass("ui-corner-all");
 	 $('.divDataForm').addClass("ui-corner-all");
 	 $('.container').addClass("ui-corner-bottom");
-	 $("button").button({icons: {primary: "ui-icon-locked"}});		
+	 $("button").button({icons: {primary: "ui-icon-locked"}});	
+	 loadBuzon();
 });	
 
-function load(){
-	var selr = $('#grid').jqGrid('getGridParam','selrow');
-	var formData = "idNotificacion=" + selr;
-	if(selr){
-		$.ajax({				
-	        type: "POST",
-	        url:  "index.php/buzon/buzonLeerMensaje",
-	        data: formData,
-	        dataType : "json",
-	        success: function(retrievedData){        	
-	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-	        	}
-	        	else{
-	        		$('label#subject').val(retrievedData.data.subject);
-	        		$('#message').val(retrievedData.data.notificacion);
-	        		$('#msg').show("slow");
-	        	}        	
-	      }      
-		});	
-	}	
-	else alert("No ha seleccionado un mensaje");
-	
+function loadBuzon() {
+	$("#todosMensajes").jqGrid(
+			{
+				url : "index.php/buzon/gridMensajesBuzon/" + $("#idUsuario").val(),
+				datatype : "json",
+				mtype : "POST",
+				colNames : [ "Asunto", "Fecha", "Estado" ],
+				colModel : [ {
+					name : "subject",
+					index: "subject",
+					width: 415
+				}, {
+					name : "fechaNotificacion",
+					index : "fechaNotificacion",
+					width : 150
+				}, {
+					name : "idEstado",
+					index : "idEstado",
+					width : 0,
+					hidden: true
+				}],
+				pager : "#pager",
+				rowNum : 10,
+				rowList : [ 10, 20, 30 ],
+				sortname : "id",
+				sortorder : "desc",
+				loadonce : true,
+				viewrecords : true,
+				gridview : true,
+				caption : "Lista de Notificaciones"
+			});
 }
 
 function cancel(){

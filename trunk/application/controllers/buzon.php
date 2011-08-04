@@ -5,9 +5,9 @@ class Buzon extends CI_Controller{
 		$this->load->view("buzonView");
 	}
 	
-	function buzonLeerMensaje(){
+	function gridMensajesBuzon($idUsuario){
 		$this->load->model("buzonModel");
-		echo json_encode($this->buzonModel->read());
+		echo json_encode($this->buzonModel->read($idUsuario));
 	}
 	
 }

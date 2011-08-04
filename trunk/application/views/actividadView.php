@@ -3,8 +3,9 @@
 <title>Actividades</title>
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
@@ -59,9 +60,9 @@
 
 		<div class="divDataForm" style="height: 500">
 			<input id="idEstado" type="hidden" value="" class="hiddenId" /><br> 
-			<input id="idActividad" type="hidden" value="1" class="hiddenId" /> 
-			<input id="idProyecto" type="hidden" value="1" class="hiddenId" /> 
-			<input id="idUsuario" type="hidden" value="4" class="hiddenId" /> <br> 
+			<input id="idActividad" type="hidden" value="" class="hiddenId" /> 
+			<input id="idProyecto" type="hidden" value="" class="hiddenId" /> 
+			<input id="idUsuario" type="hidden" value="" class="hiddenId" /> <br> 
 			<font face="calibri" color="green" size="4">Informacion General</font> <br>
 
 			<span class="inputFieldLabel">Proyecto: </span> <input
@@ -90,7 +91,7 @@
 			<span class="inputFieldLabel">Comentarios: </span> <input
 				id="txtComentarios" type="text" class="inputField"></input> <span
 				class="inputFieldLabel">Descripcion: </span>
-			<textArea id="txtDescripcion" readonly="readonly"  cols="20" rows="4" ></textArea>
+			<textArea id="txtDescripcion" class = "inputFieldTA" readonly="readonly"  cols="20" rows="4" ></textArea>
 
 		</div>
 		<p align="center"><font size="4"><span class="inputFieldLabel">Transferir actividad a usuario: </span></font></p>
