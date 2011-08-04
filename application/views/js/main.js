@@ -1,17 +1,32 @@
 
 function js_ini(){
-	$("#msgBox" ).addClass("ui-corner-all");
+	
+	//Seteo de estilos
+	$("#msgBox").addClass("ui-corner-all");
 	$('.divActions').addClass("ui-corner-all");
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
+	
+	//Tabs
+	$("#tabs").tabs();
+	$("#tabs-1").css("padding", "0px");
+	$("#tabs-2").css("padding", "0px");
+	
+	//Datepickers
 	$(".jqcalendario").datepicker({ dateFormat: 'yy-mm-dd' });
-	$( "#tabs" ).tabs();
-	//$("#logoutButton").tooltip();
+
+	//Botones
 	$("#btnSave").button({icons: {primary: "ui-icon-disk"}});
 	$("#btnEdit").button({icons: {primary: "ui-icon-pencil"}});
 	$("#btnDelete").button({icons: {primary: "ui-icon-trash"}});
 	$("#btnCancel").button({icons: {primary: "ui-icon-cancel"}});
 	$("#btnUpload").button({icons: {primary: "ui-icon-arrowthick-1-n"}});
+	$("#btnAddFile").button({icons: {primary: "ui-icon-disk"}});
+	$("#btnUpdateFile").button({icons: {primary: "ui-icon-disk"}});
+	$("#btnClearFileForm").button({icons: {primary: "ui-icon-cancel"}});
+	
+	//Tooltips
+	setTooltips();
 }
 
 
@@ -43,4 +58,21 @@ function msgBoxError(message){
 	$("#msgBox" ).addClass( "msgBoxError");
 	$("#msgBox").fadeIn(800);
 	$("#msgBox").delay(5000).fadeOut();
+}
+
+function setTooltips(){	
+	$(".inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario").bt(
+			  {
+			    fill: '#FFF',
+			    cornerRadius: 10,
+			    strokeWidth: 0,
+			    shadow: true,
+			    shadowOffsetX: 3,
+			    shadowOffsetY: 3,
+			    shadowBlur: 8,
+			    shadowColor: 'rgba(0,0,0,.9)',
+			    shadowOverlap: false,
+			    noShadowOpts: {strokeStyle: '#999', strokeWidth: 2},
+			    positions: ['right', 'top']
+			  });	
 }
