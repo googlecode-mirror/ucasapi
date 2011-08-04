@@ -12,23 +12,62 @@ class Upload extends CI_Controller {
 	}
 
 	function do_upload(){
+		
+		$retArray = array("status"=> 0, "msg" => "", data => array());
+		
+		$this->load->model("uploadModel");
+		$fileName = "doc_";
+		
+		//Información sobre la tabla asociada al archivo: proyecto, proceso, actividad, ...
+		$uploadIdName = $this->input->post("uploadIdName");		
+		$uploadIdValue = $this->input->post("uploadIdValue");	
+
+		$fileNameCorr = $this->uploadModel->fileNameCorrelative($uploadIdName,$uploadIdValue);
+		
+			
+		//Colocando la segunda parte del nombre del archivo
+		switch ($uploadIdName) {
+			
+			case "idProyecto": 		$fileName.="proyecto_";
+									break;
+									
+			case "idProceso": 		$fileName.="proceso_";
+									break;
+									
+			case "idActividad": 	$fileName.="actividad_";
+									break;
+			
+			default:				$fileName.="_";
+									break;
+									
+		}
+		//Colocando la tercera parte del nombre del archivo
+		$fileName.= $uploadIdValue."_".$fileNameCorr["data"];		
+		
+				
+		//Configuración de la subida		
 		$config['upload_path'] = './uploads/';
-		$config['allowed_types'] = 'doc|docx|xls|xlsx|txt';
-		$config['max_size']	= '100';
-		$config['max_width']  = '1024';
-		$config['max_height']  = '768';
+		$config['allowed_types'] = 'doc|docx|xls|xlsx|txt|pdf';
+		$config['max_size']	= '2000';//KB
+		$config['file_name']	= $fileName;
+
 
 		$this->load->library('upload', $config);
 
+		//Subiendo el archivo
 		if ( ! $this->upload->do_upload()){
-			$error = array('error' => $this->upload->display_errors());
-
-			//$this->load->view('upload_form', $error);
+			//$error =addslashes($this->upload->display_errors());
+			$retArray["status"] = 1;
+			$retArray["msg"] = addslashes($this->upload->display_errors());
+			echo json_encode($retArray);
+			
 		}
 		else{
-			$data = array('upload_data' => $this->upload->data());
-
-			//$this->load->view('upload_success', $data);
+			$uploadData = $this->upload->data();		
+			//$retArray["data"] = $fileName;
+			$retArray["data"] = $uploadData;
+			echo json_encode($retArray);
+			
 		}
 	}
 }
