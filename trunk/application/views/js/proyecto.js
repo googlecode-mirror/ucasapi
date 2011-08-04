@@ -5,6 +5,7 @@ $(document).ready(function() {
 	proyectoAutocomplete();	
 	ajaxUpload();
 	loadGridDocuments();
+	proyectoUsuarioDuenhoAutocomplete();
 });
 
 function proyectoAutocomplete() {
@@ -287,12 +288,14 @@ function uploadFile() {
 // Función desencadenada en el onComplete de la subida del archivo y asociada al
 // botón "Actualizar"
 function saveFileData(fileName) {
-
+	$idProyecto = $("#idProyecto").val();
 	var formData = "nombreArchivo=" + fileName;
 	formData += "&idProyecto=" + $("#idProyecto").val();
 	formData += "&descripcion=" + $("#txtFileDesc").val();
 	formData += "&idArchivo=" + idArchivo;
-$.ajax({
+	if($idProyecto != ""){
+		alert($idProyecto);
+	$.ajax({
 		type : "POST",
 		url : "index.php/proyecto/fileValidateAndSave",
 		data : formData,
@@ -317,6 +320,10 @@ $.ajax({
 		}
 
 	});
+	}
+	else{
+		msgBoxSucces("Debe seleccionarse un proyecto para agregar documentos a el");
+	}
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------

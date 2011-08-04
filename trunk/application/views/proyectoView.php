@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Test</title>	
+		<title>Proyectos</title>	
 		<?php 
 			//require_once("application/models/menuBarModel.php");
 			//echo "menuBarModel.php";
@@ -81,16 +81,16 @@
 					<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField"/><br>
 								
 					<span class = "inputFieldLabel">Inicio planificado:</span>
-					<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "inputField"/><br>
+					<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Fin planificado:</span>
-					<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "inputField"/><br>
+					<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Inicio real:</span>
-					<input id="txtProyectoFechaRealIni" type="text"  value="" class = "inputField"/><br>
+					<input id="txtProyectoFechaRealIni" type="text"  value="" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Fin real:</span>
-					<input id="txtProyectoFechaRealFin" type="text"  value="" class = "inputField"/><br>
+					<input id="txtProyectoFechaRealFin" type="text"  value="" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Activo</span>
 					<input id="chkProyectoActivo" type="checkbox" value="1" class= "inputCHK"/><br>				

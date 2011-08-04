@@ -468,6 +468,7 @@ function cancel() {
 
 function clear() {
 	$(".inputField").val("");
+	$(".inputFieldPSW").val("");
 	$(".jqcalendario").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
