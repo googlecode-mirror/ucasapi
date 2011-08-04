@@ -109,6 +109,7 @@ function transferirSolicitud() {
         	else{
         		msgBoxSucces("Se ha transferido la solicitud a " + nombreDestinatario);
         		$("#txtRecords").val("");
+        		$("#txtRecords").attr('disabled', 'disabled');
         		$(".cleanable").html("");
         		$("#txtSolicitudDesc").val("");
         	}
