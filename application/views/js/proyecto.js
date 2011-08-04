@@ -3,7 +3,7 @@ $(document).ready(function() {
 	// $("#chkUsuarioActivo").button();
 	proyectoAutocomplete();
 	// proyectoUsuarioAutocomplete();
-	proyectoUsuarioDuenhoAutocomplete();
+	//proyectoUsuarioDuenhoAutocomplete();
 	
 	loadGridDocuments();
 });
