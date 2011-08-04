@@ -199,5 +199,115 @@ class proyectoModel extends CI_Model{
 
 		return $retArray;
 	}
+	
+	
+	/*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//Validación para campos de información de documento
+	function fileSaveValidation(){
+		$this->load->library('form_validation');
+		$retArray = array("status"=> 0, "msg" => "");
+		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha ');
+
+		if ($this->form_validation->run() == false){
+			$retArray["status"] = 1;
+			$retArray["msg"] .= form_error("descripcion");
+		}
+		return $retArray;
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function createProjectFile(){
+		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "");
+		$idProyecto = $this->input->post("idProyecto");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		$descripcion = $this->input->post("descripcion");
+		$sql = "INSERT INTO ARCHIVOS (idProyecto, nombreArchivo, descripcion)
+    VALUES (".$this->db->escape($idProyecto).", ".$this->db->escape($nombreArchivo).", ".$this->db->escape($descripcion).")";
+		$query = $this->db->query($sql);
+		if (!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+			
+		return $retArray;
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	function updateProjectFile(){
+		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "");
+		$idArchivo = $this->input->post("idArchivo");
+		$descripcion = $this->input->post("descripcion");
+		$sql = "UPDATE ARCHIVOS
+SET descripcion = ".$this->db->escape($descripcion)."
+WHERE idArchivo = ". $idArchivo; 
+		$query = $this->db->query($sql);
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+		return $retArray;
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	function fileDataDelete(){
+		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "");
+		$idArchivo = $this->input->post("idArchivo");
+		$sql = "DELETE FROM ARCHIVOS
+WHERE idArchivo = ". $idArchivo;
+			
+		$query = $this->db->query($sql);
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+		return $retArray;
+	}
+	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function projectFilesRead($idProyecto=null){
+		$this->load->database();
+		$this->load->helper(array('url'));
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+		$idProyecto = is_null($idProyecto) ? -1 : $idProyecto;
+		$sql = "SELECT COUNT(*) AS count FROM ARCHIVOS WHERE idProyecto = ".$this->db->escape($idProyecto);
+		$query = $this->db->query($sql);
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		//-------------------------
+		$sql = "SELECT idArchivo, nombreArchivo, descripcion FROM ARCHIVOS WHERE idProyecto = ".$this->db->escape($idProyecto);
+		$query = $this->db->query($sql);
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $i+1;
+					$response->rows[$i]["cell"] = array($row->idArchivo,$row->nombreArchivo, $row->descripcion);
+					$i++;
+				}
+			}
+		}
+		return $response;
+	}
+	
 
 }
