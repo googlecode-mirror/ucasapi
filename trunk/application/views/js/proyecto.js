@@ -1,10 +1,9 @@
 $(document).ready(function() {
 	js_ini();
-	// $("#chkUsuarioActivo").button();
-	proyectoAutocomplete();
-	// proyectoUsuarioAutocomplete();
-	//proyectoUsuarioDuenhoAutocomplete();
-	
+	idArchivo = "";
+	upload = null;
+	proyectoAutocomplete();	
+	ajaxUpload();
 	loadGridDocuments();
 });
 
