@@ -9,6 +9,7 @@
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/solicitud.js"></script>
 		
@@ -35,21 +36,17 @@
 				
 			<div class="divDataForm">
 				
-				<span class = "inputFieldLabel">Asunto:</span>
-				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField"/><br>
+				<span class = "requiredFieldLabel">Asunto:</span>
+				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField" title = "Titulo de la peticion"/><br>
 				
-				<span class = "inputFieldLabel">Prioridad:</span>
-				<select name="prioridades" id="cbxPrioridades">
-					<option value="0">Seleccione prioridad</option>
-					<option value="1">Baja</option>
-					<option value="2">Media</option>
-					<option value="3">Alta</option>
-					<option value="4">Urgente</option>
+				<span class = "requiredFieldLabel">Prioridad:</span>
+				<select name="prioridades" id="cbxPrioridades" class = "selectList" >
+					
 				</select>
 				<br>		
 			
-				<span class = "inputFieldLabel">Descripci&oacute;n:</span>
-				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputField"></textArea><br>				
+				<span class = "requiredFieldLabel">Descripci&oacute;n:</span>
+				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>				
 				<br><br><br><br><br><br><br><br><br><br>
 			</div>
 			
@@ -58,13 +55,13 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class="recordsLabel">Nombre: </span>
-					<input id="txtRecords" type="text"  value="" class="inputFiled" /><br>
+					<input id="txtRecords" type="text"  value="" class="inputFiledAC" /><br>
 					<span class="recordsLabel">Agregados: </span>
-					<select size="5" multiple="multiple" id="cbxInteresados"></select><br>
+					<select size="5" multiple="multiple" id="cbxInteresados" class="selectList"></select><br>
 				</div>
 				
 				<div class="divCRUDButtons">
-					<button id="btnRemove" onClick="remove()">Quitar interesado</button>
+					<button id="btnDelete" onClick="remove()">Quitar interesado</button>
 				</div>
 				
 				<div class="divCRUDButtons">

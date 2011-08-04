@@ -11,13 +11,11 @@ function loadGrid() {
 		   	url:  "index.php/solicitud/gridRead/",
 		    datatype: "json",
 		    mtype: "POST",
-		    colNames:["Fecha de entrada", "T&iacute;tulo", "Solicitante", "A&ntilde;o", "Correlativo", ],
+		    colNames:["Fecha de entrada", "T&iacute;tulo", "Solicitante"],
 		    colModel :[
 		      {name:"fecha", index:"fecha", width:190}, 
 		      {name:"titulo", index:"titulo", width:63}, 
-		      {name:"usuario", index:"usuario", width:190},
-		      {name:"anio", index:"anio", width:63},
-		      {name:"correl", index:"correl", width:63}
+		      {name:"usuario", index:"usuario", width:190}
 		    ],
 		    pager: "#pager",
 		    rowNum:10,
@@ -30,9 +28,38 @@ function loadGrid() {
 		    caption: "Solicitudes",
 		    ondblClickRow: function(id) {
 		    	mostrarSolicitud(id);
+		    	$("#txtRecords").attr('disabled', '');
+		    	empleadosAutocomplete();
 		    }
 	  });	 
 	
+}
+
+function empleadosAutocomplete() {
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/solicitud/empleadoAutocompleteRead",
+        //data: "usuarioAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{        		
+        		$("#txtRecords").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 1,
+    		        select: function(event, ui) {
+    			        $("#idUsuario").val(ui.item.id);
+    				}
+    			});
+        		
+        	}        	
+      }
+      
+	});
 }
 
 function mostrarSolicitud (idSolicitud) {
@@ -59,6 +86,31 @@ function mostrarSolicitud (idSolicitud) {
         		}
         		
         		$("#interesados").html(interesados);
+        	}
+        	
+      	}
+      
+	});
+}
+
+function transferirSolicitud() {
+	var nombreDestinatario = $("#txtRecords").val();
+	
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/solicitud/transferirSolicitud",
+        data: "idDestinatario=" + $("#idUsuario").val(),
+        dataType : "json",
+        success: function(retrievedData){
+        	if(retrievedData.status != 0){
+        		msgBoxInfo(retrievedData.msg);
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{
+        		msgBoxSucces("Se ha transferido la solicitud a " + nombreDestinatario);
+        		$("#txtRecords").val("");
+        		$(".cleanable").html("");
+        		$("#txtSolicitudDesc").val("");
         	}
         	
       	}
