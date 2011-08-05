@@ -1,10 +1,6 @@
 <html>
 	<head>	
-		<title>Test</title>
-		<?php 
-			require_once("application/models/menuOptionsModel.php");
-			$menuBarModel = new menuBarModel();	
-		?>						
+		<title>Test</title>					
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
@@ -12,18 +8,23 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/ajaxupload.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/departamento.js"></script>
 	</head>	
 	<body>
 		<div class="menuBar">
 			<ul>
-				<?php $menuBarModel->showMenu();?>
+				<?echo $menu;?>
 			</ul>			
-		</div>		
-		<div class="sessionBar">			
+		</div>
+		
+		<div class="sessionBar">
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
+			<span id="systemName"><b>SKY PROJECT??</b></span> 	
 			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
-			<span id="sessionUser">Gerson Beltrán</span> 
+			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span> 
 		</div>
 		
 		<div><span id="pageTittle"></span></div>
@@ -58,15 +59,15 @@
 				<div id="tabs-1" class="divDataForm">
 					<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>
 				
-					<span class = "inputFieldLabel">Nombre</span>
+					<span class = "requiredFieldLabel" >Nombre</span>
 					<input id="txtDepartmentName" type="text"  value="" class = "inputField" title="Nombre del departamento"/><br>
 					
 					<span class = "inputFieldLabel">Descripción</span>
-					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputField" title="Descripción del departamento"></textArea>
+					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento"></textArea>
 				</div>
 				
 				<div id="tabs-2">
-					<p>Tab número 2</p>
+						<button id="btnUpload">Subir documento</button>
 				</div>
 				
 			</div>
@@ -76,12 +77,7 @@
 			
 		</div>
 		<div>
-				<?php echo form_open_multipart('upload/do_upload');?>
-			<input type="file" name="userfile" size="20" />
 			
-			<br /><br />
-			<button id="uploadFile" onClick="uploadFile()">Subir</button>
-			<input type="submit" value="upload" />
 		</div>
 		<div>
 			<table id="list"><tr><td/></tr></table> 
