@@ -4,7 +4,7 @@ class Departamento extends CI_Controller{
 	function index(){
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
-		$this->load->model("menuOptionsModel");	
+		$this->load->model("roleOptionsModel");	
 		
 		$controllerName = strtolower(get_class($this));
 		
@@ -14,32 +14,38 @@ class Departamento extends CI_Controller{
 		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
 		
 		if($idRol != ""){//Si está en sesión
-			$allowedPage = $this->menuOptionsModel->validatePage($idRol, $controllerName); //Verificando si el usuario tiene permisos de acceder a la página según su rol
+			$allowedPage = $this->roleOptionsModel->validatePage($idRol, $controllerName); 
 			
-			if($allowedPage){
+			if($allowedPage){//Si el usuario según rol tiene permiso para acceder a la página
 				$this->session->set_userdata("previousPage", $previousPage);
 				$this->session->set_userdata("currentPage", $controllerName);
 				
-				$menu = $this->menuOptionsModel->showMenu($idRol);
-				$this->load->view("departamentoView", array("menu"=> $menu));
+				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menú
+				$userName = $idRol = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
+				
+				$this->load->view("departamentoView", array("menu"=> $menu, "userName" => $userName));//Se agrega el código del menú y el nombre del usuario como variables al view
+				
 			}
-			else{				
+			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
 				$previousPage = $this->session->userdata("currentPage");
 				redirect($previousPage,"refresh");
 			}
 						
 		}
-		else{
+		else{//Si no existe usuario en sesión se redirige al login
 			redirect("login", "refresh");
 		}
 		
 	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function departmentRead(){
 		$this->load->model("departamentoModel");	
 		echo json_encode($this->departamentoModel->read());
 	}
 	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function departmentAutocompleteRead(){
 		$this->load->model("departamentoModel");
@@ -49,6 +55,8 @@ class Departamento extends CI_Controller{
 		echo json_encode($autocompleteData);
 	}
 	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 	function departmentDelete(){
 		$this->load->model("departamentoModel");
 		
@@ -56,6 +64,8 @@ class Departamento extends CI_Controller{
 		
 		echo json_encode($deleteInfo);
 	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 	function departmentValidateAndSave(){
@@ -82,10 +92,14 @@ class Departamento extends CI_Controller{
 		echo json_encode($retArray);	
 	}
 	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 	
 	function gridRead($idDepto){
 		$this->load->model("departamentoModel");	
 		echo json_encode($this->departamentoModel->gridDepartamentoRead($idDepto));
 	}
+	
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 }
