@@ -3,17 +3,36 @@ class Departamento extends CI_Controller{
 
 	function index(){
 		$this->load->library('session');
-		$this->load->helper(array('form', 'url'));		
+		$this->load->helper(array('form', 'url'));
+		$this->load->model("menuOptionsModel");	
 		
-		//$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
+		$controllerName = strtolower(get_class($this));
 		
-		/*if($idRol == ""){//Si el dato no está en sesión, se redirige a la página de login
-			redirect("login", "refresh");
+		$previousPage = $this->session->userdata("currentPage");
+		$previousPage = ($previousPage!="")?$previousPage:"buzon";
+						
+		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
+		
+		if($idRol != ""){//Si está en sesión
+			$allowedPage = $this->menuOptionsModel->validatePage($idRol, $controllerName); //Verificando si el usuario tiene permisos de acceder a la página según su rol
+			
+			if($allowedPage){
+				$this->session->set_userdata("previousPage", $previousPage);
+				$this->session->set_userdata("currentPage", $controllerName);
+				
+				$menu = $this->menuOptionsModel->showMenu($idRol);
+				$this->load->view("departamentoView", array("menu"=> $menu));
+			}
+			else{				
+				$previousPage = $this->session->userdata("currentPage");
+				redirect($previousPage,"refresh");
+			}
+						
 		}
 		else{
-			$this->load->view("departamentoView");
-		}*/
-		$this->load->view("departamentoView");
+			redirect("login", "refresh");
+		}
+		
 	}
 	
 	function departmentRead(){
