@@ -86,7 +86,7 @@ function clear(){
 function start(){
 	if($("#idRol").val()!=""){
 		$("#roleSelection").dialog("close");
-		window.location = "login/home/"+$("#idRol").val();
+		window.location = "login/home/"+$("#idRol").val()+"/"+$("#txtRol").val();
 	}
 	
 }
