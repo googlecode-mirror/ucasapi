@@ -3,7 +3,7 @@ class roleOptionsModel{
 	
 	//Retorna el código html del menú correspondiente al rol
 	function showMenu($idRol){		
-		$xmlDir = "application/views/xml/menuOptions.xml";		
+		$xmlDir = "application/views/xml/roleOptions.xml";		
 		$xml = simplexml_load_file($xmlDir);
 		
 		$baseUrl = base_url();
@@ -27,7 +27,7 @@ class roleOptionsModel{
 	
 	//Retorna un valor mayor que cero si el controller está asociado al rol
 	function validatePage($idRol, $controllerName){		
-		$xmlDir = "application/views/xml/menuOptions.xml";		
+		$xmlDir = "application/views/xml/roleOptions.xml";		
 		$xml = simplexml_load_file($xmlDir);
 		
 		$result = 0;
