@@ -88,6 +88,22 @@ body {
 	background: #FFFFFF;
 }
 
+#systemName{
+	float : left;
+	margin-left: 10px;
+	margin-top : 7px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1.2em;
+}
+
+#systemIcon{
+	float : left;
+	margin-left: 10px;
+	margin-top : 5px;
+	width:16x;
+	height:16px;
+}
+
 #sessionUser{
 	float : right;
 	margin-right: 10px;
@@ -134,7 +150,7 @@ body {
 .divLogin{
 	background: #FFFFFF;
 	width : 400px;
-	height : 200px;
+	height : 260px;
 	margin: 0 auto;
 	margin-top : 128px;
 	margin-bottom : 30px;
@@ -142,18 +158,18 @@ body {
 	border-style:solid;
 	border-width:1px;
 	border-color: #BFBFBF;
-	text-align : center;
 }
 
-.divLogin span{
+.inputFieldLabelL{
 	height: 20px;
+	width : 128px;
 	float : left;
 	margin-top : 20px;
 	margin-botom : 20px;
 	margin-left : 28px;	
 	font-size: 1em;	
 }
-.divLogin input[type="text"], input[type="password"]{
+.divLogin .inputFieldL,.inputFieldLAC, .inputFieldLPSW{
 	height: 20px;
 	float:right;
 	width : 192px;
@@ -167,25 +183,27 @@ body {
 .divLogin .loginButtons{
 	clear : both;
 	margin: 0 auto;
-	margin-top: 40px;
+	margin-top: 20px;
 	width : 400px;
+	text-align : center;
 }
 
 .divLogin input[type="button"]{
 	margin-left : 10px;
 	margin-bottom : 20px;
-	margin-top : 20px;
-	width : 96px;
+	margin-top : 0px;
+	width : 120px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
 }
 
-#invalidUser{
-	margin-top : 20px;
-	height : 20px;
+#sessionMsg{	
 	clear: both;
+	text-align : center;
+	margin-top : 90px;
+	height : 20px;
+	width : 400px;	
 	color : red;
-	display : none;
 }
 
 
