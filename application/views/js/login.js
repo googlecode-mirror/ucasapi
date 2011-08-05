@@ -1,5 +1,3 @@
-
-
 $(document).ready(function(){
 	 $('.divActions').addClass("ui-corner-all");
 	 $('.divDataForm').addClass("ui-corner-all");
@@ -7,6 +5,7 @@ $(document).ready(function(){
 	
 	//$(".button").button();
 	$("input[type=button]").button();
+	roleSelectionIni();
 
 });	
 
@@ -26,10 +25,21 @@ function userLogin(){
         	}
         	else{
         		if(retrievedData.data.length ==0){//Si los datos del usuario son inválidos
-        			$("#invalidUser").css("display", "inline");
+        			$("#sessionMsg").html("Usuario o contraseña incorrectos");
         		}
         		else{//Si los datos del usuario son correctos se redirrecciona a la url proveída en la variable msg
-        			window.location = retrievedData.msg;
+        			$("#txtRol").autocomplete({
+                		minChars: 0,
+                		matchContains: true,
+        		        source: retrievedData.roleData,
+        		        minLength: 1,
+        		        select: function(event, ui) {
+        			        $("#idRol").val(ui.item.id);					
+        				}
+        			});
+        			
+        			$("#roleSelection").dialog("open");
+        			
         		}
         	}
       	}
@@ -39,14 +49,44 @@ function userLogin(){
 }
 
 
+function roleSelectionIni(){
+	$("#roleSelection").dialog({
+		autoOpen: false,
+		modal: true,
+		title: "Selección de rol",
+		resizable: false,
+		height:240,
+		width: 420,
+		buttons: {
+			"Aceptar": function(event) {
+				start();
+			},
+			"Cancelar": function() {
+				$("#roleSelection").dialog("close");
+			}
+		}
+
+	});
+	
+}
+
+
+
 function cancel(){
 	clear();
 }
 
 function clear(){
-	$(".inputField").val("");
+	$(".inputFieldL").val("");
+	$(".inputFieldLPSW").val("");
 	$(".hiddenId").val("");
-	$("#txtRecords").val("");
-	$("#invalidUser").css("display", "none");
+	$("#sessionMsg").html("");
 }
 
+function start(){
+	if($("#idRol").val()!=""){
+		$("#roleSelection").dialog("close");
+		window.location = "login/home/"+$("#idRol").val();
+	}
+	
+}
