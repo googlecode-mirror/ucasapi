@@ -21,9 +21,10 @@ class Departamento extends CI_Controller{
 				$this->session->set_userdata("currentPage", $controllerName);
 				
 				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menú
-				$userName = $idRol = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
+				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
+				$roleName = $this->session->userdata("roleName");
 				
-				$this->load->view("departamentoView", array("menu"=> $menu, "userName" => $userName));//Se agrega el código del menú y el nombre del usuario como variables al view
+				$this->load->view("departamentoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName)));//Se agrega el código del menú y el nombre del usuario como variables al view
 				
 			}
 			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
