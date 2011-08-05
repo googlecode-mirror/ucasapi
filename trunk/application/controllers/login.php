@@ -30,11 +30,11 @@ class Login extends CI_Controller{
 	function validateUser(){
 		$this->load->library('session');
 		$this->load->helper(array('url'));		
-		$this->load->model("userModel");	
+		$this->load->model("loginModel");	
 
 		$homePage = "buzon";
 		
-		$userData = $this->userModel->validateUser();		
+		$userData = $this->loginModel->validateUser();		
 		
 		if(count($userData["data"])>0){//Si se obtuvieron datos para las credenciales introducidas
 			$this->session->set_userdata("idRol", $userData["data"]["idRol"]);
@@ -53,8 +53,8 @@ class Login extends CI_Controller{
 //-------------------------------------------------------------------------------------------------------------------------------------------------------	
 
 	function rolesAutocompleteRead(){
-		$this->load->model("userModel");		
-		$autocompleteData = $this->userModel->readRolesAutocomplete();		
+		$this->load->model("loginModel");		
+		$autocompleteData = $this->loginModel->readRolesAutocomplete();		
 		echo json_encode($autocompleteData);
 	}
 	
