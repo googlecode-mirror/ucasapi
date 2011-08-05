@@ -45,8 +45,8 @@
 		<nombreRol>Coordinador de desarrollo</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -54,8 +54,8 @@
 		<nombreRol>Coordinador de proyecto</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -63,8 +63,8 @@
 		<nombreRol>Coordinador de atención</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -72,8 +72,8 @@
 		<nombreRol>Desarrollador</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -81,8 +81,8 @@
 		<nombreRol>Analista de atención</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -90,8 +90,8 @@
 		<nombreRol>Ventanilla única</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -99,8 +99,8 @@
 		<nombreRol>Usuario final</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>A</nombrePagina>
-				<controller>accion</controller>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
 			</pagina>
 		</paginas>
 	</rol>
