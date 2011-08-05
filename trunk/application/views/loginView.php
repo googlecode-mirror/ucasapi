@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>Test</title>		
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
@@ -22,13 +22,14 @@
 			<div style="height: 20px"></div>
 			
 			<div class="divLogin">		
-				<span class = "inputFieldLabel">Nombre de usuario</span>
-				<input id="txtUsername" type="text"  value="" class = "inputField"/><br>
+				<input id="idRol" type="hidden"  value="" class = "hiddenID"/><br>
+				<span class = "inputFieldLabelL">Usuario</span>
+				<input id="txtUsername" type="text"  value="" class = "inputFieldL"/><br>
 				
-				<span class = "inputFieldLabel">Contraseña</span>
-				<input id="txtPassword" type="password"  value="" class = "inputField"/><br>
-				
-				<span id="invalidUser">Nombre de usuario y/o contraseña incorrectos!!</span><br>
+				<span class = "inputFieldLabelL">Contraseña</span>
+				<input id="txtPassword" type="password"  value="" class = "inputFieldLPSW"/><br>
+							
+				<div id="sessionMsg"></div>
 				
 				<div class = "loginButtons">				
 					<input id = "btnLogin" type="button" value="Iniciar sesión" onClick="userLogin()"/>
@@ -36,6 +37,11 @@
 				</div>
 			</div>
 			
+		</div>
+		
+		<div id="roleSelection" style="display:none">
+			<span class = "inputFieldLabelL">Rol</span>
+			<input id="txtRol" type="text"  value="" class = "inputFieldLAC"/><br>
 		</div>
 	
 		
