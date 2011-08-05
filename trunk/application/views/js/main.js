@@ -27,6 +27,12 @@ function js_ini(){
 	
 	//Tooltips
 	setTooltips();
+	
+	//Cierre de sessión
+	$('#logoutButton').click(function() {
+	    window.location = "login/close"
+	});
+
 }
 
 
@@ -61,7 +67,7 @@ function msgBoxError(message){
 }
 
 function setTooltips(){	
-	$(".inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario").bt(
+	$(".inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario, #logoutButton").bt(
 			  {
 			    fill: '#FFF',
 			    cornerRadius: 10,
