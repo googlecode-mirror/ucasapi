@@ -36,14 +36,11 @@ class Login extends CI_Controller{
 		
 		$userData = $this->loginModel->validateUser();		
 		
-		if(count($userData["data"])>0){//Si se obtuvieron datos para las credenciales introducidas
-			$this->session->set_userdata("idRol", $userData["data"]["idRol"]);
-			$this->session->set_userdata("username", $userData["data"]["primerApellido"].$userData["data"]["primerNombre"]);
+		if(count($userData["data"])>0){//Si se obtuvieron datos para las credenciales introducidas			
+			$this->session->set_userdata("username", $userData["data"]["primerNombre"]." ".$userData["data"]["primerApellido"]);
 			$this->session->set_userdata("idUsuario", $userData["data"]["idUsuario"]);
 			$this->session->set_userdata("previousPage", "");
 			$this->session->set_userdata("currentPage", "");
-			
-			$userData["msg"] = site_url($homePage);
 		}
 		
 		echo json_encode($userData);
@@ -56,6 +53,18 @@ class Login extends CI_Controller{
 		$this->load->model("loginModel");		
 		$autocompleteData = $this->loginModel->readRolesAutocomplete();		
 		echo json_encode($autocompleteData);
+	}
+	
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------	
+
+	function home($idRol){
+		$this->load->library('session');
+		$this->load->helper(array('url'));
+		
+		$this->session->set_userdata("idRol", $idRol);
+		
+		redirect("departamento","refresh");		
 	}
 	
 }
