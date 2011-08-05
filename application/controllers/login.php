@@ -58,11 +58,12 @@ class Login extends CI_Controller{
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------	
 
-	function home($idRol){
+	function home($idRol, $roleName){
 		$this->load->library('session');
 		$this->load->helper(array('url'));
 		
 		$this->session->set_userdata("idRol", $idRol);
+		$this->session->set_userdata("roleName", $roleName);
 		
 		redirect("departamento","refresh");		
 	}
