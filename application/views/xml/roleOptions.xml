@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roles>
+	<rol id = "1">
+		<nombreRol>Administrador</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>Acción</nombrePagina>
+				<controller>accion</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Cargo</nombrePagina>
+				<controller>cargo</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Departamento</nombrePagina>
+				<controller>departamento</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Estado</nombrePagina>
+				<controller>estado</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Fase</nombrePagina>
+				<controller>fase</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Prioridad</nombrePagina>
+				<controller>prioridad</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Recurso humano</nombrePagina>
+				<controller>recursoHumano</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Rol</nombrePagina>
+				<controller>rol</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Tipo de asociación</nombrePagina>
+				<controller>tipoAsociacion</controller>
+			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "2">
+		<nombreRol>Bdministrador</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>B</nombrePagina>
+				<controller>cargo</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>C</nombrePagina>
+				<controller>departamento</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>D</nombrePagina>
+				<controller>estado</controller>
+			</pagina>
+		</paginas>
+	</rol>
+</roles>
