@@ -42,23 +42,65 @@
 		</paginas>
 	</rol>
 	<rol id = "2">
-		<nombreRol>Bdministrador</nombreRol>
+		<nombreRol>Coordinador de desarrollo</nombreRol>
 		<paginas>
 			<pagina>
 				<nombrePagina>A</nombrePagina>
 				<controller>accion</controller>
 			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "3">
+		<nombreRol>Coordinador de proyecto</nombreRol>
+		<paginas>
 			<pagina>
-				<nombrePagina>B</nombrePagina>
-				<controller>cargo</controller>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
 			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "4">
+		<nombreRol>Coordinador de atención</nombreRol>
+		<paginas>
 			<pagina>
-				<nombrePagina>C</nombrePagina>
-				<controller>departamento</controller>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
 			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "5">
+		<nombreRol>Desarrollador</nombreRol>
+		<paginas>
 			<pagina>
-				<nombrePagina>D</nombrePagina>
-				<controller>estado</controller>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
+			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "6">
+		<nombreRol>Analista de atención</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
+			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "7">
+		<nombreRol>Ventanilla única</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
+			</pagina>
+		</paginas>
+	</rol>
+		<rol id = "8">
+		<nombreRol>Usuario final</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>A</nombrePagina>
+				<controller>accion</controller>
 			</pagina>
 		</paginas>
 	</rol>
