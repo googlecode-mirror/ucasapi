@@ -1,11 +1,10 @@
-
-
 $(document).ready(function(){
 	 js_ini();
 	 $("#departamentoButton").addClass("highlight");
 	 departmentAutocomplete();	
-	 
 	 loadGrid();
+	 ajaxUpload();
+	 
 });	
 
 function departmentAutocomplete(){
@@ -118,8 +117,7 @@ function deleteData(){
 	}	
 }
 
-function loadGrid(){
-	
+function loadGrid(){	
 	 $("#list").jqGrid({
 		   	url:  "index.php/departamento/gridRead/",
 		    datatype: "json",
@@ -137,8 +135,7 @@ function loadGrid(){
 		    viewrecords: true,
 		    gridview: true,
 		    caption: "Departamentos"
-	  });	 
-	
+	  });	
 }
 
 
@@ -155,3 +152,28 @@ function clear(){
 	$("#txtRecords").val("");
 }
 
+
+function ajaxUpload(){
+	new AjaxUpload("btnUpload", {
+		debug:true,
+        action: "index.php/upload/do_upload/",
+		onSubmit : function(file , ext){
+            // Extensions allowed. You should add security check on the server-side.
+			if (ext && /^(txt|png|jpeg|docx)$/.test(ext)){
+				/* Setting data */
+				this.setData({
+					"key": 'This string will be send with the file'
+				});					
+				//$('#example2.text').text('Uploading ' + file);	
+			} else {					
+				// extension is not allowed
+				//$('#example2.text').text('Error: only images are allowed');
+				// cancel upload
+				return false;				
+			}		
+		},
+		onComplete : function(file,response){
+			alert(response);				
+		}		
+	});
+}
