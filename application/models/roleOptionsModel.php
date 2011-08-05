@@ -1,5 +1,5 @@
 <?php
-class menuOptionsModel{	
+class roleOptionsModel{	
 	
 	//Retorna el código html del menú correspondiente al rol
 	function showMenu($idRol){		
