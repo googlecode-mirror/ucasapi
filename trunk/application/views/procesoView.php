@@ -1,24 +1,16 @@
 <html>
 	<head>
 		<title>Test</title>		
-<<<<<<< .mine
-			<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css"	rel="stylesheet" />
-			<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
-			<link rel="stylesheet" type="text/css" media="screen" href="application/views/css/themes/redmond/jquery-ui-1.8.2.custom.css" />
-			<link rel="stylesheet" type="text/css" media="screen" href="application/views/css/themes/ui.jqgrid.css" />
-			<link rel="stylesheet" type="text/css" media="screen" href="application/views/css/themes/ui.multiselect.css" />
-			<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-1.5.1.min.js"></script>
-			<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/jquery-ui-1.8.14.custom.min.js"></script>
-			<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/proceso.js"></script>
-			<script type="text/javascript" src="application/grids/i18n/grid.locale-en.js"></script>
-			<script type="text/javascript" src="application/views/js/jquery.jqGrid.min.js"></script>
-=======
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
+			<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/proceso.js"></script>
->>>>>>> .r134
 		
 	</head>
 	
@@ -47,10 +39,10 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Buscar proyecto: </span>
-					<input id="txtRecordsProy" type="text"  value=""/><br>
+					<input id="txtRecordsProy" class = "inputFieldAC" type="text"  value="" title = "Proyectos encontrados"/><br>
 					
 					<span class = "recordsLabel">Procesos: </span>
-					<input id="txtRecordsProc" type="text"  value=""/><br><br>
+					<input id="txtRecordsProc" class = "inputFieldAC" type="text"  value="" title = "Procesos encontrados"/><br><br>
 				</div>
 							
 				<div class="divCRUDButtons">
@@ -71,21 +63,28 @@
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
 						
 				<span class = "inputFieldLabel">Nombre: </span>
-				<input id="txtProcesoName" type="text"  value="" class = "inputField"/><br>
+				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField"/><br>
 				
 				<span class = "inputFieldLabel">Proyecto (opcional): </span>
-				<input id="txtProyectoName" type="text"  value="" class = "inputField"/>
+				<input id="txtProyectoName" class = "inputFieldAC" type="text"  value="" class = "inputField"/>
 				
 				<span class = "inputFieldLabel">Estado: </span>
-				<input id="txtEstadoName" type="text"  value="" class = "inputField"/>
-			
+				<select id="cbEstado"></select>
+				<br><br><br><br><br><br><br>
 				<span class = "inputFieldLabel">Descripción: </span>
-				<textArea id="txtProcesoDesc" cols=20 rows=6 class = "inputField"></textArea>
-				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-				<span class = "inputFieldLabel">Fases: </span>
-				<br><br><br>		
-				<p align="center"><table id="fasesList"></table></p>
-				<div id="pager"></div>
+				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>
+				<br><br><br><br><br><br><br><br><br>
+				<span class = "inputFieldLabel">Fases en que se encuentra el proceso: </span>
+				<br><br><br>
+				<div align="center">
+					<table id="tablaFases"></table>
+					<div id="pager"></div>
+				</div>
+				<br>
+				<div align="center">
+					<button id="btnEdit" onClick="editDate()">Editar</button>
+					<button id="btnCancelEd" onClick="cancelEdit()">Cancelar Edicion</button>
+				</div>
 							
 			</div>
 			

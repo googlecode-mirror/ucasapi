@@ -34,8 +34,9 @@ class procesoModel extends CI_Model{
 		
 		$idProceso = $this->input->post("idProceso");		
 		
-		$sql = "SELECT p.nombreProceso, p.descripcion, e.estado
-				FROM PROCESO p INNER JOIN ESTADO e ON p.idEstado = e.idEstado
+		$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto
+				FROM PROCESO p INNER JOIN Proyecto pr ON p.idProyecto = pr.idProyecto 
+					INNER JOIN ESTADO e ON p.idEstado = e.idEstado
 				WHERE p.idProceso = " .$idProceso;
 		
 		$query = $this->db->query($sql);
@@ -53,40 +54,66 @@ class procesoModel extends CI_Model{
 	    return $retArray;
 	}
 	
-	function readGrid(){
+	function readGrid($idProceso){
 		$this->load->database();
 		
-		//$idProceso = $this->input->post("idProceso");
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
 		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$idProceso = $this->input->post("idProceso");		
-		
-		$sql = 	"SELECT f.nombreFase, fxp.FechaIniPlan, fxp.FechaFinPlan, fxp.FechaIniReal, fxp.FechaFinReal " .
-			   	"FROM FASE f INNER JOIN FASE_PROCESO fxp ON f.idFase = fxp.idFase INNER JOIN PROCESO p " . 
-				"ON fxp.idProceso = p.idProceso WHERE p.idProceso = 1";
+		$sql = "SELECT COUNT(*) FROM Fase";
 		
 		$query = $this->db->query($sql);
-		
-		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
-					$rowArray = array();
-					$rowArray["nombreFase"] = $row->nombreFase;
-					$rowArray["fechaIniPlan"] = $row->FechaIniPlan;
-					$rowArray["fechaFinPlan"] = $row->FechaFinPlan;
-					$rowArray["fechaIniReal"] = $row->FechaIniReal;
-					$rowArray["fechaFinReal"] = $row->FechaFinReal;
-					$retArray["data"][] = $rowArray;				
-				}							
-			}
+
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
 		}
 		else{
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-		}		
-	    
-	    return $retArray;
+			$total_pages = 0;
+		}
+
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		//------------------------------------------------------------------------------------------------------
+		
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());	
+		
+		$sql = 	"SELECT p.idProceso, f.nombreFase, fxp.fechaIniPlan, fxp.fechaFinPlan, fxp.fechaIniReal, fxp.fechaFinReal " .
+			   	"FROM FASE f INNER JOIN FASE_PROCESO fxp ON f.idFase = fxp.idFase INNER JOIN PROCESO p " . 
+				"ON fxp.idProceso = p.idProceso WHERE p.idProceso = ".$idProceso;
+		
+		$query = $this->db->query($sql);
+
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $row->idProceso;
+					$response->rows[$i]["nombreFase"] = $row->nombreFase;
+					$response->rows[$i]["fechaIniPlan"] = $row->fechaIniPlan;
+					$response->rows[$i]["fechaFinPlan"] = $row->fechaFinPlan;
+					$response->rows[$i]["fechaIniReal"] = $row->fechaIniReal;
+					$response->rows[$i]["fechaFinReal"] = $row->fechaFinReal;
+					$response->rows[$i]["cell"] = array($row->nombreFase, $row->fechaIniPlan, $row->fechaFinPlan, $row->fechaIniReal, $row->fechaFinReal);
+					$i++;
+				}
+			}
+		}
+
+		return $response;
 	}
 
 	function update(){
@@ -135,12 +162,14 @@ class procesoModel extends CI_Model{
 	}
 	
 	
-	function autocompleteRead(){
+	function autocompleteRead($idProyecto){
 		$this->load->database();
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idProceso, nombreProceso, descripcion FROM PROCESO";
+		$sql = "SELECT p.nombreProceso, p.idProceso 
+				FROM Proceso p INNER JOIN Proyecto pr ON p.idProyecto = pr.idProyecto
+				WHERE p.idProyecto = " .$idProyecto;
 		$query = $this->db->query($sql);		
 	
 		if($query){
@@ -184,22 +213,24 @@ class procesoModel extends CI_Model{
 		return $retArray;
 	}
 	
-	/*
-	function statusTypeAutocomplete(){
+	function estadoAutocomplete($idTipo){
 		$this->load->database();
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idTipoEstado, nombreTipoEstado FROM TIPO_ESTADO";
+		$sql = "select e.idEstado, e.estado
+				from ESTADO e INNER JOIN TIPO_ESTADO tp ON e.idTipoEstado = tp.idTipoEstado
+				WHERE e.idTipoEstado = " .$idTipo;
+		
 		$query = $this->db->query($sql);		
 	
 		if($query){
 			if($query->num_rows > 0){			
 				foreach ($query->result() as $row){		
 					$rowArray = array();
-					$rowArray["id"] = $row->idTipoEstado;
-					$rowArray["value"] = $row->nombreTipoEstado;
-					
+					$rowArray["id"] = $row->idEstado;
+					$rowArray["value"] = $row->estado;
+										
 					$retArray["data"][] = $rowArray;				
 				}							
 			}
@@ -207,9 +238,9 @@ class procesoModel extends CI_Model{
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-		}
-		
+		}		
 		return $retArray;
-	}*/
+	}
+	
 	
 }
