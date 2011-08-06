@@ -1,10 +1,7 @@
 <html>
 	<head>
 		<title>Test</title>
-		<?php
-			require_once("application/models/menuOptionsModel.php");
-			$menuBarModel = new menuBarModel();
-		?>
+
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
@@ -22,7 +19,7 @@
 
 		<div class="menuBar">
 			<ul>
-				<?php $menuBarModel->showMenu();?>
+
 			</ul>
 		</div>
 
@@ -63,8 +60,6 @@
 
 				<span class = "inputFieldLabel">Otros interesados:</span>
 				<span class="cleanable" id="interesados"></span><br><br><br>
-
-				<div id ="msgBox"></div>
 
 				<div id="tabs">
 					<ul>

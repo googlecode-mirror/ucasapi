@@ -102,12 +102,12 @@ class solicitudModel extends CI_Model {
 		return $retArray;
 	}
 
-	function getSolicitud () {
+	function getSolicitud ($idPeticion=NULL) {
 		$this->load->database();
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
 		//array con la clave de la solicitud -> anioSolicitud-correlAnio
-		$solicitudIds = explode("-", $this->input->post("idSolicitud"));
+		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
 
 		$query = "SELECT " .
 						"s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente, " .
