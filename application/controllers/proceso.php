@@ -12,15 +12,15 @@ class Proceso extends CI_Controller{
 		echo json_encode($this->procesoModel->read());
 	}
 	
-	function procesoGridRead(){
+	function gridFasesProceso($idProceso){
 		$this->load->model("procesoModel");
-		echo json_encode($this->procesoModel->readGrid());
+		echo json_encode($this->procesoModel->readGrid($idProceso));
 	}
 
-	function procesoAutocompleteRead(){
+	function procesoAutocompleteRead($idProyecto){
 		$this->load->model("procesoModel");
 
-		$autocompleteData = $this->procesoModel->autocompleteRead();
+		$autocompleteData = $this->procesoModel->autocompleteRead($idProyecto);
 
 		echo json_encode($autocompleteData);
 	}
@@ -42,10 +42,10 @@ class Proceso extends CI_Controller{
 		echo json_encode($autocompleteData);
 	}
 
-	function procesoEstadoAutocompleteRead(){
-		$this->load->model("estadoModel");
+	function procesoEstadoAutocompleteRead($idTipo){
+		$this->load->model("procesoModel");
 
-		$autocompleteData = $this->estadoModel->autocompleteRead();
+		$autocompleteData = $this->procesoModel->estadoAutocomplete($idTipo);
 
 		echo json_encode($autocompleteData);
 	}

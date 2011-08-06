@@ -1,15 +1,15 @@
 
 $(document).ready(function(){
-	procesoAutocomplete();
 	procesoProyectoAutocomplete();
-	procesoFaseAutocomplete();
 	procesoEstadoAutocomplete();
+	$("#idProceso").val("0");
+	loadGrid("0");
 });	
 
-function procesoAutocomplete(){
+function procesoAutocomplete($idProyecto){
 	$.ajax({				
 		type: "POST",
-		url:  "index.php/proceso/procesoAutocompleteRead",
+		url:  "index.php/proceso/procesoAutocompleteRead/" + $idProyecto,
 		data: "statusAutocomplete",
 		dataType : "json",
 		success: function(retrievedData){        	
@@ -49,6 +49,7 @@ function procesoProyectoAutocomplete(){
 					minLength: 1,
 					select: function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
+						procesoAutocomplete($("#idProyecto").val());
 					}
 				});
 
@@ -87,24 +88,17 @@ function procesoFaseAutocomplete(){
 function procesoEstadoAutocomplete(){
 	$.ajax({				
 		type: "POST",
-		url:  "index.php/estado/statusAutocompleteRead",
+		url:  "index.php/proceso/procesoEstadoAutocompleteRead/3",
 		data: "procesoEstadoAutocomplete",
 		dataType : "json",
-		success: function(retrievedData){        	
-			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-			}
-			else{        		
-				$("#txtEstadoName").autocomplete({
-					minChars: 0,  
-					source: retrievedData.data,
-					minLength: 1,
-					select: function(event, ui) {
-						$("#idEstado").val(ui.item.id);
-					}
-				});        		
-			}        	
-		}      
+		success: function(retrievedData){        	 
+			options = '<option value="">--Estado--</option>';
+			$.each(retrievedData.data, function(i,obj) {
+				options += '<option value="' + obj.id + '">' + obj.value + '</option>';
+			});			
+			$("#cbEstado").html(options);
+			
+		}
 	});		
 }
 
@@ -133,9 +127,7 @@ function save(){
 				else{
 					alert("Registro actualizado con éxito");
 				}
-				procesoAutocomplete();
 				procesoProyectoAutocomplete();
-				procesoFaseAutocomplete();
 				procesoEstadoAutocomplete();
 				clear();
 			}
@@ -157,43 +149,63 @@ function edit(){
 				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
 			}else{
 				$("#txtProcesoName").val(retrievedData.data.nombreProceso);
-				$("#txtEstadoName").val(retrievedData.data.estado);
+				$("#cbEstado").val(retrievedData.data.idEstado);
 				$("#txtProcesoDesc").val(retrievedData.data.descripcion);
-
-			}			       
+				$("#txtProyectoName").val(retrievedData.data.nombreProyecto)
+				$("#tablaFases").GridUnload();
+				loadGrid();
+			}			      
 		}      
 	});
-	loadGrid();
 }
 
-function loadGrid(){
-	var formData = $("#idProceso").val();
+function loadGrid($idProceso){
 
-	jQuery("#fasesList").jqGrid({
-		url: "index.php/proceso/procesoGridRead",
-		datatype: "json",	
-		data: formData,
-		colNames:['Nombre','Fecha Inicial Plan.', 'Fecha Final Plan.', 'Fecha Inicial Real','Fecha Final Real'],
-		colModel:[
-		          {name: 'nombreFase', index:'nombreFase', width:35, jsonmap: 'nombreFase'},
-		          {name: 'fechaIniPlan', index:'fechaIniPlan', width:42, jsonmap: 'fechaIniPlan'},
-		          {name: 'fechaFinPlan', index:'fechaFinPlan', width:40, jsonmap: 'fechaFinPlan'},
-		          {name: 'fechaIniReal', index:'fechaIniReal', width:42, jsonmap: 'fechaIniReal'},
-		          {name: 'fechaFinReal', index:'fechaFinReal', width:40, jsonmap: 'fechaFinReal'},
-		],
-		rowNum: 10,
-		rowList: [5,10,15],
-		pager: '#pager',
-		sortname: 'nombreFase',
-		viewrecords: true, 
-		sortorder: 'nombreFase', 
-		caption: 'Fases del proceso',
-		width: 600,
-		height: 175
-			
-	});
-	jQuery("#fasesList").jqGrid('navGrid','#pager',{edit:false,add:false,del:false});
+	$("#tablaFases").jqGrid(
+			{
+				url : "index.php/proceso/gridFasesProceso/" + $("#idProceso").val(),
+				datatype : "json",
+				mtype : "POST",
+				colNames : [ "Nombre", "Fecha Inicial Plan.", "Fecha Fin Plan.", "Fecha Inicial Real", "Fecha Fin Real" ],
+				colModel : [ {
+					name : "nombreFase",
+					index : "nombreFase",
+					width : 180
+				}, {
+					name : "fechaIniPlan",
+					index : "fechaIniPlan",
+					width : 120,
+					editable : true
+				}, {
+					name : "fechaFinPlan",
+					index : "fechaFinPlan",
+					width : 120,
+					editable : true
+				}, {
+					name : "fechaIniReal",
+					index : "fechaIniReal",
+					width : 120,
+					editable : true
+				}, {
+					name : "fechaFinReal",
+					index : "fechaFinReal",
+					width : 120,
+					editable : true
+				}],
+				pager : "#pager",
+				rowNum : 10,
+				rowList : [ 10, 20, 30 ],
+				sortname : "id",
+				sortorder : "desc",
+				ajaxGridOptions: {cache: false},
+				loadonce : false,
+				viewrecords : true,
+				gridview : true,
+				caption : "Fases del proceso"
+			});
 }
+
+
 
 function deleteData(){
 	var formData = "idEstado=" + $("#idEstado").val();
@@ -221,12 +233,26 @@ function deleteData(){
 	}	
 }
 
+function editDate(){
+	jQuery("#tablaFases").jqGrid('editRow',$("#tablaFases").jqGrid('getGridParam','selrow')); 
+	this.disabled = 'true'; 
+	jQuery("#btnCancelEd").attr("disabled",false);
+}
+
+function cancelEdit(){
+	jQuery("#tablaFases").jqGrid('restoreRow',$("#tablaFases").jqGrid('getGridParam','selrow')); 
+	jQuery("#btnCancelEd").attr("disabled",true); 
+	jQuery("#btnEdit").attr("disabled",false);
+	
+}
+
 function cancel(){
 	clear();
 }
 
 function clear(){
-	$(".inputField").val("");
+	$(".inputFieldAC").val("");
+	$(".inputFieldTA").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
 }

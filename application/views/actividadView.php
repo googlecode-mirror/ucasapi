@@ -70,8 +70,10 @@
 				class="inputField" /><br> <span class="inputFieldLabel">Actividad: </span>
 			<input id="txtActividadName" type="text" readonly="readonly"
 				class="inputField"></input> <span class="inputFieldLabel">Asignada
-				por: </span> <input id="txtAsignada" type="text" readonly="readonly"
-				class="inputField"></input> <span class="inputFieldLabel">Estado: </span>
+				por: </span> 
+			<input id="txtAsignada" type="text" readonly="readonly"
+				class="inputField"></input> 
+			<span class="inputFieldLabel">Estado: </span>
 			<select id="cbEstado"></select> <span class="inputFieldLabel">Progreso:
 			</span> <select id="cbProgreso">
 				<option value="">--Progreso--</option>
