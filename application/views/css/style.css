@@ -222,11 +222,13 @@ body {
 	margin-top : 20px;
 	margin-botom : 20px;
 	margin-left : 96px;	
+	height : 22px;
 }
 
 .divActions input[type="text"]{
 	float:right;
 	width : 256px;
+	height : 22px;
 	margin-top : 20px;
 	margin-right : 96px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
