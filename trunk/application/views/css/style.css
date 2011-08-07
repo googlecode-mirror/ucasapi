@@ -472,6 +472,37 @@ body {
 	margin-botom : auto;
 }
 
+.divDateCombo{
+	float:right;
+	margin-right : 96px;
+	margin-top: 20px;
+	background: #F7F7F7;
+	width : 256px;
+	height : 100px;
+	border-style:solid;
+	border-width:1px;
+	border-color: #BFBFBF;
+}
+
+.divDateCombo span{
+	float : left;
+	height : 20px;
+	width : 48px;
+	margin-top : 20px;
+	margin-left : 20px;
+	margin-botom : 10px;	
+}
+
+.divDateCombo input[type="text"]{
+	height : 20px;
+	float:right;
+	width : 128px;
+	margin-top : 20px;
+	margin-right : 20px;
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 1em;	
+}
+
 /************************************** jQuery ******************************************/
 .ui-autocomplete {
 	 max-height: 128px;
