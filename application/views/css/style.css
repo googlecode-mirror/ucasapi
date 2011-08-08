@@ -506,6 +506,12 @@ body {
 }
 
 /************************************** jQuery ******************************************/
+
+.ui-widget {
+    font-family: Lucida Grande, Lucida Sans, Arial;
+    font-size: 0.9em;
+}
+
 .ui-autocomplete {
 	 max-height: 128px;
 	 overflow-y: scroll;
