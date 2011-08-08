@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+	js_ini();
 	$('.divActions').addClass("ui-corner-all");
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
@@ -16,7 +17,7 @@ function cargoAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);        		
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
@@ -48,14 +49,14 @@ function save(){
 	        dataType : "json",
 	        success: function(retrievedData){
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+	        		msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);	        		
 	        	}
 	        	else{
 	        		if($("idCargo").val()==""){
-	        			alert("Registro agregado con ï¿½xito");
+	        			msgBoxSucces("Registro agregado con éxito");
 	        		}
 	        		else{
-	        			alert("Registro actualizado con ï¿½xito");
+	        			msgBoxSucces("Registro actualizado con éxito");
 	        		}
 	        		cargoAutocomplete();
 	        		clear();

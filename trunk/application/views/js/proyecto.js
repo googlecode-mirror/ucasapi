@@ -16,7 +16,7 @@ function proyectoAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
+				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);				
 			} else {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
@@ -42,7 +42,7 @@ function proyectoUsuarioAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
+				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 			} else {
 				$("#txtRecordsUsuario").autocomplete({
 					minChars : 0,
@@ -67,7 +67,7 @@ function proyectoUsuarioDuenhoAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
+				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 			} else {
 				$("#txtProyectoNombreDuenho").autocomplete({
 					minChars : 0,
@@ -96,14 +96,14 @@ function save() {
 	formData += "&idUsuarioDuenho=" + $("#idUsuarioDuenho").val();
 
 	if ($("#chkProyectoActivo").is(':checked')) {
-		alert('ACTIVO');
+		//alert('ACTIVO');
 		formData += "&activo=1";
 	} else {
-		alert('INACTIVO');
+		//alert('INACTIVO');
 		formData += "&activo=0";
 	}
 
-	alert(formData);
+	//alert(formData);
 
 	if (validar_campos()) {
 
@@ -119,8 +119,7 @@ function save() {
 					if ($("#idProyecto").val() == "") {
 						msgBoxSucces("Registro agregado con éxito");
 					} else {
-						msgBoxSucces("Registro actualizado con éxito");
-						alert("Registro actualizado con éxito");
+						msgBoxSucces("Registro actualizado con éxito");						
 					}
 					proyectoAutocomplete();
 					proyectoUsuarioDuenhoAutocomplete();
@@ -144,8 +143,7 @@ function edit() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-
+				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 			} else {
 				$("#txtProyectoNombre").val(retrievedData.data.nombreProyecto);
 				$("#txtProyectoNombreDuenho").val(
@@ -162,10 +160,10 @@ function edit() {
 				$("#txtProyectoDescripcion")
 						.val(retrievedData.data.descripcion);
 				if (retrievedData.data.activo == '1') {
-					alert('ACTIVO');
+					//alert('ACTIVO');
 					$("#chkProyectoActivo").attr('checked', true);
 				} else {
-					alert('INACTIVO');
+					//alert('INACTIVO');
 					$("#chkProyectoActivo").attr('checked', false);
 				}
 				$('#gridDocuments').setGridParam(
@@ -294,7 +292,7 @@ function saveFileData(fileName) {
 	formData += "&descripcion=" + $("#txtFileDesc").val();
 	formData += "&idArchivo=" + idArchivo;
 	if($idProyecto != ""){
-		alert($idProyecto);
+		//alert($idProyecto);
 	$.ajax({
 		type : "POST",
 		url : "index.php/proyecto/fileValidateAndSave",
