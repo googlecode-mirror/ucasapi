@@ -60,7 +60,6 @@ function save(){
 	else{
 		formData += "&remove_data=0"; 
 	}
-
 	$.ajax({
 		type: "POST",
 		url: "index.php/actividad/actividadValidateAndSave",
@@ -227,6 +226,8 @@ function desasignar() {
 		$("#list").delRowData(row_id);
 	}
 }
+
+
 
 function cancel() {
 	// $("#btnCancel").toggleClass('ui-state-active');

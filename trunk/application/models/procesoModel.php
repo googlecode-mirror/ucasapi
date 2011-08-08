@@ -122,13 +122,13 @@ class procesoModel extends CI_Model{
 		$retArray = array("status"=> 0, "msg" => "");
 		
 		$idEstado = $this->input->post("idEstado");
-		$estado = $this->input->post("estado");
-		$idTipoEstado = $this->input->post("idTipoEstado");
+		$idProceso = $this->input->post("idProceso");
+		$nombreProceso = $this->input->post("nombreProceso");
+		$descripcion = $this->input->post("descripcion");
 		
-		$sql = "UPDATE ESTADO 
-				SET estado = ".$this->db->escape($estado).",
-				    idTipoEstado = ".$idTipoEstado."
-				WHERE idEstado = ". $idEstado; 
+		$sql = "UPDATE PROCESO  
+				SET idEstado = ".$idEstado.", nombreProceso = ".$nombreProceso.", descripcion = ".$descripcion." 
+				 WHERE idProceso = " .$idProceso; 
 		
 		$query = $this->db->query($sql);
 		

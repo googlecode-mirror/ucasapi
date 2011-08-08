@@ -82,8 +82,7 @@
 				</div>
 				<br>
 				<div align="center">
-					<button id="btnEdit" onClick="editDate()">Editar</button>
-					<button id="btnCancelEd" onClick="cancelEdit()">Cancelar Edicion</button>
+					<button id="btnEdit" onClick="editDate()">Editar Datos</button>
 				</div>
 							
 			</div>

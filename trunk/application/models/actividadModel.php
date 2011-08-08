@@ -40,7 +40,8 @@ class actividadModel extends CI_Model{
     			 	INNER JOIN Usuario u ON uxa.idUsuarioAsigna = u.idUsuario
 				WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM Bitacora WHERE idActividad = ".$idActividad.") 
 					AND a.idActividad = " .$idActividad. " AND p.idProyecto = " .$idProyecto." AND uxa.idUsuario = ".$idUsuario;
-				
+		
+		
 		$query = $this->db->query($sql);
 
 		if($query) {
