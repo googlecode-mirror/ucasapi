@@ -40,71 +40,58 @@
 		<div><span id="pageTittle"></span></div>
 		
 		<div class="container" style = "height : 1050px">
-			<div style="height: 20px"></div>
-			<input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/><br>
+			<div style="height: 20px"></div>			
 			
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Usuario</span>
-					<input id="txtRecords" type="text"  value=""/><br>
+					<input id="txtRecords" type="text"  value="" class="inputFieldAC"/><br>
 				</div>
 							
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="save()">Guardar</button>
-					<button id="btnEdit" onClick="edit()">Editar</button>
-					<button id="btnDelete" onClick="deleteData()">Eliminar</button>
+					<!-- <button id="btnSave" onClick="save()">Guardar</button>  -->
+					<button id="btnEdit" onClick="edit()">Contratos</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
-
 				</div>
 			</div>
 				
 			<div id ="msgBox"></div>	
 				
 			<div class="divDataForm" style="height: 850px">
-				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idCargo" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>				
-				
-				<span class = "inputFieldLabel">Inicio contrato:</span>
-				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Fecha inicio de este contrato"/><br>
-							
+				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>								
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
+								
+				<span class = "requiredFieldLabel">Inicio contrato:</span>
+				<input id="txtFechaInicioContrato" type="text"  value="" class = "jqcalendario" title = "Fecha inicio de este contrato" readonly/><br>
+											
 				<span class = "requiredFieldLabel">Fin contrato:</span>
-				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "jqcalendar" title = "Fecha finalización de este contrato" readonly/><br>
+				<input id="txtFechaFinContrato" type="text"  value="" class = "jqcalendario" title = "Fecha finalización de este contrato" readonly/><br>
+								
+				<span class = "requiredFieldLabel">Tiempo contrato:</span>
+				<input id="txtTiempoContrato" type="text"  value="" class = "inputFieldNUM" onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" title = "Tiempo en meses que durara el contrato"/><br>				
 				
-				<span class = "inputFieldLabel">Tiempo contrato:</span>
-				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "jqcalendar" title = "Tiempo en meses que durara el contrato"/><br>				
 				
-				<span class = "inputFieldLabel">Activo:</span>
-				<input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema" class="inputCHK"/><br>
+				<br>
+				<div class="divAddButton">
+					<button id="btnSaveContrato" onClick="saveContrato()" >Guardar</button>					
+					<button id="btnEditContrato" onClick="editContrato()" >Editar</button>
+					<button id="btnDeleteContrato" onClick="deleteData()">Eliminar</button>
+					<button id="btnCancelContrato" onClick="cancelContrato()" >Cancelar</button>
+				</div>
+				<br>
+				<div align="center" class = "gridView" style = "width : 480px">
+						<table id="usuarioHist"></table>
+						<div style = "height : 40px" id="gridpagerUH"></div>
+				</div>	
 				
 			</div>
 			<!-- <div class="divDataForm" style="height: 250px" align="center">  -->
 				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>				
 				
-				<table>
-				<tr>				
-					<td>
-					<div>
-						<table id="usuarioHist"></table>
-						<div style = "height : 40px" id="gridpagerUH"></div>
-					</div>
-					</td>
-					<td>
-						<br>
-					</td>	
-					<td>
-					</td>				
-				</table>				
-				
-				
-				
-				
-				
-				
-			<!-- </div> 
+					
+			<!-- </div> -->
 			
-			<button id="btnSaveContrato" onClick="saveContrato()" >Guardar contrato</button>					
-				<button id="btnCancelContrato" onClick="cancelContrato()" >Cancelar</button> -->	
+			
 		</div>
 		
 	</body>

@@ -5,69 +5,38 @@ class historicoUsuarioModel extends CI_Model{
 
 	function create(){
 
-		$idUsuario;
+		$idUsuario = $this->input->post("idUsuario");
 
 		$this->load->database();
 
 		$retArray = array("status"=> 0, "msg" => "");
 
-		// tomando la data del post
-		$username = $this->input->post("username");
-		$password = $this->input->post("password");
-		$primerNombre = $this->input->post("primerNombre");
-		$primerApellido = $this->input->post("primerApellido");
-		$otrosNombres = $this->input->post("otrosNombres");
-		$otrosApellidos = $this->input->post("otrosApellidos");
-		$codEmp = $this->input->post("codEmp");
-		$dui = $this->input->post("dui");
-		$nit = $this->input->post("nit");
-		$isss = $this->input->post("isss");
-		$emailPersonal = $this->input->post("emailPersonal");
-		$emailInstitucional = $this->input->post("emailInstitucional");
-		$nup = $this->input->post("nup");
-		$carnet = $this->input->post("carnet");
-		$activo = $this->input->post("activo");
-		$idDepto = (int) $this->input->post("idDepto");
-		$idCargo = (int) $this->input->post("idCargo");
-		$fechaNacimiento = (int) $this->input->post("fechaNacimiento");
-		$telefonoContacto = (int) $this->input->post("telefonoContacto");
-		$extension = (int) $this->input->post("extension");
-		
-		
-		$rol_rows = $this->input->post("rol_data");		
+		$fechaInicioContrato = $this->input->post("fechaInicioContrato");
+		$fechaFinContrato = $this->input->post("fechaFinContrato");
+		$tiempoContrato = $this->input->post("tiempoContrato");
+		$nuevoCorrel = 1;
 
-		// guardar los datos basicos de usuario
-		$sql = "INSERT INTO USUARIO (username, password, primerNombre, primerApellido, otrosNombres, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, idDepto, idCargo, activo, fechaNacimiento, telefonoContacto, extension)
-				VALUES (".$this->db->escape($username).", ".$this->db->escape($password).", ".$this->db->escape($primerNombre).", ".$this->db->escape($primerApellido)."
-				, ".$this->db->escape($otrosNombres).", ".$this->db->escape($otrosApellidos).", ".$this->db->escape($codEmp).", ".$this->db->escape($dui).", ".$this->db->escape($nit)."
-				, ".$this->db->escape($isss).", ".$this->db->escape($emailPersonal).", ".$this->db->escape($emailInstitucional).", ".$this->db->escape($nup)."
-				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).",".$this->db->escape($fechaNacimiento).",'".$this->db->escape($telefonoContacto)."',".$this->db->escape($extension).")";
-
-
-		/*********************************************************************************/
-		$this->db->trans_begin();
-		// insertando el usuario
-		$this->db->query($sql);
-
-		if($rol_rows != ""){
-			//echo "hola";
-			// tomar el id del usuario que estoy guardando, preguntando por el username
-			$sql = "SELECT idUsuario FROM USUARIO WHERE username = '".$username."'";
-			$query = $this->db->query($sql);
-			if ($query->num_rows() > 0)
-			{
-				$row = $query->row();
-				$idUsuario = $row->idUsuario;
-			}
-			// formando arreglo con los parametros de insert
-			$data_array = explode("|",$rol_rows);
-			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
-			foreach ($insert_statements as $queryRoles) {
-				$this->db->query($queryRoles);
-			}
+		$sqlCorrel = "SELECT MAX(correlUsuarioHistorico)+1 lastCorrel FROM USUARIO_HISTORICO WHERE idUsuario = '".$idUsuario."'";
+		$query = $this->db->query($sqlCorrel);
+		if ($query->num_rows() > 0)
+		{
+			$row = $query->row();
+			$nuevoCorrel = $row->lastCorrel;			
 		}
+		if($nuevoCorrel = $row->lastCorrel == null)
+			$nuevoCorrel = 1;
 
-		//controlando la transaccion
+		$this->db->trans_begin();
+
+		$sql = "INSERT INTO USUARIO_HISTORICO (idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo)
+				VALUES (".$this->db->escape($idUsuario)."
+				, ".$this->db->escape($nuevoCorrel)."
+				, ".$this->db->escape($fechaInicioContrato)."
+				, ".$this->db->escape($fechaFinContrato)."
+				, ".$this->db->escape($tiempoContrato).", 1)";
+
+		$this->db->query($sql);
+			
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
@@ -75,45 +44,9 @@ class historicoUsuarioModel extends CI_Model{
 		} else {
 			$this->db->trans_commit();
 		}
-
 		return $retArray;
 	}
 
-	function getRolInsert($data_array, $idUsuario){
-		$counter = 1;
-		$idRolInsert;
-		$idUsuarioInsert;
-		$fechaAsignacionSistema;
-		$index = 0;
-		$indexTrippin = 0;
-		$trippin;
-
-		foreach ($data_array as $value) {
-			if($counter == 1){
-				$idRolInsert = $value;
-				$counter++;
-				continue;
-			}
-			if($counter == 2){
-				$idUsuarioInsert = $idUsuario;
-				$counter++;
-				continue;
-			}
-			if($counter == 3){
-				$fechaAsignacionSistema = $value;
-				$counter = 1;
-				if($fechaAsignacionSistema == "null"){
-					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",CURRENT_TIMESTAMP)";
-				}else{
-					$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",'".$fechaAsignacionSistema."')";
-				}
-
-				continue;
-			}
-		}
-
-		return  $trippin;
-	}
 
 	function read(){
 		$this->load->database();
@@ -122,10 +55,9 @@ class historicoUsuarioModel extends CI_Model{
 
 		$idUsuario = $this->input->post("idUsuario");
 
-		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo, fechaNacimiento, telefonoContacto, extension 
-				FROM DEPARTAMENTO D, USUARIO U, CARGO C
-				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
-				idUsuario = ".$idUsuario;
+		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo
+				FROM USUARIO_HISTORICO 
+				WHERE idUsuario = ".$idUsuario;
 
 		$query = $this->db->query($sql);
 
@@ -168,7 +100,7 @@ class historicoUsuarioModel extends CI_Model{
 		$fechaNacimiento = $this->input->post("fechaNacimiento");
 		$telefonoContacto = $this->input->post("telefonoContacto");
 		$extension = $this->input->post("extension");
-		
+
 		$rol_rows = $this->input->post("rol_data");
 
 
@@ -205,7 +137,7 @@ class historicoUsuarioModel extends CI_Model{
 		$query = $this->db->query($sql);
 
 		if($rol_rows != ""){
-				
+
 			// insertando roles al usuario, segundo paso para sobrescribir
 			$data_array = explode("|",$rol_rows);
 			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
@@ -288,15 +220,9 @@ class historicoUsuarioModel extends CI_Model{
 
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
-		$this->form_validation->set_rules("primerNombre", "Primer Nombre", 'required');
-		$this->form_validation->set_rules("primerApellido", "Apellidos", 'required');
-		$this->form_validation->set_rules("username", "username", 'required');
-		$this->form_validation->set_rules("password", "password", 'required');
-		$this->form_validation->set_rules("dui", "DUI", 'required');
-		$this->form_validation->set_rules("nit", "NIT", 'required');
-		$this->form_validation->set_rules("isss", "ISSS", 'required');
-		$this->form_validation->set_rules("codEmp", "Codigo Empleado", 'required');
-		$this->form_validation->set_rules("isss", "ISSS", 'required');
+		$this->form_validation->set_rules("fechaInicioContrato", "Inicio Contrato", 'required');
+		$this->form_validation->set_rules("fechaFinContrato", "Fin Contrato", 'required');
+		$this->form_validation->set_rules("tiempoContrato", "Tiempo contrato", 'required');
 
 		$this->form_validation->set_message('required', 'El campo "%s" es requerido');
 
@@ -304,16 +230,9 @@ class historicoUsuarioModel extends CI_Model{
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 
-			$retArray["msg"] .= form_error("primerNombre");
-			$retArray["msg"] .= form_error("primerApellido");
-			$retArray["msg"] .= form_error("username");
-			$retArray["msg"] .= form_error("password");
-			$retArray["msg"] .= form_error("dui");
-			$retArray["msg"] .= form_error("nit");
-			$retArray["msg"] .= form_error("isss");
-			$retArray["msg"] .= form_error("codEmp");
-			$retArray["msg"] .= form_error("isss");
-
+			$retArray["msg"] .= form_error("fechaInicioContrato");
+			$retArray["msg"] .= form_error("fechaFinContrato");
+			$retArray["msg"] .= form_error("tiempoContrato");
 		}
 
 		return $retArray;
@@ -355,9 +274,7 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		//-------------------------
-
-		$sql = "SELECT idUsuario, correlativoUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
+		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
 		$query = $this->db->query($sql);
 
 		$i = 0;
@@ -365,7 +282,7 @@ class historicoUsuarioModel extends CI_Model{
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i;// de esto no estoy del todo seguro
-					$response->rows[$i]["cell"] = array($row->fechaInicioContrato,$row->fechaFinContrato,$row->tiempoContrato,$row->correlativoUsuarioHistorico, $row->idUsuario,"null");
+					$response->rows[$i]["cell"] = array($row->fechaInicioContrato,$row->fechaFinContrato,$row->tiempoContrato, $row->activo, $row->correlativoUsuarioHistorico, $row->idUsuario);
 					$i++;
 				}
 			}
