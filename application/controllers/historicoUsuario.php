@@ -17,17 +17,9 @@ class historicoUsuario extends CI_Controller{
 		$this->load->view("historicoUsuarioView");
 	}
 
-	function usuarioRead(){
-		$this->load->model("usuarioModel");
-		echo json_encode($this->usuarioModel->read());
-	}
-
-	function usuarioDepartamentoAutocompleteRead(){
-		$this->load->model("departamentoModel");
-
-		$autocompleteData = $this->departamentoModel->autocompleteRead();
-
-		echo json_encode($autocompleteData);
+	function contratosRead(){
+		$this->load->model("historicoUsuarioModel");
+		echo json_encode($this->historicoUsuarioModel->read());
 	}
 
 	function usuarioAutocompleteRead(){
@@ -72,20 +64,20 @@ class historicoUsuario extends CI_Controller{
 		echo json_encode($deleteInfo);
 	}
 
-	function usuarioValidateAndSave(){
-		$this->load->model("usuarioModel");
+	function historicoUsuarioValidateAndSave(){
+		$this->load->model("historicoUsuarioModel");
 		$retArray = array();
 
-		$validationInfo = $this->usuarioModel->saveValidation();
+		$validationInfo = $this->historicoUsuarioModel->saveValidation();
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
-			$idUsuario =  $this->input->post("idUsuario");
+			$accionActual =  $this->input->post("accionActual");
 
-			if($idUsuario == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
-				$retArray = $this->usuarioModel->create();
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+				$retArray = $this->historicoUsuarioModel->create();
 			}
 			else{
-				$retArray = $this->usuarioModel->update();
+				$retArray = $this->historicoUsuarioModel->update();
 			}
 
 		}
