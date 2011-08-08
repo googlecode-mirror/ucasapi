@@ -16,12 +16,15 @@
 
 		<div class="menuBar">
 			<ul>
-				<
+				<?echo $menu;?>
 			</ul>
 		</div>
 
 		<div class="sessionBar">
-			<span id="sessionUser"><?php echo $this->session->userdata("username") . ' - ' . $this->session->userdata("idUsuario"); ?></span>
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />
+			<span id="systemName"><b>SKY PROJECT??</b></span>
+			<img id="logoutButton" title="Cerrar sesi�n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span>
 		</div>
 
 		<div><span id="pageTittle"></span></div>

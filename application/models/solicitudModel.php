@@ -328,15 +328,17 @@ class solicitudModel extends CI_Model {
 	}
 
 	function transferirSolicitud() {
+		$this->load->helper(array('url'));
 		$this->load->database();
 		$this->load->library('session');
 
 		$retArray = array("status"=> 0, "msg" => "");
 
 		$idDestinatario = $this->input->post("idDestinatario");
+		$idSolicitud = $this->input->post("idSolicitud");
 
 		$sql = "INSERT INTO NOTIFICACION (notificacion, subject, fechaNotificacion)
-				VALUES ('Una solicitud le ha sido transferida. Puede verla aqui: <a href=\"#\">http://www.google.com</a>',
+				VALUES ('Una solicitud le ha sido transferida. Puede verla <a href=\"" . base_url() . "solicitud/getSolicitud/" . $idSolicitud . "\">aqui</a>',
 				'Transferencia de solicitud', CURRENT_DATE)";
 
 		$sql2 = "INSERT INTO USUARIO_NOTIFICACION (idUsuario, idNotificacion, idEstado) VALUES (?, LAST_INSERT_ID(), 2)";

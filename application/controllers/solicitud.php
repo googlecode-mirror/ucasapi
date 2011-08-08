@@ -3,7 +3,7 @@
 class Solicitud extends CI_Controller {
 
 	function index() {
-		$this->load->library('session');
+	$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
 
 		$idUsuario = $this->session->userdata("idUsuario");//Se agrega en $idRol el dato correspondiente de la sesi�n
