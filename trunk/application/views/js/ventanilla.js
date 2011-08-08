@@ -1,8 +1,15 @@
 $(document).ready(function(){
 	js_ini();
 	loadGrid();
-	$("#list").hideCol("anio");
-	$("#list").hideCol("correl");
+	$("#dialogoSolicitud").dialog({
+		width: 700,
+		autoOpen: false
+	});
+	$("#dialogoTransferir").dialog({
+		autoOpen: false
+	});
+//	$("#list").hideCol("anio");
+//	$("#list").hideCol("correl");
 });
 
 function loadGrid() {
@@ -28,7 +35,8 @@ function loadGrid() {
 		    caption: "Solicitudes",
 		    ondblClickRow: function(id) {
 		    	mostrarSolicitud(id);
-		    	$("#txtRecords").attr('disabled', '');
+		    	$("#idSolicitud").val(id);
+		    	$("#txtRecords").attr('disabled', '');		    	
 		    	empleadosAutocomplete();
 		    }
 	  });	 
@@ -86,6 +94,9 @@ function mostrarSolicitud (idSolicitud) {
         		}
         		
         		$("#interesados").html(interesados);
+        		
+        		
+        		$("#dialogoSolicitud").css('visibility', 'visible').dialog('open');
         	}
         	
       	}
@@ -93,13 +104,20 @@ function mostrarSolicitud (idSolicitud) {
 	});
 }
 
+function definirDestinatario() {
+	$("#dialogoTransferir").css('visibility', 'visible').dialog('open');
+}
+
 function transferirSolicitud() {
+	
 	var nombreDestinatario = $("#txtRecords").val();
+	var formData = "idDestinatario=" + $("#idUsuario").val();
+	formData += "&idSolicitud=" + $("#idSolicitud").val()
 	
 	$.ajax({				
         type: "POST",
         url:  "index.php/solicitud/transferirSolicitud",
-        data: "idDestinatario=" + $("#idUsuario").val(),
+        data: formData,
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
@@ -112,6 +130,9 @@ function transferirSolicitud() {
         		$("#txtRecords").attr('disabled', 'disabled');
         		$(".cleanable").html("");
         		$("#txtSolicitudDesc").val("");
+        		
+        		$("#dialogoTransferir").dialog("close");
+        		$("#dialogoSolicitud").dialog("close");
         	}
         	
       	}

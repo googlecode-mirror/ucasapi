@@ -11,7 +11,11 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/listaSolicitudes.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			 js_ini();
+		});
+		</script>
 
 	</head>
 
@@ -35,24 +39,18 @@
 		<div class="container">
 			<div style="height: 20px"></div>
 
-			<div id ="msgBox"></div>
+			<div class="divActions">
 
-			<div class="divDataForm">
+				<h3 class="inputFieldLabel">Bienvenido!</h3>
 
-				<span class="inputFieldLabel">Solicitudes que he enviado:</span><br/><br/><br/>
+				<ul>
+					<li><span class="inputFieldLabel"><a href="<?php echo base_url(); ?>solicitud">Crear una solicitud</a></span></li>
 
-				<div align="center">
-					<table id="list"><tr><td/></tr></table>
-					<div id="pager"></div>
-				</div>
-				<br/><br/>
+					<li><span class="inputFieldLabel"><a href="<?php echo base_url(); ?>cliente/listaSolicitudes">Ver mi lista de solicitudes</a></span></li>
 
-				<span class="inputFieldLabel">Solicitudes que observo:</span><br/><br/><br/>
 
-				<div align="center">
-					<table id="list2"><tr><td/></tr></table>
-					<div id="pager2"></div>
-				</div>
+				</ul>
+
 
 			</div>
 

@@ -11,20 +11,26 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
-
+		<script type="text/javascript">
+		$(document).ready(function(){
+			 js_ini();
+		});
+		</script>
 	</head>
 
 	<body>
 
 		<div class="menuBar">
 			<ul>
-
+				<?echo $menu;?>
 			</ul>
 		</div>
 
 		<div class="sessionBar">
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />
+			<span id="systemName"><b>SKY PROJECT??</b></span>
 			<img id="logoutButton" title="Cerrar sesi�n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
-			<!-- <span id="sessionUser"><?php //echo $this->session->userdata("username") . ' - ' . $this->session->userdata("idUsuario"); ?></span> -->
+			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span>
 		</div>
 
 		<div><span id="pageTittle"></span></div>
@@ -34,32 +40,36 @@
 
 			<div id ="msgBox"></div>
 
-			<div class="divActions">
-				<span class = "inputFieldLabel">Ingresada el:</span>
-				<span class="cleanable" id="fecha"><?php echo $data[0]->fechaEntrada; ?></span> <br/><br/>
+			<div class="divActions" align="center">
+				<span class = "inputFieldLabel"><b>Ingresada el:</b></span><br/>
+				<span class="cleanable" id="fecha"><?php echo $data[0]->fechaEntrada; ?></span><br/><br/>
 
-				<span class = "inputFieldLabel">Por:</span>
+				<span class = "inputFieldLabel"><b>Por:</b></span><br/>
 				<span class="cleanable" id="cliente"><?php echo $data[0]->cliente; ?></span><br/><br/>
 
-				<span class = "inputFieldLabel">T&iacute;tulo:</span>
+				<span class = "inputFieldLabel"><b>T&iacute;tulo:</b></span><br/>
 				<span class="cleanable" id="tituloSolicitud"><?php echo $data[0]->titulo; ?></span><br/><br/>
 
-				<span class = "inputFieldLabel">Prioridad:</span>
+				<span class = "inputFieldLabel"><b>Prioridad:</b></span><br/>
 				<span class="cleanable" id="prioridad"><?php echo $data[0]->prioridadCliente; ?></span><br/><br/>
 
-				<span class = "inputFieldLabel">Descripci&oacute;n:</span>
-				<textArea readonly="readonly" id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"><?php echo $data[0]->descripcion; ?></textArea>
-				<br><br><br>
+				<span class = "inputFieldLabel"><b>Descripci&oacute;n:</b></span><br/>
+				<textArea readonly="readonly" id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"><?php echo $data[0]->descripcion; ?></textArea><br>
+				<br><br>
 
-				<span class = "inputFieldLabel">Otros interesados:</span>
+				<span class = "inputFieldLabel"><b>Otros interesados:</b></span><br/>
 				<span class="cleanable" id="interesados">
 					<?php
 						$i=1;
 						for($i=1 ; $i < count($data) ; $i++) {
-							echo $data[$i]->cliente . " - " . $data[$i]->cargo;
+							echo $data[$i]->cliente . " - " . $data[$i]->cargo . "<br/>";
 						}
 					?>
 				</span><br><br><br>
+
+				<div class="divCRUDButtons">
+					<button id="btnSave" onClick="alert('Hay que implementar esta funcionalidad')">Asignar esta solicitud</button>
+				</div>
 			</div>
 
 		</div>
