@@ -4,8 +4,10 @@
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/cargo.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		
 	</head>
 	
@@ -49,7 +51,8 @@
 				<input id="idCargo" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre del cargo: </span>
-				<input id="txtCargoName" type="text"  value="" class = "inputField" title="Ingrese el nombre del cargo sin numeros"/><span id="spancargo"></span>
+				<input id="txtCargoName" type="text"  value="" class = "inputField" title="Ingrese el nombre del cargo sin numeros"/>
+				<span id="spancargo"></span>
 				
 			</div>
 			

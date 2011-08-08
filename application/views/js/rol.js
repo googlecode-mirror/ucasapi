@@ -1,9 +1,6 @@
 
 $(document).ready(function(){
-	$('.divActions').addClass("ui-corner-all");
-	$('.divDataForm').addClass("ui-corner-all");
-	$('.container').addClass("ui-corner-bottom");
-	$("button").button({icons: {primary: "ui-icon-locked"}});
+	js_ini();	
 	rolAutocomplete();		
 });	
 
@@ -15,7 +12,7 @@ function rolAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);        		
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
@@ -45,14 +42,14 @@ function save(){
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
         	}
         	else{
         		if($("idRol").val()==""){
-        			alert("Registro agregado con éxito");
+        			msgBoxSucces("Registro agregado con éxito");
         		}
         		else{
-        			alert("Registro actualizado con éxito");
+        			msgBoxSucces("Registro actualizado con éxito");
         		}
         		rolAutocomplete();
         		clear();

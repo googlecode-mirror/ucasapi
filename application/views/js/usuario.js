@@ -297,8 +297,7 @@ function save() {
 						msgBoxSucces("Registro agregado con éxito");
 
 					} else {
-						msgBoxSucces("Registro actualizado con éxito");
-						alert("Registro actualizado con éxito");
+						msgBoxSucces("Registro actualizado con éxito");						
 					}
 					usuarioAutocomplete();
 					usuarioCargoAutocomplete();
@@ -419,8 +418,6 @@ function deleteData() {
 				} else {
 
 					// msgBoxSucces("<p>Registro eliminado con éxito</p>");
-					alert("Registro eliminado con éxito");
-
 					msgBoxSucces("Registro eliminado con éxito");
 					// alert("Registro eliminado con éxito");
 
