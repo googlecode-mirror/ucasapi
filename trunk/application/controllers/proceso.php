@@ -12,6 +12,11 @@ class Proceso extends CI_Controller{
 		echo json_encode($this->procesoModel->read());
 	}
 	
+	function procesoFaseRead(){
+		$this->load->model("procesoModel");
+		echo json_encode($this->procesoModel->faseRead());
+	}
+	
 	function gridFasesProceso($idProceso){
 		$this->load->model("procesoModel");
 		echo json_encode($this->procesoModel->readGrid($idProceso));
@@ -70,7 +75,7 @@ class Proceso extends CI_Controller{
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idProceso =  $this->input->post("idProceso");
 				
-			if($idProceso == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($idProceso == "0"){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->procesoModel->create();
 			}
 			else{

@@ -110,6 +110,17 @@ function save(){
 	formData += "&idEstado=" + $("#cbEstado").val();
 	formData += "&nombreProceso=" + $("#txtProcesoName").val();
 	formData += "&descripcion=" + $("#txtProcesoDesc").val();
+	
+	proc_rows = $("#tablaFases").jqGrid("getRowData");
+	var gridData = "";
+	for ( var Elemento in proc_rows) {
+		for ( var Propiedad in proc_rows[Elemento]) {
+			if (Propiedad == "idFase" || Propiedad == "fechaIniPlan" || Propiedad == "fechaFinPlan" || Propiedad == "fechaIniReal" || Propiedad == "fechaIniReal")
+				gridData += proc_rows[Elemento][Propiedad] + "|";
+		}
+	};
+	
+	formData += "&proc_data=" + gridData;
 
 	if(isDate($("#tablaFases").jqGrid('getCell',$("#tablaFases").jqGrid('getGridParam','selrow'),'fechaIniPlan')) &&
 			isDate($("#tablaFases").jqGrid('getCell',$("#tablaFases").jqGrid('getGridParam','selrow'),'fechaFinPlan')) &&
@@ -170,40 +181,81 @@ function edit(){
 
 function loadGrid($idProceso){
 	var lastsel;
+	var fases = "";
+	
+	$.ajax({
+		type: "POST",
+		url:  "index.php/proceso/procesoFaseRead",
+		data: "fasesRetrieve",
+		dataType : "json",
+		async : false,
+		success: function(retrievedData){
+			if(retrievedData.status != 0){
+				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+			}else{
+				$.each(retrievedData.data, function(i,obj) {
+					fases += obj.id + ':' + obj.value + ';';
+				});
+				//fases = "";
+				fases = fases.substring(0,fases.length-1);
+				$("#fasesString").val(fases);
+			}			      
+		}      
+	});
+	fases = $("#fasesString").val();
 	$("#tablaFases").jqGrid(
 			{
 				url : "index.php/proceso/gridFasesProceso/" + $("#idProceso").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Nombre", "Fecha Inicial Plan.", "Fecha Fin Plan.", "Fecha Inicial Real", "Fecha Fin Real" ],
+				colNames : [ "Cod.", "Nombre", "Fecha Inicial Plan.", "Fecha Fin Plan.", "Fecha Inicial Real", "Fecha Fin Real" ],
 				colModel : [ {
+					name : "idFase",
+					index : "idFase",
+					width : 0,
+					hidden : true
+				}, {
 					name : "nombreFase",
 					index : "nombreFase",
+					editable : true,
+					edittype:"select",editoptions:{value:fases},
 					width : 180
 				}, {
 					name : "fechaIniPlan",
 					index : "fechaIniPlan",
 					width : 120,
 					editable : true,
-					editoptions:{size:10}
+					editoptions:{size:10},
+					editrules:{date:true},
+					formatter:'date', 
+					datefmt:'dd-mm-YYYY'
 				}, {
 					name : "fechaFinPlan",
 					index : "fechaFinPlan",
 					width : 120,
 					editable : true,
-					editoptions:{size:10}
+					editoptions:{size:10},
+					editrules:{date:true},
+					formatter:'date', 
+					datefmt:'dd-mm-YYYY'
 				}, {
 					name : "fechaIniReal",
 					index : "fechaIniReal",
 					width : 120,
 					editable : true,
-					editoptions:{size:10}
+					editoptions:{size:10},
+					editrules:{date:true},
+					formatter:'date', 
+					datefmt:'dd-mm-YYYY'
 				}, {
 					name : "fechaFinReal",
 					index : "fechaFinReal",
 					width : 120,
 					editable : true,
-					editoptions:{size:10}
+					editoptions:{size:10},
+					editrules:{date:true},
+					formatter:'date', 
+					datefmt:'dd-mm-YYYY'
 				}],
 				pager : "#pager",
 				rowNum : 10,
@@ -217,6 +269,7 @@ function loadGrid($idProceso){
 				editurl: "proceso",
 				caption : "Fases del proceso"
 			});
+			jQuery("#tablaFases").jqGrid('navGrid','#pager',{}); 
 }
 
 function pickdates(id){ 
@@ -277,5 +330,9 @@ function clear(){
 	$(".inputFieldAC").val("");
 	$(".inputFieldTA").val("");
 	$(".hiddenId").val("");
-	$("#txtRecords").val("");
+	$("#cbEstado").val("--Estado--");
+	$("#idProceso").val("0");
+	$("#tablaFases").GridUnload();
+	loadGrid();
+	
 }

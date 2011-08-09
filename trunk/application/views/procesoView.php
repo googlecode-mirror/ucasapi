@@ -61,6 +61,7 @@
 				<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
+				<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 						
 				<span class = "inputFieldLabel">Nombre: </span>
 				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField"/><br>
@@ -81,9 +82,6 @@
 					<div id="pager"></div>
 				</div>
 				<br>
-				<div align="center">
-					<button id="btnEdit" onClick="editDate()">Editar Datos</button>
-				</div>
 							
 			</div>
 			
