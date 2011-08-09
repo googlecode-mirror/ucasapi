@@ -284,7 +284,7 @@ body {
 
 .msgBoxInfo{
 	width: 556px;
-	height : 76px;
+	height : auto;
 	background: #C6D8F0;
 	margin : 0 auto;
 	margin-bottom: 20px;
@@ -298,7 +298,7 @@ body {
 
 .msgBoxSucces{
 	width: 556px;
-	height : 76px;
+	height : auto;
 	background: #B9D3B5;
 	margin : 0 auto;
 	margin-bottom: 20px;
@@ -312,7 +312,7 @@ body {
 
 .msgBoxError{
 	width: 556px;
-	height : 76px;
+	height : auto;
 	background: #E2C1BE;
 	margin : 0 auto;
 	margin-bottom: 20px;
