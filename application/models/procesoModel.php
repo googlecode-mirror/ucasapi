@@ -54,6 +54,33 @@ class procesoModel extends CI_Model{
 	    return $retArray;
 	}
 	
+	function faseRead(){
+		$this->load->database();
+		
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());		
+		
+		$sql = "SELECT idFase, nombreFase FROM FASE";
+		
+		$query = $this->db->query($sql);
+		
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["id"] = $row->idFase;
+					$rowArray["value"] = $row->nombreFase;
+										
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}		
+		return $retArray;
+	}
+	
 	function readGrid($idProceso){
 		$this->load->database();
 		
@@ -91,7 +118,7 @@ class procesoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());	
 		
-		$sql = 	"SELECT p.idProceso, f.nombreFase, fxp.fechaIniPlan, fxp.fechaFinPlan, fxp.fechaIniReal, fxp.fechaFinReal " .
+		$sql = 	"SELECT fxp.idFase, f.nombreFase, fxp.fechaIniPlan, fxp.fechaFinPlan, fxp.fechaIniReal, fxp.fechaFinReal " .
 			   	"FROM FASE f INNER JOIN FASE_PROCESO fxp ON f.idFase = fxp.idFase INNER JOIN PROCESO p " . 
 				"ON fxp.idProceso = p.idProceso WHERE p.idProceso = ".$idProceso;
 		
@@ -101,13 +128,8 @@ class procesoModel extends CI_Model{
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
-					$response->rows[$i]["id"] = $row->idProceso;
-					$response->rows[$i]["nombreFase"] = $row->nombreFase;
-					$response->rows[$i]["fechaIniPlan"] = $row->fechaIniPlan;
-					$response->rows[$i]["fechaFinPlan"] = $row->fechaFinPlan;
-					$response->rows[$i]["fechaIniReal"] = $row->fechaIniReal;
-					$response->rows[$i]["fechaFinReal"] = $row->fechaFinReal;
-					$response->rows[$i]["cell"] = array($row->nombreFase, $row->fechaIniPlan, $row->fechaFinPlan, $row->fechaIniReal, $row->fechaFinReal);
+					$response->rows[$i]["id"] = $row->idFase;
+					$response->rows[$i]["cell"] = array($row->idFase, $row->nombreFase, $row->fechaIniPlan, $row->fechaFinPlan, $row->fechaIniReal, $row->fechaFinReal);
 					$i++;
 				}
 			}
@@ -126,6 +148,8 @@ class procesoModel extends CI_Model{
 		$nombreProceso = $this->input->post("nombreProceso");
 		$descripcion = $this->input->post("descripcion");
 		
+		
+		$this->db->trans_begin();
 		$sql = "UPDATE PROCESO  
 				SET idEstado = ".$idEstado.", nombreProceso = ".$nombreProceso.", descripcion = ".$descripcion." 
 				 WHERE idProceso = " .$idProceso; 
@@ -136,6 +160,13 @@ class procesoModel extends CI_Model{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
+		if($this->db->trans_status() == FALSE) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
+		}
 		
 		return $retArray;		
 	}
