@@ -17,27 +17,64 @@ class actividadaModel extends CI_Model{
 		
 		$idProyecto = $this->input->post("idProyecto");
 		$idPrioridad = $this->input->post("idPrioridad");
-		$idProceso = $this->input->post("idProceso");
+		$idProceso = ($this->input->post("idProceso")!="")?$this->input->post("idProceso"):null;
 		$idEstado = $this->input->post("idEstado");
 		
-		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, activo, anioSolicitud, correlAnio, idPrioridad, idProceso, idEstado) 
-   				VALUES (".$this->db->escape($nombreActividad).", ".$this->db->escape($fechaInicioPlan).",".$this->db->escape($fechaFinalizacionPlan).",".$this->db->escape($descripcionActividad).",'NULL',".
-						  $this->db->escape($anioSolicitud).",".$this->db->escape($correlAnio).",".$this->db->escape($idPrioridad).",".$this->db->escape($idProceso).",".
-						  $this->db->escape($Estado).")";
+		$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
+		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
 		
+		//Si no se está en sesión
+		$idUsuarioAsigna = 1;
+		$idUsuarioResponsable = 1;
+				
 		//Iniciando transacción
-		$this->db->trans_begin();		
+		$this->db->trans_begin();
 		
-		$query = $this->db->query($sql);
 		
+		//Insertando en ACTIVIDAD
+		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, activo, anioSolicitud, correlAnio, idPrioridad, idProceso, idEstado)".
+				"VALUES (".$this->db->escape($nombreActividad).", ".$this->db->escape($fechaInicioPlan).",".$this->db->escape($fechaFinalizacionPlan).",".$this->db->escape($descripcionActividad).",'NULL',".
+						  $this->db->escape($anioSolicitud).",".$this->db->escape($correlAnio).",".$this->db->escape($idPrioridad).",".$this->db->escape($idProceso).",".
+						  $this->db->escape($idEstado).")";
+						 
+		
+		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $sql;
 	    }
-	    else{
 	    
-	    }	    
-	    $this->db->trans_complete();
+	    
+		//Insertando en PROYECTO
+		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad) VALUES (".$this->db->escape($idProyecto).",(SELECT MAX(idActividad) FROM ACTIVIDAD))";
+		
+		$query = $this->db->query($sql);		
+		if (!$query){
+	     	$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $sql;
+	    }
+	    
+	    
+		//Insertando los datos en USUARIO_ACTIVIDAD
+	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, fechaDesvinculacion, activo, idTipoAsociacion, idUsuarioAsigna)".
+	    		"VALUES(".
+	    				$this->db->escape($idUsuarioResponsable).
+	    				",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuarioResponsable)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
+	    				  "(SELECT MAX(idActividad) FROM ACTIVIDAD),".
+	    				  "DATE(NOW()),NULL,1,1,".
+	    				$this->db->escape($idUsuarioAsigna).")";
+                		
+		$query = $this->db->query($sql);
+	
+		if($this->db->trans_status() == FALSE) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $sql;
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
+		}	    
+                	    
+	    //$this->db->trans_complete();
 	    
 		return $retArray;		
 	}
