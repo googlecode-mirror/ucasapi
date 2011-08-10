@@ -250,6 +250,8 @@ class historicoUsuarioModel extends CI_Model{
 		if(!$sidx) $sidx =1;
 
 		$idUsuario = is_null($idUsuario) ? -1 : (int)$idUsuario;
+		
+		ECHO "TARANXX ".$idUsuario;
 
 
 		$sql = "SELECT COUNT(*) AS count FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
@@ -259,6 +261,7 @@ class historicoUsuarioModel extends CI_Model{
 			$row = $query->row();
 			$count  = $row->count;
 		}
+		ECHO "EL CONTADOR ES :".$count." - ";
 
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
@@ -274,15 +277,15 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
+		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
 		$query = $this->db->query($sql);
 
 		$i = 0;
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
-					$response->rows[$i]["id"] = $i;// de esto no estoy del todo seguro
-					$response->rows[$i]["cell"] = array($row->fechaInicioContrato,$row->fechaFinContrato,$row->tiempoContrato, $row->activo, $row->correlativoUsuarioHistorico, $row->idUsuario);
+					$response->rows[$i]["id"] = $i+1;// de esto no estoy del todo seguro
+					$response->rows[$i]["cell"] = array($row->fechaInicioContrato/*,$row->fechaFinContrato,$row->tiempoContrato, $row->correlUsuarioHistorico, $row->idUsuario*/);
 					$i++;
 				}
 			}
