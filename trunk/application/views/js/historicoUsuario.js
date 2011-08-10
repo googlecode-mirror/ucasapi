@@ -1,8 +1,8 @@
 $(document).ready(function() {
 	js_ini();
 	// $("#chkUsuarioActivo").button();
-	 usuarioAutocomplete();
-	 loadGridUsuarioHistorico();
+	usuarioAutocomplete();
+	loadGridUsuarioHistorico();
 });
 
 function usuarioAutocomplete() {
@@ -33,30 +33,22 @@ function usuarioAutocomplete() {
 
 // grid donde estan todos los contratos de ese usuario
 function loadGridUsuarioHistorico() {
-	$("#usuarioHist").jqGrid(
-			{
-				url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
-						+ $("#idUsuario").val(),
+	$("#usuarioHist").jqGrid(			{
+				url : "index.php/historicoUsuario/gridContratoUsuarioRead/"+ $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Inicio contrato", "Fin contrato",
-						"Tiempo contrato", "Estado", "correlContrato",
-						"idUsuario" ],
+				colNames : [ "Inicio contrato"/*, "Fin contrato","Tiempo contrato", "correlContrato","idUsuario" */],
 				colModel : [ {
 					name : "fechaInicioContrato",
 					index : "fechaInicioContrato",
-					width : 190
-				}, {
+					width : 150
+				}],/*, {
 					name : "fechaFinContrato",
 					index : "fechaFinContrato",
-					width : 190
+					width : 150
 				}, {
 					name : "tiempoContrato",
 					index : "tiempoContrato",
-					width : 80
-				}, {
-					name : "activo",
-					index : "activo",
 					width : 80
 				}, {
 					name : "correlUsuarioHistorico",
@@ -66,7 +58,7 @@ function loadGridUsuarioHistorico() {
 					name : "idUsuario",
 					index : "idUsuario",
 					width : 70
-				} ],
+				} ],*/
 				pager : "#gridpagerUH",
 				rowNum : 10,
 				rowList : [ 10, 20, 30 ],
@@ -77,6 +69,7 @@ function loadGridUsuarioHistorico() {
 				gridview : true,
 				caption : "Roles"
 			});
+	/*
 	$("#usuarioHist").navGrid('#gridpagerUH', {
 		edit : false,
 		add : false,
@@ -105,6 +98,7 @@ function loadGridUsuarioHistorico() {
 		},
 		position : "last"
 	}).navSeparatorAdd("#gridpagerUH", {});
+	*/
 }
 
 function saveContrato() {
@@ -112,11 +106,11 @@ function saveContrato() {
 	formData += "idUsuario=" + $("#idUsuario").val();
 	formData += "&accionActual=" + $("#accionActual").val();
 	formData += "&fechaInicioContrato=" + $("#txtFechaInicioContrato").val();
-	formData += "&fechaFinContrato=" + $("#txtFechaFinContrato").val();	
+	formData += "&fechaFinContrato=" + $("#txtFechaFinContrato").val();
 	formData += "&tiempoContrato=" + $("#txtTiempoContrato").val();
-	
-	alert (formData);
-	
+
+	alert(formData);
+
 	if (validarCampos()) {
 
 		$.ajax({
@@ -134,9 +128,8 @@ function saveContrato() {
 
 					} else {
 						msgBoxSucces("Registro actualizado con éxito");
-						alert("Registro actualizado con éxito");
-					}					
-					usuarioAutocomplete();					
+					}
+					usuarioAutocomplete();
 					clear();
 				}
 			}
@@ -149,26 +142,8 @@ function saveContrato() {
 
 function edit() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
-	// grid donde se cargan los roles que un usuario tiene asignados
-	$.ajax({
-		type : "POST",
-		url : "index.php/historicoUsuario/contratosRead",
-		data : formData,
-		dataType : "json",
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
-			} else {
-				$("#txtFechaInicioContrato").val(retrievedData.data.fechaInicioContrato);
-				$("#txtFechaFinContrato").val(
-						retrievedData.data.fechaFinContrato);
-				$("#txtTiempoContrato").val(
-						retrievedData.data.tiempoContrato);
-			}
-			loadGridUsuarioHistorico();
-		}
-	});
-
+	$("#usuarioHist").GridUnload();
+	loadGridUsuarioHistorico();
 }
 
 function deleteData() {
@@ -222,7 +197,7 @@ function clear() {
 	$("#chkUsuarioActivo").attr('checked', false);
 }
 
-function validarCampos(){
+function validarCampos() {
 	return true;
 }
 

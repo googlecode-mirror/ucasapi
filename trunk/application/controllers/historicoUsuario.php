@@ -21,6 +21,10 @@ class historicoUsuario extends CI_Controller{
 		$this->load->model("historicoUsuarioModel");
 		echo json_encode($this->historicoUsuarioModel->read());
 	}
+	
+	function nohacernada() {
+		// no hacer nada
+	}
 
 	function usuarioAutocompleteRead(){
 		$this->load->model("historicoUsuarioModel");
