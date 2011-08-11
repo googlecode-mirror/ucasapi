@@ -251,6 +251,8 @@ class historicoUsuarioModel extends CI_Model{
 
 		$idUsuario = is_null($idUsuario) ? -1 : (int)$idUsuario;
 		
+		$idUsuario = 1; // esto es para probar
+		
 		ECHO "TARANXX ".$idUsuario;
 
 
@@ -277,7 +279,7 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
+		$sql = "SELECT fechaInicioContrato FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario);
 		$query = $this->db->query($sql);
 
 		$i = 0;
@@ -286,61 +288,6 @@ class historicoUsuarioModel extends CI_Model{
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i+1;// de esto no estoy del todo seguro
 					$response->rows[$i]["cell"] = array($row->fechaInicioContrato/*,$row->fechaFinContrato,$row->tiempoContrato, $row->correlUsuarioHistorico, $row->idUsuario*/);
-					$i++;
-				}
-			}
-		}
-
-		return $response;
-	}
-
-	//Este es el grid donde estan los roles que actualemente tiene un usuario
-	function gridRolesUsuarioRead($idUsuario=null){
-		$this->load->database();
-
-		$page = $this->input->post("page");
-		$limit = $this->input->post("rows");
-		$sidx = $this->input->post("sidx");
-		$sord = $this->input->post("sord");
-		$count = 0;
-		if(!$sidx) $sidx =1;
-
-		$idUsuario = is_null($idUsuario) ? -1 :(int) $idUsuario;
-
-
-		$sql = "SELECT COUNT(*) AS count FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario);
-		$query = $this->db->query($sql);
-
-		if ($query->num_rows() > 0){
-			$row = $query->row();
-			$count  = $row->count;
-		}
-
-		if( $count >0 ){
-			$total_pages = ceil($count/$limit);
-		}
-		else{
-			$total_pages = 0;
-		}
-
-		if ($page > $total_pages) $page=$total_pages;
-		$start = $limit*$page - $limit;
-
-		$response->page = $page;
-		$response->total = $total_pages;
-		$response->records = $count;
-
-		//-------------------------
-
-		$sql = "SELECT ru.idRol idRol, r.nombreRol nombreRol, ru.fechaAsigancionSistema fechaAsignacionSistema FROM ROL r, ROL_USUARIO ru WHERE ru.idRol = r.idRol AND ru.idUsuario = ".$this->db->escape($idUsuario);
-		$query = $this->db->query($sql);
-
-		$i = 0;
-		if($query){
-			if($query->num_rows > 0){
-				foreach ($query->result() as $row){
-					$response->rows[$i]["id"] = $row->idRol;
-					$response->rows[$i]["cell"] = array($row->idRol, $row->nombreRol, $row->fechaAsignacionSistema);
 					$i++;
 				}
 			}
