@@ -2,6 +2,7 @@
 $(document).ready(function(){
 	procesoProyectoAutocomplete();
 	procesoEstadoAutocomplete();
+	procesoFaseAutocomplete();
 	$("#idProceso").val("0");
 	loadGrid("0");
 });	
@@ -65,21 +66,13 @@ function procesoFaseAutocomplete(){
 		url:  "index.php/fase/faseAutocompleteRead",
 		data: "procesoFaseAutocomplete",
 		dataType : "json",
-		success: function(retrievedData){        	
-			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-			}
-			else{        		
-				$("#txtFaseName").autocomplete({
-					minChars: 0,  
-					source: retrievedData.data,
-					minLength: 1,
-					select: function(event, ui) {
-						$("#idFase").val(ui.item.id);
-					}
-				});
+		success: function(retrievedData){        	 
+			options = '<option value="">-Fases-</option>';
+			$.each(retrievedData.data, function(i,obj) {
+				options += '<option value="' + obj.id + '">' + obj.value + '</option>';
+			});			
+			$("#cbFases").html(options);
 
-			}        	
 		}
 
 	});		
@@ -115,45 +108,36 @@ function save(){
 	var gridData = "";
 	for ( var Elemento in proc_rows) {
 		for ( var Propiedad in proc_rows[Elemento]) {
-			if (Propiedad == "idFase" || Propiedad == "fechaIniPlan" || Propiedad == "fechaFinPlan" || Propiedad == "fechaIniReal" || Propiedad == "fechaIniReal")
+			if (Propiedad == "nombreFase" || Propiedad == "fechaIniPlan" || Propiedad == "fechaFinPlan" || Propiedad == "fechaIniReal" || Propiedad == "fechaFinReal")
 				gridData += proc_rows[Elemento][Propiedad] + "|";
 		}
 	};
 	
 	formData += "&proc_data=" + gridData;
 
-	if(isDate($("#tablaFases").jqGrid('getCell',$("#tablaFases").jqGrid('getGridParam','selrow'),'fechaIniPlan')) &&
-			isDate($("#tablaFases").jqGrid('getCell',$("#tablaFases").jqGrid('getGridParam','selrow'),'fechaFinPlan')) &&
-			isDate($("#tablaFases").jqGrid('getCell',$("#tablaFases").jqGrid('getGridParam','selrow'),'fechaIniReal')) &&
-			isDate($("#tablaFases").jqGrid('getCell',$("#tablaFases").jqGrid('getGridParam','selrow'),'fechaFinReal'))) {
-		alert("Fechas validas");
-		$.ajax({				
-			type: "POST",
-			url:  "index.php/proceso/procesoValidateAndSave",
-			data: formData,
-			dataType : "json",
-			success: function(retrievedData){
-				if(retrievedData.status != 0){
-					alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+	
+	$.ajax({				
+		type: "POST",
+		url:  "index.php/proceso/procesoValidateAndSave",
+		data: formData,
+		dataType : "json",
+		success: function(retrievedData){
+			if(retrievedData.status != 0){
+				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+			}
+			else{
+				if($("idProceso").val()==""){
+					alert("Registro agregado con éxito");
 				}
 				else{
-					if($("idProceso").val()==""){
-						alert("Registro agregado con éxito");
-					}
-					else{
-						alert("Registro actualizado con éxito");
-					}
-					procesoProyectoAutocomplete();
-					procesoEstadoAutocomplete();
-					clear();
+					alert("Registro actualizado con éxito");
 				}
+				procesoProyectoAutocomplete();
+				procesoEstadoAutocomplete();
+				clear();
 			}
-
-		});
-	}
-	else{
-		alert("Por favor revisar que las fechas sean de la forma YYYY-MM-DD");
-	}
+		}
+	});
 
 }
 
@@ -177,6 +161,10 @@ function edit(){
 			}			      
 		}      
 	});
+}
+
+function addFase(){
+	$("#tablaFases").jqGrid('addRowData',0,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan:'2011-01-01',fechaFinPlan:'2011-01-01',fechaIniReal:'2011-01-01',fechaFinReal:'2011-01-01'},'last')
 }
 
 function loadGrid($idProceso){
@@ -228,7 +216,7 @@ function loadGrid($idProceso){
 					editoptions:{size:10},
 					editrules:{date:true},
 					formatter:'date', 
-					datefmt:'dd-mm-YYYY'
+					formatoptions: {newformat:'Y-m-d'}
 				}, {
 					name : "fechaFinPlan",
 					index : "fechaFinPlan",
@@ -237,7 +225,7 @@ function loadGrid($idProceso){
 					editoptions:{size:10},
 					editrules:{date:true},
 					formatter:'date', 
-					datefmt:'dd-mm-YYYY'
+					formatoptions: {newformat:'Y-m-d'}
 				}, {
 					name : "fechaIniReal",
 					index : "fechaIniReal",
@@ -246,7 +234,7 @@ function loadGrid($idProceso){
 					editoptions:{size:10},
 					editrules:{date:true},
 					formatter:'date', 
-					datefmt:'dd-mm-YYYY'
+					formatoptions: {newformat:'Y-m-d'}
 				}, {
 					name : "fechaFinReal",
 					index : "fechaFinReal",
@@ -255,7 +243,7 @@ function loadGrid($idProceso){
 					editoptions:{size:10},
 					editrules:{date:true},
 					formatter:'date', 
-					datefmt:'dd-mm-YYYY'
+					formatoptions: {newformat:'Y-m-d'}
 				}],
 				pager : "#pager",
 				rowNum : 10,
@@ -263,7 +251,7 @@ function loadGrid($idProceso){
 				sortname : "id",
 				sortorder : "desc",
 				ajaxGridOptions: {cache: false},
-				loadonce : false,
+				loadonce : true,
 				viewrecords : true,
 				gridview : true,
 				editurl: "proceso",
@@ -303,10 +291,11 @@ function deleteData(){
 	}	
 }
 
-function editDate(){
+function editFase(){
 	var gr = jQuery("#tablaFases").jqGrid('getGridParam','selrow'); 
-	if( gr != null ) jQuery("#tablaFases").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:false}); 
-	else alert("Por favor seleccione una fila.");
+	if( gr != null ) 
+		jQuery("#tablaFases").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:false}); 
+	else alert("Por favor seleccione una fila");
 }
 
 function cancelEdit(){
