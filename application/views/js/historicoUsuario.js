@@ -33,20 +33,39 @@ function usuarioAutocomplete() {
 
 // grid donde estan todos los contratos de ese usuario
 function loadGridUsuarioHistorico() {
-	$("#usuarioHist").jqGrid(			{
-				url : "index.php/historicoUsuario/gridContratoUsuarioRead/"+ $("#idUsuario").val(),
+	$("#usuarioHist").jqGrid(
+			{
+				url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
+						+ $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : ["fechaInicioContrato"],
+				colNames : [ "Inicio contrato", "Fin contrato",
+						"Meses contrato", "CorrelContrato", "idUsuario" ],
 				colModel : [ {
 					name : "fechaInicioContrato",
 					index : "fechaInicioContrato",
-					width : 100
-				}],
+					width : 150
+				}, {
+					name : "fechaFinContrato",
+					index : "fechaFinContrato",
+					width : 150
+				}, {
+					name : "tiempoContrato",
+					index : "tiempoContrato",
+					width : 150
+				}, {
+					name : "correlUsuarioHistorico",
+					index : "correlUsuarioHistorico",
+					width : 150
+				}, {
+					name : "idUsuario",
+					index : "idUsuario",
+					width : 150
+				} ],
 				pager : "#gridpagerUH",
 				rowNum : 10,
 				rowList : [ 10, 20, 30 ],
-				sortname : "id",
+				sortname : "fechaInicioContrato",
 				sortorder : "desc",
 				// loadonce : true,
 				viewrecords : true,
@@ -63,33 +82,65 @@ function saveContrato() {
 	formData += "&fechaFinContrato=" + $("#txtFechaFinContrato").val();
 	formData += "&tiempoContrato=" + $("#txtTiempoContrato").val();
 
-	alert(formData);
+	// alert(formData);
 
 	if (validarCampos()) {
+		modifyContrato();
+		if ($("#idUsuario").val() != "") {
+			$
+					.ajax({
+						type : "POST",
+						url : "index.php/historicoUsuario/historicoUsuarioValidateAndSave",
+						data : formData,
+						dataType : "json",
+						success : function(retrievedData) {
+							if (retrievedData.status != 0) {
+								msgBoxInfo(retrievedData.msg);
+							} else {
+								if ($("#accionActual").val() == "") {
+									msgBoxSucces("Registro agregado con éxito");
+									/* LIMPIANDO EL GRID */
+									$('#usuarioHist')
+											.setGridParam(
+													{
+														url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
+																+ -1
+													}).trigger("reloadGrid");
+								} else {
+									msgBoxSucces("Registro actualizado con éxito");
+								}
+								usuarioAutocomplete();
+								clear();
+							}
+						}
 
-		$.ajax({
-			type : "POST",
-			url : "index.php/historicoUsuario/historicoUsuarioValidateAndSave",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					msgBoxInfo(retrievedData.msg);
-				} else {
-					if ($("#accionActual").val() == "") {
+					});
+		} else {
+			msgBoxSucces("Debe seleccionar un usuario");
+		}
+	}
+}
 
-						msgBoxSucces("Registro agregado con éxito");
+function modifyContrato() {	
+	
+	// insertando los valores en el otro grid
+	if ($("#idRowEdit").val() != "") {
+		// obteniendo los datos del row a editar para usar el IdUsuario y el correl
+		row_data = $("#usuarioHist").jqGrid("getRowData", $("#idRowEdit").val());
+		// borrando del grid el row a editar, este paso debe ir afuera
+		$("#usuarioHist").delRowData($("#idRowEdit").val());
 
-					} else {
-						msgBoxSucces("Registro actualizado con éxito");
-					}
-					usuarioAutocomplete();
-					clear();
-				}
-			}
-
-		});
-
+		
+		num_rows = $("#usuarioHist").getGridParam("records");// Número de filas en el
+		// grid
+		new_row_data = {
+				"fechaInicioContrato" : $("#txtFechaInicioContrato").val(),
+				"fechaFinContrato" : $("#txtFechaFinContrato").val(),
+				"tiempoContrato" : $("#txtTiempoContrato").val(),
+				"correlUsuarioHistorico" : $row_data["correlUsuarioHistorico"],
+				"idUsuario" : $row_data["idUsuario"]
+		};
+		$("#usuarioHist").addRowData(num_rows + 1, new_row_data);
 	}
 
 }
@@ -98,6 +149,23 @@ function edit() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
 	$("#usuarioHist").GridUnload();
 	loadGridUsuarioHistorico();
+}
+
+function editContrato() {
+	// obteniendo el rol seleccionado del grid de todos los roles
+	row_id = $("#usuarioHist").jqGrid("getGridParam", "selrow");
+	row_data = $("#usuarioHist").jqGrid("getRowData", row_id);
+
+	// insertando los valores del row seleccionado en los campos editables
+	if (row_id != null) {
+		$("#txtFechaInicioContrato").val(row_data["fechaInicioContrato"]);
+		$("#txtFechaFinContrato").val(row_data["fechaFinContrato"]);
+		$("#txtTiempoContrato").val(row_data["tiempoContrato"]);
+		// persistir el ROW_ID que voy a editar
+		$("#idRowEdit").val(row_id);
+		$("#accionActual").val("editando");		
+	}
+
 }
 
 function deleteData() {
@@ -147,11 +215,14 @@ function clear() {
 	$(".inputField").val("");
 	$(".jqcalendario").val("");
 	$(".hiddenId").val("");
+	$("#idRowEdit").val("");
 	$("#txtRecords").val("");
+	$("#txtTiempoContrato").val("");
 	$("#chkUsuarioActivo").attr('checked', false);
 }
 
 function validarCampos() {
+
 	return true;
 }
 
