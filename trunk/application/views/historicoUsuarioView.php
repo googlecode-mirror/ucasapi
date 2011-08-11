@@ -59,6 +59,8 @@
 				
 			<div class="divDataForm" style="height: 850px">
 				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>								
+				<input id="correlUsuarioHistorico" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idRowEdit" type="hidden"  value="" class = "hiddenId"/><br>				
 				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 								
 				<span class = "requiredFieldLabel">Inicio contrato:</span>
@@ -80,8 +82,8 @@
 				</div>
 				<br>
 				<div align="center" class = "gridView" style = "width : 480px">
-						<table id="usuarioHist"></table>
-						<div style = "height : 40px" id="gridpagerUH"></div>
+					<table id="usuarioHist"></table>
+					<div style = "height : 40px" id="gridpagerUH"></div>
 				</div>	
 				
 			</div>
@@ -93,6 +95,7 @@
 			
 			
 		</div>
+		
 		
 	</body>
 </html>
