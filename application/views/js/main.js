@@ -11,6 +11,7 @@ function js_ini(){
 	$("#tabs").tabs();
 	$("#tabs-1").css("padding", "0px");
 	$("#tabs-2").css("padding", "0px");
+	$("#tabs-3").css("padding", "0px");
 	
 	//Datepickers
 	$(".jqcalendario").datepicker({ dateFormat: 'yy-mm-dd' });
