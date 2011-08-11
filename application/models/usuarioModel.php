@@ -259,7 +259,7 @@ class UsuarioModel extends CI_Model{
 
 		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', if(OtrosNombres=null,'',OtrosNombres),' ',primerApellido,' ',if(otrosApellidos=null,'',otrosApellidos),' ',if(activo=1,'(ACTIVO)','(INACTIVO)')) nombreUsuario FROM USUARIO";
 		$query = $this->db->query($sql);
-
+ 
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
