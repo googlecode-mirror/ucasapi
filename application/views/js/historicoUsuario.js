@@ -37,28 +37,12 @@ function loadGridUsuarioHistorico() {
 				url : "index.php/historicoUsuario/gridContratoUsuarioRead/"+ $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Inicio contrato"/*, "Fin contrato","Tiempo contrato", "correlContrato","idUsuario" */],
+				colNames : ["fechaInicioContrato"],
 				colModel : [ {
 					name : "fechaInicioContrato",
 					index : "fechaInicioContrato",
-					width : 150
-				}],/*, {
-					name : "fechaFinContrato",
-					index : "fechaFinContrato",
-					width : 150
-				}, {
-					name : "tiempoContrato",
-					index : "tiempoContrato",
-					width : 80
-				}, {
-					name : "correlUsuarioHistorico",
-					index : "correlUsuarioHistorico",
-					width : 70
-				}, {
-					name : "idUsuario",
-					index : "idUsuario",
-					width : 70
-				} ],*/
+					width : 100
+				}],
 				pager : "#gridpagerUH",
 				rowNum : 10,
 				rowList : [ 10, 20, 30 ],
@@ -67,38 +51,8 @@ function loadGridUsuarioHistorico() {
 				// loadonce : true,
 				viewrecords : true,
 				gridview : true,
-				caption : "Roles"
+				caption : "Contratos"
 			});
-	/*
-	$("#usuarioHist").navGrid('#gridpagerUH', {
-		edit : false,
-		add : false,
-		del : false,
-		search : false,
-		refresh : false
-	}).navButtonAdd('#gridpagerUH', {
-		caption : "",
-		buttonicon : "ui-icon ui-icon-plusthick",
-		onClickButton : function() {
-			alert("Adding Row");
-		},
-		position : "last"
-	}).navButtonAdd('#gridpagerUH', {
-		caption : "",
-		buttonicon : "ui-icon ui-icon-pencil",
-		onClickButton : function() {
-			alert("Editing Row");
-		},
-		position : "last"
-	}).navButtonAdd('#gridpagerUH', {
-		caption : "",
-		buttonicon : "ui-icon ui-icon-trash",
-		onClickButton : function() {
-			alert("Deleting Row");
-		},
-		position : "last"
-	}).navSeparatorAdd("#gridpagerUH", {});
-	*/
 }
 
 function saveContrato() {
