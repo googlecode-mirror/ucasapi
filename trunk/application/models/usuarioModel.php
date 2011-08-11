@@ -257,7 +257,7 @@ class UsuarioModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', if(OtrosNombres=null,''),' ',primerApellido,' ',if(otrosApellidos=null,''),' ',if(activo=1,'(ACTIVO)','(INACTIVO)')) nombreUsuario FROM USUARIO";
+		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', if(OtrosNombres=null,'',OtrosNombres),' ',primerApellido,' ',if(otrosApellidos=null,'',otrosApellidos),' ',if(activo=1,'(ACTIVO)','(INACTIVO)')) nombreUsuario FROM USUARIO";
 		$query = $this->db->query($sql);
 
 		if($query){
