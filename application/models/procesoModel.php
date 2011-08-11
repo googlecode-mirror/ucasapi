@@ -147,12 +147,22 @@ class procesoModel extends CI_Model{
 		$idProceso = $this->input->post("idProceso");
 		$nombreProceso = $this->input->post("nombreProceso");
 		$descripcion = $this->input->post("descripcion");
+		$proc_data = $this->input->post("proc_data");
 		
-		
+		$data_array = explode("|",$proc_data);
+
 		$this->db->trans_begin();
+		
+		$insert_statements = $this->getFPInsert($data_array, $idProceso);
+		foreach ($insert_statements as $queryRoles) {
+			$this->db->query($queryRoles);
+		}
+		
 		$sql = "UPDATE PROCESO  
-				SET idEstado = ".$idEstado.", nombreProceso = ".$nombreProceso.", descripcion = ".$descripcion." 
+				SET idEstado = ".$idEstado.", nombreProceso = ".$this->db->escape($nombreProceso).", descripcion = ".$this->db->escape($descripcion)." 
 				 WHERE idProceso = " .$idProceso; 
+		
+		echo "QUERY 3: "  .$sql;
 		
 		$query = $this->db->query($sql);
 		
@@ -169,6 +179,71 @@ class procesoModel extends CI_Model{
 		}
 		
 		return $retArray;		
+	}
+	
+	function getFPInsert($data_array, $idProceso){
+		$counter = 1;
+		$nombreFase;
+		$idFase;
+		$fechaIniPlan;
+		$fechaFinPlan;
+		$fechaIniReal;
+		$fechaFinReal;
+		$index = 0;
+		$indexTrippin = 0;
+		$trippin;
+
+		foreach ($data_array as $value) {
+			$this->load->database();
+			if($counter == 1){ //Estoy en nombreFase, preparo borrando las fases antiguas
+				$nombreFase = $value;
+			
+				$this->db->trans_begin();
+				
+				$sql = "SELECT idFase FROM FASE WHERE nombreFase = '" .$nombreFase. "'";
+				echo "QUERY 1: "  .$sql;
+				$query = $this->db->query($sql);
+				foreach ($query->result() as $row){
+					$idFase = $row->idFase;
+				}
+
+				$sql = "DELETE FROM FASE_PROCESO WHERE idProceso = " .$idProceso ." AND idFase = " .$idFase;
+				echo "QUERY 2: "  .$sql;
+				$this->db->query($sql); 
+				
+				
+				if($this->db->trans_status() == FALSE) {
+					$this->db->trans_rollback();
+				} else {
+					$this->db->trans_commit();
+				}
+				$counter++;
+				continue;
+			}
+			if($counter == 2){ //Estoy en fechaIniPlan
+				$fechaIniPlan = $value;
+				$counter++;
+				continue;
+			}
+			if($counter == 3){ //Estoy en fechaFinPlan
+				$fechaFinPlan = $value;
+				$counter++;
+				continue;
+			}
+			if($counter == 4){ //Estoy en fechaIniReal
+				$fechaIniReal = $value;
+				$counter++;
+				continue;
+			}
+			if($counter == 5){ //Estoy en fechaFinReal
+				$fechaFinReal = $value;
+				$counter = 1;
+				$trippin[$indexTrippin++] = "INSERT INTO FASE_PROCESO (idProceso,idFase,fechaIniPlan,fechaFinPlan,fechaIniReal,fechaFinReal) VALUES(" .$idProceso. "," .$idFase. ",'" .$fechaIniPlan."','" .$fechaFinPlan. "','" .$fechaIniReal. "','" .$fechaFinReal. "')";
+				continue;
+			}
+		}
+
+		return  $trippin;
 	}
 	
 

@@ -56,7 +56,7 @@
 				
 			<div id ="msgBox"></div>	
 				
-			<div class="divDataForm" style = "height: 600px; width: 700px">
+			<div class="divDataForm" style = "height: 650px; width: 700px">
 				<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/>
@@ -81,8 +81,12 @@
 					<table id="tablaFases"></table>
 					<div id="pager"></div>
 				</div>
-				<br>
-							
+				<span class = "inputFieldLabel">Añadir Fase: </span>
+				<select id="cbFases" name="fases"></select>
+				<div class="divCRUDButtons">
+					<button id="btnFaseAdd" onClick="addFase()">Agregar Fase</button>
+					<button id="btnFaseEdit" onClick="editFase()">Editar Fase</button>
+				</div>	
 			</div>
 			
 		</div>
