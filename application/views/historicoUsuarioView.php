@@ -60,8 +60,10 @@
 			<div class="divDataForm" style="height: 850px">
 				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>								
 				<input id="correlUsuarioHistorico" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idRowEdit" type="hidden"  value="" class = "hiddenId"/><br>				
 				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="accionActualRol" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idRolHistorico" type="hidden"  value="" class = "hiddenId"/><br>
 								
 				<span class = "requiredFieldLabel">Inicio contrato:</span>
 				<input id="txtFechaInicioContrato" type="text"  value="" class = "jqcalendario" title = "Fecha inicio de este contrato" readonly/><br>
@@ -77,22 +79,45 @@
 				<div class="divAddButton">
 					<button id="btnSaveContrato" onClick="saveContrato()" >Guardar</button>					
 					<button id="btnEditContrato" onClick="editContrato()" >Editar</button>
-					<button id="btnDeleteContrato" onClick="deleteData()">Eliminar</button>
+					<button id="btnDeleteContrato" onClick="deleteContrato()">Eliminar</button>
+					<button id="btnDeleteContrato" onClick="editarContrato()">Editar roles</button>
 					<button id="btnCancelContrato" onClick="cancelContrato()" >Cancelar</button>
 				</div>
 				<br>
 				<div align="center" class = "gridView" style = "width : 480px">
 					<table id="usuarioHist"></table>
 					<div style = "height : 40px" id="gridpagerUH"></div>
-				</div>	
+				</div>
+				<br>
+				<br>
+				<br>
+				<br>
+				
+				<span class = "requiredFieldLabel">Rol:</span>
+				<input id="txtHistoricoRol" type="text"  value="" class = "inputFieldAC" title = "Rol Desempeñado"/><br>
+			
+				<span class = "requiredFieldLabel">Fecha Asignación:</span>
+				<input id="txtFechaInicioRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se vinculo este rol" readonly/><br>
+											
+				<span class = "requiredFieldLabel">Fecha Fin:</span>
+				<input id="txtFechaFinRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se desvinculo" readonly/><br>
+								
+				<span class = "requiredFieldLabel">Salario $:</span>
+				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Tiempo en meses que durara el contrato"/><br>
+								
+				<div class="divAddButton">
+					<button id="btnSaveContrato" onClick="saveRol()" >Guardar</button>					
+					<button id="btnEditContrato" onClick="editRol()" >Editar</button>
+					<button id="btnDeleteContrato" onClick="deleteRol()">Eliminar</button>					
+					<button id="btnCancelContrato" onClick="cancelRol()" >Cancelar</button>
+				</div>
+				<br>
+				<div align="center" class = "gridView" style = "width : 480px">
+					<table id="rolesHist"></table>
+					<div style = "height : 40px" id="gridpagerRH"></div>
+				</div>
 				
 			</div>
-			<!-- <div class="divDataForm" style="height: 250px" align="center">  -->
-				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>				
-				
-					
-			<!-- </div> -->
-			
 			
 		</div>
 		
