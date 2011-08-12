@@ -191,7 +191,7 @@ class solicitudModel extends CI_Model {
 				"FROM USUARIO u " .
 				"INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario " .
 				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
-				"WHERE esAutor=1";
+				"WHERE us.esAutor=1 AND s.activo=1";
 		$query = $this->db->query($sql);
 
 		$i = 0;
@@ -336,6 +336,7 @@ class solicitudModel extends CI_Model {
 
 		$idDestinatario = $this->input->post("idDestinatario");
 		$idSolicitud = $this->input->post("idSolicitud");
+		$anioCorrelSolicitud = explode("-", $idSolicitud);
 
 		$sql = "INSERT INTO NOTIFICACION (notificacion, subject, fechaNotificacion)
 				VALUES ('Una solicitud le ha sido transferida. Puede verla <a href=\"" . base_url() . "solicitud/getSolicitud/" . $idSolicitud . "\">aqui</a>',
@@ -343,9 +344,12 @@ class solicitudModel extends CI_Model {
 
 		$sql2 = "INSERT INTO USUARIO_NOTIFICACION (idUsuario, idNotificacion, idEstado) VALUES (?, LAST_INSERT_ID(), 2)";
 
+		$sql3 = "UPDATE SOLICITUD SET activo=0 WHERE anioSolicitud = ? AND correlAnio = ?";
+
 		$this->db->trans_begin();
 		$this->db->query($sql);
 		$this->db->query($sql2, array($idDestinatario));
+		$this->db->query($sql3, array($anioCorrelSolicitud[0], $anioCorrelSolicitud[1]));
 
 		if($this->db->trans_status() == FALSE) {
 	     	$retArray["status"] = $this->db->_error_number();
