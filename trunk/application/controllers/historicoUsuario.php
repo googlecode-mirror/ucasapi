@@ -21,7 +21,7 @@ class historicoUsuario extends CI_Controller{
 		$this->load->model("historicoUsuarioModel");
 		echo json_encode($this->historicoUsuarioModel->read());
 	}
-	
+
 	function nohacernada() {
 		// no hacer nada
 	}
@@ -42,7 +42,7 @@ class historicoUsuario extends CI_Controller{
 		echo json_encode($autocompleteData);
 	}
 
-	function usuarioRolAutocompleteRead(){
+	function rolAutocompleteRead(){
 		$this->load->model("rolModel");
 
 		$autocompleteData = $this->rolModel->autocompleteRead();
@@ -50,9 +50,9 @@ class historicoUsuario extends CI_Controller{
 		echo json_encode($autocompleteData);
 	}
 
-	function gridRead($idUsuario){
-		$this->load->model("usuarioModel");
-		echo json_encode($this->usuarioModel->gridUsuarioRead($idUsuario));
+	function gridContratoRolRead($idUsuario,$correlUsuarioHistorico){
+		$this->load->model("historicoUsuarioModel");
+		echo json_encode($this->historicoUsuarioModel->gridRolRead($idUsuario,$correlUsuarioHistorico));
 	}
 
 	function gridContratoUsuarioRead($idUsuario){
@@ -60,10 +60,18 @@ class historicoUsuario extends CI_Controller{
 		echo json_encode($this->historicoUsuarioModel->gridContratoUsuarioRead($idUsuario));
 	}
 
-	function usuarioDelete(){
-		$this->load->model("usuarioModel");
+	function contratoDelete(){
+		$this->load->model("historicoUsuarioModel");
 
-		$deleteInfo = $this->usuarioModel->delete();
+		$deleteInfo = $this->historicoUsuarioModel->delete();
+
+		echo json_encode($deleteInfo);
+	}
+
+	function rolDelete(){
+		$this->load->model("historicoUsuarioModel");
+
+		$deleteInfo = $this->historicoUsuarioModel->deleteRol();
 
 		echo json_encode($deleteInfo);
 	}
@@ -91,5 +99,31 @@ class historicoUsuario extends CI_Controller{
 
 		echo json_encode($retArray);
 	}
+
+	function historicoUsuarioRolValidateAndSave(){
+		$this->load->model("historicoUsuarioModel");
+		$retArray = array();
+
+		$validationInfo = $this->historicoUsuarioModel->saveValidationRol();
+
+		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
+			$accionActual =  $this->input->post("accionActualRol");
+
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+				$retArray = $this->historicoUsuarioModel->createRol();
+			}
+			else{
+				$retArray = $this->historicoUsuarioModel->updateRol();
+			}
+
+		}
+		else{//Los datos ingresados no pasaron las validaciones
+			$retArray = $validationInfo;
+		}
+
+		echo json_encode($retArray);
+	}
+
+
 
 }
