@@ -64,7 +64,7 @@
 				<span class="cleanable" id="interesados"></span><br><br><br>
 
 				<input type="hidden" value="" id="idSolicitud"/>
-				<button id="btnSave" onClick="alert('Hay que implementar esta funcionalidad')">Asignar esta solicitud</button>
+				<button id="btnSave" onClick="cargarDialogoAsignacion()">Asignar esta solicitud</button>
 				<button id="btnUpload" onClick="definirDestinatario()">Transferir la solicitud</button>
 			</div>
 
@@ -74,6 +74,8 @@
 				<input id="txtRecords" type="text" disabled="disabled"  value="" class="inputFiledAC" /><br/><br/>
 				<button id="btnUpload" onClick="transferirSolicitud()">Transferir</button>
 			</div>
+
+			<div align="center" id="dialogoAsignar"></div>
 
 			<!--
 			<div id="dialogoAsignar"></div>

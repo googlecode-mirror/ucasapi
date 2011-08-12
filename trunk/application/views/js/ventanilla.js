@@ -8,6 +8,9 @@ $(document).ready(function(){
 	$("#dialogoTransferir").dialog({
 		autoOpen: false
 	});
+	$("#dialogoAsignar").dialog({
+		autoOpen: false
+	});
 //	$("#list").hideCol("anio");
 //	$("#list").hideCol("correl");
 });
@@ -136,6 +139,20 @@ function transferirSolicitud() {
         	}
         	
       	}
+      
+	});
+}
+
+function cargarDialogoAsignacion() {
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/index/1",
+        //data: "usuarioAutocomplete",
+        dataType : "html",
+        success: function(htmlPage){
+        	$("dialogoAsignar").html(htmlPage);
+        	$("dialogoAsignar").dialog('open');
+      }
       
 	});
 }
