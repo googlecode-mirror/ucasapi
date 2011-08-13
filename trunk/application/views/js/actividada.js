@@ -1,3 +1,6 @@
+numUsersOnGrid = 0;
+numFollowersOnGrid = 0;
+
 $(document).ready(function(){
 	 js_ini();
 	 projectAutocomplete();
@@ -5,6 +8,9 @@ $(document).ready(function(){
 	 priorityAutocomplete();
 	 statusAutocomplete();
 	 $("#txtStartingDate, #txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	 loadFollowersGrid();
+	 loadUsersGrid();
+	 
 	 //$("#departamentoButton").addClass("highlight");
 	 //departmentAutocomplete();	
 	 //loadGrid();
@@ -26,7 +32,8 @@ function projectAutocomplete(){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
+    		        selectFirst: true,
     		        select: function(event, ui) {
     			        $("#idProyecto").val(ui.item.id);
     			        $("#txtProcessRecords").val("");
@@ -39,7 +46,7 @@ function projectAutocomplete(){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idProyecto").val(ui.item.id);
     			        $("#txtProcessName").val("");
@@ -128,7 +135,7 @@ function userAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 1,
     		        select: function(event, ui) {
-    			        $("#idResponsable").val(ui.item.id);					
+    			        $("#idUsuarioResponsable").val(ui.item.id);					
     				}
     			});
         		
@@ -190,7 +197,8 @@ function statusAutocomplete(){
 	});		
 }
 
-function save(){			
+function save(){	
+	var gridData = $("#followersGrid").jqGrid("getRowData");
 	var formData= "";
 	formData += "idProyecto=" + $("#idProyecto").val();
 	formData += "&idProceso=" + $("#idProceso").val();
@@ -203,6 +211,8 @@ function save(){
 	formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
 	formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
 	formData += "&descripcion=" + $("#txtActivityDesc").val();
+	formData += "&seguidores=" +parseGridData(gridData);
+	
 	
 	$.ajax({				
         type: "POST",
@@ -231,21 +241,38 @@ function save(){
 }
 
 function edit(){			
-	var formData = "idDepto=" + $("#idDepto").val();	
+	var formData = "idActividad=" + $("#idActividad").val();	
 	
 	$.ajax({				
         type: "POST",
-        url:  "index.php/departamento/departmentRead",
+        url:  "index.php/actividada/activityRead",
         data: formData,
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
         	}else{
-        		$("#txtDepartmentName").val(retrievedData.data.nombreDepto);
-			    $("#txtDepartmentDesc").val(retrievedData.data.descripcion);
+        		$("#idProyecto").val(retrievedData.data.idProyecto);
+        		$("#idProceso").val(retrievedData.data.idProceso);
+        		$("#idUsuarioResponsable").val(retrievedData.data.idUsuario);
+        		$("#idPrioridad").val(retrievedData.data.idPrioridad);
+        		$("#idEstado").val(retrievedData.data.idEstado);
+        		$("#txtStartingDate").val(retrievedData.data.fechaInicioPlan);
+        		$("#txtEndingDate").val(retrievedData.data.fechaFinalizacionPlan);
+        		$("#txtStatusName").val(retrievedData.data.estado);
+        		$("#txtPriorityName").val(retrievedData.data.nombrePrioridad);
+        		$("#txtResponsibleName").val(retrievedData.data.nombreUsuario);
+        		$("#txtProjectName").val(retrievedData.data.nombreProyecto);
+        		$("#txtProcessName").val(retrievedData.data.nombreProceso);
+        		$("#txtActivityDesc").val(retrievedData.data.descripcionActividad);
+        		$("#txtActivityName").val(retrievedData.data.nombreActividad);
+        		
+        		
+        		
+			    //$("#txtDepartmentDesc").val(retrievedData.data.descripcion);
 			    
-			    $('#list').setGridParam({url:"index.php/departamento/gridRead/"+$("#idDepto").val()}).trigger("reloadGrid");
+			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+			    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
         	}			       
       	}      
 	});
@@ -337,4 +364,105 @@ function ajaxUpload(){
 			alert(response);				
 		}		
 	});
+}
+
+function loadFollowersGrid(){	
+	 $("#followersGrid").jqGrid({
+		   	//url:  "index.php/departamento/gridRead/",
+		    datatype: "json",
+		    mtype: "POST",
+		    colNames:["Id","Usuario","Departamento"],
+		    colModel :[ 
+              {name:"id", index:"id", hidden:true}, 
+ 		      {name:"usuario", index:"usuario", width:190},
+	 		  {name:"depto", index:"depto", width:190}
+		    ],
+		    pager: "#fpager",
+		    rowNum:10,
+		    width : 480,
+		    rowList:[10,20,30],
+		    sortname: "id",
+		    sortorder: "desc",
+		    viewrecords: true,
+		    gridview: true,
+		    caption: "Seguidores de la actividad",
+		    loadComplete: function(){
+				if(numFollowersOnGrid==0){
+					numFollowersOnGrid = $("#usersGrid").jqGrid("getGridParam","records");
+				}
+		    }	    	
+	  });	
+}
+
+function loadUsersGrid(){	
+	 $("#usersGrid").jqGrid({
+		   	url:  "index.php/actividada/gridUsersRead/",
+		    datatype: "json",
+		    mtype: "POST",
+		    colNames:["Id","Usuario", "Departamento"],
+		    colModel :[ 
+		      {name:"id", index:"id", hidden:true}, 
+		      {name:"usuario", index:"usuario", width:190},
+		      {name:"depto", index:"depto", width:190}
+		    ],
+		    pager: "#upager",
+		    rowNum:10,
+		    width : 480,
+		    rowList:[10,20,30],
+		    sortname: "id",
+		    sortorder: "desc",
+		    viewrecords: true,
+		    gridview: true,
+		    caption: "Usuarios del sistema",
+		    loadComplete: function(){
+				if(numUsersOnGrid==0){
+					numUsersOnGrid = $("#usersGrid").jqGrid("getGridParam","records");
+				}
+		    }
+	  });	
+}
+
+
+function addUser(){
+	rowId = $("#usersGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#usersGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un usuario para agregar");
+		return;
+	}
+	
+	numUsersOnGrid--;
+	numFollowersOnGrid++;
+	
+	$("#followersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#usersGrid").jqGrid("delRowData", rowId, rowData);
+	
+}
+
+function removeUser(){
+	rowId = $("#followersGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#followersGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un usuario para agregar");
+		return;
+	}
+	
+	numUsersOnGrid++;
+	numFollowersOnGrid--;
+	
+	$("#usersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#followersGrid").jqGrid("delRowData", rowId, rowData);
+	
+}
+
+function parseGridData(gridData){
+	var parsedData = "";
+	for ( var Elemento in gridData) {
+		for ( var Propiedad in gridData[Elemento]) {
+			parsedData += gridData[Elemento][Propiedad] + "|";
+		}
+	}
+	return parsedData;
 }
