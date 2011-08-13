@@ -15,10 +15,10 @@ class procesoModel extends CI_Model{
 		$proc_data = $this->input->post("proc_data");
 
 		$this->db->trans_begin();
-		
 		//Inserto la informacion general del proceso
-		$sql = "INSERT INTO PROCESO (nombreProceso,descripcion,idProyecto,idFase,idEstado,activo) 
-   				VALUES (".$this->db->escape($nombreProceso).", ".$this->db->escape($descripcion).",".'NULL'.",".$this->db->escape($idFase).",".$this->db->escape($idEstado).",1)";
+
+		$sql = "INSERT INTO PROCESO (nombreProceso,descripcion,idProyecto,idEstado,activo) 
+   				VALUES (".$this->db->escape($nombreProceso).", ".$this->db->escape($descripcion).",".$idProyecto.",".$idEstado.",'1')";
 		
 		$this->db->query($sql);
 		
@@ -31,7 +31,7 @@ class procesoModel extends CI_Model{
 		foreach ($query->result() as $row){
 			$idProceso = $row->idProceso;
 		}
-		
+		echo "IDPROCESO: " .$idProceso;
 		//Inserto las fases asociadas al proceso
 		$data_array = explode("|",$proc_data);
 
