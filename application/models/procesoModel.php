@@ -152,6 +152,9 @@ class procesoModel extends CI_Model{
 		$data_array = explode("|",$proc_data);
 
 		$this->db->trans_begin();
+		$sql = "DELETE FROM FASE_PROCESO WHERE idProceso = " .$idProceso;
+
+		$this->db->query($sql); 
 		
 		$insert_statements = $this->getFPInsert($data_array, $idProceso);
 		foreach ($insert_statements as $queryRoles) {
@@ -161,8 +164,6 @@ class procesoModel extends CI_Model{
 		$sql = "UPDATE PROCESO  
 				SET idEstado = ".$idEstado.", nombreProceso = ".$this->db->escape($nombreProceso).", descripcion = ".$this->db->escape($descripcion)." 
 				 WHERE idProceso = " .$idProceso; 
-		
-		echo "QUERY 3: "  .$sql;
 		
 		$query = $this->db->query($sql);
 		
@@ -201,15 +202,11 @@ class procesoModel extends CI_Model{
 				$this->db->trans_begin();
 				
 				$sql = "SELECT idFase FROM FASE WHERE nombreFase = '" .$nombreFase. "'";
-				echo "QUERY 1: "  .$sql;
+			
 				$query = $this->db->query($sql);
 				foreach ($query->result() as $row){
 					$idFase = $row->idFase;
 				}
-
-				$sql = "DELETE FROM FASE_PROCESO WHERE idProceso = " .$idProceso ." AND idFase = " .$idFase;
-				echo "QUERY 2: "  .$sql;
-				$this->db->query($sql); 
 				
 				
 				if($this->db->trans_status() == FALSE) {
