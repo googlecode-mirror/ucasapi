@@ -56,6 +56,30 @@
 
 			</div>
 
+			<div align="center" id="dialogoSolicitud" style="visibility: hidden;">
+				<span class = "inputFieldLabel"><b>T&iacute;tulo:</b></span><br/>
+				<span class="cleanable" id="tituloSolicitud"></span><br/><br/>
+
+				<span class = "inputFieldLabel"><b>Ingresada el:</b></span><br/>
+				<span class="cleanable" id="fecha"></span><br/><br/>
+
+				<span class = "inputFieldLabel"><b>Por:</b></span><br/>
+				<span class="cleanable" id="cliente"></span><br/><br/>
+
+				<span class = "inputFieldLabel"><b>Descripci&oacute;n:</b></span><br/>
+				<textArea readonly="readonly" id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>
+				<br><br>
+
+				<span class = "inputFieldLabel"><b>Fecha de inicio:</b></span><br/>
+				<span class="cleanable" id="fechaInicio"></span><br/><br/>
+
+				<span class = "inputFieldLabel"><b>Progreso (en %):</b></span><br/>
+				<span class="cleanable" id="progreso"></span><br/><br/>
+
+				<input type="hidden" value="" id="idSolicitud"/>
+
+			</div>
+
 		</div>
 
 	</body>
