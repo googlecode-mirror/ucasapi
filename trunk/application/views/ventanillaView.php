@@ -36,7 +36,7 @@
 			<div style="height: 20px"></div>
 
 			<div class="divActions" align="center">
-				<table id="list"><tr><td/></tr></table>
+				<table id="listPeticion"><tr><td/></tr></table>
 				<div id="pager"></div>
 				<br/><br/>
 			</div>
@@ -75,7 +75,44 @@
 				<button id="btnUpload" onClick="transferirSolicitud()">Transferir</button>
 			</div>
 
-			<div align="center" id="dialogoAsignar"></div>
+			<div align="center" id="dialogoAsignar">
+				<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idUsuarioResponsable" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idPrioridad" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idUsuarioAsigna" style="display:none"  value=<?php echo $idUsuario;?> class = "hiddenId"/><br>
+
+				<span class = "requiredFieldLabel" >Nombre</span>
+				<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
+
+				<span class = "requiredFieldLabel" >Proyecto</span>
+				<input id="txtProjectName" type="text"  value="" class = "inputField" title="Proyecto al que la actividad est� asociada"/><br>
+
+				<span class = "inputFieldLabel" >Proceso</span>
+				<input id="txtProcessName" type="text"  value="" class = "inputField" title="Proceso al que la actividad est� asociada"/><br>
+
+				<span class = "requiredFieldLabel" >Responsable</span>
+				<input id="txtResponsibleName" type="text"  value="" class = "inputField" title="Usuario responsable de la actividad"/><br>
+
+				<span class = "requiredFieldLabel" >Prioridad</span>
+				<input id="txtPriorityName" type="text"  value="" class = "inputField" title="Usuario responsable de la actividad"/><br>
+
+				<span class = "requiredFieldLabel" >Estado</span>
+				<input id="txtStatusName" type="text"  value="" class = "inputField" title="Usuario responsable de la actividad"/><br>
+
+				<span class = "inputFieldLabel" >Planificaci�n</span>
+				<div class="divDateCombo">
+					<span>Inicio</span>
+					<input id="txtStartingDate" type="text"  value=""  title="Fecha de inicio planificada de la actividad" readonly/><br>
+					<span>Fin</span>
+					<input id="txtEndingDate" type="text"  value=""  title="Fecha fin planificada de la actividad" readonly/><br>
+				</div>
+
+				<span class = "requiredFieldLabel" style = "clear:both">Descripci�n</span>
+				<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci�n del departamento" ></textArea>
+			</div>
 
 			<!--
 			<div id="dialogoAsignar"></div>

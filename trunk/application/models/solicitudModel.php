@@ -147,6 +147,49 @@ class solicitudModel extends CI_Model {
 
 	}
 
+	function getSolicitudCliente ($idPeticion=NULL) {
+		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		//array con la clave de la solicitud -> anioSolicitud-correlAnio
+		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
+
+		$query = "SELECT
+					s.tituloSolicitud titulo,
+					s.fechaEntrada fechaIngreso,
+					CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente,
+					s.descripcionSolicitud descripcion,
+					a.fechaInicioPlan fechaAtencion,
+					MAX(b.progreso) progreso
+				FROM SOLICITUD s
+				INNER JOIN ACTIVIDAD a ON (a.anioSolicitud = s.anioSolicitud AND a.correlAnio = s.correlAnio)
+				INNER JOIN BITACORA b ON (b.idActividad = a.idActividad)
+				INNER JOIN USUARIO_SOLICITUD us ON (us.anioSolicitud = s.anioSolicitud AND us.correlAnio = s.correlAnio)
+				INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario)
+				WHERE a.anioSolicitud = ? AND a.correlAnio = ?
+				GROUP BY s.tituloSolicitud, s.fechaEntrada, s.descripcionSolicitud, a.fechaInicioPlan";
+
+		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1]));
+
+		$solicitudes = array();
+
+		if ($result) {
+			if($result->num_rows() > 0) {
+				foreach ($result->result() as $row) {
+
+					$retArray["data"][] = $row;
+
+				}
+			}
+		} else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+
+		return $retArray;
+
+	}
+
 	function gridSolicitudRead($id=null){
 		$this->load->database();
 

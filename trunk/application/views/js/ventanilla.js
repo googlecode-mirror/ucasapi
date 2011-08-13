@@ -11,13 +11,15 @@ $(document).ready(function(){
 	$("#dialogoAsignar").dialog({
 		autoOpen: false
 	});
+	
+	$("#txtStartingDate, #txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd' });
 //	$("#list").hideCol("anio");
 //	$("#list").hideCol("correl");
 });
 
 function loadGrid() {
 	
-	 $("#list").jqGrid({
+	 $("#listPeticion").jqGrid({
 		   	url:  "index.php/solicitud/gridRead/",
 		    datatype: "json",
 		    mtype: "POST",
@@ -111,6 +113,13 @@ function definirDestinatario() {
 	$("#dialogoTransferir").css('visibility', 'visible').dialog('open');
 }
 
+function cargarDialogoAsignacion() {
+	userAutocomplete();
+	priorityAutocomplete();
+	statusAutocomplete();
+	$("#dialogoAsignar").css('visibility', 'visible').dialog('open');
+}
+
 function transferirSolicitud() {
 	
 	var nombreDestinatario = $("#txtRecords").val();
@@ -143,16 +152,114 @@ function transferirSolicitud() {
 	});
 }
 
-function cargarDialogoAsignacion() {
+// -----------------------------------------------------------------------------
+// Funciones de Actividada
+// -----------------------------------------------------------------------------
+function projectAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/index/1",
-        //data: "usuarioAutocomplete",
-        dataType : "html",
-        success: function(htmlPage){
-        	$("dialogoAsignar").html(htmlPage);
-        	$("dialogoAsignar").dialog('open');
+        url:  "index.php/actividada/projectAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{        		
+        		$("#txtProjectName").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 1,
+    		        select: function(event, ui) {
+    			        $("#idProyecto").val(ui.item.id);
+    			        $("#txtProcessName").val("");
+    			        $("#idProceso").val("");
+    			        processAutocomplete($("#idProyecto").val(), "#txtProcessName");
+    				}
+    			});
+        		
+        	}        	
       }
       
-	});
+	});		
 }
+
+function userAutocomplete(){
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/userAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{        		
+        		$("#txtResponsibleName").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 1,
+    		        select: function(event, ui) {
+    			        $("#idResponsable").val(ui.item.id);					
+    				}
+    			});
+        		
+        	}        	
+      }
+      
+	});		
+}
+
+function priorityAutocomplete(){
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/priorityAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{        		
+        		$("#txtPriorityName").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 1,
+    		        select: function(event, ui) {
+    			        $("#idPrioridad").val(ui.item.id);					
+    				}
+    			});
+        		
+        	}        	
+      }
+      
+	});		
+}
+
+function statusAutocomplete(){
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/statusAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{        		
+        		$("#txtStatusName").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 1,
+    		        select: function(event, ui) {
+    			        $("#idEstado").val(ui.item.id);					
+    				}
+    			});
+        		
+        	}        	
+      }
+      
+	});		
+}
+
+
