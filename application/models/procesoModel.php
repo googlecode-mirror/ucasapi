@@ -12,16 +12,45 @@ class procesoModel extends CI_Model{
 		$idProyecto = $this->input->post("idProyecto");
 		$idFase = $this->input->post("idFase");
 		$idEstado = $this->input->post("idEstado");
+		$proc_data = $this->input->post("proc_data");
+
+		$this->db->trans_begin();
 		
+		//Inserto la informacion general del proceso
 		$sql = "INSERT INTO PROCESO (nombreProceso,descripcion,idProyecto,idFase,idEstado,activo) 
-   				VALUES (".$this->db->escape($nombreProceso).", ".$this->db->escape($descripcion).",".'NULL'.",".$this->db->escape($idFase).",".$this->db->escape($idEstado).","."1".")";
+   				VALUES (".$this->db->escape($nombreProceso).", ".$this->db->escape($descripcion).",".'NULL'.",".$this->db->escape($idFase).",".$this->db->escape($idEstado).",1)";
+		
+		$this->db->query($sql);
+		
+		//Obtengo el id del proceso que acabo de insertar
+		$sql = "SELECT MAX(idProceso) FROM PROCESO";
+		
+		$this->db->query($sql);
 		
 		$query = $this->db->query($sql);
+		foreach ($query->result() as $row){
+			$idProceso = $row->idProceso;
+		}
 		
-		if (!$query){
-	     	$retArray["status"] = $this->db->_error_number();
+		//Inserto las fases asociadas al proceso
+		$data_array = explode("|",$proc_data);
+
+		$insert_statements = $this->getFPInsert($data_array, $idProceso);
+		foreach ($insert_statements as $queryFases) {
+			$this->db->query($queryFases);
+		}
+		
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
+		if($this->db->trans_status() == FALSE) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
+		}
 	    
 		return $retArray;		
 	}
@@ -199,20 +228,11 @@ class procesoModel extends CI_Model{
 			if($counter == 1){ //Estoy en nombreFase, preparo borrando las fases antiguas
 				$nombreFase = $value;
 			
-				$this->db->trans_begin();
-				
 				$sql = "SELECT idFase FROM FASE WHERE nombreFase = '" .$nombreFase. "'";
 			
 				$query = $this->db->query($sql);
 				foreach ($query->result() as $row){
 					$idFase = $row->idFase;
-				}
-				
-				
-				if($this->db->trans_status() == FALSE) {
-					$this->db->trans_rollback();
-				} else {
-					$this->db->trans_commit();
 				}
 				$counter++;
 				continue;
