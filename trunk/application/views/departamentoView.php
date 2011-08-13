@@ -24,7 +24,7 @@
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
 			<span id="systemName"><b>SKY PROJECT??</b></span> 	
 			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
-			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span> 
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
 		<div><span id="pageTittle"></span></div>
