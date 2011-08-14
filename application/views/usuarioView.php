@@ -90,7 +90,7 @@
 				<input id="txtUsuarioPassword" type="password"  value="" class = "inputFieldPSW" title = "Contraseña para el usuario"/><br>
 				
 				<span class = "requiredFieldLabel">Confirmar:</span>
-				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contrasela"/><br>
+				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contraseña"/><br>
 				
 				<span class = "requiredFieldLabel">DUI:</span>
 				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario"/><br>				
