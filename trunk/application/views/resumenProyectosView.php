@@ -11,11 +11,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
-		<script type="text/javascript">
-		$(document).ready(function(){
-			 js_ini();
-		});
-		</script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/resumenProyectos.js"></script>
 
 	</head>
 
@@ -39,20 +35,38 @@
 		<div class="container">
 			<div style="height: 20px"></div>
 
-			<div class="divActions">
+			<div id ="msgBox"></div>
 
-				<h3 class="inputFieldLabel">Bienvenido!</h3>
+			<div class="divDataForm">
+				<input type="hidden" id="idUsuario" value="<?php echo $idUsuario; ?>"/>
 
-				<ul>
-					<li><span class="inputFieldLabel"><a href="<?php echo base_url(); ?>solicitud">Crear una solicitud</a></span></li>
+				<span class="inputFieldLabel">Proyectos:</span><br/><br/><br/>
 
-					<li><span class="inputFieldLabel"><a href="<?php echo base_url(); ?>cliente/listaSolicitudes">Ver mi lista de solicitudes</a></span></li>
-					
-					<li><span class="inputFieldLabel"><a href="<?php echo base_url(); ?>cliente/resumenProyectos">Ver el resumen de proyectos</a></span></li>
+				<div align="center">
+					<table id="list"><tr><td/></tr></table>
+					<div id="pager"></div>
+				</div>
 
+			</div>
 
-				</ul>
+			<div align="center" id="dialogoProyecto" style="visibility: hidden;">
+				<span class = "inputFieldLabel"><b>Nombre del proyecto:</b></span><br/>
+				<span class="cleanable" id="nombreProyecto"></span><br/><br/>
+				
+				<span class = "inputFieldLabel"><b>Coordinador del proyecto:</b></span><br/>
+				<span class="cleanable" id="coordinadorProyecto"></span><br/><br/>
 
+				<span class = "inputFieldLabel"><b>Fecha de inicio:</b></span><br/>
+				<span class="cleanable" id="fechaInicio"></span><br/><br/>
+				
+				<span class = "inputFieldLabel"><b>Fecha de finalización:</b></span><br/>
+				<span class="cleanable" id="fechaFin"></span><br/><br/>
+				
+				<span class = "inputFieldLabel"><b>Fase del proyecto:</b></span><br/>
+				<span class="cleanable" id="fase"></span><br/><br/>
+				
+				<span class = "inputFieldLabel"><b>Descripci&oacute;n:</b></span><br/>
+				<textArea readonly="readonly" id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>
 
 			</div>
 
