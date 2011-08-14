@@ -274,7 +274,7 @@ function save() {
 		formData += "&activo=0";
 	}
 
-	alert(formData);
+	//alert(formData);
 
 	if (validar_campos()) {
 
@@ -436,27 +436,39 @@ function validar_campos() {
 
 	if ($("#txtUsuarioPassword").val() == ""
 			|| $("#txtUsuarioConfirmar").val() == "") {		
-		msgBoxInfo("Complete la Contraseñas");
-		return (false);
+		camposFallan += "Complete la Contraseñas <br />";		
 	}
 	if ($("#txtUsuarioPassword").val() < 4) {
-		alert("La contraseña debe ser mayor de 4 digitos")
-		return (false);
+		
+		camposFallan += "La contraseña debe ser mayor de 4 digitos <br />";	
+		
 	}
-
 	if ($("#txtUsuarioConfirmar").val() == "") {
-		alert("Debe confirmar la contraseña");
-		return (false);
+		camposFallan += "Debe confirmar la contraseña <br />";		
 	}
 
-	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
-		alert("La contraseña confirmada no concuerda con la contraseña escrita");
-		return (false);
+	if ($("#txtUsuarioEmailPersonal").val() != $("#txtUsuarioEmailPersonal").val()) {
+		camposFallan += "La contraseña confirmada no concuerda con la contraseña escrita <br />";		
 	}
 	
-	if(!camposFallan == ""){
-		return 
+	/*mail validations*/
+	if(!validarEmail($("#txtUsuarioEmailPersonal").val())){
+		camposFallan += "El correo electronico personal tiene un formato incorrecto <br />";
 	}
+	if(!validarEmail($("#txtUsuarioEmailInstitucional").val())){
+		camposFallan += "El correo electronico institucional tiene un formato incorrecto <br />";
+	}
+	if(!validarTelefono($("#txtUsuarioTelefono").val())){
+		camposFallan += "Formato de telefono incorrecto <br />";
+	}
+	
+	if(camposFallan == ""){
+		return true;
+	}else{
+		msgBoxInfo(camposFallan);
+		return false;
+	}
+	
 
 	return (true)
 }
