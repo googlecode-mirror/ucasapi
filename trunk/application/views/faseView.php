@@ -5,6 +5,8 @@
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/fase.js"></script>
 		
 	</head>
@@ -48,10 +50,10 @@
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre de la fase: </span>
-				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la fase"/><span id="spanfase1"></span><br>
+				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la fase"/><br>
 				
 				<span class = "inputFieldLabel">Descripcion: </span>
-				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputField" title="Ingrese la descripcion de la fase"></textArea><span id="spanfase2"></span>
+				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputField" title="Ingrese la descripcion de la fase"></textArea>
 			</div>
 			
 		</div>
