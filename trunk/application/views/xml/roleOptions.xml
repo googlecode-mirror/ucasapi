@@ -43,6 +43,10 @@
 				<nombrePagina>Usuarios</nombrePagina>
 				<controller>usuario</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Contratos</nombrePagina>
+				<controller>historicoUsuario</controller>
+			</pagina>
 		</paginas>
 	</rol>
 	<rol id = "2">
