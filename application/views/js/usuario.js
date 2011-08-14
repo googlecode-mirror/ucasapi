@@ -127,7 +127,8 @@ function loadGrid() {
 				colModel : [ {
 					name : "idRol",
 					index : "idRol",
-					width : 63
+					width : 63,
+					hiden : true
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
@@ -135,7 +136,8 @@ function loadGrid() {
 				}, {
 					name : "fechaAsignacionSistema",
 					index : "fechaAsignacionSistema",
-					width : 200
+					width : 200,
+					hiden : true
 				} ],
 				pager : "#pager",
 				rowNum : 10,
@@ -160,7 +162,8 @@ function loadGridTR() {
 		colModel : [ {
 			name : "idRol",
 			index : "idRol",
-			width : 63
+			width : 63,
+			hiden : true
 		}, {
 			name : "nombreRol",
 			index : "nombreRol",
@@ -168,7 +171,8 @@ function loadGridTR() {
 		}, {
 			name : "fechaAsignacionSistema",
 			index : "fechaAsignacionSistema",
-			width : 190
+			width : 190,
+			hiden : true
 		} ],
 		pager : "#pagerTR",
 		rowNum : 10,
