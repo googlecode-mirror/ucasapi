@@ -3,6 +3,7 @@ function js_ini(){
 	
 	//Seteo de estilos
 	$("#msgBox").addClass("ui-corner-all");
+	$("#msgBox01").addClass("ui-corner-all");
 	$('.divActions').addClass("ui-corner-all");
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
