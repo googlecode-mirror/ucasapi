@@ -16,6 +16,8 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/usuario.js"></script>
 		
@@ -66,43 +68,47 @@
 				<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>				
 				
 				<span class = "inputFieldLabel">Codigo empleado:</span>
-				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA"/><br>
+				<input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA" maxlength="10"/><br>
 							
 				<span class = "requiredFieldLabel">Primer nombre:</span>
-				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField" title = "Primer nombre del usuario"/><br>
+				<input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField" title = "Primer nombre del usuario" maxlength="80"/><br>
 				
 				<span class = "inputFieldLabel">Otros Nombre:</span>
-				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField" title = "Otros nombres del usuario"/><br>
+				<input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField" title = "Otros nombres del usuario" maxlength="80"/><br>
 				
 				<span class = "requiredFieldLabel">Primer Apellido:</span>
-				<input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField" title = "Primer apellido del usuario "/><br>
+				<input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField" title = "Primer apellido del usuario " maxlength="80"/><br>
 				
 				<span class = "inputFieldLabel">Otros Apellidos:</span>
-				<input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField" title = "Otros apellidos del usuario"/><br>
+				<input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField" title = "Otros apellidos del usuario" maxlength="80"/><br>
 				
 				<span class = "requiredFieldLabel">Fecha nacimiento:</span>
 				<input id="txtProyectoFechaNacimiento" type="text"  value="" class = "jqcalendario" title = "Fecha nacimiento del usuario"/><br>
 				
 				<span class = "requiredFieldLabel">Usuario sistema:</span>
-				<input id="txtUsuarioUserName" type="text"  value="" class = "inputField" title = "Nombre de usuario de sistema"/><br>
+				<input id="txtUsuarioUserName" type="text"  value="" class = "inputField" title = "Nombre de usuario de sistema" maxlength="10"/><br>
 
 				<span class = "requiredFieldLabel">Contraseña:</span>
-				<input id="txtUsuarioPassword" type="password"  value="" class = "inputFieldPSW" title = "Contraseña para el usuario"/><br>
+				<input id="txtUsuarioPassword" type="password"  value="" class = "inputFieldPSW" title = "Contraseña para el usuario" maxlength="10"/><br>
 				
 				<span class = "requiredFieldLabel">Confirmar:</span>
+<<<<<<< .mine
+				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contrasela" maxlength="10"/><br>
+=======
 				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contraseña"/><br>
+>>>>>>> .r290
 				
 				<span class = "requiredFieldLabel">DUI:</span>
-				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario"/><br>				
+				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario" maxlength="15"/><br>				
 				
 				<span class = "inputFieldLabel">NIT:</span>
-				<input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria"/><br>
+				<input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria" maxlength="20"/><br>
 				
 				<span class = "inputFieldLabel">ISSS:</span>
-				<input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS"/><br>
+				<input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS" maxlength="20"/><br>
 				
 				<span class = "inputFieldLabel">NUP:</span>
-				<input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP"/><br>
+				<input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP" maxlength="40"/><br>
 				
 				<span class = "requiredFieldLabel">Departamento:</span>
 				<input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField" title = "Departamento universitario al que pertenece"/><br>
@@ -111,19 +117,19 @@
 				<input id="txtUsuarioCargo" type="text"  value="" class = "inputField" title = "Cargo que desempeña en la universidad"/><br>
 				
 				<span class = "inputFieldLabel">Carnet:</span>
-				<input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA"/><br>
+				<input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Email Personal:</span>
-				<input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField" title = "Dirección de correo electronico personal"/><br>
+				<input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField" title = "Dirección de correo electronico personal" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Email Institucional:</span>
-				<input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField" title = "Dirección de correo electronico institucional"/><br>
+				<input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField" title = "Dirección de correo electronico institucional" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Telefono Contacto:</span>
-				<input id="txtUsuarioTelefono" type="text"  value="" class = "inputField" title = "Teléfono de contacto personal"/><br>
+				<input id="txtUsuarioTelefono" type="text"  value="" class = "inputField" title = "Teléfono de contacto personal" maxlength="8"/><br>
 				
 				<span class = "inputFieldLabel">Extension:</span>
-				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA"/><br>
+				<input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA" maxlength="5"/><br>
 				
 				<span class = "inputFieldLabel">Activo:</span>
 				<input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema" class="inputCHK"/><br>
