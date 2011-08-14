@@ -1,12 +1,6 @@
 <html>
     <head>
-        <title>Test</title>   
-        <?php
-            //require_once("application/models/menuBarModel.php");
-            //echo "menuBarModel.php";
-            //$menuBarModel = new menuBarModel();
-            //$menuBarModel->showMenu();        
-        ?>           
+        <title>PHOBOS - Usuarios</title>           
         <link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
         <link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
         <link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />   
@@ -24,26 +18,23 @@
        
     </head>   
     <body>
-        <div class="menuBar">
+        <div class="menuBar" style ="height: 54px">
              <ul>
-                <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Acción</span></a></span></li>
-                <li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Departamento</span></a></span></li>
-                <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Cargo</span></a></span></li>
-                <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Estado</span></a></span></li>
-                <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Fase</span></a></span></li>
-                <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Rol</span></a></span></li>
+               <?echo $menu;?>
             </ul>         
         </div>
        
-        <div class="sessionBar">
-            <span id="sessionUser"></span>
-        </div>
+     <div class="sessionBar">
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
+			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span> 
+		</div>
        
         <div><span id="pageTittle"></span></div>
        
         <div class="container" style = "height : 1080px">
-            <div style="height: 20px"></div>
-            <input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/>
+            <div style="height: 20px"></div>            
            
             <div class="divActions">               
                 <div class="divCRUDRecords">
