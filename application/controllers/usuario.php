@@ -80,15 +80,14 @@ class Usuario extends CI_Controller{
 		$validationInfo = $this->usuarioModel->saveValidation();
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
-			$idUsuario =  $this->input->post("idUsuario");
+			$accionActual =  $this->input->post("accionActual");
 
-			if($idUsuario == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->usuarioModel->create();
 			}
 			else{
 				$retArray = $this->usuarioModel->update();
 			}
-
 		}
 		else{//Los datos ingresados no pasaron las validaciones
 			$retArray = $validationInfo;
