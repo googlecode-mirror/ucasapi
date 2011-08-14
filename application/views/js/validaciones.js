@@ -82,4 +82,15 @@ function validarExtension(campo) {
 }
 
 
+function validarAlfa(campo){
+	var RegExPattern = /^[A-Za-z]{1,80}$/
+		if ((campo.match(RegExPattern)) && (campo.value != '')) {
+			return true;
+		} else {
+			return false;
+		}   
+		
+}
+
+
 /* El rollercoaster de la vida, abroche sus cinturones y disfrute del viaje */
