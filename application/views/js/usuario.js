@@ -193,7 +193,8 @@ function agregarRol() {
 
 	// insertando los valores en el otro grid
 	if (row_id != null) {
-		num_rows = $("#list").getGridParam("records");// N�mero de filas en el
+		num_rows = $("#list").getGridParam("records");// N�mero de filas en
+														// el
 		// grid
 		new_row_data = {
 			"idRol" : row_data["idRol"],
@@ -232,6 +233,8 @@ function eliminarRol() {
 
 function save() {
 	var formData = "";
+	
+	
 	formData += "idUsuario=" + $("#idUsuario").val();
 	formData += "&codEmp=" + $("#txtUsuarioCodigo").val();
 	formData += "&primerNombre=" + $("#txtUsuarioPrimerNombre").val();
@@ -254,6 +257,7 @@ function save() {
 	formData += "&extension=" + $("#txtUsuarioExtension").val();
 	formData += "&telefonoContacto=" + $("#txtUsuarioTelefono").val();
 	formData += "&fechaNacimiento=" + $("#txtProyectoFechaNacimiento").val();
+	formData += "&accionActual=" + $("#accionActual").val();
 
 	rol_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
@@ -287,7 +291,7 @@ function save() {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
 				} else {
-					if ($("#idUsuario").val() == "") {
+					if ($("#accionActual").val() == "") {
 
 						/*
 						 * msgBoxSucces("<p>Registro agregado con �xito</p>");
@@ -314,85 +318,76 @@ function save() {
 
 function edit() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
-
-	// alert($("#idUsuario").val());
-
-	// grid donde se cargan los roles que un usuario tiene asignados
-	$('#list').setGridParam({
-		url : "index.php/usuario/gridRolesUsuarioRead/" + $("#idUsuario").val()
-	}).trigger("reloadGrid");
-	// grid donde se cargan todos los roles que son asignables
-	$('#todosRoles').setGridParam({
-		url : "index.php/usuario/gridRead/" + $("#idUsuario").val()
-	}).trigger("reloadGrid");
-
-	loadGrid();
-	loadGridTR();
-	$.ajax({
-		type : "POST",
-		url : "index.php/usuario/usuarioRead",
-		data : formData,
-		dataType : "json",
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
-			} else {
-				$("#txtUsuarioCodigo").val(retrievedData.data.codEmp);
-				$("#txtUsuarioPrimerNombre").val(
-						retrievedData.data.primerNombre);
-				$("#txtUsuarioOtrosNombres").val(
-						retrievedData.data.otrosNombres);
-				$("#txtUsuarioPrimerApellido").val(
-						retrievedData.data.primerApellido);
-				$("#txtUsuarioOtrosApellidos").val(
-						retrievedData.data.otrosApellidos);
-				$("#txtUsuarioUserName").val(retrievedData.data.username);
-				$("#txtUsuarioPassword").val(retrievedData.data.password);
-				$("#txtUsuarioConfirmar").val(retrievedData.data.password);
-				$("#txtUsuarioDUI").val(retrievedData.data.dui);
-				$("#txtUsuarioNIT").val(retrievedData.data.nit);
-				$("#txtUsuarioISSS").val(retrievedData.data.isss);
-				$("#txtUsuarioNUP").val(retrievedData.data.nup);
-				$("#txtUsuarioDepartamento")
-						.val(retrievedData.data.nombreDepto);
-				$("#txtUsuarioCargo").val(retrievedData.data.nombreCargo);
-				$("#txtUsuarioCarnet").val(retrievedData.data.carnet);
-				$("#txtUsuarioEmailPersonal").val(
-						retrievedData.data.emailPersonal);
-				$("#txtUsuarioEmailInstitucional").val(
-						retrievedData.data.emailInstitucional);
-				$("#txtUsuarioExtension").val(retrievedData.data.extension);
-				$("#idDepto").val(retrievedData.data.idDepto);
-				$("#idCargo").val(retrievedData.data.idCargo);
-				$("#txtProyectoFechaNacimiento").val(
-						retrievedData.data.fechaNacimiento);
-				$("#txtUsuarioTelefono").val(
-						retrievedData.data.telefonoContacto);
-				$("#txtUsuarioExtension").val(retrievedData.data.extension);
-				// alert(retrievedData.data.activo);
-				if (retrievedData.data.activo == '1') {
-					// alert('ACTIVO');
-					$("#chkUsuarioActivo").attr('checked', true);
+	$("#accionActual").val("editando");
+	formData = "accionActual=" + $("#accionActual").val();
+	if($("#idUsuario").val()!=""){			
+		// grid donde se cargan los roles que un usuario tiene asignados
+		$('#list').setGridParam({
+			url : "index.php/usuario/gridRolesUsuarioRead/" + $("#idUsuario").val()
+		}).trigger("reloadGrid");
+		// grid donde se cargan todos los roles que son asignables
+		$('#todosRoles').setGridParam({
+			url : "index.php/usuario/gridRead/" + $("#idUsuario").val()
+		}).trigger("reloadGrid");
+	
+		loadGrid();
+		loadGridTR();
+		$.ajax({
+			type : "POST",
+			url : "index.php/usuario/usuarioRead",
+			data : formData,
+			dataType : "json",
+			success : function(retrievedData) {
+				if (retrievedData.status != 0) {
+					alert("Mensaje de error: " + retrievedData.msg); // Por el
 				} else {
-					// alert('INACTIVO');
-					$("#chkUsuarioActivo").attr('checked', false);
+					$("#txtUsuarioCodigo").val(retrievedData.data.codEmp);
+					$("#txtUsuarioPrimerNombre").val(
+							retrievedData.data.primerNombre);
+					$("#txtUsuarioOtrosNombres").val(
+							retrievedData.data.otrosNombres);
+					$("#txtUsuarioPrimerApellido").val(
+							retrievedData.data.primerApellido);
+					$("#txtUsuarioOtrosApellidos").val(
+							retrievedData.data.otrosApellidos);
+					$("#txtUsuarioUserName").val(retrievedData.data.username);
+					$("#txtUsuarioPassword").val(retrievedData.data.password);
+					$("#txtUsuarioConfirmar").val(retrievedData.data.password);
+					$("#txtUsuarioDUI").val(retrievedData.data.dui);
+					$("#txtUsuarioNIT").val(retrievedData.data.nit);
+					$("#txtUsuarioISSS").val(retrievedData.data.isss);
+					$("#txtUsuarioNUP").val(retrievedData.data.nup);
+					$("#txtUsuarioDepartamento")
+							.val(retrievedData.data.nombreDepto);
+					$("#txtUsuarioCargo").val(retrievedData.data.nombreCargo);
+					$("#txtUsuarioCarnet").val(retrievedData.data.carnet);
+					$("#txtUsuarioEmailPersonal").val(
+							retrievedData.data.emailPersonal);
+					$("#txtUsuarioEmailInstitucional").val(
+							retrievedData.data.emailInstitucional);
+					$("#txtUsuarioExtension").val(retrievedData.data.extension);
+					$("#idDepto").val(retrievedData.data.idDepto);
+					$("#idCargo").val(retrievedData.data.idCargo);
+					$("#txtProyectoFechaNacimiento").val(
+							retrievedData.data.fechaNacimiento);
+					$("#txtUsuarioTelefono").val(
+							retrievedData.data.telefonoContacto);
+					$("#txtUsuarioExtension").val(retrievedData.data.extension);
+	
+					if (retrievedData.data.activo == '1') {
+	
+						$("#chkUsuarioActivo").attr('checked', true);
+					} else {
+	
+						$("#chkUsuarioActivo").attr('checked', false);
+					}
+	
 				}
-
 			}
-		}
-	});
+		});
+	}else{
+		msgBoxSucces("Debe seleccionar un usuario");
+	}
 
 }
 
@@ -577,6 +572,7 @@ function clear() {
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
 	$("#chkUsuarioActivo").attr('checked', false);
+	$("#accionActual").val("");
 }
 
 $("#chkUsuarioActivo").change(function() {
