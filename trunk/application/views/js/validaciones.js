@@ -93,7 +93,7 @@ function validarAlfa(campo){
 }
 
 function validarAlfaEsp(campo){
-	var RegExPattern = /^\w{1}[A-Za-z\s]{2,80}$/
+	var RegExPattern = /^\w{1}[A-Za-z\s]{1,80}$/
 		if ((campo.match(RegExPattern)) && (campo.value != '')) {
 			return true;
 		} else {
