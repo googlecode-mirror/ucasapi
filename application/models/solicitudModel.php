@@ -109,22 +109,22 @@ class solicitudModel extends CI_Model {
 		//array con la clave de la solicitud -> anioSolicitud-correlAnio
 		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
 
-		$query = "SELECT " .
-						"s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente, " .
-						"CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente, " .
-						"c.nombreCargo cargo, d.nombreDepto depto " .
-					"FROM SOLICITUD s " .
-					"INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
-					"INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario) " .
-					"INNER JOIN CARGO c ON (u.idCargo = c.idCargo) " .
-					"INNER JOIN DEPARTAMENTO d ON (u.idDepto = d.idDepto) " .
-					"INNER JOIN PRIORIDAD p ON (p.idPrioridad = s.idPrioridadCliente) " .
-					"WHERE s.anioSolicitud = ? AND s.correlAnio = ? " .
-					"AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (" .
-						"SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio) " .
-						"FROM ACTIVIDAD a " .
-						"WHERE a.anioSolicitud = ? AND a.correlAnio = ?)" .
-					"ORDER BY esAutor DESC";
+		$query = "SELECT 
+						s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente, 
+						CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente, 
+						c.nombreCargo cargo, d.nombreDepto depto 
+					FROM SOLICITUD s 
+					INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) 
+					INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario) 
+					INNER JOIN CARGO c ON (u.idCargo = c.idCargo) 
+					INNER JOIN DEPARTAMENTO d ON (u.idDepto = d.idDepto) 
+					INNER JOIN PRIORIDAD p ON (p.idPrioridad = s.idPrioridadCliente)
+					WHERE s.anioSolicitud = ? AND s.correlAnio = ? 
+					AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (
+						SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio) 
+						FROM ACTIVIDAD a 
+						WHERE a.anioSolicitud = ? AND a.correlAnio = ?)
+					ORDER BY esAutor DESC";
 
 		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1], $solicitudIds[0], $solicitudIds[1]));
 
