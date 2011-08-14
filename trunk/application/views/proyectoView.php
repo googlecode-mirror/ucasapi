@@ -101,7 +101,13 @@
 					<div class = "gridView" style = "width : 480px">
 						<table id="tablaFases" align="center"><tr><td/></tr></table>
 						<div id="pager"></div>
-					</div> 	
+					</div> 
+					<span class = "inputFieldLabel">Elegir Fase: </span>
+					<select id="cbFases"></select>
+					<div class = "divCRUDButtons">
+						<button id="btnSave" onClick="addFase()">Añadir Fase</button>
+						<button id="btnEdit" onClick="editFase()">Editar Fase</button>
+					</div>
 				</div>
 				
 				<div id="tabs-2"  class="divDataForm" style="height: 600px">

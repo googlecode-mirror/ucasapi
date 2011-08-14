@@ -74,7 +74,7 @@ class Proceso extends CI_Controller{
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idProceso =  $this->input->post("idProceso");
-				
+			
 			if($idProceso == "0"){//Si recibo 0 entonces se guardaran como un nuevo registro
 				$retArray = $this->procesoModel->create();
 			}

@@ -3,6 +3,7 @@ $(document).ready(function() {
 	idArchivo = "";
 	upload = null;
 	proyectoAutocomplete();	
+	proyectoEstadoAutocomplete();
 	ajaxUpload();
 	$("#idProyecto").val("0");
 	loadGrid("0");
@@ -230,6 +231,17 @@ function clear() {
 	$("#txtRecords").val("");
 	$("#chkProyectoActivo").attr('checked', false);
 	$("#txtProyectoDescripcion").val();
+}
+
+function addFase(){
+	$("#tablaFases").jqGrid('addRowData',0,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan:'2011-01-01',fechaFinPlan:'2011-01-01'},'last');
+}
+
+function editFase(){
+	var gr = jQuery("#tablaFases").jqGrid('getGridParam','selrow'); 
+	if( gr != null ) 
+		jQuery("#tablaFases").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:false}); 
+	else alert("Por favor seleccione una fila");
 }
 
 $("#chkUsuarioActivo").change(function() {
