@@ -128,7 +128,7 @@ function loadGrid() {
 					name : "idRol",
 					index : "idRol",
 					width : 63,
-					hiden : true
+					hidden : true
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
@@ -137,7 +137,7 @@ function loadGrid() {
 					name : "fechaAsignacionSistema",
 					index : "fechaAsignacionSistema",
 					width : 200,
-					hiden : true
+					hidden : true
 				} ],
 				pager : "#pager",
 				rowNum : 10,
@@ -163,7 +163,7 @@ function loadGridTR() {
 			name : "idRol",
 			index : "idRol",
 			width : 63,
-			hiden : true
+			hidden : true
 		}, {
 			name : "nombreRol",
 			index : "nombreRol",
@@ -172,7 +172,7 @@ function loadGridTR() {
 			name : "fechaAsignacionSistema",
 			index : "fechaAsignacionSistema",
 			width : 190,
-			hiden : true
+			hidden : true
 		} ],
 		pager : "#pagerTR",
 		rowNum : 10,
