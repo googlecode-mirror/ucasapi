@@ -35,29 +35,30 @@ function save(){
 	formData += "idRol=" + $("#idRol").val();	
 	formData += "&nombreRol=" + $("#txtRolName").val();
 	
-	$.ajax({				
-        type: "POST",
-        url:  "index.php/rol/rolValidateAndSave",
-        data: formData,
-        dataType : "json",
-        success: function(retrievedData){
-        	if(retrievedData.status != 0){
-        		msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
-        	}
-        	else{
-        		if($("idRol").val()==""){
-        			msgBoxSucces("Registro agregado con éxito");
-        		}
-        		else{
-        			msgBoxSucces("Registro actualizado con éxito");
-        		}
-        		rolAutocomplete();
-        		clear();
-        	}
-      	}
-      
-	});
-	
+	if(validar_campos()){
+		$.ajax({				
+	        type: "POST",
+	        url:  "index.php/rol/rolValidateAndSave",
+	        data: formData,
+	        dataType : "json",
+	        success: function(retrievedData){
+	        	if(retrievedData.status != 0){
+	        		msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
+	        	}
+	        	else{
+	        		if($("idRol").val()==""){
+	        			msgBoxSucces("Registro agregado con ï¿½xito");
+	        		}
+	        		else{
+	        			msgBoxSucces("Registro actualizado con ï¿½xito");
+	        		}
+	        		rolAutocomplete();
+	        		clear();
+	        	}
+	      	}
+	      
+		});
+	}
 }
 
 function edit(){			
@@ -70,7 +71,7 @@ function edit(){
         dataType : "json",
         success: function(retrievedData){
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}else{
         		$("#txtRolName").val(retrievedData.data.nombreRol);
         	}			       
@@ -82,7 +83,7 @@ function edit(){
 function deleteData(){
 	var formData = "idRol=" + $("#idRol").val();
 	
-	var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
+	var answer = confirm("Estï¿½ seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
 	
 	if (answer){		
 		$.ajax({				
@@ -92,10 +93,10 @@ function deleteData(){
 	        dataType : "json",
 	        success: function(retrievedData){
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
 	        	}
 	        	else{
-	        		alert("Registro eliminado con éxito");
+	        		alert("Registro eliminado con ï¿½xito");
 	        		rolAutocomplete();
 	        		clear();
 	        	}
@@ -104,6 +105,31 @@ function deleteData(){
 		});		
 	}	
 }
+
+
+function validar_campos(){
+	var camposFallan = "";
+	
+	if($("#txtRolName").val()!=""){
+		if(!validarAlfa($("#txtRolName").val())){
+			camposFallan += "Formato de NOMBRE ROL es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "El campo NOMBRE ROL es requerido <br />";
+	}
+	
+	if(camposFallan == ""){
+		return true;
+	}else{
+		msgBoxInfo(camposFallan);
+		return false;
+	}
+	return true;
+}
+function cancel(){
+	clear();
+}
+
 
 function cancel(){
 	clear();
