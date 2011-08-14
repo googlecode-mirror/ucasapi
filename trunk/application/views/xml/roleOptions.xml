@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <roles>
-	<rol id = "1">
+	<rol id = "7">
 		<nombreRol>Administrador</nombreRol>
 		<paginas>
 			<pagina>
@@ -38,6 +38,10 @@
 			<pagina>
 				<nombrePagina>Tipo de asociación</nombrePagina>
 				<controller>tipoAsociacion</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Usuarios</nombrePagina>
+				<controller>usuario</controller>
 			</pagina>
 		</paginas>
 	</rol>
