@@ -27,6 +27,9 @@
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
+		<input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/>
+		<input id="idUsuarioAsigna" type="hidden"  value=<?php echo $idUsuario;?> class = "hiddenId"/>
+		
 		<div><span id="pageTittle"></span></div>
 		
 		<div class="container" style="height: 1000px">
@@ -59,9 +62,8 @@
 			<div id="tabs" style = "height: auto;">
 				<ul>
 					<li><a href="#tabs-1">Información General</a></li>
-					<li><a href="#tabs-2">Fases</a></li>
-					<li><a href="#tabs-3">Seguidores</a></li>
-					<li><a href="#tabs-4">Documentos</a></li>
+					<li><a href="#tabs-2">Seguidores</a></li>
+					<li><a href="#tabs-3">Documentos</a></li>
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style="height: 584px;">	
@@ -71,7 +73,7 @@
 					<input id="idUsuarioResponsable" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idPrioridad" type="hidden"  value="" class = "hiddenId"/>
-					<input id="idUsuarioAsigna" style="display:none"  value=<?php echo $idUsuario;?> class = "hiddenId"/><br>
+					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>					
 				
 					<span class = "requiredFieldLabel" >Nombre</span>
 					<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
@@ -104,10 +106,6 @@
 				</div>
 				
 				<div id="tabs-2">
-					<button id="btnUpload">Subir documento</button>
-				</div>
-				
-				<div id="tabs-3">
 					<div class = "gridView" style = "width : 480px">
 						<table id="usersGrid"><tr><td/></tr></table> 
 						<div id="upager"></div>
@@ -122,11 +120,32 @@
 					</div>
 						<div class="divAddButton">
 						<button id="btnRemoveUser" onClick = "removeUser()">Quitar</button>
-					</div>						
-				</div>	
+					</div>
+				</div>
 				
-				<div id="tabs-4">
-						<button id="btnUpload">Subir documento</button>
+				<div id="tabs-3" class="divDataForm" style="height: 600px">
+					<div class="divUploadButton">
+						<button id="btnUpload">Seleccionar archivo</button><p></p>
+					</div>					
+				
+					<span class = "requiredFieldLabel">Título: </span>
+					<input id="txtFileName" type="text"  value="" class = "inputField"/><br>
+					
+					<span class = "inputFieldLabel">Tipo: </span>
+					<input id="txtFileType" type="text"  value="" class = "inputField"/><br>
+					
+					<span class = "inputFieldLabel">Descripción: </span>
+					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>
+					
+					<div class="divAddButton">
+						<button id="btnAddFile" onClick = "uploadFile()">Agregar</button>
+						<button id="btnUpdateFile" onClick = "saveFileData('null')" style = "display : none">Actualizar</button>
+						<button id="btnClearFileForm" onClick = "clearFileForm()">Limpiar</button>
+					</div>					
+					<div class = "gridView" style = "width : 480px">
+						<table id="gridDocuments"><tr><td/></tr></table> 
+						<div id="pager"></div>
+					</div>										
 				</div>				
 			</div>			
 		</div>	
