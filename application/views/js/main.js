@@ -31,7 +31,7 @@ function js_ini(){
 	//Tooltips
 	setTooltips();
 	
-	//Cierre de sessión
+	//Cierre de sessiï¿½n
 	$('#logoutButton').click(function() {
 	    window.location = "login/close"
 	});
@@ -55,7 +55,7 @@ function msgBoxInfo(message){
 	$("#msgBox").removeClass( "msgBoxSucces");
 	$("#msgBox").removeClass( "msgBoxError");
 	$("#msgBox" ).addClass( "msgBoxInfo");
-	$("#msgBox").fadeIn(800);
+	$("#msgBox").fadeIn(2000);
 	$("#msgBox").delay(5000).fadeOut();
 }
 
