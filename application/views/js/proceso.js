@@ -204,7 +204,7 @@ function loadGrid($idProceso){
 				url : "index.php/proceso/gridFasesProceso/" + $("#idProceso").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Cod.", "Nombre", "Fecha Inicial Plan.", "Fecha Fin Plan.", "Fecha Inicial Real", "Fecha Fin Real" ],
+				colNames : [ "Cod.", "Nombre", "Fecha Inicial Plan.", "Fecha Fin Plan." ],
 				colModel : [ {
 					name : "idFase",
 					index : "idFase",
@@ -228,24 +228,6 @@ function loadGrid($idProceso){
 				}, {
 					name : "fechaFinPlan",
 					index : "fechaFinPlan",
-					width : 120,
-					editable : true,
-					editoptions:{size:10},
-					editrules:{date:true},
-					formatter:'date', 
-					formatoptions: {newformat:'Y-m-d'}
-				}, {
-					name : "fechaIniReal",
-					index : "fechaIniReal",
-					width : 120,
-					editable : true,
-					editoptions:{size:10},
-					editrules:{date:true},
-					formatter:'date', 
-					formatoptions: {newformat:'Y-m-d'}
-				}, {
-					name : "fechaFinReal",
-					index : "fechaFinReal",
 					width : 120,
 					editable : true,
 					editoptions:{size:10},

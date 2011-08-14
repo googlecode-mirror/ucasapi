@@ -4,6 +4,8 @@ $(document).ready(function() {
 	upload = null;
 	proyectoAutocomplete();	
 	ajaxUpload();
+	$("#idProyecto").val("0");
+	loadGrid("0");
 	loadGridDocuments();
 	proyectoUsuarioDuenhoAutocomplete();
 });
@@ -60,6 +62,7 @@ function proyectoUsuarioAutocomplete() {
 }
 
 function proyectoUsuarioDuenhoAutocomplete() {
+
 	$.ajax({
 		type : "POST",
 		url : "index.php/proyecto/proyectoUsuarioAutocompleteRead",
@@ -171,6 +174,8 @@ function edit() {
 							url : "index.php/proyecto/gridDocumentsLoad/"
 									+ $("#idProyecto").val()
 						}).trigger("reloadGrid");
+				$("#tablaFases").jqGrid("GridUnload");
+				loadGrid($("#idProyecto").val());
 			}
 		}
 	});
@@ -224,6 +229,7 @@ function clear() {
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
 	$("#chkProyectoActivo").attr('checked', false);
+	$("#txtProyectoDescripcion").val();
 }
 
 $("#chkUsuarioActivo").change(function() {
@@ -322,6 +328,82 @@ function saveFileData(fileName) {
 	else{
 		msgBoxSucces("Debe seleccionarse un proyecto para agregar documentos a el");
 	}
+}
+
+//Grid para mostrar las fases por proyecto
+function loadGrid($idProyecto){
+	var lastsel;
+	var fases = "";
+	
+	$.ajax({
+		type: "POST",
+		url:  "index.php/proyecto/proyectoFaseRead",
+		data: "fasesRetrieve",
+		dataType : "json",
+		async : false,
+		success: function(retrievedData){
+			if(retrievedData.status != 0){
+				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+			}else{
+				$.each(retrievedData.data, function(i,obj) {
+					fases += obj.id + ':' + obj.value + ';';
+				});
+				//fases = "";
+				fases = fases.substring(0,fases.length-1);
+				$("#fasesString").val(fases);
+			}			      
+		}      
+	});
+	fases = $("#fasesString").val();
+	$("#tablaFases").jqGrid(
+			{
+				url : "index.php/proyecto/gridFasesProyecto/" + $("#idProyecto").val(),
+				datatype : "json",
+				mtype : "POST",
+				colNames : [ "Cod.", "Nombre", "Fecha Inicial Plan.", "Fecha Fin Plan." ],
+				colModel : [ {
+					name : "idFase",
+					index : "idFase",
+					width : 0,
+					hidden : true
+				}, {
+					name : "nombreFase",
+					index : "nombreFase",
+					editable : true,
+					edittype:"select",editoptions:{value:fases},
+					width : 180
+				}, {
+					name : "fechaIniPlan",
+					index : "fechaIniPlan",
+					width : 120,
+					editable : true,
+					editoptions:{size:10},
+					editrules:{date:true},
+					formatter:'date', 
+					formatoptions: {newformat:'Y-m-d'}
+				}, {
+					name : "fechaFinPlan",
+					index : "fechaFinPlan",
+					width : 120,
+					editable : true,
+					editoptions:{size:10},
+					editrules:{date:true},
+					formatter:'date', 
+					formatoptions: {newformat:'Y-m-d'}
+				}],
+				pager : "#pager",
+				rowNum : 10,
+				rowList : [ 10, 20, 30 ],
+				sortname : "id",
+				sortorder : "desc",
+				ajaxGridOptions: {cache: false},
+				loadonce : true,
+				viewrecords : true,
+				gridview : true,
+				editurl: "proceso",
+				caption : "Fases del proyecto"
+			});
+		
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -465,6 +547,10 @@ $.ajax({
 	}
 }
 
+function addFase(){
+	$("#tablaFases").jqGrid('addRowData',0,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan:'2011-01-01',fechaFinPlan:'2011-01-01',fechaIniReal:'2011-01-01',fechaFinReal:'2011-01-01'},'last')
+}
+
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Abre el documento correspondiente a la fila seleccionada
@@ -473,4 +559,5 @@ function clearFileForm() {
 	$("#txtFileDesc").val("");
 	$("#btnAddFile").show();
 	$("#btnUpdateFile").hide();
+	
 }

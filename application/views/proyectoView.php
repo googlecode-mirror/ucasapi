@@ -37,7 +37,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style = "height : 1000px">
+		<div class="container" style = "height : 1100px">
 			<div style="height: 20px"></div>
 			<input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/><br>
 			
@@ -73,6 +73,7 @@
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
+					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					
 					<span class = "inputFieldLabel">Nombre:</span>
 					<input id="txtProyectoNombre" type="text"  value="" class = "inputField"/><br>
@@ -96,7 +97,11 @@
 					<input id="chkProyectoActivo" type="checkbox" value="1" class= "inputCHK"/><br>				
 					
 					<span class = "inputFieldLabel">Descripción</span>
-					<textArea id="txtProyectoDescripcion" cols=20 rows=6 class = "inputFieldTA" title="Descripción del proyecto"></textArea><br>	
+					<textArea id="txtProyectoDescripcion" cols=20 rows=6 class = "inputFieldTA" title="Descripción del proyecto"></textArea><br>
+					<div class = "gridView" style = "width : 480px">
+						<table id="tablaFases" align="center"><tr><td/></tr></table>
+						<div id="pager"></div>
+					</div> 	
 				</div>
 				
 				<div id="tabs-2"  class="divDataForm" style="height: 600px">
