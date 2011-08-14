@@ -317,9 +317,9 @@ function save() {
 }
 
 function edit() {
-	var formData = "idUsuario=" + $("#idUsuario").val();
+	var formData = "idUsuario=" + $("#idUsuario").val();	
 	$("#accionActual").val("editando");
-	formData = "accionActual=" + $("#accionActual").val();
+	formData += "&accionActual=" + $("#accionActual").val();
 	if($("#idUsuario").val()!=""){			
 		// grid donde se cargan los roles que un usuario tiene asignados
 		$('#list').setGridParam({
