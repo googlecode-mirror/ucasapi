@@ -441,7 +441,27 @@ function validar_campos() {
 	}else{
 		camposFallan += "El campo PRIMER NOMBRE es requerido <br />";
 	}
-
+	
+	if($("#txtUsuarioOtrosNombres").val()!=""){
+		if(!validarAlfaEsp($("#txtUsuarioOtrosNombres").val())){
+			camposFallan += "Formato de OTROS NOMBRES es incorrecto <br />";
+		}
+	}
+	
+	if($("#txtUsuarioPrimerApellido").val()!=""){
+		if(!validarAlfa($("#txtUsuarioPrimerApellido").val())){
+			camposFallan += "Formato de PRIMER APELLIDO es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "El campo PRIMER APELLIDO es requerido <br />";
+	}
+	
+	if($("#txtUsuarioOtrosApellidos").val()!=""){
+		if(!validarAlfaEsp($("#txtUsuarioOtrosApellidos").val())){
+			camposFallan += "Formato de OTROS APELLIDOS es incorrecto <br />";
+		}
+	}
+	
 	if ($("#txtUsuarioPassword").val() == ""
 			|| $("#txtUsuarioConfirmar").val() == "") {		
 		camposFallan += "Complete la Contrase�as <br />";		
