@@ -56,7 +56,7 @@
 				
 			<div id ="msgBox"></div>	
 				
-			<div class="divDataForm" style = "height: 650px; width: 700px">
+			<div class="divDataForm" style = "height: 400px; width: 700px">
 				<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/>
@@ -71,22 +71,14 @@
 				
 				<span class = "inputFieldLabel">Estado: </span>
 				<select id="cbEstado"></select>
-				<br><br><br><br><br><br><br>
+				
+				<span class = "inputFieldLabel">Fase que pertenece el proceso: </span>
+				<select id="cbFases"></select>
+				
 				<span class = "inputFieldLabel">Descripción: </span>
 				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>
-				<br><br><br><br><br><br><br><br><br>
-				<span class = "inputFieldLabel">Fases en que se encuentra el proceso: </span>
-				<br><br><br>
-				<div align="center">
-					<table id="tablaFases"></table>
-					<div id="pager"></div>
-				</div>
-				<span class = "inputFieldLabel">Añadir Fase: </span>
-				<select id="cbFases" name="fases"></select>
-				<div class="divCRUDButtons">
-					<button id="btnFaseAdd" onClick="addFase()">Agregar Fase</button>
-					<button id="btnFaseEdit" onClick="editFase()">Editar Fase</button>
-				</div>	
+				
+				
 			</div>
 			
 		</div>

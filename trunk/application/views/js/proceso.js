@@ -4,7 +4,7 @@ $(document).ready(function(){
 	procesoEstadoAutocomplete();
 	procesoFaseAutocomplete();
 	$("#idProceso").val("0");
-	loadGrid("0");
+	//loadGrid("0");
 });	
 
 function procesoAutocomplete($idProyecto){
@@ -53,6 +53,15 @@ function procesoProyectoAutocomplete(){
 						procesoAutocomplete($("#idProyecto").val());
 					}
 				});
+				$("#txtProyectoName").autocomplete({
+					minChars: 0,  
+					source: retrievedData.data,
+					minLength: 1,
+					select: function(event, ui) {
+						$("#idProyecto").val(ui.item.id);
+						procesoAutocomplete($("#idProyecto").val());
+					}
+				});
 
 			}        	
 		}
@@ -81,7 +90,7 @@ function procesoFaseAutocomplete(){
 function procesoEstadoAutocomplete(){
 	$.ajax({				
 		type: "POST",
-		url:  "index.php/proceso/procesoEstadoAutocompleteRead/3",
+		url:  "index.php/proceso/procesoEstadoAutocompleteRead/2",
 		data: "procesoEstadoAutocomplete",
 		dataType : "json",
 		success: function(retrievedData){        	 
@@ -156,8 +165,7 @@ function edit(){
 				$("#cbEstado").val(retrievedData.data.idEstado);
 				$("#txtProcesoDesc").val(retrievedData.data.descripcion);
 				$("#txtProyectoName").val(retrievedData.data.nombreProyecto)
-				$("#tablaFases").GridUnload();
-				loadGrid();
+				$("#cbFases").val(retrievedData.data.idFase);
 			}			      
 		}      
 	});
