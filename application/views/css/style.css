@@ -249,6 +249,14 @@ body {
 	font-size: 0.9em;	
 }
 
+.divLessOrMoreThan button{
+	clear : both;
+	margin-bottom : 5px;
+	width : 36px;
+	height : 16px;
+	font-size: 0.9em;	
+}
+
 /* nilson */
 .selectList{
 	float:right;
@@ -425,33 +433,6 @@ body {
 	margin-right : 96px;
 }
 
-.divDataForm .span{
-	display: inline;
-	color: blue;
-	height : 20px;
-	float:right;
-	width : 256px;
-	margin-top : 10px;
-	margin-right : 96px;
-}
-		
-.divDataForm .correct{
-	color: green;
-	height : 20px;
-	float:right;
-	width : 256px;
-	margin-top : 10px;
-	margin-right : 96px;
-}
-
-.divDataForm .incorrect{
-	color: red;
-	height : 20px;
-	float:right;
-	width : 256px;
-	margin-top : 10px;
-	margin-right : 96px;
-}
 .divDataForm .incorrect{
 	color: red;
 	height : 20px;
