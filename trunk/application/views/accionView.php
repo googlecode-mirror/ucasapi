@@ -5,6 +5,8 @@
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/accion.js"></script>
 		
 	</head>
@@ -48,8 +50,7 @@
 			<div class="divDataForm">
 				<input id="idAccion" type="hidden"  value="" class = "hiddenId"/>
 				<span class = "inputFieldLabel" >Nombre de la accion: </span>
-				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la accion, sin numeros"/>
-				<span id="spanaccion"></span>
+				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la accion, sin numeros" maxlength="256"/>
 				
 			</div>
 			

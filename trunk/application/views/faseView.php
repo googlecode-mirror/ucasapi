@@ -50,10 +50,10 @@
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre de la fase: </span>
-				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la fase"/><br>
+				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la fase" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Descripcion: </span>
-				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputField" title="Ingrese la descripcion de la fase"></textArea>
+				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputField" title="Ingrese la descripcion de la fase" maxlength="256"></textArea>
 			</div>
 			
 		</div>
