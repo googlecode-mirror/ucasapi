@@ -26,8 +26,7 @@ class actividadaModel extends CI_Model{
 		$seguidores = $this->input->post("seguidores");
 		
 		//Si no se está en sesión
-		$idUsuarioAsigna = 1;
-		$idUsuarioResponsable = 1;
+		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
 		
 		$lastId  = -1;
 				
@@ -36,8 +35,8 @@ class actividadaModel extends CI_Model{
 		
 		
 		//Insertando en ACTIVIDAD
-		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, activo, anioSolicitud, correlAnio, idPrioridad, idProceso, idEstado)".
-				"VALUES (".$this->db->escape($nombreActividad).", ".$this->db->escape($fechaInicioPlan).",".$this->db->escape($fechaFinalizacionPlan).",".$this->db->escape($descripcionActividad).",'NULL',".
+		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, anioSolicitud, correlAnio, idPrioridad, idProceso, idEstado)".
+				"VALUES (".$this->db->escape($nombreActividad).", ".$this->db->escape($fechaInicioPlan).",".$this->db->escape($fechaFinalizacionPlan).",".$this->db->escape($descripcionActividad).",".
 						  $this->db->escape($anioSolicitud).",".$this->db->escape($correlAnio).",".$this->db->escape($idPrioridad).",".$this->db->escape($idProceso).",".
 						  $this->db->escape($idEstado).")";
 						 
@@ -45,7 +44,7 @@ class actividadaModel extends CI_Model{
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $sql;
+			$retArray["msg"] = $this->db->_error_message();
 	    }
 	    
 		$sql = "SELECT LAST_INSERT_ID() lastId FROM ACTIVIDAD";
@@ -62,17 +61,17 @@ class actividadaModel extends CI_Model{
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $sql;
+			$retArray["msg"] = $this->db->_error_message();
 	    }
 	    
 	    
 		//Insertando los datos en USUARIO_ACTIVIDAD del usuario responsable de la actividad
-	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, fechaDesvinculacion, activo, idTipoAsociacion, idUsuarioAsigna)".
+	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion,idTipoAsociacion, idUsuarioAsigna)".
 	    		"VALUES(".
 	    				$this->db->escape($idUsuarioResponsable).
 	    				",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuarioResponsable)." AND ua.idActividad=".$this->db->escape($lastId)." ), 1)),".
 	    				  $this->db->escape($lastId).",".
-	    				  "DATE(NOW()),NULL,1,1,".
+	    				  "DATE(NOW()),1,".
 	    				$this->db->escape($idUsuarioAsigna).")";
                 		
 		$query = $this->db->query($sql);
@@ -167,7 +166,7 @@ class actividadaModel extends CI_Model{
 		$seguidores = $this->input->post("seguidores");
 		
 		//Si no se está en sesión
-		$idUsuarioAsigna = 1;
+		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
 		//$idUsuarioResponsable = 1;
 		
 		$lastId  = -1;
@@ -182,7 +181,6 @@ class actividadaModel extends CI_Model{
 					 ",fechaInicioPlan = ".$this->db->escape($fechaInicioPlan).
 					 ", fechaFinalizacionPlan = ".$this->db->escape($fechaFinalizacionPlan). 
 					 ", descripcionActividad = ".$this->db->escape($descripcionActividad).
-					 ", activo = ".$this->db->escape($descripcionActividad).
 					 ", anioSolicitud = ".$this->db->escape($anioSolicitud).
 					 ", correlAnio = ".$this->db->escape($correlAnio).
 					 ", idPrioridad = ".$this->db->escape($idPrioridad).
@@ -203,7 +201,7 @@ class actividadaModel extends CI_Model{
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $sql;
+			$retArray["msg"] = $this->db->_error_message();
 	    }
 	    
 	    	    
@@ -213,22 +211,22 @@ class actividadaModel extends CI_Model{
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $sql;
+			$retArray["msg"] = $this->db->_error_message();
 	    }
 
 		//Insertando los datos en USUARIO_ACTIVIDAD del usuario responsable de la actividad
-	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, fechaDesvinculacion, activo, idTipoAsociacion, idUsuarioAsigna)".
+	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
 	    		"VALUES(".
 	    				$this->db->escape($idUsuarioResponsable).
 	    				",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuarioResponsable)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
 	    				  $this->db->escape($idActividad).",".
-	    				  "DATE(NOW()),NULL,1,1,".
+	    				  "DATE(NOW()),1,".
 	    				$this->db->escape($idUsuarioAsigna).")";
                 		
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $sql;
+			$retArray["msg"] = $this->db->_error_message();
 	    }
 	    
 		
@@ -341,7 +339,36 @@ class actividadaModel extends CI_Model{
 	}
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function userAutocompleteRead(){
+		$this->load->database();
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) nombreUsuario ".
+			   "FROM USUARIO u INNER JOIN ROL_USUARIO ru ON ru.idUsuario = u.idUsuario ".
+			   " WHERE ru.idRol IN (1,2,3,4)";
+		$query = $this->db->query($sql);
+ 
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idUsuario;
+					$rowArray["value"] = $row->nombreUsuario;
+
+					$retArray["data"][] = $rowArray;
+				}
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+
+		return $retArray;
+	}
 	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function processAutocompleteRead($idProyecto=null){
 		$this->load->database();
@@ -445,7 +472,7 @@ class actividadaModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 				
-		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 2";
+		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1";
 		
 		$query = $this->db->query($sql);		
 	
@@ -455,6 +482,36 @@ class actividadaModel extends CI_Model{
 					$rowArray = array();
 					$rowArray["id"] = $row->idEstado;
 					$rowArray["value"] = $row->estado;
+										
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = $sql;
+		}		
+		return $retArray;
+	}
+	
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	function fileTypeAutocompleteRead(){
+		$this->load->database();
+		
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+				
+		$sql = "SELECT idTipoArchivo, nombreTipo FROM TIPO_ARCHIVO";
+		
+		$query = $this->db->query($sql);		
+	
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["id"] = $row->idTipoArchivo;
+					$rowArray["value"] = $row->nombreTipo;
 										
 					$retArray["data"][] = $rowArray;				
 				}							
@@ -562,7 +619,7 @@ function gridUsuariosRead($idActividad){
 		
 		//-------------------------
 		
-		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre, u.primerApellido) as nombreUsuario, d.nombreDepto ".
+		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario, d.nombreDepto ".
 				"FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ".
 				"WHERE u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
 		
@@ -622,7 +679,7 @@ function gridSeguidoresRead($idActividad){
 		
 		//-------------------------
 		
-		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre, u.primerApellido) as nombreUsuario, d.nombreDepto ".
+		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario, d.nombreDepto ".
 				"FROM USUARIO_ACTIVIDAD ua INNER JOIN USUARIO u ON u.idUsuario = ua.idUsuario LEFT JOIN DEPARTAMENTO d ON d.idDepto = u.idDepto ".
 				"WHERE  ua.idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).
 				" GROUP BY u.idUsuario, nombreUsuario, d.nombreDepto";
@@ -644,6 +701,155 @@ function gridSeguidoresRead($idActividad){
 	}
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//Validación para campos de información de documento
+	function fileSaveValidation(){
+		$this->load->library('form_validation');
+		$retArray = array("status"=> 0, "msg" => "");
+		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha ');
+
+		if ($this->form_validation->run() == false){
+			$retArray["status"] = 1;
+			$retArray["msg"] .= form_error("descripcion");
+		}
+		return $retArray;
+	}
+	
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function createActivityFile(){
+		$this->load->database();
+		
+		$retArray = array("status"=> 0, "msg" => "");
+		
+		$idActividad   = $this->input->post("idActividad");
+		$idTipoArchivo = $this->input->post("idTipoArchivo");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		$tituloArchivo = $this->input->post("tituloArchivo");
+		$descripcion = $this->input->post("descripcion");
+		
+		$sql = "INSERT INTO ARCHIVOS (idActividad, nombreArchivo, tituloArchivo, descripcion, idTipoArchivo, fechaSubida)
+    			VALUES (".$this->db->escape($idActividad).", ".
+						$this->db->escape($nombreArchivo).", ".
+						$this->db->escape($tituloArchivo).", ".
+						$this->db->escape($descripcion).", ".
+						$this->db->escape($idTipoArchivo).
+						",DATE(NOW()))";
+		
+		$query = $this->db->query($sql);
+		
+		if (!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+			
+		return $retArray;
+	}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	function updateProjectFile(){
+		$this->load->database();
+		
+		$retArray = array("status"=> 0, "msg" => "");
+		$idArchivo = $this->input->post("idArchivo");
+		$descripcion = $this->input->post("descripcion");
+		
+		$sql = "UPDATE ARCHIVOS
+				SET descripcion = ".$this->db->escape($descripcion)."
+				WHERE idArchivo = ". $idArchivo; 
+		
+		$query = $this->db->query($sql);
+		
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+		
+		return $retArray;
+	}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	function fileDataDelete(){
+		$this->load->database();
+		
+		$retArray = array("status"=> 0, "msg" => "");
+		$idArchivo = $this->input->post("idArchivo");
+		
+		$sql = "DELETE FROM ARCHIVOS
+				WHERE idArchivo = ". $idArchivo;
+			
+		$query = $this->db->query($sql);
+		
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+		return $retArray;
+	}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function activityFilesRead($idActividad=null){
+		$this->load->database();
+		
+		$this->load->helper(array('url'));
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+		
+		$idActividad = is_null($idActividad) ? -1 : $idActividad;
+		
+		$sql = "SELECT COUNT(*) AS count FROM ARCHIVOS a LEFT JOIN TIPO_ARCHIVO ta ON ta.idTipoArchivo = a.idTipoArchivo ".
+			   "WHERE idActividad = ".$this->db->escape($idActividad);
+		
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		
+		$start = $limit*$page - $limit;
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		//-------------------------
+		$sql = "SELECT a.idArchivo, a.tituloArchivo ,a.nombreArchivo, a.descripcion, a.fechaSubida, ta.nombreTipo ".
+				"FROM ARCHIVOS a LEFT JOIN TIPO_ARCHIVO ta on ta.idTipoArchivo = a.idTipoArchivo ".
+				"WHERE idActividad = ".$this->db->escape($idActividad);
+		
+		$response->sql = $sql;
+		
+		$query = $this->db->query($sql);		
+		$i = 0;
+		
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $i+1;
+					$response->rows[$i]["cell"] = array($row->idArchivo,$row->nombreTipo,$row->tituloArchivo, $row->nombreArchivo, $row->fechaSubida, $row->descripcion);
+					$i++;
+				}
+			}
+		}
+		return $response;
+	}
+	
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
 	function getFollowersInsert($data_array,$idActividad){
 		$counter = 1;
 		$idUsuario;
@@ -660,24 +866,19 @@ function gridSeguidoresRead($idActividad){
 				continue;
 			}
 			if($counter == 2){
-				//$idUsuarioInsert = $idUsuario;
 				$counter++;
 				continue;
 			}
 			if($counter == 3){
 				$fechaAsignacionSistema = $value;
 				$counter = 1;
-				//if($fechaAsignacionSistema == "null"){
-					//$trippin[$indexTrippin++] = "INSERT INTO ROL_USUARIO (idRol, idUsuario, fechaAsigancionSistema) VALUES (".$idRolInsert.",".$idUsuarioInsert.",CURRENT_TIMESTAMP)";
-				//}else{
-					$trippin[$indexTrippin++] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, fechaDesvinculacion, activo, idTipoAsociacion, idUsuarioAsigna)".
-    												"VALUES(".
-															$this->db->escape($idUsuario).
-															",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape("1")." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
-															  $this->db->escape($idActividad).",".
-															  "DATE(NOW()),NULL,1,2,".
-														    	$this->db->escape('1').")";
-				//}
+				$trippin[$indexTrippin++] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
+    										"VALUES(".
+													$this->db->escape($idUsuario).
+													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
+													  $this->db->escape($idActividad).",".
+													  "DATE(NOW()),2,".
+												    	$this->db->escape('1').")";
 
 				continue;
 			}
