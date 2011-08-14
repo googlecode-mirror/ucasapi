@@ -69,7 +69,8 @@
                 <div id="tabs-1" class="divDataForm" style="height: 860px">
                     <input id="idUsuario" type="hidden"  value="" class = "hiddenId"/>
                     <input id="idCargo" type="hidden"  value="" class = "hiddenId"/>
-                    <input id="idDepto" type="hidden"  value="" class = "hiddenId"/>               
+                    <input id="idDepto" type="hidden"  value="" class = "hiddenId"/>
+                    <input id="accionActual" type="hidden"  value="" class = "hiddenId"/>               
                    
                     <span class = "inputFieldLabel">Código empleado:</span>
                     <input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA"/><br>
