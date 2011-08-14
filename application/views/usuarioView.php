@@ -92,11 +92,11 @@
 				<input id="txtUsuarioPassword" type="password"  value="" class = "inputFieldPSW" title = "Contraseña para el usuario" maxlength="10"/><br>
 				
 				<span class = "requiredFieldLabel">Confirmar:</span>
-<<<<<<< .mine
+
 				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contrasela" maxlength="10"/><br>
-=======
+
 				<input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contraseña"/><br>
->>>>>>> .r290
+
 				
 				<span class = "requiredFieldLabel">DUI:</span>
 				<input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario" maxlength="15"/><br>				
