@@ -156,6 +156,7 @@ function loadGridRolHistorico() {
 				rowList : [ 10, 20, 30 ],
 				sortname : "fechaInicio",
 				sortorder : "desc",
+				width : 550,
 				// loadonce : true,
 				viewrecords : true,
 				gridview : true,
@@ -243,10 +244,10 @@ function saveRol() {
 						dataType : "json",
 						success : function(retrievedData) {
 							if (retrievedData.status != 0) {
-								msgBoxInfo(retrievedData.msg);
+								msgBoxInfo01(retrievedData.msg);
 							} else {
 								if ($("#accionActualRol").val() == "") {
-									msgBoxSucces("Rol agregado con éxito al contrato");
+									msgBoxSucces01("Rol agregado con éxito al contrato");
 									/* LIMPIANDO EL GRID */
 									$('#rolesHist')
 											.setGridParam(
@@ -261,7 +262,7 @@ function saveRol() {
 																		.val()
 													}).trigger("reloadGrid");
 								} else {
-									msgBoxSucces("Registro actualizado con éxito");
+									msgBoxSucces01("Registro actualizado con éxito");
 									/* Recargando el grid */
 									$('#rolesHist')
 											.setGridParam(
@@ -285,7 +286,7 @@ function saveRol() {
 
 					});
 		} else {
-			msgBoxSucces("Debe seleccionar un usuario");
+			msgBoxSucces01("Debe seleccionar un usuario");
 		}
 	}
 }
@@ -340,7 +341,7 @@ function editRol() {
 			$("#accionActualRol").val("editando");
 		}
 	} else {
-		msgBoxSucces("Debe seleccionar un usuario");
+		msgBoxSucces01("Debe seleccionar un usuario");
 	}
 
 }
@@ -424,7 +425,7 @@ function deleteRol() {
 						dataType : "json",
 						success : function(retrievedData) {
 							if (retrievedData.status != 0) {
-								msgBoxInfo(retrievedData.msg);
+								msgBoxInfo01(retrievedData.msg);
 							} else {
 								$('#rolesHist')
 										.setGridParam(
@@ -437,7 +438,7 @@ function deleteRol() {
 																	"#correlUsuarioHistorico")
 																	.val()
 												}).trigger("reloadGrid");
-								msgBoxSucces("Asignación de Rol eliminado con éxito");
+								msgBoxSucces01("Asignación de Rol eliminado con éxito");
 								usuarioAutocomplete();
 								usuarioRolAutocomplete();
 								clearRol();
@@ -447,7 +448,7 @@ function deleteRol() {
 					});
 		}
 	} else {
-		msgBoxSucces("Debe seleccionar un usuario");
+		msgBoxSucces01("Debe seleccionar un usuario");
 	}
 }
 
