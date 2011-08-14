@@ -286,10 +286,6 @@ function save() {
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
-					// alert("Mensaje de error: " + retrievedData.msg); //Por el
-					// momento, el mensaje que se está mostrando es técnico,
-					// para
-					// cuestiones de depuración
 				} else {
 					if ($("#idUsuario").val() == "") {
 
@@ -301,7 +297,7 @@ function save() {
 						msgBoxSucces("Registro agregado con éxito");
 
 					} else {
-						msgBoxSucces("Registro actualizado con éxito");						
+						msgBoxSucces("Registro actualizado con éxito");
 					}
 					usuarioAutocomplete();
 					usuarioCargoAutocomplete();
@@ -393,8 +389,7 @@ function edit() {
 					// alert('INACTIVO');
 					$("#chkUsuarioActivo").attr('checked', false);
 				}
-				
-				
+
 			}
 		}
 	});
@@ -437,10 +432,11 @@ function deleteData() {
 }
 
 function validar_campos() {
+	var camposFallan = "";
 
 	if ($("#txtUsuarioPassword").val() == ""
-			|| $("#txtUsuarioConfirmar").val() == "") {
-		alert("Complete la Contraseñas");
+			|| $("#txtUsuarioConfirmar").val() == "") {		
+		msgBoxInfo("Complete la Contraseñas");
 		return (false);
 	}
 	if ($("#txtUsuarioPassword").val() < 4) {
@@ -456,6 +452,10 @@ function validar_campos() {
 	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
 		alert("La contraseña confirmada no concuerda con la contraseña escrita");
 		return (false);
+	}
+	
+	if(!camposFallan == ""){
+		return 
 	}
 
 	return (true)
