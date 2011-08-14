@@ -274,7 +274,7 @@ function save() {
 		formData += "&activo=0";
 	}
 
-	//alert(formData);
+	// alert(formData);
 
 	if (validar_campos()) {
 
@@ -447,19 +447,84 @@ function validar_campos() {
 		camposFallan += "Debe confirmar la contraseña <br />";		
 	}
 
-	if ($("#txtUsuarioEmailPersonal").val() != $("#txtUsuarioEmailPersonal").val()) {
+	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
 		camposFallan += "La contraseña confirmada no concuerda con la contraseña escrita <br />";		
 	}
 	
-	/*mail validations*/
-	if(!validarEmail($("#txtUsuarioEmailPersonal").val())){
-		camposFallan += "El correo electronico personal tiene un formato incorrecto <br />";
+	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
+		camposFallan += "La contraseña confirmada no concuerda con la contraseña escrita <br />";		
 	}
-	if(!validarEmail($("#txtUsuarioEmailInstitucional").val())){
-		camposFallan += "El correo electronico institucional tiene un formato incorrecto <br />";
+	
+	/* validacions de documentos personales */
+	if($("#txtUsuarioDUI").val()!=""){
+		if(!validarDUI($("#txtUsuarioDUI").val())){
+			camposFallan += "Formato de DUI es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "El campo DUI es requerido <br />";
 	}
-	if(!validarTelefono($("#txtUsuarioTelefono").val())){
-		camposFallan += "Formato de telefono incorrecto <br />";
+	
+	if($("#txtUsuarioNIT").val()!=""){
+		if(!validarNIT($("#txtUsuarioNIT").val())){
+			camposFallan += "Formato de NIT es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "El campo NIT es requerido <br />";
+	}
+	
+	if($("#txtUsuarioISSS").val()!=""){
+		if(!validarISSS($("#txtUsuarioISSS").val())){
+			camposFallan += "Formato de ISSS es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "El campo ISSS es requerido <br />";
+	}
+	
+	if($("#txtUsuarioNUP").val()!=""){
+		if(!validarNUP($("#txtUsuarioNUP").val())){
+			camposFallan += "Formato de NUP es incorrecto <br />";
+		}
+	}
+	if($("#txtUsuarioCarnet").val()!=""){
+		if(!validarCarnet($("#txtUsuarioCarnet").val())){
+			camposFallan += "Formato de CARNET es incorrecto <br />";
+		}
+	}
+	
+	if($("#txtUsuarioCodigo").val()!=""){
+		if(!validarCodEmpleado($("#txtUsuarioCodigo").val())){
+			camposFallan += "Formato de CODIGO es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "Formato de CODIGO es requerido <br />";
+	}
+	
+	/* otras validaciones */
+	
+	
+	/* mail validations */
+	if($("#txtUsuarioEmailPersonal").val()!=""){
+		if(!validarEmail($("#txtUsuarioEmailPersonal").val())){
+			camposFallan += "El correo electronico personal tiene un formato incorrecto <br />";
+		}
+	}
+	
+	if($("#txtUsuarioEmailInstitucional").val()!=""){
+		if(!validarEmail($("#txtUsuarioEmailInstitucional").val())){
+			camposFallan += "El correo electronico institucional tiene un formato incorrecto <br />";
+		}
+	}
+	
+	if($("#txtUsuarioTelefono").val()!=""){
+		if(!validarTelefono($("#txtUsuarioTelefono").val())){
+			camposFallan += "Formato de telefono incorrecto <br />";
+		}
+	}
+	
+	if($("#txtUsuarioExtension").val()!=""){
+		if(!validarExtension($("#txtUsuarioExtension").val())){
+			camposFallan += "Formato de extensión incorrecto <br />";
+		}
 	}
 	
 	if(camposFallan == ""){
