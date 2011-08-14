@@ -54,8 +54,7 @@ class faseModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$this->form_validation->set_rules("nombreFase", "Nombre", 'required|alpha');
-		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha');	
+		$this->form_validation->set_rules("nombreFase", "Nombre", 'required');
 		
 		if($this->form_validation->run() == false){
 			$retArray["status"] = 1;
