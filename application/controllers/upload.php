@@ -48,7 +48,7 @@ class Upload extends CI_Controller {
 		//Configuración de la subida		
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'doc|docx|xls|xlsx|txt|pdf';
-		$config['max_size']	= '2000';//KB
+		$config['max_size']	= '10000';//KB
 		$config['file_name']	= $fileName;
 
 
