@@ -14,6 +14,11 @@ class Proyecto extends CI_Controller{
 		$this->load->model("proyectoModel");
 		echo json_encode($this->proyectoModel->read());
 	}
+	
+	function proyectoFaseRead(){
+		$this->load->model("proyectoModel");
+		echo json_encode($this->proyectoModel->faseRead());
+	}
 
 	function proyectoAutocompleteRead(){
 		$this->load->model("proyectoModel");
@@ -23,6 +28,11 @@ class Proyecto extends CI_Controller{
 	function proyectoUsuarioAutocompleteRead(){
 		$this->load->model("proyectoModel");
 		echo json_encode($this->proyectoModel->autocompleteUsuarioProyectoRead());
+	}
+	
+	function gridFasesProyecto($idProyecto){
+		$this->load->model("proyectoModel");
+		echo json_encode($this->proyectoModel->gridFasesRead($idProyecto));
 	}
 
 

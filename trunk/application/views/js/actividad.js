@@ -127,11 +127,12 @@ function loadGrid() {
 				}, {
 					name : "nombre",
 					index : "nombre",
-					width : 160
+					width : 200
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
-					width : 200
+					width : 0,
+					hidden : true
 				} ],
 				pager : "#pager",
 				rowNum : 10,
@@ -165,11 +166,12 @@ function loadGridTR() {
 		}, {
 			name : "nombre",
 			index : "nombre",
-			width : 160
+			width : 200
 		}, {
 			name : "nombreRol",
 			index : "nombreRol",
-			width : 200
+			width : 0,
+			hidden : true
 		} ],
 		pager : "#pagerTR",
 		rowNum : 10,

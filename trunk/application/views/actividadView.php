@@ -97,7 +97,7 @@
 
 		</div>
 		<p align="center"><font size="4"><span class="inputFieldLabel">Transferir actividad a usuario: </span></font></p>
-		<table>
+		<table align="center">
 				<tr>
 					<td>
 						<table id="todosUsuarios" align="center"><tr><td/></tr></table>

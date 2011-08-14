@@ -7,7 +7,7 @@ class actividadModel extends CI_Model{
 		
 		$retArray = array();
 		
-		$sql = "SELECT idEstado, estado FROM Estado WHERE idTipoEstado = 1";
+		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1";
 		
 		$query = $this->db->query($sql);
 		
@@ -34,11 +34,11 @@ class actividadModel extends CI_Model{
 		
 		$sql = "SELECT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, a.nombreActividad, a.descripcionActividad, 
 					e.idEstado, e.estado, b.progreso, b.comentario
-				FROM Proyecto p INNER JOIN Actividad_Proyecto axp ON p.idProyecto = axp.idProyecto INNER JOIN Actividad a
-    				ON axp.idActividad = a.idActividad INNER JOIN Estado e ON a.idEstado = e.idEstado INNER JOIN Bitacora b 
-    			 	ON a.idActividad = b.idActividad INNER JOIN Usuario_Actividad uxa ON a.idActividad = uxa.idActividad
-    			 	INNER JOIN Usuario u ON uxa.idUsuarioAsigna = u.idUsuario
-				WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM Bitacora WHERE idActividad = ".$idActividad.") 
+				FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto INNER JOIN ACTIVIDAD a
+    				ON axp.idActividad = a.idActividad INNER JOIN ESTADO e ON a.idEstado = e.idEstado INNER JOIN BITACORA b 
+    			 	ON a.idActividad = b.idActividad INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
+    			 	INNER JOIN USUARIO u ON uxa.idUsuarioAsigna = u.idUsuario
+				WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM BITACORA WHERE idActividad = ".$idActividad.") 
 					AND a.idActividad = " .$idActividad. " AND p.idProyecto = " .$idProyecto." AND uxa.idUsuario = ".$idUsuario;
 		
 		
@@ -81,7 +81,7 @@ class actividadModel extends CI_Model{
 		$id_array = explode(",",$remove_ids);
 		if($id_array[0] != 0){
 			foreach ($id_array as $element){
-				$sql = "UPDATE usuario_actividad SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;
+				$sql = "UPDATE USUARIO_ACTIVIDAD SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;
 				$this->db->query($sql);
 			}
 		}
@@ -154,7 +154,7 @@ class actividadModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) AS count  FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
+		$sql = "SELECT COUNT(*) AS count  FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
     				ON rxu.idUsuario = u.idUsuario
     				WHERE r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5";
 		
@@ -184,11 +184,11 @@ class actividadModel extends CI_Model{
 		
 		$retArray = array("status" => 0, "msg" => "");
 		
-		$sql = "SELECT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre, r.nombreRol
-				FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
+		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre, r.nombreRol
+				FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
         			ON rxu.idUsuario = u.idUsuario
         		WHERE (r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5)
-            		AND u.idUsuario NOT IN (SELECT u.idUsuario FROM Usuario u INNER JOIN Usuario_Actividad uxa
+            		AND u.idUsuario NOT IN (SELECT u.idUsuario FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD uxa
                 ON u.idUsuario = uxa.idUsuario WHERE uxa.idActividad = " . $idActividad ." AND uxa.activo = '1')";
 		
 		
@@ -222,7 +222,7 @@ class actividadModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) AS count  FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
+		$sql = "SELECT COUNT(*) AS count  FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
     				ON rxu.idUsuario = u.idUsuario
     				WHERE r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5";
 		
@@ -250,8 +250,8 @@ class actividadModel extends CI_Model{
 		//------------------------------------------------------------
 		
 		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre, r.nombreRol
-    			FROM Rol r INNER JOIN Rol_Usuario rxu ON r.idRol = rxu.idRol INNER JOIN Usuario u
-    			ON rxu.idUsuario = u.idUsuario INNER JOIN Usuario_Actividad uxa
+    			FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
+    			ON rxu.idUsuario = u.idUsuario INNER JOIN USUARIO_ACTIVIDAD uxa
     			ON u.idUsuario = uxa.idUsuario
     			WHERE uxa.idActividad = 1 AND uxa.activo = '1'";
 		
