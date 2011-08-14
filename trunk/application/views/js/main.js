@@ -1,4 +1,3 @@
-
 function js_ini(){
 	
 	//Seteo de estilos
@@ -21,12 +20,23 @@ function js_ini(){
 	//Botones
 	$("#btnSave").button({icons: {primary: "ui-icon-disk"}});
 	$("#btnEdit").button({icons: {primary: "ui-icon-pencil"}});
+	$("#btnSaveContrato").button({icons: {primary: "ui-icon-disk"}});
+	$("#btnEditContrato").button({icons: {primary: "ui-icon-pencil"}});
+	$("#btnDeleteContrato").button({icons: {primary: "ui-icon-trash"}});
+	$("#btnEditarContrato").button({icons: {primary: "ui-icon-pencil"}});
+	$("#btnCancelContrato").button({icons: {primary: "ui-icon-cancel"}});
+	$("#btnSaveRol").button({icons: {primary: "ui-icon-disk"}});
+	$("#btnEditRol").button({icons: {primary: "ui-icon-pencil"}});
+	$("#btnDeleteRol").button({icons: {primary: "ui-icon-trash"}});
+	$("#btnCancelRol").button({icons: {primary: "ui-icon-cancel"}});
 	$("#btnDelete").button({icons: {primary: "ui-icon-trash"}});
 	$("#btnCancel").button({icons: {primary: "ui-icon-cancel"}});
 	$("#btnUpload").button({icons: {primary: "ui-icon-arrowthick-1-n"}});
 	$("#btnAddFile").button({icons: {primary: "ui-icon-disk"}});
 	$("#btnUpdateFile").button({icons: {primary: "ui-icon-disk"}});
 	$("#btnClearFileForm").button({icons: {primary: "ui-icon-cancel"}});
+	$("#btnMoreThan").button({icons: {primary: "ui-icon-carat-1-e"}});
+	$("#btnLessThan").button({icons: {primary: "ui-icon-carat-1-w"}});
 	
 	//Tooltips
 	setTooltips();
@@ -67,6 +77,37 @@ function msgBoxError(message){
 	$("#msgBox" ).addClass( "msgBoxError");
 	$("#msgBox").fadeIn(800);
 	$("#msgBox").delay(5000).fadeOut();
+}
+
+
+function msgBoxSucces01(message){
+	$("#msgBox01").hide();
+	$("#msgBox01").html(message);
+	$("#msgBox01").removeClass( "msgBoxInfo");
+	$("#msgBox01").removeClass( "msgBoxError");
+	$("#msgBox01").addClass( "msgBoxSucces");
+	$("#msgBox01").fadeIn(800);
+	$("#msgBox01").delay(5000).fadeOut();
+}
+
+function msgBoxInfo01(message){
+	$("#msgBox01").hide();
+	$("#msgBox01").html(message);
+	$("#msgBox01").removeClass( "msgBoxSucces");
+	$("#msgBox01").removeClass( "msgBoxError");
+	$("#msgBox01" ).addClass( "msgBoxInfo");
+	$("#msgBox01").fadeIn(800);
+	$("#msgBox01").delay(5000).fadeOut();
+}
+
+function msgBoxError01(message){
+	$("#msgBox01").hide();
+	$("#msgBox01").html(message);
+	$("#msgBox01").removeClass( "msgBoxInfo");
+	$("#msgBox01").removeClass( "msgBoxSucces");
+	$("#msgBox01" ).addClass( "msgBoxError");
+	$("#msgBox01").fadeIn(800);
+	$("#msgBox01").delay(5000).fadeOut();
 }
 
 function setTooltips(){	
