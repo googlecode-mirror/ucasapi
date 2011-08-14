@@ -1,12 +1,7 @@
 <html>
 	<head>
-		<title>Test</title>	
-		<?php 
-			//require_once("application/models/menuBarModel.php");
-			//echo "menuBarModel.php";
-			//$menuBarModel = new menuBarModel();
-			//$menuBarModel->showMenu();	 	
-		?>			
+		<title>PHOBOS Adminisración de contratos</title>
+
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
@@ -16,6 +11,8 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/historicoUsuario.js"></script>
 		
@@ -23,18 +20,16 @@
 	</head>	
 	<body>
 		<div class="menuBar"> 
-	     	<ul>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Acción</span></a></span></li>
-	            <li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Departamento</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Cargo</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Estado</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Fase</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Rol</span></a></span></li>
-        	</ul>  		
+	       <ul>
+               <?echo $menu;?>
+            </ul>   		
 		</div>
 		
 		<div class="sessionBar">
-			<span id="sessionUser"></span>
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
+			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span>
 		</div>
 		
 		<div><span id="pageTittle"></span></div>
@@ -64,6 +59,7 @@
 				<input id="accionActualRol" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idRol" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idRolHistorico" type="hidden"  value="" class = "hiddenId"/>
+				<input id="contratosPressed" type="hidden"  value="" class = "hiddenId"/>
 								
 				<span class = "requiredFieldLabel">Inicio contrato:</span>
 				<input id="txtFechaInicioContrato" type="text"  value="" class = "jqcalendario" title = "Fecha inicio de este contrato" readonly/><br>
@@ -90,17 +86,17 @@
 			
 			<div id ="msgBox01" style="margin-top: 20px"></div>
 			
-			<div class="divDataForm" style="height: 515px; margin-top: 20px">
+			<div id="roles"class="divDataForm" style="height: 515px; margin-top: 20px">
 				<span class = "requiredFieldLabel">Rol:</span>
 				<input id="txtHistoricoRol" type="text"  value="" class = "inputFieldAC" title = "Rol Desempeñado"/><br>
 			
 				<span class = "requiredFieldLabel">Fecha asignación:</span>
 				<input id="txtFechaInicioRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se vinculo este rol" readonly/><br>
 											
-				<span class = "requiredFieldLabel">Fecha fin:</span>
+				<span class = "inputFieldLabel">Fecha fin:</span>
 				<input id="txtFechaFinRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se desvinculo" readonly/><br>
 								
-				<span class = "requiredFieldLabel">Salario $:</span>
+				<span class = "inputFieldLabel">Salario $:</span>
 				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Tiempo en meses que durará el contrato"/><br>
 								
 				<div class="divCRUDButtons">
