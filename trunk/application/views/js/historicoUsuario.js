@@ -82,11 +82,13 @@ function loadGridUsuarioHistorico() {
 				}, {
 					name : "correlUsuarioHistorico",
 					index : "correlUsuarioHistorico",
-					width : 50
+					width : 50,
+					hidden : true
 				}, {
 					name : "idUsuario",
 					index : "idUsuario",
-					width : 50
+					width : 50,
+					hidden : true
 				} ],
 				pager : "#gridpagerUH",
 				rowNum : 10,
@@ -131,19 +133,23 @@ function loadGridRolHistorico() {
 				}, {
 					name : "idRolHistorico",
 					index : "idRolHistorico",
-					width : 50
+					width : 50,
+					hidden : true
 				}, {
 					name : "idUsuario",
 					index : "idUsuario",
-					width : 50
+					width : 50,
+					hidden : true
 				}, {
 					name : "correlUsuarioHistorico",
 					index : "correlUsuarioHistorico",
-					width : 50
+					width : 50,
+					hidden : true
 				}, {
 					name : "idRol",
 					index : "idRol",
-					width : 50
+					width : 50,
+					hidden : true
 				} ],
 				pager : "#gridpagerRH",
 				rowNum : 10,
