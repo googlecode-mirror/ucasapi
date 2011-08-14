@@ -63,9 +63,10 @@ class procesoModel extends CI_Model{
 		
 		$idProceso = $this->input->post("idProceso");		
 		
-		$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto
-				FROM PROCESO p INNER JOIN Proyecto pr ON p.idProyecto = pr.idProyecto 
-					INNER JOIN ESTADO e ON p.idEstado = e.idEstado
+		$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto, f.idFase
+    			FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
+    			INNER JOIN ESTADO e ON p.idEstado = e.idEstado INNER JOIN FASE f
+    			ON p.idFase = f.idFase
 				WHERE p.idProceso = " .$idProceso;
 		
 		$query = $this->db->query($sql);
@@ -120,7 +121,7 @@ class procesoModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) FROM Fase";
+		$sql = "SELECT COUNT(*) FROM FASE";
 		
 		$query = $this->db->query($sql);
 
@@ -290,8 +291,8 @@ class procesoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT p.nombreProceso, p.idProceso 
-				FROM Proceso p INNER JOIN Proyecto pr ON p.idProyecto = pr.idProyecto
+		$sql = "SELECT p.nombreProceso, p.idProceso
+				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
 				WHERE p.idProyecto = " .$idProyecto;
 		$query = $this->db->query($sql);		
 	
