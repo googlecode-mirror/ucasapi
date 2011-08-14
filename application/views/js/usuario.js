@@ -193,7 +193,7 @@ function agregarRol() {
 
 	// insertando los valores en el otro grid
 	if (row_id != null) {
-		num_rows = $("#list").getGridParam("records");// Número de filas en el
+		num_rows = $("#list").getGridParam("records");// Nï¿½mero de filas en el
 		// grid
 		new_row_data = {
 			"idRol" : row_data["idRol"],
@@ -215,7 +215,7 @@ function eliminarRol() {
 
 	// insertando los valores en el otro grid
 	if (row_id != null) {
-		num_rows = $("#todosRoles").getGridParam("records");// Número de filas
+		num_rows = $("#todosRoles").getGridParam("records");// Nï¿½mero de filas
 		// en el
 		// grid
 		new_row_data = {
@@ -290,14 +290,14 @@ function save() {
 					if ($("#idUsuario").val() == "") {
 
 						/*
-						 * msgBoxSucces("<p>Registro agregado con éxito</p>");
-						 * alert("Registro agregado con éxito");
+						 * msgBoxSucces("<p>Registro agregado con ï¿½xito</p>");
+						 * alert("Registro agregado con ï¿½xito");
 						 */
 
-						msgBoxSucces("Registro agregado con éxito");
+						msgBoxSucces("Registro agregado con ï¿½xito");
 
 					} else {
-						msgBoxSucces("Registro actualizado con éxito");
+						msgBoxSucces("Registro actualizado con ï¿½xito");
 					}
 					usuarioAutocomplete();
 					usuarioCargoAutocomplete();
@@ -340,14 +340,14 @@ function edit() {
 				// el
 				// mensaje
 				// que se
-				// está
+				// estï¿½
 				// mostrando
 				// es
-				// técnico,
+				// tï¿½cnico,
 				// para
 				// cuestiones
 				// de
-				// depuración
+				// depuraciï¿½n
 			} else {
 				$("#txtUsuarioCodigo").val(retrievedData.data.codEmp);
 				$("#txtUsuarioPrimerNombre").val(
@@ -399,7 +399,7 @@ function edit() {
 function deleteData() {
 	var formData = "idUsuario=" + $("#idUsuario").val();
 
-	var answer = confirm("Está seguro que quiere eliminar el registro: "
+	var answer = confirm("Estï¿½ seguro que quiere eliminar el registro: "
 			+ $("#txtRecords").val() + " ?");
 
 	if (answer) {
@@ -412,13 +412,13 @@ function deleteData() {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
 					// alert("Mensaje de error: " + retrievedData.msg); //Por el
-					// momento, el mensaje que se está mostrando es técnico,
-					// para cuestiones de depuración
+					// momento, el mensaje que se estï¿½ mostrando es tï¿½cnico,
+					// para cuestiones de depuraciï¿½n
 				} else {
 
-					// msgBoxSucces("<p>Registro eliminado con éxito</p>");
-					msgBoxSucces("Registro eliminado con éxito");
-					// alert("Registro eliminado con éxito");
+					// msgBoxSucces("<p>Registro eliminado con ï¿½xito</p>");
+					msgBoxSucces("Registro eliminado con ï¿½xito");
+					// alert("Registro eliminado con ï¿½xito");
 
 					usuarioAutocomplete();
 					usuarioCargoAutocomplete();
@@ -433,26 +433,32 @@ function deleteData() {
 
 function validar_campos() {
 	var camposFallan = "";
+	
+	if($("#txtUsuarioPrimerNombre").val()!=""){
+		if(!validarAlfa($("#txtUsuarioPrimerNombre").val())){
+			camposFallan += "Formato de PRIMER NOMBRE es incorrecto <br />";
+		}
+	}else{
+		camposFallan += "El campo PRIMER NOMBRE es requerido <br />";
+	}
 
 	if ($("#txtUsuarioPassword").val() == ""
 			|| $("#txtUsuarioConfirmar").val() == "") {		
-		camposFallan += "Complete la Contraseñas <br />";		
+		camposFallan += "Complete la Contraseï¿½as <br />";		
 	}
-	if ($("#txtUsuarioPassword").val() < 4) {
-		
-		camposFallan += "La contraseña debe ser mayor de 4 digitos <br />";	
-		
+	if ($("#txtUsuarioPassword").val() < 4) {		
+		camposFallan += "La contraseï¿½a debe ser mayor de 4 digitos <br />";			
 	}
 	if ($("#txtUsuarioConfirmar").val() == "") {
-		camposFallan += "Debe confirmar la contraseña <br />";		
+		camposFallan += "Debe confirmar la contraseï¿½a <br />";		
 	}
 
 	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
-		camposFallan += "La contraseña confirmada no concuerda con la contraseña escrita <br />";		
+		camposFallan += "La contraseï¿½a confirmada no concuerda con la contraseï¿½a escrita <br />";		
 	}
 	
 	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
-		camposFallan += "La contraseña confirmada no concuerda con la contraseña escrita <br />";		
+		camposFallan += "La contraseï¿½a confirmada no concuerda con la contraseï¿½a escrita <br />";		
 	}
 	
 	/* validacions de documentos personales */
@@ -523,7 +529,7 @@ function validar_campos() {
 	
 	if($("#txtUsuarioExtension").val()!=""){
 		if(!validarExtension($("#txtUsuarioExtension").val())){
-			camposFallan += "Formato de extensión incorrecto <br />";
+			camposFallan += "Formato de extensiï¿½n incorrecto <br />";
 		}
 	}
 	
