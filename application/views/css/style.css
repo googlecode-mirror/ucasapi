@@ -552,10 +552,10 @@ body {
 
 .divDataForm  .inputFieldNUM{
 	height : 20px;
-	float:left;
-	width : 50px;
+	float: right;
+	width : 75px;
 	margin-top : 20px;
-	margin-left : 10px;
+	margin-right : 277px;
 	font-family: Lucida Grande, Lucida Sans, Arial;
 	font-size: 1em;	
 }
