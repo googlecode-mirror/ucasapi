@@ -7,7 +7,7 @@
 			//$menuBarModel = new menuBarModel();
 			//$menuBarModel->showMenu();	 	
 		?>			
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
@@ -39,7 +39,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style = "height : 1050px">
+		<div class="container" style = "height : 1190px">
 			<div style="height: 20px"></div>			
 			
 			<div class="divActions">				
@@ -55,15 +55,15 @@
 				</div>
 			</div>
 				
-			<div id ="msgBox"></div>	
+			<div id ="msgBox"></div>
 				
-			<div class="divDataForm" style="height: 850px">
-				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>								
-				<input id="correlUsuarioHistorico" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="accionActualRol" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="idRolHistorico" type="hidden"  value="" class = "hiddenId"/><br>
+			<div class="divDataForm" style="height: 475px">
+				<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/>
+				<input id="correlUsuarioHistorico" type="hidden"  value="" class = "hiddenId"/>
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
+				<input id="accionActualRol" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idRol" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idRolHistorico" type="hidden"  value="" class = "hiddenId"/>
 								
 				<span class = "requiredFieldLabel">Inicio contrato:</span>
 				<input id="txtFechaInicioContrato" type="text"  value="" class = "jqcalendario" title = "Fecha inicio de este contrato" readonly/><br>
@@ -72,47 +72,45 @@
 				<input id="txtFechaFinContrato" type="text"  value="" class = "jqcalendario" title = "Fecha finalización de este contrato" readonly/><br>
 								
 				<span class = "requiredFieldLabel">Tiempo contrato:</span>
-				<input id="txtTiempoContrato" type="text"  value="" class = "inputFieldNUM" onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" title = "Tiempo en meses que durara el contrato"/><br>				
+				<input id="txtTiempoContrato" type="text"  value="" class = "inputFieldNUM" onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" title = "Tiempo en meses que durara el contrato"/>				
 				
-				
-				<br>
-				<div class="divAddButton">
+				<div class="divCRUDButtons">
+					<br /><br />
 					<button id="btnSaveContrato" onClick="saveContrato()" >Guardar</button>					
 					<button id="btnEditContrato" onClick="editContrato()" >Editar</button>
 					<button id="btnDeleteContrato" onClick="deleteContrato()">Eliminar</button>
-					<button id="btnDeleteContrato" onClick="editarContrato()">Editar roles</button>
+					<button id="btnEditarContrato" onClick="editarContrato()">Editar roles</button>
 					<button id="btnCancelContrato" onClick="cancelContrato()" >Cancelar</button>
 				</div>
-				<br>
 				<div align="center" class = "gridView" style = "width : 480px">
 					<table id="usuarioHist"></table>
 					<div style = "height : 40px" id="gridpagerUH"></div>
 				</div>
-				<br>
-				<br>
-				<br>
-				<br>
-				
+			</div>
+			
+			<div id ="msgBox01" style="margin-top: 20px"></div>
+			
+			<div class="divDataForm" style="height: 515px; margin-top: 20px">
 				<span class = "requiredFieldLabel">Rol:</span>
 				<input id="txtHistoricoRol" type="text"  value="" class = "inputFieldAC" title = "Rol Desempeñado"/><br>
 			
-				<span class = "requiredFieldLabel">Fecha Asignación:</span>
+				<span class = "requiredFieldLabel">Fecha asignación:</span>
 				<input id="txtFechaInicioRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se vinculo este rol" readonly/><br>
 											
-				<span class = "requiredFieldLabel">Fecha Fin:</span>
+				<span class = "requiredFieldLabel">Fecha fin:</span>
 				<input id="txtFechaFinRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se desvinculo" readonly/><br>
 								
 				<span class = "requiredFieldLabel">Salario $:</span>
-				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Tiempo en meses que durara el contrato"/><br>
+				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Tiempo en meses que durará el contrato"/><br>
 								
-				<div class="divAddButton">
-					<button id="btnSaveContrato" onClick="saveRol()" >Guardar</button>					
-					<button id="btnEditContrato" onClick="editRol()" >Editar</button>
-					<button id="btnDeleteContrato" onClick="deleteRol()">Eliminar</button>					
-					<button id="btnCancelContrato" onClick="cancelRol()" >Cancelar</button>
+				<div class="divCRUDButtons">
+					<br /><br />
+					<button id="btnSaveRol" onClick="saveRol()" >Guardar</button>					
+					<button id="btnEditRol" onClick="editRol()" >Editar</button>
+					<button id="btnDeleteRol" onClick="deleteRol()">Eliminar</button>					
+					<button id="btnCancelRol" onClick="cancelRol()" >Cancelar</button>
 				</div>
-				<br>
-				<div align="center" class = "gridView" style = "width : 480px">
+				<div align="center" class = "gridView">
 					<table id="rolesHist"></table>
 					<div style = "height : 40px" id="gridpagerRH"></div>
 				</div>
