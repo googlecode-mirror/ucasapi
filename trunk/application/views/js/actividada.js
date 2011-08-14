@@ -2,14 +2,20 @@ numUsersOnGrid = 0;
 numFollowersOnGrid = 0;
 
 $(document).ready(function(){
+	 idArchivo = "";
+	 upload = null;
 	 js_ini();
+	 ajaxUpload();
 	 projectAutocomplete();
 	 userAutocomplete();
 	 priorityAutocomplete();
 	 statusAutocomplete();
+	 fileTypeAutocomplete();
 	 $("#txtStartingDate, #txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	 loadGridDocuments();
 	 loadFollowersGrid();
 	 loadUsersGrid();
+	 
 	 
 	 //$("#departamentoButton").addClass("highlight");
 	 //departmentAutocomplete();	
@@ -197,6 +203,33 @@ function statusAutocomplete(){
 	});		
 }
 
+function fileTypeAutocomplete(){
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/fileTypeAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        	}
+        	else{        		
+        		$("#txtFileType").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 1,
+    		        select: function(event, ui) {
+    			        $("#idTipoArchivo").val(ui.item.id);					
+    				}
+    			});
+        		
+        	}        	
+      }
+      
+	});		
+}
+
+
 function save(){	
 	var gridData = $("#followersGrid").jqGrid("getRowData");
 	var formData= "";
@@ -267,11 +300,8 @@ function edit(){
         		$("#txtActivityDesc").val(retrievedData.data.descripcionActividad);
         		$("#txtActivityName").val(retrievedData.data.nombreActividad);
         		
-        		
-        		
-			    //$("#txtDepartmentDesc").val(retrievedData.data.descripcion);
-			    
-			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+        		$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
+   			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 			    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
         	}			       
       	}      
@@ -307,29 +337,6 @@ function deleteData(){
 	}	
 }
 
-function loadGrid(){	
-	 $("#list").jqGrid({
-		   	url:  "index.php/departamento/gridRead/",
-		    datatype: "json",
-		    mtype: "POST",
-		    colNames:["Id","Departamento"],
-		    colModel :[ 
-		      {name:"id", index:"id", width:63}, 
-		      {name:"value", index:"value", width:190} 
-		    ],
-		    pager: "#pager",
-		    rowNum:10,
-		    rowList:[10,20,30],
-		    sortname: "id",
-		    sortorder: "desc",
-		    viewrecords: true,
-		    gridview: true,
-		    caption: "Departamentos"
-	  });	
-}
-
-
-
 function cancel(){
 	//$("#btnCancel").toggleClass('ui-state-active');
 	clear();
@@ -337,33 +344,7 @@ function cancel(){
 }
 
 function clear(){
-	$(".inputField, .hiddenId,.inputFieldTA, #txtRecords, #txtStartingDate, #txtEndingDate").val("");
-}
-
-
-function ajaxUpload(){
-	new AjaxUpload("btnUpload", {
-		debug:true,
-        action: "index.php/upload/do_upload/",
-		onSubmit : function(file , ext){
-            // Extensions allowed. You should add security check on the server-side.
-			if (ext && /^(txt|png|jpeg|docx)$/.test(ext)){
-				/* Setting data */
-				this.setData({
-					"key": 'This string will be send with the file'
-				});					
-				//$('#example2.text').text('Uploading ' + file);	
-			} else {					
-				// extension is not allowed
-				//$('#example2.text').text('Error: only images are allowed');
-				// cancel upload
-				return false;				
-			}		
-		},
-		onComplete : function(file,response){
-			alert(response);				
-		}		
-	});
+	$(".inputField,.inputFieldAC, .hiddenId,.inputFieldTA, #txtRecords, #txtStartingDate, #txtEndingDate").val("");
 }
 
 function loadFollowersGrid(){	
@@ -436,8 +417,7 @@ function addUser(){
 	numFollowersOnGrid++;
 	
 	$("#followersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
-	$("#usersGrid").jqGrid("delRowData", rowId, rowData);
-	
+	$("#usersGrid").jqGrid("delRowData", rowId, rowData);	
 }
 
 function removeUser(){
@@ -445,7 +425,7 @@ function removeUser(){
 	rowData = $("#followersGrid").jqGrid("getRowData",rowId);
 	
 	if(rowId == null){
-		msgBoxInfo("Debe seleccionar un usuario para agregar");
+		msgBoxInfo("Debe seleccionar un usuario para quitar");
 		return;
 	}
 	
@@ -453,8 +433,7 @@ function removeUser(){
 	numFollowersOnGrid--;
 	
 	$("#usersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
-	$("#followersGrid").jqGrid("delRowData", rowId, rowData);
-	
+	$("#followersGrid").jqGrid("delRowData", rowId, rowData);	
 }
 
 function parseGridData(gridData){
@@ -466,3 +445,238 @@ function parseGridData(gridData){
 	}
 	return parsedData;
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Utilizando el plugin ajaxupload para la subida de archivos
+function ajaxUpload() {
+	new AjaxUpload("btnUpload", {
+		debug : true,
+		autoSubmit : false,
+		responseType : "json",
+		action : "index.php/upload/do_upload/",
+		onSubmit : function(file, ext) {
+			if (!(ext && /^(txt|png|jpeg|docx)$/.test(ext))) {
+				msgBoxInfo("El tipo de archivo no está perimitido");
+				return false;
+			}
+		},
+		onChange : function(file, response) {
+			upload = this;
+			$(".divUploadButton p").text("Archivo: " + file);
+		},
+		onComplete : function(file, response) {
+			if (response.status != 0) {
+				msgBoxInfo(response.msg);
+				return false;
+			} else {
+				saveFileData(response.data.file_name);
+			}
+		}
+	});
+	upload = null;
+	$(".divUploadButton p").text("");
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Función asociada al botón "Agregar"
+function uploadFile() {
+	if (upload == null) {
+		msgBoxInfo('Debe seleccionar un archivo');
+		return false;
+	}
+	if ($("#txtFileName").val() == "") {
+		msgBoxInfo('El campo "Nombre" es requerido');
+		return false;
+	}
+	upload.setData({// Datos adicionales en el envío del archivo
+		uploadIdName : "idActividad",
+		uploadIdValue : $("#idActividad").val()
+	});
+	upload.submit();
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Función desencadenada en el onComplete de la subida del archivo y asociada al
+//botón "Actualizar"
+function saveFileData(fileName) {
+	idActividad = $("#idActividad").val();
+	var formData = "nombreArchivo=" + fileName;
+	formData += "&idActividad=" + $("#idActividad").val();
+	formData += "&descripcion=" + $("#txtFileDesc").val();
+	formData += "&tituloArchivo=" + $("#txtFileName").val();
+	formData += "&idTipoArchivo=" + $("#idTipoArchivo").val();
+	formData += "&idArchivo=" + idArchivo;
+	if(idActividad != ""){
+		//alert($idProyecto);
+		$.ajax({
+			type : "POST",
+			url : "index.php/actividada/fileValidateAndSave",
+			data : formData,
+			dataType : "json",
+			success : function(retrievedData) {
+				if (retrievedData.status != 0) {
+					msgBoxInfo(retrievedData.msg);
+	
+				} else {
+					$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
+					
+					if (idArchivo == "") {
+						msgBoxSucces("Documento agregado con éxito");
+					} else {
+						msgBoxSucces("Documento actualizado con éxito");
+					}
+					clearFileForm();
+				}
+			}
+	
+		});
+	}
+	else{
+		msgBoxInfo("Debe seleccionarse una actividad para agregar el documento");
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Inicializa el grid de documentos
+function loadGridDocuments() {
+	$("#gridDocuments").jqGrid({
+		/* url: "index.php/departamento/gridRead/", */
+		datatype : "json",
+		mtype : "POST",
+		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion" ],
+		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
+		             {name : "Tipo",index : "Tipo",width : 160}, 
+		             {name : "Título",index : "Título",width : 160}, 
+		             {name : "Nombre",index : "Nombre", hidden : true}, 
+		             {name : "Subido",index : "Subido",width : 160}, 
+		             {name : "Descripcion",index : "Descripcion",hidden : true} 
+		             
+		             ],
+		pager : "#pager",
+		rowNum : 10,
+		width : 480,
+		rowList : [ 10, 20, 30 ],
+		sortname : "idArchivo",
+		sortorder : "desc",
+		viewrecords : true,
+		gridview : true,
+		caption : "Documentos"
+	});
+
+	// Utilizando botones personalizados en el grid
+	$("#gridDocuments").navGrid("#pager", {
+		edit : false,
+		add : false,
+		del : false,
+		refresh : false
+	});
+	$("#gridDocuments").jqGrid("navButtonAdd", "#pager", {
+		caption : "",
+		buttonicon : "ui-icon-folder-open",
+		title : "Abrir documento",
+		onClickButton : function() {
+			openFile();
+		}
+	});
+	$("#gridDocuments").jqGrid("navButtonAdd", "#pager", {
+		caption : "",
+		buttonicon : "ui-icon-pencil",
+		title : "Editar",
+		onClickButton : function() {
+			editFileData();
+		}
+	});
+	$("#gridDocuments").jqGrid("navButtonAdd", "#pager", {
+		caption : "",
+		buttonicon : "ui-icon-trash",
+		title : "Eliminar",
+		onClickButton : function() {
+			deleteFile();
+		}
+	});
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Abre el documento correspondiente a la fila seleccionada
+function openFile() {
+	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un archivo para abrir");
+	}
+	else{
+		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
+		fileName = rowData["Nombre"];
+		fileURL = $("#filePath").val() + fileName;
+
+		window.open(fileURL);
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Permite la edición de los datos del archivo seleccionado
+function editFileData() {
+	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un archivo para editar");
+	}else{
+		$("#btnAddFile").hide()
+		$("#btnUpdateFile").show();
+		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
+		idArchivo = rowData["idArchivo"];
+		$("#txtFileDesc").val(rowData["Descripcion"]);
+		$("#txtFileName").val(rowData["Título"]);
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Permite la eliminación de los datos del archivo seleccionado
+function deleteFile() {
+	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un archivo para editar");
+		
+	}else{
+		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
+		idArchivo = rowData["idArchivo"];
+		var formData = "idArchivo=" + idArchivo;
+		var answer = confirm("Está seguro que quiere eliminar el documento?");
+		
+		if(answer){
+			$.ajax({
+				type : "POST",
+				url : "index.php/proyecto/fileDelete",
+				data : formData,
+				dataType : "json",
+				success : function(retrievedData) {
+					if (retrievedData.status != 0) {
+						msgBoxInfo(retrievedData.msg);
+
+					} else {
+						$('#gridDocuments').setGridParam({
+							url : "index.php/proyecto/gridDocumentsLoad/"+ $("#idProyecto").val()}).trigger("reloadGrid");
+							msgBoxSucces("Documento eliminado con éxito");
+							clearFileForm();
+					}
+				}
+			});
+		}
+	}
+}
+
+function clearFileForm() {
+	idArchivo = "";
+	$("#txtFileDesc").val("");
+	$("#txtFileType").val("");
+	$("#txtFileName").val("");
+	$("#btnAddFile").show();
+	$("#btnUpdateFile").hide();
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
