@@ -58,6 +58,26 @@ function mostrarProyecto (idProyecto) {
         		$("#fechaFin").html(retrievedData.data.fechaPlanFin);
         		$("#txtSolicitudDesc").val(retrievedData.data.descripcion);
         		
+//        		$("#dialogoProyecto").css('visibility', 'visible').dialog('open');
+        	}
+        	
+      	}
+      
+	});
+	
+	$.ajax({				
+        type: "POST",
+        url:  "/ucasapi/index.php/cliente/faseProyectoRead",
+        data: "idProyecto=" + idProyecto,
+        dataType : "json",
+        success: function(retrievedData){
+        	if(retrievedData.status != 0){
+        		msgBoxInfo(retrievedData.msg);
+        	}
+        	else{
+
+        		$("#fase").html(retrievedData.data.fase);
+        		
         		$("#dialogoProyecto").css('visibility', 'visible').dialog('open');
         	}
         	

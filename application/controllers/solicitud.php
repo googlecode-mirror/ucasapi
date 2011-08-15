@@ -48,7 +48,7 @@ class Solicitud extends CI_Controller {
 	function getSolicitudCliente () {
 		$this->load->model("solicitudModel");
 
-		echo json_encode($this->solicitudModel->getSolicitud());
+		echo json_encode($this->solicitudModel->getSolicitudCliente());
 
 	}
 

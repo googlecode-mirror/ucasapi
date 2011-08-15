@@ -27,22 +27,22 @@ class proyectoModel extends CI_Model{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
-	  
+
 		return $retArray;
 	}
-	
+
 	function gridFasesRead($idProyecto){
 		$this->load->database();
-		
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
 		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) FROM FASE";
-		
+
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0){
@@ -63,16 +63,16 @@ class proyectoModel extends CI_Model{
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
-		
+
 		//------------------------------------------------------------------------------------------------------
-		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array());	
-		
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
 		$sql = 	"SELECT fxp.idFase, f.nombreFase, fxp.fechaIniPlan, fxp.fechaFinPlan
 				 FROM PROYECTO p INNER JOIN FASE_PROYECTO fxp ON p.idProyecto = fxp.idProyecto
     				INNER JOIN FASE f ON fxp.idFase = f.idFase
 				 WHERE fxp.idProyecto = " .$idProyecto;
-		
+
 		$query = $this->db->query($sql);
 
 		$i = 0;
@@ -97,7 +97,7 @@ class proyectoModel extends CI_Model{
 
 		$idProyecto = $this->input->post("idProyecto");
 
-		$sql = "SELECT p.idProyecto, p.idUsuario, p.nombreProyecto, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, CONCAT(u.primerNombre,' ',u.OtrosNombres,' ',u.primerApellido,' ',u.otrosApellidos,' ') nombreUsuario, p.descripcion descripcion 
+		$sql = "SELECT p.idProyecto, p.idUsuario, p.nombreProyecto, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, CONCAT(u.primerNombre,' ',u.OtrosNombres,' ',u.primerApellido,' ',u.otrosApellidos,' ') nombreUsuario, p.descripcion descripcion
 				FROM PROYECTO p, USUARIO u
 				WHERE p.idUsuario = u.idUsuario AND
 				idProyecto = ".$idProyecto;
@@ -113,12 +113,49 @@ class proyectoModel extends CI_Model{
 			$retArray["msg"] = $this->db->_error_message();
 
 		}
-	  
+
 		return $retArray;
 	}
 
 	// ------------------------------------------------------------------------
-		
+
+	function faseProyectoRead(){
+		$this->load->database();
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$idProyecto = $this->input->post("idProyecto");
+
+		$sql = "select fase, max(countFase) from
+					(
+					select
+						f.nombreFase fase,
+						e.estado estado,
+						count(f.nombreFase) countFase
+					from PROYECTO p
+					INNER JOIN ACTIVIDAD_PROYECTO ap ON (ap.idProyecto = p.idProyecto)
+					inner join ACTIVIDAD a ON (a.idActividad = ap.idActividad)
+					INNER JOIN ESTADO e ON (e.idEstado = a.idEstado)
+					inner join FASE f on (f.idFase = a.idFase)
+					where p.idProyecto = ? AND a.idEstado = 1
+					group by f.nombreFase, e.estado
+					) FASES_ACTIVIDAD;";
+
+		$query = $this->db->query($sql, array($idProyecto));
+
+		if($query) {
+			$row = $query->row_array();
+			$retArray["data"] = $row;
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+
+		}
+
+		return $retArray;
+	}
+
 	// Metodo para obtner la lista de proyectos de un determinado usuario
 	function gridProyectosUsuario($idUsuario) {
 		$this->load->database();
@@ -133,7 +170,7 @@ class proyectoModel extends CI_Model{
 		// $idDepto = is_null($idDepto) ? -1 : $idDepto;
 
 
-		$sql = "select 
+		$sql = "select
 					count(*)
 				from PROYECTO p WHERE p.idUsuario = ?";
 		$query = $this->db->query($sql, array($idUsuario));
@@ -158,8 +195,8 @@ class proyectoModel extends CI_Model{
 		$response->records = $count;
 
 		//-------------------------
-		
-		$sql = "select 
+
+		$sql = "select
 					p.idProyecto idProyecto, p.nombreProyecto nombre
 				from PROYECTO p WHERE p.idUsuario = ?";
 		$query = $this->db->query($sql, array($idUsuario));
@@ -176,9 +213,9 @@ class proyectoModel extends CI_Model{
 		}
 
 		return $response;
-		
+
 	}
-	
+
 	// ------------------------------------------------------------------------
 
 	function update(){
@@ -200,10 +237,10 @@ class proyectoModel extends CI_Model{
 		$sql = "UPDATE PROYECTO
 				SET idUsuario = ".$this->db->escape($idUsuarioDuenho).",
 					nombreProyecto = ".$this->db->escape($nombreProyecto).",
-					fechaPlanIni = ".$this->db->escape($fechaPlanIni).",	
-					fechaPlanFin = ".$this->db->escape($fechaPlanFin).",	
-					fechaRealIni = ".$this->db->escape($fechaRealIni).",	
-					fechaRealFin = ".$this->db->escape($fechaRealFin).",		
+					fechaPlanIni = ".$this->db->escape($fechaPlanIni).",
+					fechaPlanFin = ".$this->db->escape($fechaPlanFin).",
+					fechaRealIni = ".$this->db->escape($fechaRealIni).",
+					fechaRealFin = ".$this->db->escape($fechaRealFin).",
 					activo = ".$this->db->escape($activo).",
 					descripcion=".$this->db->escape($descripcion)."
 					WHERE idProyecto = ". $idProyecto;
@@ -229,7 +266,7 @@ class proyectoModel extends CI_Model{
 		$sql = "UPDATE PROYECTO
 				SET activo = 0
 				WHERE idProyecto = ". $idProyecto;
-			
+
 		$query = $this->db->query($sql);
 
 		if (!$query) {
@@ -258,7 +295,7 @@ class proyectoModel extends CI_Model{
 					$retArray["data"][] = $rowArray;
 				}
 			}
-				
+
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
@@ -311,15 +348,15 @@ class proyectoModel extends CI_Model{
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumpli�...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
-				
+
 			$retArray["msg"] .= form_error("nombreProyecto");
 			$retArray["msg"] .= form_error("idUsuarioDuenho");
 		}
 
 		return $retArray;
 	}
-	
-	
+
+
 	/*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	//Validaci�n para campos de informaci�n de documento
@@ -348,7 +385,7 @@ class proyectoModel extends CI_Model{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
-			
+
 		return $retArray;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -360,7 +397,7 @@ class proyectoModel extends CI_Model{
 		$descripcion = $this->input->post("descripcion");
 		$sql = "UPDATE ARCHIVOS
 SET descripcion = ".$this->db->escape($descripcion)."
-WHERE idArchivo = ". $idArchivo; 
+WHERE idArchivo = ". $idArchivo;
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
@@ -376,7 +413,7 @@ WHERE idArchivo = ". $idArchivo;
 		$idArchivo = $this->input->post("idArchivo");
 		$sql = "DELETE FROM ARCHIVOS
 WHERE idArchivo = ". $idArchivo;
-			
+
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
@@ -427,6 +464,6 @@ WHERE idArchivo = ". $idArchivo;
 		}
 		return $response;
 	}
-	
+
 
 }

@@ -28,7 +28,7 @@ class Cliente extends CI_Controller {
 			$this->load->view("listaSolicitudesView");
 		}
 	}
-	
+
 	function resumenProyectos() {
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
@@ -43,9 +43,14 @@ class Cliente extends CI_Controller {
 			$this->load->view("resumenProyectosView", $data);
 		}
 	}
-	
+
 	function gridProyectosUsuario($idUsuario) {
 		$this->load->model("proyectoModel");
 		echo json_encode($this->proyectoModel->gridProyectosUsuario($idUsuario));
+	}
+
+	function faseProyectoRead(){
+		$this->load->model("proyectoModel");
+		echo json_encode($this->proyectoModel->faseProyectoRead());
 	}
 }
