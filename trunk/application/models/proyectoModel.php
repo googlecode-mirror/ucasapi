@@ -117,6 +117,69 @@ class proyectoModel extends CI_Model{
 		return $retArray;
 	}
 
+	// ------------------------------------------------------------------------
+		
+	// Metodo para obtner la lista de proyectos de un determinado usuario
+	function gridProyectosUsuario($idUsuario) {
+		$this->load->database();
+
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+
+		// $idDepto = is_null($idDepto) ? -1 : $idDepto;
+
+
+		$sql = "select 
+					count(*)
+				from PROYECTO p WHERE p.idUsuario = ?";
+		$query = $this->db->query($sql, array($idUsuario));
+
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+
+		//-------------------------
+		
+		$sql = "select 
+					p.idProyecto idProyecto, p.nombreProyecto nombre
+				from PROYECTO p WHERE p.idUsuario = ?";
+		$query = $this->db->query($sql, array($idUsuario));
+
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $row->idProyecto;
+					$response->rows[$i]["cell"] = array($row->nombre);
+					$i++;
+				}
+			}
+		}
+
+		return $response;
+		
+	}
+	
+	// ------------------------------------------------------------------------
 
 	function update(){
 		$this->load->database();
@@ -234,18 +297,18 @@ class proyectoModel extends CI_Model{
 	}
 
 
-	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librería form_validation
+	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librerï¿½a form_validation
 	function saveValidation(){
 		$this->load->library('form_validation');
 
 		$retArray = array("status"=> 0, "msg" => "");
 
-		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
-		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
+		//Colocando las reglas para los campos, el segundo parï¿½metro es el nombre del campo que aparecerï¿½ en el mensaje
+		//Habrï¿½ que reemplazar los mensajes, pues por el momento estï¿½n en inglï¿½s
 		$this->form_validation->set_rules("nombreProyecto", "Nombre proyecto", 'required');
-		$this->form_validation->set_rules("idUsuarioDuenho", "Dueño del proyecto", 'required');
+		$this->form_validation->set_rules("idUsuarioDuenho", "Dueï¿½o del proyecto", 'required');
 
-		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
+		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumpliï¿½...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 				
@@ -259,7 +322,7 @@ class proyectoModel extends CI_Model{
 	
 	/*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//Validación para campos de información de documento
+	//Validaciï¿½n para campos de informaciï¿½n de documento
 	function fileSaveValidation(){
 		$this->load->library('form_validation');
 		$retArray = array("status"=> 0, "msg" => "");
