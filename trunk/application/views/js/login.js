@@ -1,8 +1,9 @@
 $(document).ready(function(){
+	 js_ini();	
 	 $('.divActions').addClass("ui-corner-all");
 	 $('.divDataForm').addClass("ui-corner-all");
 	 $('.container').addClass("ui-corner-bottom");
-	
+	 $("#txtRol").focus(function(){$("#txtRol").autocomplete('search', '');});
 	//$(".button").button();
 	$("input[type=button]").button();
 	roleSelectionIni();
@@ -32,7 +33,7 @@ function userLogin(){
                 		minChars: 0,
                 		matchContains: true,
         		        source: retrievedData.roleData,
-        		        minLength: 1,
+        		        minLength: 0,
         		        select: function(event, ui) {
         			        $("#idRol").val(ui.item.id);					
         				}
