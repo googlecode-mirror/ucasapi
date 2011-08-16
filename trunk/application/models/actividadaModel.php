@@ -242,7 +242,7 @@ class actividadaModel extends CI_Model{
 	
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			//$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -550,37 +550,7 @@ class actividadaModel extends CI_Model{
 		return $retArray;
 	}
 	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	function estadoAutocomplete($idTipo){
-		$this->load->database();
-		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$sql = "select e.idEstado, e.estado
-				from ESTADO e INNER JOIN TIPO_ESTADO tp ON e.idTipoEstado = tp.idTipoEstado
-				WHERE e.idTipoEstado = " .$idTipo;
-		
-		$query = $this->db->query($sql);		
-	
-		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
-					$rowArray = array();
-					$rowArray["id"] = $row->idEstado;
-					$rowArray["value"] = $row->estado;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
-			}
-		}
-		else{
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-		}		
-		return $retArray;
-	}
-	
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function gridUsuariosRead($idActividad){
@@ -749,16 +719,22 @@ function gridSeguidoresRead($idActividad){
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	function updateProjectFile(){
+	function updateActivityFile(){
 		$this->load->database();
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		$idArchivo = $this->input->post("idArchivo");
+		$idActividad   = $this->input->post("idActividad");
+		$idTipoArchivo = $this->input->post("idTipoArchivo");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
 		
 		$sql = "UPDATE ARCHIVOS
-				SET descripcion = ".$this->db->escape($descripcion)."
-				WHERE idArchivo = ". $idArchivo; 
+				SET descripcion = ".$this->db->escape($descripcion).
+				" , tituloArchivo = ".$this->db->escape($tituloArchivo).
+				" , idTipoArchivo = ".$this->db->escape($idTipoArchivo).
+				" WHERE idArchivo = ". $idArchivo; 
 		
 		$query = $this->db->query($sql);
 		
