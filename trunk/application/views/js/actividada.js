@@ -4,7 +4,10 @@ numFollowersOnGrid = 0;
 $(document).ready(function(){
 	 idArchivo = "";
 	 upload = null;
-	 js_ini();
+	 
+	 js_ini();	 
+	 if(navigator.appName == "Microsoft Internet Explorer"){$("#txtStartingDate,#txtEndingDate").css("height", "16px");};
+	 
 	 ajaxUpload();
 	 projectAutocomplete();
 	 userAutocomplete();
@@ -15,6 +18,7 @@ $(document).ready(function(){
 	 loadGridDocuments();
 	 loadFollowersGrid();
 	 loadUsersGrid();
+	 
 	 
 	 
 	 //$("#departamentoButton").addClass("highlight");
@@ -35,7 +39,7 @@ function projectAutocomplete(){
         	}
         	else{        		
         		$("#txtProjectRecords").autocomplete({
-            		minChars: 0,
+            		minChars: 1,
             		matchContains: true,
     		        source: retrievedData.data,
     		        minLength: 0,
@@ -81,7 +85,7 @@ function processAutocomplete(idProyecto, processTextBox){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idProceso").val(ui.item.id);
     			        $("#idActividad").val("");
@@ -112,7 +116,7 @@ function activityAutocomplete(idProyecto, idProceso){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idActividad").val(ui.item.id);					
     			        //processAutocompleteRead($("#idDepto").val());
@@ -139,7 +143,7 @@ function userAutocomplete(){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idUsuarioResponsable").val(ui.item.id);					
     				}
@@ -165,7 +169,7 @@ function priorityAutocomplete(){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength:0,
     		        select: function(event, ui) {
     			        $("#idPrioridad").val(ui.item.id);					
     				}
@@ -191,7 +195,7 @@ function statusAutocomplete(){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idEstado").val(ui.item.id);					
     				}
@@ -217,7 +221,7 @@ function fileTypeAutocomplete(){
             		minChars: 0,
             		matchContains: true,
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idTipoArchivo").val(ui.item.id);					
     				}
@@ -456,7 +460,7 @@ function ajaxUpload() {
 		responseType : "json",
 		action : "index.php/upload/do_upload/",
 		onSubmit : function(file, ext) {
-			if (!(ext && /^(txt|png|jpeg|docx)$/.test(ext))) {
+			if (!(ext && /^(txt|png|jpeg|docx|doc|rtf|ppt|pptx|bmp|gif|xls|xlsx|odt|ods|odp|odb|odf|odg|csv|pdf)$/.test(ext))) {
 				msgBoxInfo("El tipo de archivo no está perimitido");
 				return false;
 			}
@@ -660,7 +664,7 @@ function deleteFile() {
 
 					} else {
 						$('#gridDocuments').setGridParam({
-							url : "index.php/proyecto/gridDocumentsLoad/"+ $("#idProyecto").val()}).trigger("reloadGrid");
+							url : "index.php/proyecto/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
 							msgBoxSucces("Documento eliminado con éxito");
 							clearFileForm();
 					}
