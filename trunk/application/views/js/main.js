@@ -1,5 +1,10 @@
 function js_ini(){
 	
+	//Validación para IE
+	browserValidation();
+	//Autocompletes muestran todos los elementos en el focus
+	autocompletesShowsAll();
+	
 	//Seteo de estilos
 	$("#msgBox").addClass("ui-corner-all");
 	$("#msgBox01").addClass("ui-corner-all");
@@ -125,4 +130,30 @@ function setTooltips(){
 			    noShadowOpts: {strokeStyle: '#999', strokeWidth: 2},
 			    positions: ['right', 'top']
 			  });	
+}
+
+function browserValidation(){
+	//Pendientes validaciones para los navegadores no soportados
+	
+	browserName = navigator.appName;
+	
+	if(browserName == "Microsoft Internet Explorer"){
+		//Repara algunos problemas visuales en nuestro querido IE...
+		 //Para la clase hasDatepicker falla, por el momento habría que colocarlo por id en el ready de cada pantalla, como está en actividada.js
+		$(".inputField,.inputFieldAC,.hasDatepicker").css("height", "16px");  
+		$(".requiredFieldLabel,.inputFieldLabel").css("height", "22px");
+	}
+	
+}
+
+//Permite que todos los autocompletes muestren todos sus elementos en el evento focus, todos deben tener en sus parámetros minLength: 0.
+function autocompletesShowsAll(){
+	element = document.getElementsByClassName("inputFieldAC");
+	
+	for(var i = 0; i<element.length;i++){
+		$("#"+element[i].id).focus(function(){
+			$("#"+this.id).autocomplete('search', '');
+		});		
+	}
+	
 }
