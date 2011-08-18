@@ -6,26 +6,44 @@ class proyectoModel extends CI_Model{
 		$this->load->database();
 
 		$retArray = array("status"=> 0, "msg" => "");
-
+		
+		$idUsuarioEnc = $this->input->post("idUsuarioProy");
 		$idUsuarioDuenho = $this->input->post("idUsuarioDuenho");
 		$nombreProyecto = $this->input->post("nombreProyecto");
 		$fechaPlanIni = $this->input->post("fechaPlanIni");
 		$fechaPlanFin = $this->input->post("fechaPlanFin");
-		$activo = $this->input->post("activo");
 		$descripcion = $this->input->post("descripcion");
+		$activo = $this->input->post("activo");
+		$proc_data = $this->input->post("proc_data");
+		
+		$data_array = explode("|",$proc_data);
 
+		$this->db->trans_begin();
+		
+		$insert_statements = $this->getFPInsert($data_array, $idProyecto);
+		foreach ($insert_statements as $queryRoles) {
+			$this->db->query($queryRoles);
+		}
+		
 
-		$sql = "INSERT INTO PROYECTO (idUsuario, nombreProyecto, fechaPlanIni, fechaPlanFin, fechaRealIni, fechaRealFin, activo, descripcion)
-   				VALUES (".$this->db->escape($idUsuarioDuenho).", ".$this->db->escape($nombreProyecto)."
+		$sql = "INSERT INTO PROYECTO (idUsuario, idUsuarioEncargado, nombreProyecto, fechaPlanIni, fechaPlanFin, fechaRealIni, fechaRealFin, activo, descripcion)
+   				VALUES (".$this->db->escape($idUsuarioDuenho).", ".$this->db->escape($idUsuarioEnc).",".$this->db->escape($nombreProyecto)."
    				, ".$this->db->escape($fechaPlanIni).", ".$this->db->escape($fechaPlanFin)."
    				, ".$this->db->escape($fechaRealIni).", ".$this->db->escape($fechaRealFin)."
    				, ".$this->db->escape($activo).", ".$this->db->escape($descripcion).")";
 
 		$query = $this->db->query($sql);
 
-		if (!$query){
+		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+	    }
+		if($this->db->trans_status() == FALSE) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
 		}
 
 		return $retArray;
@@ -89,7 +107,64 @@ class proyectoModel extends CI_Model{
 		return $response;
 	}
 
+	function faseRead(){
+		$this->load->database();
 
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$sql = "SELECT idFase, nombreFase FROM FASE";
+		$query = $this->db->query($sql);
+
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idFase;
+					$rowArray["value"] = $row->nombreFase;
+					$retArray["data"][] = $rowArray;
+				}
+			}
+				
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+
+		return $retArray;
+	}
+
+	function readUsuariosEnc(){
+	$this->load->database();
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$sql = "SELECT u.idUsuario, CONCAT_WS(' ',u.primerNombre, u.primerApellido) AS nombreUsuario
+				FROM USUARIO u INNER JOIN ROL_USUARIO rxu ON u.idUsuario = rxu.idUsuario
+    				INNER JOIN ROL r ON rxu.idRol = r.idRol
+				WHERE r.idRol = 2
+				ORDER BY nombreUsuario";
+		$query = $this->db->query($sql);
+
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idUsuario;
+					$rowArray["value"] = $row->nombreUsuario;
+					$retArray["data"][] = $rowArray;
+				}
+			}
+				
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+		
+		return $retArray;
+	}
+	
 	function read(){
 		$this->load->database();
 
@@ -97,10 +172,9 @@ class proyectoModel extends CI_Model{
 
 		$idProyecto = $this->input->post("idProyecto");
 
-		$sql = "SELECT p.idProyecto, p.idUsuario, p.nombreProyecto, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, CONCAT(u.primerNombre,' ',u.OtrosNombres,' ',u.primerApellido,' ',u.otrosApellidos,' ') nombreUsuario, p.descripcion descripcion
-				FROM PROYECTO p, USUARIO u
-				WHERE p.idUsuario = u.idUsuario AND
-				idProyecto = ".$idProyecto;
+		$sql = "SELECT p.nombreProyecto, CONCAT_WS(' ',u.primerNombre,u.primerApellido) AS nombreUsuario, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, p.descripcion
+				FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario
+				WHERE p.idProyecto = ".$idProyecto;
 
 		$query = $this->db->query($sql);
 
@@ -233,7 +307,20 @@ class proyectoModel extends CI_Model{
 		$fechaRealFin = $this->input->post("fechaRealFin");
 		$descripcion = $this->input->post("descripcion");
 		$activo = $this->input->post("activo");
+		$proc_data = $this->input->post("proc_data");
+		
+		$data_array = explode("|",$proc_data);
 
+		$this->db->trans_begin();
+		$sql = "DELETE FROM FASE_PROYECTO WHERE idProyecto = " .$idProyecto;
+
+		$this->db->query($sql); 
+		
+		$insert_statements = $this->getFPInsert($data_array, $idProyecto);
+		foreach ($insert_statements as $queryRoles) {
+			$this->db->query($queryRoles);
+		}
+		
 		$sql = "UPDATE PROYECTO
 				SET idUsuario = ".$this->db->escape($idUsuarioDuenho).",
 					nombreProyecto = ".$this->db->escape($nombreProyecto).",
@@ -242,17 +329,66 @@ class proyectoModel extends CI_Model{
 					fechaRealIni = ".$this->db->escape($fechaRealIni).",
 					fechaRealFin = ".$this->db->escape($fechaRealFin).",
 					activo = ".$this->db->escape($activo).",
-					descripcion=".$this->db->escape($descripcion)."
+					descripcion = ".$this->db->escape($descripcion)."
 					WHERE idProyecto = ". $idProyecto;
 
+		echo "QUERY UPDATE: " .$sql;
+		
 		$query = $this->db->query($sql);
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+	    }
+		if($this->db->trans_status() == FALSE) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
 		}
 
 		return $retArray;
+	}
+	
+	function getFPInsert($data_array, $idProyecto){
+		$counter = 1;
+		$nombreFase;
+		$idFase;
+		$fechaIniPlan;
+		$fechaFinPlan;
+		$index = 0;
+		$indexTrippin = 0;
+		$trippin;
+
+		foreach ($data_array as $value) {
+			$this->load->database();
+			if($counter == 1){ //Estoy en nombreFase, preparo borrando las fases antiguas
+				$nombreFase = $value;
+			
+				$sql = "SELECT idFase FROM FASE WHERE nombreFase = '" .$nombreFase. "'";
+			
+				$query = $this->db->query($sql);
+				foreach ($query->result() as $row){
+					$idFase = $row->idFase;
+				}
+				$counter++;
+				continue;
+			}
+			if($counter == 2){ //Estoy en fechaIniPlan
+				$fechaIniPlan = $value;
+				$counter++;
+				continue;
+			}
+			if($counter == 3){ //Estoy en fechaFinPlan
+				$fechaFinPlan = $value;
+				$counter = 1;
+				$trippin[$indexTrippin++] = "INSERT INTO FASE_PROYECTO (idFase,idProyecto,fechaIniPlan,fechaFinPlan) VALUES(" .$idFase. "," .$idProyecto. ",'" .$fechaIniPlan."','" .$fechaFinPlan. "')";
+				continue;
+			}
+		}
+
+		return  $trippin;
 	}
 
 
@@ -262,16 +398,27 @@ class proyectoModel extends CI_Model{
 		$retArray = array("status"=> 0, "msg" => "");
 
 		$idProyecto = $this->input->post("idProyecto");
-
+		$this->db->trans_begin();
+		
 		$sql = "UPDATE PROYECTO
 				SET activo = 0
 				WHERE idProyecto = ". $idProyecto;
+		$this->db->query($sql);
+		
+		$sql = "DELETE FROM FASE_PROYECTO WHERE idProyecto = " .$idProyecto;
 
 		$query = $this->db->query($sql);
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+	    }
+		if($this->db->trans_status() == FALSE) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			$this->db->trans_rollback();
+		} else {
+			$this->db->trans_commit();
 		}
 
 		return $retArray;
@@ -283,7 +430,7 @@ class proyectoModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT idProyecto, nombreProyecto FROM PROYECTO";
+		$sql = "SELECT idProyecto, nombreProyecto FROM PROYECTO WHERE activo = '1'";
 		$query = $this->db->query($sql);
 
 		if($query){
@@ -396,8 +543,8 @@ class proyectoModel extends CI_Model{
 		$idArchivo = $this->input->post("idArchivo");
 		$descripcion = $this->input->post("descripcion");
 		$sql = "UPDATE ARCHIVOS
-SET descripcion = ".$this->db->escape($descripcion)."
-WHERE idArchivo = ". $idArchivo;
+				SET descripcion = ".$this->db->escape($descripcion)."
+				WHERE idArchivo = ". $idArchivo;
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();

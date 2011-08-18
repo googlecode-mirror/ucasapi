@@ -15,6 +15,11 @@ class Proyecto extends CI_Controller{
 		echo json_encode($this->proyectoModel->read());
 	}
 	
+	function proyectoUsuarioEncRead(){
+		$this->load->model("proyectoModel");
+		echo json_encode($this->proyectoModel->readUsuariosEnc());
+	}
+	
 	function proyectoFaseRead(){
 		$this->load->model("proyectoModel");
 		echo json_encode($this->proyectoModel->faseRead());
