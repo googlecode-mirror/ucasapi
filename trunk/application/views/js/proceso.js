@@ -201,7 +201,7 @@ function edit() {
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					alert("Mensaje de error: " + retrievedData.msg); // Por
-																		// el
+					// el
 					// momento,
 					// el
 					// mensaje
@@ -439,7 +439,11 @@ function validarCampos() {
 	} else {
 		camposFallan += "El campo NOMBRE es requerido <br/>";
 	}
-	if ($("#txtProcesoDesc").val() == "") {
+	if ($("#txtProcesoDesc").val() != "") {
+		if ($("#txtProcesoDesc").val().length > 256) {
+			camposFallan += "El campo DESCRIPCION es mayor a 256 caracteres <br/>";
+		}
+	} else {
 		camposFallan += "El campo DESCRIPCION es requerido <br/>";
 	}
 
