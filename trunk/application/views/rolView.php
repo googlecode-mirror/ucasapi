@@ -50,7 +50,7 @@
 			<div class="divDataForm">
 				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>
 			
-				<span class = "inputFieldLabel">Nombre del Rol: </span>
+				<span class = "inputFieldLabel">Nombre: </span>
 				<input id="txtRolName" type="text"  value="" class = "inputField" title="Ingrese el nombre del rol" maxlength="40"/><br>
 				
 			</div>
