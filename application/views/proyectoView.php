@@ -69,9 +69,10 @@
 					<li><a href="#tabs-2">Biblioteca</a></li>
 				</ul>
 				
-				<div id="tabs-1" class="divDataForm" style="height: 810px;">					
+				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/><br>
-					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
+					<input id="idUsuario" type="hidden"  value="7" class = "hiddenId"/><br>
+					<input id="idUsuarioProy" type="hidden"  value="7" class = "hiddenId"/><br>
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					
@@ -80,6 +81,9 @@
 					
 					<span class = "inputFieldLabel">Dueño:</span>
 					<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField"/><br>
+					
+					<span class = "inputFieldLabel">Coord. encargado:</span>
+					<input id="txtCoordinadorEnc" type="text" value="" class = "inputField" /><br>
 								
 					<span class = "inputFieldLabel">Inicio planificado:</span>
 					<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario"/><br>
