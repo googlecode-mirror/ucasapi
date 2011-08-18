@@ -64,10 +64,10 @@
 				<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 						
 				<span class = "inputFieldLabel">Nombre: </span>
-				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField"/><br>
+				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Proyecto (opcional): </span>
-				<input id="txtProyectoName" class = "inputFieldAC" type="text"  value="" class = "inputField"/>
+				<input id="txtProyectoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="100"/>
 				
 				<span class = "inputFieldLabel">Estado: </span>
 				<select id="cbEstado"></select>
@@ -76,8 +76,7 @@
 				<select id="cbFases"></select>
 				
 				<span class = "inputFieldLabel">Descripción: </span>
-				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>
-				
+				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>			
 				
 			</div>
 			
