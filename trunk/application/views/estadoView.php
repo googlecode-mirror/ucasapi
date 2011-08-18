@@ -49,11 +49,11 @@
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="idTipoEstado" type="hidden" value="" class="hiddenId"/>
 			
-				<span class = "inputFieldLabel">Nombre del estado: </span>
-				<input id="txtStatusName" type="text"  value="" class = "inputField"/><br>
+				<span class = "inputFieldLabel">Nombre: </span>
+				<input id="txtStatusName" type="text"  value="" class = "inputField" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Tipo de estado: </span>
-				<input id="txtStatusTypeName" type="text" class = "inputField"></textArea>
+				<input id="txtStatusTypeName" type="text" class = "inputField" maxlength="40"/>
 			</div>
 			
 		</div>
