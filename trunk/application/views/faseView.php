@@ -1,10 +1,11 @@
 <html>
 	<head>
-		<title>Mantenimiento de Fases</title>		
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<title>PHOBOS - Fases</title>		
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/fase.js"></script>
@@ -12,17 +13,17 @@
 	</head>
 	
 	<body>
-		<div class="menuBar">
+		<div class="menuBar" style="height:52px">
 			<ul>
-				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-				<li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-			</ul>			
+				<?echo $menu;?>
+			</ul>		
 		</div>
 		
 		<div class="sessionBar">
-			<span id="sessionUser"></span>
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
+			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
 		<div><span id="pageTittle"></span></div>
@@ -33,7 +34,7 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Buscar fase: </span>
-					<input id="txtSearch" type="text"  value=""/><br>
+					<input id="txtSearch" type="text"  value="" class = "inputFieldAC"  title="Seleccione una Fase para edición o eliminación"/><br>
 				</div>
 							
 				<div class="divCRUDButtons">
@@ -50,10 +51,10 @@
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre de la fase: </span>
-				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la fase" maxlength="40"/><br>
+				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Nombre de la fase" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Descripcion: </span>
-				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputField" title="Ingrese la descripcion de la fase" maxlength="256"></textArea>
+				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción de la fase" maxlength="256"></textArea>
 			</div>
 			
 		</div>

@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>PHOBOS Adminisración de contratos</title>
+		<title>PHOBOS - Contratos</title>
 
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
@@ -19,7 +19,7 @@
 		
 	</head>	
 	<body>
-		<div class="menuBar"> 
+		<div class="menuBar" style="height: 52px"> 
 	       <ul>
                <?echo $menu;?>
             </ul>   		
@@ -29,7 +29,7 @@
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
 			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
 			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
-			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span>
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span>
 		</div>
 		
 		<div><span id="pageTittle"></span></div>

@@ -1,6 +1,6 @@
 <html>
 	<head>	
-		<title>Test</title>					
+		<title>PHOBOS - Departamentos</title>					
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
@@ -14,7 +14,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/departamento.js"></script>
 	</head>	
 	<body>
-		<div class="menuBar">
+		<div class="menuBar" style="height:52px">
 			<ul>
 				<?echo $menu;?>
 			</ul>			
@@ -22,7 +22,7 @@
 		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
-			<span id="systemName"><b>SKY PROJECT??</b></span> 	
+			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
 			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
@@ -35,7 +35,7 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Departamentos</span>
-					<input id="txtRecords" type="text"  value="" title = "Búsqueda de registros"/><br>
+					<input id="txtRecords" type="text"  value="" title = "Seleccione un Departamento para edición o eliminación" class="inputFieldAC"/><br>
 				</div>
 										
 				<div class="divCRUDButtons">
