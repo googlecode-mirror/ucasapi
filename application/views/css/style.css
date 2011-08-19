@@ -165,8 +165,6 @@ body {
 	width : 128px;
 	float : left;
 	margin-top : 20px;
-	margin-bottom : 20px;
-	/* ********** margin-botom : 20px; ********** */
 	margin-left : 28px;	
 	font-size: 1em;	
 }
@@ -221,8 +219,6 @@ body {
 .divCRUDRecords span{
 	float : left;
 	margin-top : 20px;
-	margin-bottom : 20px;
-	/* ********** margin-botom : 20px; ********** */
 	margin-left : 96px;	
 	height : 22px;
 }
@@ -355,8 +351,6 @@ body {
 	height : 20px;
 	margin-top : 20px;
 	margin-left : 96px;
-	margin-bottom : 20px;
-	/* ********** margin-botom : 20px; ********** */
 }
 
 .requiredFieldLabel{
@@ -455,8 +449,6 @@ body {
 	float : none;
 	margin-top : auto;
 	margin-left : auto;
-	margin-bottom : auto;
-	/* ********** margin-botom : auto; ********** */
 }
 
 .divDateCombo{
@@ -477,8 +469,6 @@ body {
 	width : 48px;
 	margin-top : 20px;
 	margin-left : 20px;
-	margin-bottom : 10px;
-	/* ********** margin-botom : 10px; ********** */
 }
 
 .divDateCombo input[type="text"]{
