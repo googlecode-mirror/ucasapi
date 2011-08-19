@@ -1,10 +1,11 @@
 <html>
 	<head>
 		<title>Test</title>		
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/accion.js"></script>
@@ -13,17 +14,17 @@
 	
 	<body>
 	
-		<div class="menuBar">
+		<div class="menuBar" style="height:52px">
 			<ul>
-				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-				<li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
-			</ul>			
+				<?echo $menu;?>
+			</ul>		
 		</div>
 		
 		<div class="sessionBar">
-			<span id="sessionUser"></span>
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
+			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
 		<div><span id="pageTittle"></span></div>
@@ -33,8 +34,8 @@
 			
 			<div class="divActions">				
 				<div class="divCRUDRecords">
-					<span class = "recordsLabel">Buscar accion: </span>
-					<input id="txtRecords" type="text"  value=""/><br>
+					<span class = "recordsLabel">Buscar acción: </span>
+					<input class = "inputFieldAC" id="txtRecords" type="text"  value="" title="Selección de acción para edición o eliminación"/><br>
 				</div>
 							
 				<div class="divCRUDButtons">
@@ -47,10 +48,10 @@
 				
 			<div id ="msgBox"></div>	
 				
-			<div class="divDataForm">
+			<div class="divDataForm" style="height:128px">
 				<input id="idAccion" type="hidden"  value="" class = "hiddenId"/>
-				<span class = "inputFieldLabel" >Nombre de la accion: </span>
-				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la accion, sin numeros" maxlength="256"/>
+				<span class = "inputFieldLabel" >Nombre: </span>
+				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la acción, sin números" maxlength="256"/>
 				
 			</div>
 			
