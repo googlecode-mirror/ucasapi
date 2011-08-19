@@ -7,7 +7,7 @@ class proyectoModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idUsuarioEnc = $this->input->post("idUsuarioProy");
+		$idUsuarioEnc = $this->input->post("idUsuario");
 		$idUsuarioDuenho = $this->input->post("idUsuarioDuenho");
 		$nombreProyecto = $this->input->post("nombreProyecto");
 		$fechaPlanIni = $this->input->post("fechaPlanIni");
@@ -18,12 +18,7 @@ class proyectoModel extends CI_Model{
 		
 		$data_array = explode("|",$proc_data);
 
-		$this->db->trans_begin();
-		
-		$insert_statements = $this->getFPInsert($data_array, $idProyecto);
-		foreach ($insert_statements as $queryRoles) {
-			$this->db->query($queryRoles);
-		}
+		$this->db->trans_start();
 		
 
 		$sql = "INSERT INTO PROYECTO (idUsuario, idUsuarioEncargado, nombreProyecto, fechaPlanIni, fechaPlanFin, fechaRealIni, fechaRealFin, activo, descripcion)
@@ -33,18 +28,26 @@ class proyectoModel extends CI_Model{
    				, ".$this->db->escape($activo).", ".$this->db->escape($descripcion).")";
 
 		$query = $this->db->query($sql);
+		
+		$this->db->select_max('idProyecto');
+		
+		$query = $this->db->get('PROYECTO');
+		
+		foreach ($query->result() as $row){
+   			$idProyecto = $row->idProyecto;
+		}
+		
+		$insert_statements = $this->getFPInsert($data_array, $idProyecto);
+		foreach ($insert_statements as $queryRoles) {
+			$this->db->query($queryRoles);
+		}
+		
+		$this->db->trans_complete();
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
-		if($this->db->trans_status() == FALSE) {
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-			$this->db->trans_rollback();
-		} else {
-			$this->db->trans_commit();
-		}
 
 		return $retArray;
 	}
@@ -172,9 +175,22 @@ class proyectoModel extends CI_Model{
 
 		$idProyecto = $this->input->post("idProyecto");
 
-		$sql = "SELECT p.nombreProyecto, CONCAT_WS(' ',u.primerNombre,u.primerApellido) AS nombreUsuario, p.fechaPlanIni, p.fechaPlanFin, p.fechaRealIni, p.fechaRealFin, p.activo, p.descripcion
-				FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario
-				WHERE p.idProyecto = ".$idProyecto;
+		$sql = "SELECT m.nombreProyecto, m.nombreUsuario,s.idUsuario, CONCAT_WS(' ',s.primerNombre,s.primerApellido) AS nombreEnc, m.fechaPlanIni, m.fechaPlanFin, m.fechaRealIni, m.fechaRealFin, m.activo, m.descripcion
+				FROM
+					(SELECT p.idUsuarioEncargado,
+        				u.idUsuario,
+       					p.nombreProyecto, 
+       					CONCAT_WS(' ',u.primerNombre,u.primerApellido) AS nombreUsuario,
+       					CONCAT_WS(' ',u.primerNombre,u.primerApellido) AS nombreEnc,
+       					p.fechaPlanIni,
+       					p.fechaPlanFin,
+       					p.fechaRealIni,
+       					p.fechaRealFin,
+       					p.activo,
+       					p.descripcion
+				FROM  PROYECTO p , USUARIO u
+				WHERE p.idProyecto = " .$idProyecto. " AND p.idUsuario = u.idUsuario) m , USUARIO s
+				WHERE m.idUsuarioEncargado = s.idUsuario";
 
 		$query = $this->db->query($sql);
 
@@ -298,8 +314,9 @@ class proyectoModel extends CI_Model{
 		$retArray = array("status"=> 0, "msg" => "");
 
 		$idProyecto = $this->input->post("idProyecto");
-
+	
 		$idUsuarioDuenho = $this->input->post("idUsuarioDuenho");
+		$idUsuarioEnc = $this->input->post("idUsuario");
 		$nombreProyecto = $this->input->post("nombreProyecto");
 		$fechaPlanIni = $this->input->post("fechaPlanIni");
 		$fechaPlanFin = $this->input->post("fechaPlanFin");
@@ -323,6 +340,7 @@ class proyectoModel extends CI_Model{
 		
 		$sql = "UPDATE PROYECTO
 				SET idUsuario = ".$this->db->escape($idUsuarioDuenho).",
+					idUsuarioEncargado = ".$this->db->escape($idUsuarioEnc).",
 					nombreProyecto = ".$this->db->escape($nombreProyecto).",
 					fechaPlanIni = ".$this->db->escape($fechaPlanIni).",
 					fechaPlanFin = ".$this->db->escape($fechaPlanFin).",
@@ -559,7 +577,7 @@ class proyectoModel extends CI_Model{
 		$retArray = array("status"=> 0, "msg" => "");
 		$idArchivo = $this->input->post("idArchivo");
 		$sql = "DELETE FROM ARCHIVOS
-WHERE idArchivo = ". $idArchivo;
+			WHERE idArchivo = ". $idArchivo;
 
 		$query = $this->db->query($sql);
 		if (!$query) {

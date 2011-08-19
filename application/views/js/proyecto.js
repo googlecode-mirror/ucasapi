@@ -144,7 +144,7 @@ function save() {
 	formData += "&fechaRealFin=" + $("#txtProyectoFechaRealFin").val();
 	formData += "&descripcion=" + $("#txtProyectoDescripcion").val();
 	formData += "&idUsuarioDuenho=" + $("#idUsuarioDuenho").val();
-	formData += "&idUsuario=" + $("#idUsuario").val();
+	formData += "&idUsuario=" + $("#idUsuarioProy").val();
 	
 	if ($("#chkProyectoActivo").is(':checked')) {
 		//alert('ACTIVO');
@@ -210,6 +210,7 @@ function edit() {
 				$("#txtProyectoNombre").val(retrievedData.data.nombreProyecto);
 				$("#txtProyectoNombreDuenho").val(
 						retrievedData.data.nombreUsuario);
+				$("#txtCoordinadorEnc").val(retrievedData.data.nombreEnc);
 				$("#txtProyectoFechaPlanIni").val(
 						retrievedData.data.fechaPlanIni);
 				$("#txtProyectoFechaPlanFin").val(
@@ -293,6 +294,10 @@ function clear() {
 	$("#txtRecords").val("");
 	$("#chkProyectoActivo").attr('checked', false);
 	$("#txtProyectoDescripcion").val();
+	$("#idProyecto").val("0");
+	$("#tablaFases").jqGrid("GridUnload");
+	loadGrid($("#idProyecto").val());
+
 }
 
 function addFase(){
@@ -636,5 +641,6 @@ function clearFileForm() {
 	$("#txtFileDesc").val("");
 	$("#btnAddFile").show();
 	$("#btnUpdateFile").hide();
+	$("#idProyecto").val("0");
 
 }
