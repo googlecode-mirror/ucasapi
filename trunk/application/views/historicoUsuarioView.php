@@ -68,7 +68,7 @@
 				<input id="txtFechaFinContrato" type="text"  value="" class = "jqcalendario" title = "Fecha finalización de este contrato" readonly/><br>
 								
 				<span class = "requiredFieldLabel">Tiempo contrato:</span>
-				<input id="txtTiempoContrato" type="text"  value="" class = "inputFieldNUM" onkeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" title = "Tiempo en meses que durara el contrato"/>				
+				<input id="txtTiempoContrato" type="text"  value="" class = "inputFieldNUM" title = "Tiempo en meses que durara el contrato" maxlength="4"/>				
 				
 				<div class="divCRUDButtons">
 					<br /><br />
@@ -88,7 +88,7 @@
 			
 			<div id="roles"class="divDataForm" style="height: 515px; margin-top: 20px">
 				<span class = "requiredFieldLabel">Rol:</span>
-				<input id="txtHistoricoRol" type="text"  value="" class = "inputFieldAC" title = "Rol Desempeñado"/><br>
+				<input id="txtHistoricoRol" type="text"  value="" class = "inputFieldAC" title = "Rol Desempeñado" maxlength="40"/><br>
 			
 				<span class = "requiredFieldLabel">Fecha asignación:</span>
 				<input id="txtFechaInicioRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se vinculo este rol" readonly/><br>
@@ -97,7 +97,7 @@
 				<input id="txtFechaFinRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se desvinculo" readonly/><br>
 								
 				<span class = "inputFieldLabel">Salario $:</span>
-				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Tiempo en meses que durará el contrato"/><br>
+				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Salario devengado" maxlength="8"/><br>
 								
 				<div class="divCRUDButtons">
 					<br /><br />
