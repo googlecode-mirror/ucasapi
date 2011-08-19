@@ -71,8 +71,8 @@
 				
 				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/><br>
-					<input id="idUsuario" type="hidden"  value="7" class = "hiddenId"/><br>
-					<input id="idUsuarioProy" type="hidden"  value="7" class = "hiddenId"/><br>
+					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
+					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					
