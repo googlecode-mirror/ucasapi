@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	// $("#chkUsuarioActivo").button();
 	js_ini();
-
+	$("#usuarioButton").addClass("highlight");
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
 	usuarioDepartamentoAutocomplete()

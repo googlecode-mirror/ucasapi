@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	js_ini();
+	$("#rolButton").addClass("highlight");
 	rolAutocomplete();
 });
 

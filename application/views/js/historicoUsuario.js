@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	js_ini();
+	$("#historicoUsuarioButton").addClass("highlight");
 	$("#roles").hide();
 	usuarioAutocomplete();
 	usuarioRolAutocomplete();

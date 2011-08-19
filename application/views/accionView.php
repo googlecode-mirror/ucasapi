@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Test</title>		
+		<title>PHOBOS - Acciones</title>		
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
@@ -35,7 +35,7 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Buscar acción: </span>
-					<input class = "inputFieldAC" id="txtRecords" type="text"  value="" title="Selección de acción para edición o eliminación"/><br>
+					<input class = "inputFieldAC" id="txtRecords" type="text"  value="" title="Seleccione una Acción para edición o eliminación"/><br>
 				</div>
 							
 				<div class="divCRUDButtons">
