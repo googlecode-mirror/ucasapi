@@ -1,5 +1,7 @@
 
 $(document).ready(function(){
+	js_ini();
+	$("#accionButton").addClass("highlight");
 	$('.divActions').addClass("ui-corner-all");
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
