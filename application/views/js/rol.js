@@ -60,7 +60,7 @@ function save() {
 
 function edit() {
 
-	if (validar_campos()) {
+	if (validarCampos()) {
 		var formData = "idRol=" + $("#idRol").val();
 		$.ajax( {
 			type : "POST",
