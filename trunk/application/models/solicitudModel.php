@@ -109,20 +109,20 @@ class solicitudModel extends CI_Model {
 		//array con la clave de la solicitud -> anioSolicitud-correlAnio
 		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
 
-		$query = "SELECT 
-						s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente, 
-						CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente, 
-						c.nombreCargo cargo, d.nombreDepto depto 
-					FROM SOLICITUD s 
-					INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) 
-					INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario) 
-					INNER JOIN CARGO c ON (u.idCargo = c.idCargo) 
-					INNER JOIN DEPARTAMENTO d ON (u.idDepto = d.idDepto) 
+		$query = "SELECT
+						s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente,
+						CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente,
+						c.nombreCargo cargo, d.nombreDepto depto
+					FROM SOLICITUD s
+					INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)
+					INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario)
+					INNER JOIN CARGO c ON (u.idCargo = c.idCargo)
+					INNER JOIN DEPARTAMENTO d ON (u.idDepto = d.idDepto)
 					INNER JOIN PRIORIDAD p ON (p.idPrioridad = s.idPrioridadCliente)
-					WHERE s.anioSolicitud = ? AND s.correlAnio = ? 
+					WHERE s.anioSolicitud = ? AND s.correlAnio = ?
 					AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (
-						SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio) 
-						FROM ACTIVIDAD a 
+						SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio)
+						FROM ACTIVIDAD a
 						WHERE a.anioSolicitud = ? AND a.correlAnio = ?)
 					ORDER BY esAutor DESC";
 
@@ -230,11 +230,15 @@ class solicitudModel extends CI_Model {
 
 		//-------------------------
 
-		$sql = "SELECT s.anioSolicitud anio, s.correlAnio correl, s.tituloSolicitud titulo, CONCAT(u.primerNombre, ' ', u.primerApellido) usuarioSolicitante, s.fechaEntrada fechaPeticion " .
-				"FROM USUARIO u " .
-				"INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario " .
-				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio) " .
-				"WHERE us.esAutor=1 AND s.activo=1";
+		$sql = "SELECT s.anioSolicitud anio, s.correlAnio correl, s.tituloSolicitud titulo, CONCAT(u.primerNombre, ' ', u.primerApellido) usuarioSolicitante, s.fechaEntrada fechaPeticion
+				FROM USUARIO u
+				INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario
+				INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)
+				WHERE us.esAutor=1 AND s.activo=1
+				AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (
+										SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio)
+										FROM ACTIVIDAD a
+										WHERE a.anioSolicitud IS NOT NULL AND a.correlAnio IS NOT NULL);";
 		$query = $this->db->query($sql);
 
 		$i = 0;
