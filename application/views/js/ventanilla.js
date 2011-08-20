@@ -9,6 +9,7 @@ $(document).ready(function(){
 		autoOpen: false
 	});
 	$("#dialogoAsignar").dialog({
+		width: 700,
 		autoOpen: false
 	});
 	
@@ -114,6 +115,7 @@ function definirDestinatario() {
 }
 
 function cargarDialogoAsignacion() {
+	projectAutocomplete();
 	userAutocomplete();
 	priorityAutocomplete();
 	statusAutocomplete();
@@ -152,6 +154,57 @@ function transferirSolicitud() {
 	});
 }
 
+function asignarSolicitud () {
+	var solicitud = $("#idSolicitud").val().split("-");
+	var formData= "";
+	formData += "idProyecto=" + $("#idProyecto").val();
+	formData += "&idProceso=" + $("#idProceso").val();
+	formData += "&idActividad=" + $("#idActividad").val();
+	formData += "&idPrioridad=" + $("#idPrioridad").val();
+	formData += "&idEstado=" + $("#idEstado").val();
+	formData += "&idUsuarioResponsable=" + $("#idUsuarioResponsable").val();
+	formData += "&idUsuarioAsigna=" + $("#idUsuarioAsigna").val();
+	formData += "&nombreActividad=" + $("#txtActivityName").val();
+	formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
+	formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
+	formData += "&descripcion=" + $("#txtActivityDesc").val();
+	formData += "&anioSolicitud=" + solicitud[0];
+	formData += "&correlAnio=" + solicitud[1];
+	
+	
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/activityValidateAndSave",
+        data: formData,
+        dataType : "json",
+        success: function(retrievedData){
+        	if(retrievedData.status != 0){
+        		msgBoxInfo(retrievedData.msg);
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{
+        		if($("#idActividad").val()==""){
+        			msgBoxSucces("Registro agregado con �xito");
+        		}
+        		else{
+        			msgBoxSucces("Registro actualizado con �xito");
+        			$("div#dialogoAsignar > input:text").val("");
+        			$("#txtActivityDesc").val("");
+        			
+
+            		$(".cleanable").html("");
+            		$("#txtSolicitudDesc").val("");
+        			
+        			$("#dialogoAsignar").dialog("close");
+            		$("#dialogoSolicitud").dialog("close");
+        		}
+        		
+        	}
+      	}
+      
+	});
+}
+
 // -----------------------------------------------------------------------------
 // Funciones de Actividada
 // -----------------------------------------------------------------------------
@@ -165,6 +218,7 @@ function projectAutocomplete(){
         		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
         	}
         	else{        		
+        		
         		$("#txtProjectName").autocomplete({
             		minChars: 0,
             		matchContains: true,
@@ -175,6 +229,37 @@ function projectAutocomplete(){
     			        $("#txtProcessName").val("");
     			        $("#idProceso").val("");
     			        processAutocomplete($("#idProyecto").val(), "#txtProcessName");
+    				}
+    			});
+        		
+        	}        	
+      }
+      
+	});		
+}
+
+function processAutocomplete(idProyecto, processTextBox){
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/processAutocomplete/"+idProyecto,
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        	}
+        	else{        		
+        		$(processTextBox).autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 0,
+    		        select: function(event, ui) {
+    			        $("#idProceso").val(ui.item.id);
+    			        $("#idActividad").val("");
+    			        if(processTextBox=="#txtProcessRecords"){
+			        		$("#txtRecords").val("");
+			        		activityAutocomplete($("#idProyecto").val(),$("#idProceso").val());
+    			        }    			        
     				}
     			});
         		
@@ -200,7 +285,7 @@ function userAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 1,
     		        select: function(event, ui) {
-    			        $("#idResponsable").val(ui.item.id);					
+    			        $("#idUsuarioResponsable").val(ui.item.id);					
     				}
     			});
         		
@@ -261,5 +346,3 @@ function statusAutocomplete(){
       
 	});		
 }
-
-
