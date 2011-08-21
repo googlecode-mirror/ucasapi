@@ -32,15 +32,16 @@ class actividadModel extends CI_Model{
 		$idProyecto = $this->input->post("idProyecto");
 		$idUsuario = $this->input->post("idUsuario");
 		
-		$sql = "SELECT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, a.nombreActividad, a.descripcionActividad, 
-					e.idEstado, e.estado, b.progreso, b.comentario
-				FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto INNER JOIN ACTIVIDAD a
-    				ON axp.idActividad = a.idActividad INNER JOIN ESTADO e ON a.idEstado = e.idEstado INNER JOIN BITACORA b 
-    			 	ON a.idActividad = b.idActividad INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
+		$sql = "SELECT DISTINCT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, a.nombreActividad, a.descripcionActividad, 
+					e.idEstado, b.progreso, b.comentario
+				FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto 
+					INNER JOIN ACTIVIDAD a ON axp.idActividad = a.idActividad 
+					INNER JOIN ESTADO e ON a.idEstado = e.idEstado 
+					INNER JOIN BITACORA b ON a.idActividad = b.idActividad 
+					INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
     			 	INNER JOIN USUARIO u ON uxa.idUsuarioAsigna = u.idUsuario
 				WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM BITACORA WHERE idActividad = ".$idActividad.") 
 					AND a.idActividad = " .$idActividad. " AND p.idProyecto = " .$idProyecto." AND uxa.idUsuario = ".$idUsuario;
-		
 		
 		$query = $this->db->query($sql);
 
@@ -212,7 +213,7 @@ class actividadModel extends CI_Model{
 		
 	}
 	
-	function gridUsuarioSet($idUsuario=null){
+	function gridUsuarioSet($idActividad){
 		$this->load->database();
 		
 		$page = $this->input->post("page");
@@ -251,9 +252,10 @@ class actividadModel extends CI_Model{
 		
 		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre, r.nombreRol
     			FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
-    			ON rxu.idUsuario = u.idUsuario INNER JOIN USUARIO_ACTIVIDAD uxa
-    			ON u.idUsuario = uxa.idUsuario
-    			WHERE uxa.idActividad = 1 AND uxa.activo = '1'";
+    				ON rxu.idUsuario = u.idUsuario INNER JOIN USUARIO_ACTIVIDAD uxa
+    				ON u.idUsuario = uxa.idUsuario
+    			WHERE uxa.idActividad = " .$idActividad. " AND uxa.activo = '1'
+    				AND (r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5)";
 		
 		$query = $this->db->query($sql);
 

@@ -36,9 +36,9 @@ class Actividad extends CI_Controller{
 		echo json_encode($this->actividadModel->readUsuarios($idActividad));
 	}
 	
-	function gridUsuarioSet(){
+	function gridUsuarioSet($idActividad){
 		$this->load->model("actividadModel");
-		echo json_encode($this->actividadModel->gridUsuarioSet());
+		echo json_encode($this->actividadModel->gridUsuarioSet($idActividad));
 	}
 	
 }
