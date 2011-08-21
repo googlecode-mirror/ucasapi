@@ -53,6 +53,7 @@ function save() {
 		formData += "idDepto=" + $("#idDepto").val();
 		formData += "&nombreDepto=" + $("#txtDepartmentName").val();
 		formData += "&descripcion=" + $("#txtDepartmentDesc").val();
+		formData += "&accionActual=" + $("#accionActual").val();
 
 		$.ajax({
 			type : "POST",
@@ -67,7 +68,7 @@ function save() {
 					// para
 					// cuestiones de depuración
 				} else {
-					if ($("#idDepto").val() == "") {
+					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con éxito");
 					} else {
 						msgBoxSucces("Registro actualizado con éxito");
@@ -84,7 +85,7 @@ function save() {
 }
 
 function edit() {
-	if ($("txtRecords").val() == "") {
+	if ($("txtRecords").val() != "") {
 		$("#accionActual").val("editado");
 		var formData = "idDepto=" + $("#idDepto").val();
 		$
@@ -201,6 +202,7 @@ function clear() {
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	$("#txtDepartmentDesc").val("");
 }
 
 function ajaxUpload() {
