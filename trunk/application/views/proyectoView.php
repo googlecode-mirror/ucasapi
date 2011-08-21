@@ -74,14 +74,14 @@
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					
-					<span class = "inputFieldLabel">Nombre:</span>
-					<input id="txtProyectoNombre" type="text"  value="" class = "inputField"/><br>
+					<span class = "requiredFieldLabel">Nombre:</span>
+					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" maxlength="100"/><br>
 					
-					<span class = "inputFieldLabel">Dueño:</span>
-					<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField"/><br>
+					<span class = "requiredFieldLabel">Due&ntilde;o:</span>
+					<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField" maxlength="400"/><br>
 					
-					<span class = "inputFieldLabel">Coord. encargado:</span>
-					<input id="txtCoordinadorEnc" type="text" value="" class = "inputField" /><br>
+					<span class = "requiredFieldLabel">Coord. encargado:</span>
+					<input id="txtCoordinadorEnc" type="text" value="" class = "inputField" maxlength="400"/><br>
 								
 					<span class = "inputFieldLabel">Inicio planificado:</span>
 					<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario"/><br>
