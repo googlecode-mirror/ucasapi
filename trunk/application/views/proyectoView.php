@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Proyectos</title>	
+		<title>PHOBOS - Proyectos</title>	
 		<?php 
 			//require_once("application/models/menuBarModel.php");
 			//echo "menuBarModel.php";
@@ -20,21 +20,19 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/proyecto.js"></script>
 	</head>	
 	<body>
-		<div class="menuBar"> 
-	     	<ul>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Acción</span></a></span></li>
-	            <li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Departamento</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Cargo</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Estado</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Fase</span></a></span></li>
-	            <li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Rol</span></a></span></li>
-        	</ul>  		
+		<div class="menuBar">
+			<ul>
+				<?php echo $menu;?>
+			</ul>			
 		</div>
 		
 		<div class="sessionBar">
-			<span id="sessionUser"></span>
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
+			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
-		
+				
 		<div><span id="pageTittle"></span></div>
 		
 		<div class="container" style = "height : 1100px">
