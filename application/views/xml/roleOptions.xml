@@ -113,8 +113,8 @@
 		<nombreRol>Ventanilla única</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>Buzón</nombrePagina>
-				<controller>buzon</controller>
+				<nombrePagina>Solicitudes entrantes</nombrePagina>
+				<controller>ventanilla</controller>
 			</pagina>
 		</paginas>
 	</rol>
