@@ -3,6 +3,8 @@
  */
 
 $(document).ready(function(){
+	js_ini();
+	$("#actividadgButton").addClass("highlight");
 	loadGrid();
 });
 
