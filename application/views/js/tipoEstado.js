@@ -57,7 +57,7 @@ function save() {
 		var formData = "";
 		formData += "idTipo=" + $("#idTipo").val();
 		formData += "&nombreTipo=" + $("#txtTipoName").val();
-
+		formData += "&accionActual=" + $("#accionActual").val();
 		$.ajax({
 			type : "POST",
 			url : "index.php/tipoEstado/tipoValidateAndSave",
@@ -67,7 +67,7 @@ function save() {
 				if (retrievedData.status != 0) {
 					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
-					if ($("#idTipo").val() == "") {
+					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Tipo agregada con &eacute;xito");
 					} else {
 						msgBoxSucces("Tipo actualizada con &eacute;xito");
