@@ -132,8 +132,8 @@ class departamentoModel extends CI_Model{
 		
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
-		$this->form_validation->set_rules("nombreDepto", "Nombre", 'required|alpha');
-		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha');		
+		$this->form_validation->set_rules("nombreDepto", "Nombre", 'required');
+		$this->form_validation->set_rules("descripcion", "Descripcion", 'required');		
 		
 		$this->form_validation->set_message('required', 'El campo "%s" es requerido');
 		
