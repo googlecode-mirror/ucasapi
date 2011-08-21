@@ -17,7 +17,7 @@
 	<body>
 		<div class="menuBar">
 			<ul>
-				<?echo $menu;?>
+				<?php echo $menu;?>
 			</ul>			
 		</div>
 		
