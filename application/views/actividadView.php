@@ -62,7 +62,7 @@
 			<input id="idEstado" type="hidden" value="" class="hiddenId" /><br> 
 			<input id="idActividad" type="hidden" value="<?php echo $idActividad; ?>" class="hiddenId" /> 
 			<input id="idProyecto" type="hidden" value="<?php echo $idProyecto; ?>" class="hiddenId" /> 
-			<input id="idUsuario" type="hidden" value="1" class="hiddenId" /> <br> 
+			<input id="idUsuario" type="hidden" value="<?php echo $idUsuario; ?>" class="hiddenId" /> <br> 
 			<font face="calibri" color="green" size="">Informacion General</font> <br>
 
 			<span class="inputFieldLabel">Proyecto: </span> <input
