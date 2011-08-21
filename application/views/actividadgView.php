@@ -46,7 +46,7 @@
 	<div class="container">
 		<div style="height: 20px"></div>
 		<div id="msgBox"></div>
-		<input id="idUsuario" type="hidden" value="2" class="hiddenId" />
+		<input id="idUsuario" type="hidden" value="1" class="hiddenId" />
 
 		<div class="divDataForm">
 			<table id="tablaActividades"></table>
