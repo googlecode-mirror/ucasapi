@@ -112,4 +112,13 @@ function validarAlfaEspNum(campo){
 		
 }
 
+function validarSalario(campo) {
+	var RegExPattern = /^\d{1,4}.\d{2}$/
+		if ((campo.match(RegExPattern)) && (campo.value != '')) {
+			return true;
+		} else {
+			return false;
+		}  
+}
+
 /* El rollercoaster de la vida, abroche sus cinturones y disfrute del viaje */
