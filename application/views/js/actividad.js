@@ -63,7 +63,7 @@ function save(){
 	}
 	$.ajax({
 		type: "POST",
-		url: "index.php/actividad/actividadValidateAndSave",
+		url: "/ucasapi/actividad/actividadValidateAndSave",
 		data: formData,
 		dataType: "json",
 		success: function(retrievedData){
