@@ -536,7 +536,7 @@ class actividadaModel extends CI_Model{
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
 		$this->form_validation->set_rules("nombreActividad", "Nombre", 'required');
-		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha|required');
+		$this->form_validation->set_rules("descripcion", "Descripcion", 'required');
 		$this->form_validation->set_rules("idProyecto", "Proyecto", 'required');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
