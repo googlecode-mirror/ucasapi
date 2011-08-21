@@ -12,7 +12,7 @@ class buzonModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) AS count FROM Notificacion";
+		$sql = "SELECT COUNT(*) AS count FROM NOTIFICACION";
 		
 		$query = $this->db->query($sql);
 
@@ -41,9 +41,9 @@ class buzonModel extends CI_Model{
 		$idNotificacion = $this->input->post("idNotificacion");
 		
 		$sql = "SELECT n.idNotificacion, n.subject, n.fechaNotificacion, uxn.idEstado
-				FROM Notificacion n INNER JOIN Usuario_Notificacion uxn ON n.idNotificacion = uxn.idNotificacion
-    				INNER JOIN Usuario u ON uxn.idUsuario = u.idUsuario INNER JOIN Estado e ON uxn.idEstado = e.idEstado
-    				INNER JOIN Tipo_Estado te ON e.idTipoEstado = te.idTipoEstado
+				FROM NOTIFICACION n INNER JOIN USUARIO_NOTIFICACION uxn ON n.idNotificacion = uxn.idNotificacion
+    				INNER JOIN USUARIO u ON uxn.idUsuario = u.idUsuario INNER JOIN ESTADO e ON uxn.idEstado = e.idEstado
+    				INNER JOIN TIPO_ESTADO te ON e.idTipoEstado = te.idTipoEstado
 				WHERE u.idUsuario = " .$idUsuario.
 				" ORDER BY n.fechaNotificacion";
 		
