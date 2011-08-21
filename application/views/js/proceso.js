@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	js_ini();
+	$("#procesoButton").addClass("highlight");
 	procesoProyectoAutocomplete();
 	procesoEstadoAutocomplete();
 	procesoFaseAutocomplete();
