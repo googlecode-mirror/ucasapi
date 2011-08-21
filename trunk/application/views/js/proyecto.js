@@ -125,7 +125,7 @@ function proyectoFaseAutocomplete(){
 		data: "procesoFaseAutocomplete",
 		dataType : "json",
 		success: function(retrievedData){        	 
-			options = '<option value="">--Fases--</option>';
+			options = '<option value="">Seleccione una fase</option>';
 			$.each(retrievedData.data, function(i,obj) {
 				options += '<option value="' + obj.id + '">' + obj.value + '</option>';
 			});			
@@ -148,10 +148,10 @@ function save() {
 	formData += "&idUsuario=" + $("#idUsuarioProy").val();
 	
 	if ($("#chkProyectoActivo").is(':checked')) {
-		//alert('ACTIVO');
+		// alert('ACTIVO');
 		formData += "&activo=1";
 	} else {
-		//alert('INACTIVO');
+		// alert('INACTIVO');
 		formData += "&activo=0";
 	}
 
@@ -166,9 +166,9 @@ function save() {
 
 	formData += "&proc_data=" + gridData;
 
-	//alert(formData);
+	// alert(formData);
 
-	if (validar_campos()) {
+	if (validarCampos()) {
 
 		$.ajax({
 			type : "POST",
@@ -224,10 +224,10 @@ function edit() {
 				$("#txtProyectoDescripcion")
 				.val(retrievedData.data.descripcion);
 				if (retrievedData.data.activo == '1') {
-					//alert('ACTIVO');
+					// alert('ACTIVO');
 					$("#chkProyectoActivo").attr('checked', true);
 				} else {
-					//alert('INACTIVO');
+					// alert('INACTIVO');
 					$("#chkProyectoActivo").attr('checked', false);
 				}
 				$('#gridDocuments').setGridParam(
@@ -277,9 +277,47 @@ function deleteData() {
 	}
 }
 
-function validar_campos() {
-	// aqui poner las validaciones
-	return (true)
+function validarCampos() {
+	var camposFallan = "";
+	
+	if($("#txtProyectoNombre").val()!=""){
+		if(!validarAlfaEsp($("#txtProyectoNombre").val())){
+			camposFallan += "El campo NOMBRE contiene caracteres no validos <br/>";
+		}
+	}else{
+		camposFallan += "El campo NOMBRE es requerido <br/>";
+	}
+	
+	if($("#txtProyectoNombreDuenho").val()==""){
+		camposFallan += "El campo DUE&Ntilde;O es requerido <br/>";
+	}
+	
+	if($("#txtCoordinadorEnc").val()==""){
+		camposFallan += "El campo COOR. ENCARGADO es requerido <br/>";
+	}
+	
+	if(camposFallan == ""){
+		return true;
+	}else{
+		msgBoxInfo(camposFallan);
+		return false;
+	}
+}
+
+function validarCamposFases() {
+	
+	var camposFallan = "";
+
+	if ($("#cbFases").val() == "") {
+		camposFallan += "Debe seleccionar una FASE <br />";
+	}
+	
+	if(camposFallan == ""){
+		return true;
+	}else{
+		msgBoxInfo(camposFallan);
+		return false;
+	}	
 }
 
 function cancel() {
@@ -302,8 +340,10 @@ function clear() {
 }
 
 function addFase(){
+	if(validarCamposFases()){
 		$("#tablaFases").jqGrid('addRowData',faseCorrel,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan:'2011-01-01',fechaFinPlan:'2011-01-01'},'last');
 		faseCorrel++;
+	}
 }
 
 function editFase(){
@@ -317,9 +357,9 @@ $("#chkUsuarioActivo").change(function() {
 	alert('Handler for .change() called.');
 });
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Utilizando el plugin ajaxupload para la subida de archivos
+// Utilizando el plugin ajaxupload para la subida de archivos
 function ajaxUpload() {
 	new AjaxUpload("btnUpload", {
 		debug : true,
@@ -349,9 +389,9 @@ function ajaxUpload() {
 	$(".divUploadButton p").text("");
 }
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Función asociada al botón "Agregar"
+// Función asociada al botón "Agregar"
 function uploadFile() {
 	if (upload == null) {
 		msgBoxInfo('Debe seleccionar un archivo');
@@ -368,10 +408,10 @@ function uploadFile() {
 	upload.submit();
 }
 
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Función desencadenada en el onComplete de la subida del archivo y asociada al
-//botón "Actualizar"
+// Función desencadenada en el onComplete de la subida del archivo y asociada al
+// botón "Actualizar"
 function saveFileData(fileName) {
 	$idProyecto = $("#idProyecto").val();
 	var formData = "nombreArchivo=" + fileName;
@@ -379,7 +419,7 @@ function saveFileData(fileName) {
 	formData += "&descripcion=" + $("#txtFileDesc").val();
 	formData += "&idArchivo=" + idArchivo;
 	if($idProyecto != ""){
-		//alert($idProyecto);
+		// alert($idProyecto);
 		$.ajax({
 			type : "POST",
 			url : "index.php/proyecto/fileValidateAndSave",
@@ -411,7 +451,7 @@ function saveFileData(fileName) {
 	}
 }
 
-//Grid para mostrar las fases por proyecto
+// Grid para mostrar las fases por proyecto
 function loadGrid($idProyecto){
 	var lastsel;
 	var fases = "";
@@ -424,12 +464,24 @@ function loadGrid($idProyecto){
 		async : false,
 		success: function(retrievedData){
 			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+				alert("Mensaje de error: " + retrievedData.msg); // Por el
+																	// momento,
+																	// el
+																	// mensaje
+																	// que se
+																	// está
+																	// mostrando
+																	// es
+																	// técnico,
+																	// para
+																	// cuestiones
+																	// de
+																	// depuración
 			}else{
 				$.each(retrievedData.data, function(i,obj) {
 					fases += obj.id + ':' + obj.value + ';';
 				});
-				//fases = "";
+				// fases = "";
 				fases = fases.substring(0,fases.length-1);
 				$("#fasesString").val(fases);
 			}			      
@@ -493,9 +545,9 @@ function loadGrid($idProyecto){
 
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Inicializa el grid de documentos
+// Inicializa el grid de documentos
 function loadGridDocuments() {
 	$("#gridDocuments").jqGrid({
 		/* url: "index.php/departamento/gridRead/", */
@@ -560,9 +612,9 @@ function loadGridDocuments() {
 	});
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Abre el documento correspondiente a la fila seleccionada
+// Abre el documento correspondiente a la fila seleccionada
 function openFile() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if (rowId == null) {
@@ -576,9 +628,9 @@ function openFile() {
 	}
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Permite la edición de los datos del archivo seleccionado
+// Permite la edición de los datos del archivo seleccionado
 function editFileData() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if (rowId == null) {
@@ -593,9 +645,9 @@ function editFileData() {
 	}
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Permite la eliminación de los datos del archivo seleccionado
+// Permite la eliminación de los datos del archivo seleccionado
 function deleteFile() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if (rowId == null) {
@@ -634,9 +686,9 @@ function deleteFile() {
 	}
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Abre el documento correspondiente a la fila seleccionada
+// Abre el documento correspondiente a la fila seleccionada
 function clearFileForm() {
 	idArchivo = "";
 	$("#txtFileDesc").val("");
