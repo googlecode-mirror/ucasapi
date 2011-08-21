@@ -9,10 +9,8 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/ajaxupload.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
-		
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
-		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/departamento.js"></script>		
 		
@@ -20,7 +18,7 @@
 	<body>
 		<div class="menuBar" style="height:52px">
 			<ul>
-				<?echo $menu;?>
+				<?php echo $menu;?>
 			</ul>			
 		</div> 
 		
