@@ -5,7 +5,7 @@ $(document).ready(function() {
 });
 
 function rolAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/rol/rolAutocompleteRead",
 		data : "rolAutocomplete",
@@ -14,7 +14,7 @@ function rolAutocomplete() {
 			if (retrievedData.status != 0) {
 				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 			} else {
-				$("#txtRecords").autocomplete( {
+				$("#txtRecords").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -36,7 +36,7 @@ function save() {
 		formData += "idRol=" + $("#idRol").val();
 		formData += "&nombreRol=" + $("#txtRolName").val();
 
-		$.ajax( {
+		$.ajax({
 			type : "POST",
 			url : "index.php/rol/rolValidateAndSave",
 			data : formData,
@@ -46,9 +46,9 @@ function save() {
 					msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 				} else {
 					if ($("idRol").val() == "") {
-						msgBoxSucces("Registro agregado con �xito");
+						msgBoxSucces("Registro agregado con &eacute;xito");
 					} else {
-						msgBoxSucces("Registro actualizado con �xito");
+						msgBoxSucces("Registro actualizado con &eacute;xito");
 					}
 					rolAutocomplete();
 					clear();
@@ -60,10 +60,10 @@ function save() {
 }
 
 function edit() {
-
-	if (validarCampos()) {
+	if ($("#txtRecords").val() != "") {
+		$("#accionActual").val("editando");
 		var formData = "idRol=" + $("#idRol").val();
-		$.ajax( {
+		$.ajax({
 			type : "POST",
 			url : "index.php/rol/rolRead",
 			data : formData,
@@ -71,7 +71,7 @@ function edit() {
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					alert("Mensaje de error: " + retrievedData.msg); // Por
-																		// el
+					// el
 					// momento,
 					// el
 					// mensaje
@@ -89,47 +89,52 @@ function edit() {
 				}
 			}
 		});
+	} else {
+		msgBoxInfo("Debe seleccionar un ROL a editar");
 	}
 
 }
 
 function deleteData() {
-	var formData = "idRol=" + $("#idRol").val();
+	if ($("#txtRecords").val() != "") {
+		var formData = "idRol=" + $("#idRol").val();
+		var answer = confirm("Est&aacute; seguro que quiere eliminar el registro: "
+				+ $("#txtRecords").val() + " ?");
 
-	var answer = confirm("Est� seguro que quiere eliminar el registro: "
-			+ $("#txtRecords").val() + " ?");
-
-	if (answer) {
-		$.ajax( {
-			type : "POST",
-			url : "index.php/rol/rolDelete",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-					// el
-					// momento,
-					// el
-					// mensaje
-					// que
-					// se
-					// est�
-					// mostrando
-					// es
-					// t�cnico,
-					// para
-					// cuestiones
-					// de
-					// depuraci�n
-				} else {
-					alert("Registro eliminado con �xito");
-					rolAutocomplete();
-					clear();
+		if (answer) {
+			$.ajax({
+				type : "POST",
+				url : "index.php/rol/rolDelete",
+				data : formData,
+				dataType : "json",
+				success : function(retrievedData) {
+					if (retrievedData.status != 0) {
+						alert("Mensaje de error: " + retrievedData.msg); // Por
+						// el
+						// momento,
+						// el
+						// mensaje
+						// que
+						// se
+						// est�
+						// mostrando
+						// es
+						// t�cnico,
+						// para
+						// cuestiones
+						// de
+						// depuraci�n
+					} else {
+						msgBoxSucces("Registro eliminado con &eacute;xito");
+						rolAutocomplete();
+						clear();
+					}
 				}
-			}
 
-		});
+			});
+		}
+	} else {
+		msgBoxInfo("Debe seleccionar un ROL a eliminar");
 	}
 }
 
