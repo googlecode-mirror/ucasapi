@@ -59,13 +59,17 @@ class Login extends CI_Controller{
 //-------------------------------------------------------------------------------------------------------------------------------------------------------	
 
 	function home($idRol, $roleName){
+		$homePage = "buzon";
+		
 		$this->load->library('session');
 		$this->load->helper(array('url'));
 		
 		$this->session->set_userdata("idRol", $idRol);
 		$this->session->set_userdata("roleName", $roleName);
 		
-		redirect("buzon","refresh");		
+		if($idRol == "6")$homePage = "ventanilla";
+		
+		redirect($homePage,"refresh");		
 	}
 	
 }
