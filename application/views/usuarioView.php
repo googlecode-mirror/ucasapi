@@ -20,7 +20,7 @@
     <body>
         <div class="menuBar" style ="height: 54px">
              <ul>
-               <?echo $menu;?>
+               <?php echo $menu;?>
             </ul>         
         </div>
        
