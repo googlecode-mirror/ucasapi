@@ -1,10 +1,15 @@
 <html>
 	<head>
 		<title>Mantenimiento de Tipos de Estado</title>		
-		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/humanity/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+			<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
+		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />	
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/tipoEstado.js"></script>
 	</head>
 	
@@ -45,9 +50,10 @@
 				
 			<div class="divDataForm">
 				<input id="idTipo" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre del Estado: </span>
-				<input id="txtTipoName" type="text"  value="" class = "inputField"/><br>
+				<input id="txtTipoName" type="text"  value="" class = "inputField" maxlength="40"/><br>
 				
 			</div>
 			
