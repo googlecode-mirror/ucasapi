@@ -120,7 +120,7 @@
                     <span class = "inputFieldLabel">Teléfono contacto:</span>
                     <input id="txtUsuarioTelefono" type="text"  value="" class = "inputField" title = "Teléfono de contacto personal" maxlength="8"/><br>
                    
-                    <span class = "inputFieldLabel">Extensión:</span>
+                    <span class = "inputFieldLabel">Extensi&oacute;n:</span>
                     <input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA" maxlength="5"/><br>
                    
                     <span class = "inputFieldLabel">Activo:</span>
