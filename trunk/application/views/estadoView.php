@@ -51,10 +51,10 @@
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="idTipoEstado" type="hidden" value="" class="hiddenId"/>
 			
-				<span class = "inputFieldLabel">Nombre: </span>
+				<span class = "requiredFieldLabel">Nombre: </span>
 				<input id="txtStatusName" type="text"  value="" class = "inputField" maxlength="40" title="Nombre del estado"/><br>
 				
-				<span class = "inputFieldLabel">Tipo de estado: </span>
+				<span class = "requiredFieldLabel">Tipo de estado: </span>
 				<input id="txtStatusTypeName" type="text" class = "inputField" maxlength="40" title="Nombre del tipo de estado asociado"/>
 			</div>
 			
