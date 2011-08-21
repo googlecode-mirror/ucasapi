@@ -20,7 +20,7 @@ function js_ini(){
 	$("#tabs-4").css("padding", "0px");
 	
 	//Datepickers
-	$(".jqcalendario").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true});
+	$(".jqcalendario").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
 
 	//Botones
 	$("#btnSave").button({icons: {primary: "ui-icon-disk"}});
