@@ -35,6 +35,7 @@ function save() {
 	if (validarCampos()) {
 		formData += "idRol=" + $("#idRol").val();
 		formData += "&nombreRol=" + $("#txtRolName").val();
+		formData += "&accionActual=" + $("#accionActual").val();
 
 		$.ajax({
 			type : "POST",
@@ -45,7 +46,7 @@ function save() {
 				if (retrievedData.status != 0) {
 					msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 				} else {
-					if ($("idRol").val() == "") {
+					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con &eacute;xito");
 					} else {
 						msgBoxSucces("Registro actualizado con &eacute;xito");
