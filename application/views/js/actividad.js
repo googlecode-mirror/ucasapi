@@ -11,9 +11,10 @@ $(document).ready(function(){
 var idUsuariosQuitar = new Array();
 
 function estadoAutocomplete(){
+	//index.php/actividad/actividadEstados
 	$.ajax({				
 		type: "POST",
-		url:  "index.php/actividad/actividadEstados",
+		url:  "/ucasapi/actividad/actividadEstados",
 		data: "statusAutocomplete",
 		dataType : "json",
 		success: function(retrievedData){        	 
@@ -82,9 +83,10 @@ function actividadData(){
 	formData += "&idProyecto=" + $("#idProyecto").val();
 	formData += "&idUsuario=" + $("#idUsuario").val();
 
+	// index.php/actividad/actividadRead
 	$.ajax({				
 		type: "POST",
-		url:  "index.php/actividad/actividadRead",
+		url:  "/ucasapi/actividad/actividadRead",
 		data: formData,
 		dataType : "json",
 		success: function(retrievedData){        	
@@ -110,7 +112,7 @@ function loadGrid() {
 
 	$("#todosUsuarios").jqGrid(
 			{
-				url : "index.php/actividad/gridUsuariosRead/" + $("#idActividad").val(),
+				url : "/ucasapi/actividad/gridUsuariosRead/" + $("#idActividad").val(),
 				datatype : "json",
 				mtype : "POST",
 				colNames : [ "Id", "Cod.", "Usuario", "Rol" ],
@@ -149,7 +151,7 @@ function loadGrid() {
 function loadGridTR() {
 
 	$("#list").jqGrid( {
-		url : "index.php/actividad/gridUsuarioSet/" + $("#idActividad").val(),
+		url : "/ucasapi/actividad/gridUsuarioSet/" + $("#idActividad").val(),
 		datatype : "json",
 		mtype : "POST",
 		colNames : [ "Id", "Cod.", "Usuario", "Rol" ],
