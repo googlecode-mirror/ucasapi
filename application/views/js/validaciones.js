@@ -93,7 +93,7 @@ function validarAlfa(campo){
 }
 
 function validarAlfaEsp(campo){
-	var RegExPattern = /^\w{1}[A-Za-z\s]{1,256}$/
+	var RegExPattern = /^\w{1}[A-Za-z\s\u00e1]{1,256}$/
 		if ((campo.match(RegExPattern)) && (campo.value != '')) {
 			return true;
 		} else {
@@ -103,12 +103,12 @@ function validarAlfaEsp(campo){
 }
 
 function validarAlfaEspNum(campo){
-	var RegExPattern = /^\w{1}[A-Za-z0-9\s\u00e1]{1,256}$/
+	var RegExPattern = /^\w{1}[A-Za-z0-9\s]{1,256}$/
 		if ((campo.match(RegExPattern)) && (campo.value != '')) {
 			return true;
 		} else {
 			return false;
-		}   
+		}  
 		
 }
 
