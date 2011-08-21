@@ -25,24 +25,11 @@
 			</pagina>
 			<pagina>
 				<nombrePagina>Solicitud</nombrePagina>
-				<controller>cliente</controller>
+				<controller>solicitud</controller>
 			</pagina>
 		</paginas>		
 	</rol>
 	<rol id = "2">
-		<nombreRol>Coordinador de desarrollo</nombreRol>
-		<paginas>
-			<pagina>
-				<nombrePagina>Buzón</nombrePagina>
-				<controller>buzon</controller>
-			</pagina>
-			<pagina>
-				<nombrePagina>Departamento</nombrePagina>
-				<controller>departamento</controller>
-			</pagina>
-		</paginas>
-	</rol>
-	<rol id = "3">
 		<nombreRol>Coordinador de proyecto</nombreRol>
 		<paginas>
 			<pagina>
@@ -50,12 +37,20 @@
 				<controller>buzon</controller>
 			</pagina>
 			<pagina>
+				<nombrePagina>Actividades asignadas</nombrePagina>
+				<controller>actividadg</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Solicitud</nombrePagina>
+				<controller>solicitud</controller>
+			</pagina>
 		</paginas>
 	</rol>
-	<rol id = "4">
+	<rol id = "3">
 		<nombreRol>Coordinador de atención</nombreRol>
 		<paginas>
 			<pagina>
@@ -63,12 +58,24 @@
 				<controller>buzon</controller>
 			</pagina>
 			<pagina>
-				<nombrePagina>Departamento</nombrePagina>
-				<controller>departamento</controller>
+				<nombrePagina>Actividades asignadas</nombrePagina>
+				<controller>actividadg</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Procesos</nombrePagina>
+				<controller>proceso</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Actividades</nombrePagina>
+				<controller>actividada</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Solicitud</nombrePagina>
+				<controller>solicitud</controller>
 			</pagina>
 		</paginas>
 	</rol>
-	<rol id = "5">
+	<rol id = "4">
 		<nombreRol>Desarrollador</nombreRol>
 		<paginas>
 			<pagina>
@@ -76,12 +83,16 @@
 				<controller>buzon</controller>
 			</pagina>
 			<pagina>
-				<nombrePagina>Departamento</nombrePagina>
-				<controller>departamento</controller>
+				<nombrePagina>Actividades asignadas</nombrePagina>
+				<controller>actividadg</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Solicitud</nombrePagina>
+				<controller>solicitud</controller>
 			</pagina>
 		</paginas>
 	</rol>
-	<rol id = "6">
+	<rol id = "5">
 		<nombreRol>Analista de atención</nombreRol>
 		<paginas>
 			<pagina>
@@ -89,13 +100,26 @@
 				<controller>buzon</controller>
 			</pagina>
 			<pagina>
-				<nombrePagina>Departamento</nombrePagina>
-				<controller>departamento</controller>
+				<nombrePagina>Actividades asignadas</nombrePagina>
+				<controller>actividadg</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Solicitud</nombrePagina>
+				<controller>solicitud</controller>
+			</pagina>
+		</paginas>
+	</rol>
+	<rol id = "6">
+		<nombreRol>Ventanilla única</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
 			</pagina>
 		</paginas>
 	</rol>
 	<rol id = "7">
-		<nombreRol>Ventanilla única</nombreRol>
+		<nombreRol>Administrador</nombreRol>
 		<paginas>
 			<pagina>
 				<nombrePagina>Buzón</nombrePagina>
@@ -148,15 +172,15 @@
 		</paginas>
 	</rol>
 		<rol id = "8">
-		<nombreRol>Usuario final</nombreRol>
+		<nombreRol>Cliente</nombreRol>
 		<paginas>
 			<pagina>
 				<nombrePagina>Buzón</nombrePagina>
 				<controller>buzon</controller>
 			</pagina>
 			<pagina>
-				<nombrePagina>Departamento</nombrePagina>
-				<controller>departamento</controller>
+				<nombrePagina>Cliente</nombrePagina>
+				<controller>cliente</controller>
 			</pagina>
 		</paginas>
 	</rol>
