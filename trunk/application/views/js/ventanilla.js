@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	js_ini();
 	loadGrid();
+	proyectoAutocomplete()
 	$("#ventanillaButton").addClass("highlight");
 	
 	$("#dialogoSolicitud").dialog({
@@ -59,6 +60,36 @@ function loadGrid() {
 		}
 	});
 
+}
+
+function proyectoAutocomplete() {
+	$.ajax({
+		type : "POST",
+		url : "index.php/proyecto/proyectoAutocompleteRead",
+		data : "usuarioAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				$("#txtProjectRecords").autocomplete(
+						{
+							minChars : 0,
+							matchContains : true,
+							source : retrievedData.data,
+							minLength : 1,
+							select : function(event, ui) {
+								// $("#idUsuario").val(ui.item.id);
+								$("#cbxRelacionados").append(
+										'<option value="' + ui.item.id + '">'
+												+ ui.item.value + '</option>');
+							}
+						});
+
+			}
+		}
+
+	});
 }
 
 function empleadosAutocomplete() {
@@ -186,6 +217,11 @@ function transferirSolicitud() {
 
 function asignarSolicitud() {
 	if (validarCampos()) {
+		var relacionados = '';
+		$('#cbxRelacionados option').each(function(i, selected) {
+			relacionados += $(selected).val() + ",";
+		});
+		
 		var solicitud = $("#idSolicitud").val().split("-");
 		var formData = "";
 		formData += "idProyecto=" + $("#idProyecto").val();
@@ -201,6 +237,7 @@ function asignarSolicitud() {
 		formData += "&descripcion=" + $("#txtActivityDesc").val();
 		formData += "&anioSolicitud=" + solicitud[0];
 		formData += "&correlAnio=" + solicitud[1];
+		formData += "&proyRelacionados=" + relacionados;
 
 		$.ajax({
 			type : "POST",

@@ -25,12 +25,12 @@ class actividadaModel extends CI_Model{
 		
 		$seguidores = $this->input->post("seguidores");
 		
-		//Si no se está en sesión
+		//Si no se estï¿½ en sesiï¿½n
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
 		
 		$lastId  = -1;
 				
-		//Iniciando transacción
+		//Iniciando transacciï¿½n
 		$this->db->trans_begin();
 		
 		
@@ -55,8 +55,17 @@ class actividadaModel extends CI_Model{
 			}
 	    
 	    
+		$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
-		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad) VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).")";
+		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal) 
+				VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", 1)";
+		
+		foreach ($idProyectoRelacionado as $idProy){
+			if($idProy != '') {
+				$sql2 .= ",(" . $this->db->escape($idProy) . ", " .
+						$this->db->escape($lastId) . ", 0)";
+			}
+		}
 		
 		$query = $this->db->query($sql);		
 		if (!$query){
@@ -165,13 +174,13 @@ class actividadaModel extends CI_Model{
 		
 		$seguidores = $this->input->post("seguidores");
 		
-		//Si no se está en sesión
+		//Si no se estï¿½ en sesiï¿½n
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
 		//$idUsuarioResponsable = 1;
 		
 		$lastId  = -1;
 				
-		//Iniciando transacción
+		//Iniciando transacciï¿½n
 		$this->db->trans_begin();
 		
 		
@@ -527,19 +536,19 @@ class actividadaModel extends CI_Model{
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librería form_validation
+	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librerï¿½a form_validation
 	function saveValidation(){
 		$this->load->library('form_validation');
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
-		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
+		//Colocando las reglas para los campos, el segundo parï¿½metro es el nombre del campo que aparecerï¿½ en el mensaje
+		//Habrï¿½ que reemplazar los mensajes, pues por el momento estï¿½n en inglï¿½s
 		$this->form_validation->set_rules("nombreActividad", "Nombre", 'required');
 		$this->form_validation->set_rules("descripcion", "Descripcion", 'required');
 		$this->form_validation->set_rules("idProyecto", "Proyecto", 'required');
 
-		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
+		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumpliï¿½...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 			$retArray["msg"] .= form_error("idProyecto");
@@ -674,7 +683,7 @@ function gridSeguidoresRead($idActividad){
 
 /*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//Validación para campos de información de documento
+	//Validaciï¿½n para campos de informaciï¿½n de documento
 	function fileSaveValidation(){
 		$this->load->library('form_validation');
 		$retArray = array("status"=> 0, "msg" => "");
