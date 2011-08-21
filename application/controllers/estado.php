@@ -28,8 +28,7 @@ class Estado extends CI_Controller{
 				$this->load->view("estadoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName)));//Se agrega el código del menú y el nombre del usuario como variables al view
 				
 			}
-			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
-				$previousPage = $this->session->userdata("currentPage");
+			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior
 				redirect($previousPage,"refresh");
 			}
 						
