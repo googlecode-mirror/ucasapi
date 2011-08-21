@@ -81,8 +81,13 @@
 				<span class = "requiredFieldLabel" >Nombre</span><br/>
 				<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad" maxlength="40"/><br/><br/>
 
-				<span class = "requiredFieldLabel" >Proyecto</span><br/>
+				<span class = "requiredFieldLabel" >Proyecto principal</span><br/>
 				<input id="txtProjectName" type="text"  value="" class = "inputField" title="Proyecto al que la actividad est&aacute; asociada" maxlength="100"/><br/><br/>
+				
+				<span class="recordsLabel">Proyectos relacionados: </span>
+				<input id="txtProjectRecords" type="text"  value="" class="inputFiledAC" /><br>
+				<span class="recordsLabel">Agregados: </span>
+				<select size="5" multiple="multiple" id="cbxRelacionados" class="selectList"></select><br>
 
 				<span class = "inputFieldLabel" >Proceso</span><br/>
 				<input id="txtProcessName" type="text"  value="" class = "inputField" title="Proceso al que la actividad est&aacute; asociada" maxlength="40"/><br/><br/>
