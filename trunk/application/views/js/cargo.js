@@ -2,6 +2,7 @@ $(document).ready(function() {
 	js_ini();
 	$("#cargoButton").addClass("highlight");	
 	cargoAutocomplete();
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});	
 });
 
 function cargoAutocomplete() {
@@ -17,7 +18,7 @@ function cargoAutocomplete() {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idCargo").val(ui.item.id);
 					}
