@@ -29,9 +29,9 @@ class UsuarioModel extends CI_Model{
 		$activo = $this->input->post("activo");
 		$idDepto = (int) $this->input->post("idDepto");
 		$idCargo = (int) $this->input->post("idCargo");
-		$fechaNacimiento = (int) $this->input->post("fechaNacimiento");
-		$telefonoContacto = (int) $this->input->post("telefonoContacto");
-		$extension = (int) $this->input->post("extension");
+		$fechaNacimiento = $this->input->post("fechaNacimiento");
+		$telefonoContacto = $this->input->post("telefonoContacto");
+		$extension = $this->input->post("extension");
 
 
 		$rol_rows = $this->input->post("rol_data");
