@@ -144,9 +144,10 @@ function validarCampos() {
 		camposFallan += "El campo ASUNTO es requerido <br />";
 	}
 
-	if ($("#cbxPrioridades").val() == 0) {
+	/*if ($("#cbxPrioridades").val() == 0) {
 		camposFallan += "Debe seleccionar una PRIORIDAD <br />";
 	}
+	*/
 
 	if ($("#txtSolicitudDesc").val() != "") {
 		if ($("#txtSolicitudDesc").val().length > 256) {
