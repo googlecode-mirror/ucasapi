@@ -6,8 +6,10 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/fase.js"></script>
 		
 	</head>
@@ -54,7 +56,7 @@
 				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Nombre de la fase" maxlength="40"/><br>
 				
 				<span class = "inputFieldLabel">Descripcion: </span>
-				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción de la fase" maxlength="256"></textArea>
+				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción de la fase" ></textArea>
 			</div>
 			
 		</div>
