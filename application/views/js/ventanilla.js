@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	js_ini();
 	loadGrid();
+	$("#ventanillaButton").addClass("highlight");
+	
 	$("#dialogoSolicitud").dialog({
 		width : 700,
 		autoOpen : false
