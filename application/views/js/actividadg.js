@@ -14,12 +14,18 @@ function loadGrid(){
 				url : "index.php/actividadg/actividadgRead/" + $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Cod.", "Actividad", "Fecha Fin Plan.", "Proceso", "Estado", "Prioridad" ],
+				colNames : [ "Cod.", "CodP.", "Actividad", "Fecha Fin Plan.", "Proceso", "Estado", "Prioridad" ],
 				colModel : [ {
 					name : "idActividad",
 					index : "idActividad",
 					width : 0,
 					hidden : true
+				}, {
+					name : "idProyecto",
+					index : "idProyecto",
+					width : 0,
+					hidden : true
+					
 				}, {
 					name : "nombreActividad",
 					index : "nombreActividad",
@@ -59,10 +65,10 @@ function loadGrid(){
 				height : 320,
 				caption : "Actividades asignadas:",
 				ondblClickRow: function(id) {
-			    	mostrarSolicitud(id);
-			    	$("#idSolicitud").val(id);
-			    	$("#txtRecords").attr('disabled', '');		    	
-			    	empleadosAutocomplete();
+					row_data = $("#tablaActividades").jqGrid("getRowData", id);
+					$idA = row_data["idActividad"];
+					$idP = row_data["idProyecto"];
+					window.location = "actividadg/actividad/"+$idA+"/"+$idP;
 			    }
 			});
 }

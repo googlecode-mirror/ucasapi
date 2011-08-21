@@ -39,12 +39,14 @@ class actividadgModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT DISTINCT a.idActividad, a.nombreActividad, a.fechaFinalizacionPlan, p.nombreProceso, pr.nombrePrioridad, e.estado
+		$sql = "SELECT DISTINCT a.idActividad, axp.idProyecto, a.nombreActividad, a.fechaFinalizacionPlan, p.nombreProceso, pr.nombrePrioridad, e.estado
 				FROM ACTIVIDAD a LEFT JOIN PROCESO p ON a.idProceso = p.idProceso
-  					INNER JOIN PRIORIDAD pr ON a.idPrioridad = pr.idPrioridad
-    				INNER JOIN ESTADO e ON  a.idEstado = e.idEstado
-				    INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
- 				   INNER JOIN USUARIO u ON uxa.idUsuario = u.idUsuario
+					INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
+					INNER JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
+					INNER JOIN PRIORIDAD pr ON a.idPrioridad = pr.idPrioridad
+					INNER JOIN ESTADO e ON  a.idEstado = e.idEstado
+					INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
+ 					INNER JOIN USUARIO u ON uxa.idUsuario = u.idUsuario
 				WHERE uxa.idUsuario = " .$idUsuario;
 
 		$query = $this->db->query($sql);
@@ -54,7 +56,7 @@ class actividadgModel extends CI_Model{
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $row->idActividad;
-					$response->rows[$i]["cell"] = array($row->idActividad, $row->nombreActividad, $row->fechaFinalizacionPlan, $row->nombreProceso, $row->nombrePrioridad, $row->estado);
+					$response->rows[$i]["cell"] = array($row->idActividad, $row->idProyecto, $row->nombreActividad, $row->fechaFinalizacionPlan, $row->nombreProceso, $row->nombrePrioridad, $row->estado);
 					$i++;
 				}
 			}
