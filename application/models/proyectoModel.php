@@ -508,7 +508,7 @@ class proyectoModel extends CI_Model{
 		//Colocando las reglas para los campos, el segundo par�metro es el nombre del campo que aparecer� en el mensaje
 		//Habr� que reemplazar los mensajes, pues por el momento est�n en ingl�s
 		$this->form_validation->set_rules("nombreProyecto", "Nombre proyecto", 'required');
-		$this->form_validation->set_rules("idUsuarioDuenho", "Due�o del proyecto", 'required');
+		$this->form_validation->set_rules("idUsuarioDuenho", "Dueno del proyecto", 'required');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumpli�...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
