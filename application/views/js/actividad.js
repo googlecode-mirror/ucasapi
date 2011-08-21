@@ -9,6 +9,9 @@ $(document).ready(function(){
 
 var idUsuariosQuitar = new Array();
 
+var arrayUserSet = new Array();
+var arrayUserUnset = new Array();
+
 function estadoAutocomplete(){
 	//index.php/actividad/actividadEstados
 	$.ajax({				
@@ -60,6 +63,7 @@ function save(){
 	else{
 		formData += "&remove_data=0"; 
 	}
+
 	$.ajax({
 		type: "POST",
 		url: "/ucasapi/actividad/actividadValidateAndSave",
@@ -143,7 +147,10 @@ function loadGrid() {
 				loadonce : true,
 				viewrecords : true,
 				gridview : true,
-				caption : "Lista de usuarios"
+				caption : "Lista de usuarios",
+				gridComplete : function(){
+					arrayUserUnset = $("#todosUsuarios").getDataIDs();
+				}
 			});
 }
 
@@ -182,7 +189,10 @@ function loadGridTR() {
 		loadonce : true,
 		viewrecords : true,
 		gridview : true,
-		caption : "Usuarios asignados a la actividad"
+		caption : "Usuarios asignados a la actividad",
+		gridComplete : function(){
+			arrayUserSet = $("#list").getDataIDs();
+		}
 	});
 }
 
@@ -201,7 +211,7 @@ function asignar() {
 		//Eliminar del array el ID del usuario que ya no se va desasignar...
 		var index = idUsuariosQuitar.indexOf(row_data["idUsuario"]);
 		if(index != -1) idUsuariosQuitar.splice(index,1);
-		
+	
 		$("#list").addRowData(num_rows + 1, new_row_data);
 		$("#todosUsuarios").delRowData(row_id);
 	}
@@ -229,7 +239,6 @@ function desasignar() {
 		$("#list").delRowData(row_id);
 	}
 }
-
 
 
 function cancel() {
