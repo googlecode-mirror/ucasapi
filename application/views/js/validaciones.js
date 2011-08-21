@@ -103,7 +103,7 @@ function validarAlfaEsp(campo){
 }
 
 function validarAlfaEspNum(campo){
-	var RegExPattern = /^\w{1}[A-Za-z0-9\s]{1,256}$/
+	var RegExPattern = /^\w{1}[A-Za-z0-9\αινσϊ]{1,256}$/
 		if ((campo.match(RegExPattern)) && (campo.value != '')) {
 			return true;
 		} else {
