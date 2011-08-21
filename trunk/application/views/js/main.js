@@ -3,7 +3,7 @@ function js_ini(){
 	//Validación para IE
 	browserValidation();
 	//Autocompletes muestran todos los elementos en el focus
-	autocompletesShowsAll();
+	//autocompletesShowsAll();
 	
 	//Seteo de estilos
 	$("#msgBox").addClass("ui-corner-all");
@@ -147,7 +147,7 @@ function browserValidation(){
 }
 
 //Permite que todos los autocompletes muestren todos sus elementos en el evento focus, todos deben tener en sus parámetros minLength: 0.
-function autocompletesShowsAll(){
+/*function autocompletesShowsAll(){
 	element = document.getElementsByClassName("inputFieldAC");
 	
 	for(var i = 0; i<element.length;i++){
@@ -156,4 +156,4 @@ function autocompletesShowsAll(){
 		});		
 	}
 	
-}
+}*/
