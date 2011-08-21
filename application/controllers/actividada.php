@@ -12,7 +12,7 @@ class Actividada extends CI_Controller{
 		$previousPage = $this->session->userdata("currentPage");
 		$previousPage = ($previousPage!="")?$previousPage:"buzon";
 						
-		/*$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
+		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
 		
 		if($idRol != ""){//Si está en sesión
 			$allowedPage = $this->roleOptionsModel->validatePage($idRol, $controllerName); 
@@ -24,8 +24,9 @@ class Actividada extends CI_Controller{
 				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menú
 				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
 				$roleName = $this->session->userdata("roleName");
+				$idUsuario = $this->session->userdata("idUsuario");
 				
-				$this->load->view("ActividadaView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName)));//Se agrega el código del menú y el nombre del usuario como variables al view
+				$this->load->view("actividadaView", array("menu"=> $menu, "idUsuario" => $idUsuario,"userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view
 				
 			}
 			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
@@ -35,10 +36,7 @@ class Actividada extends CI_Controller{
 		}
 		else{//Si no existe usuario en sesión se redirige al login
 			redirect("login", "refresh");
-		}*/
-		$idUsuario = $this->session->userdata("idUsuario");
-		$this->load->view("actividadaView", array("menu"=> $menu, "idUsuario" => $idUsuario,"userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view
-		
+		}		
 	}
 	
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
