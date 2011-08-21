@@ -33,7 +33,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style="height: 1000px">
+		<div class="container" style="height: 1200px">
 			<div style="height: 20px"></div>
 			
 			<div class="divActions" style = "height: 210px">				
@@ -67,7 +67,7 @@
 					<li><a href="#tabs-3">Documentos</a></li>
 				</ul>
 				
-				<div id="tabs-1" class="divDataForm" style="height: 584px;">	
+				<div id="tabs-1" class="divDataForm" style= "height: auto">	
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
@@ -103,7 +103,27 @@
 					</div>
 
 					<span class = "requiredFieldLabel" style = "clear:both">Descripción</span>
-					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea>
+					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea><br>
+					
+					<span style = "clear:both; margin-bottom:20px" class = "requiredFieldLabel" >Responsables</span><br>
+					<table align="center">
+                    	<tr>
+                        	<td>
+                            	<table id="users1Grid" align="center"></table>
+                                <div id="pagerU"></div>
+                         	</td>
+                            <td>
+                            	<div class="divLessOrMoreThan">
+                                	<button id="btnMoreThan" onClick="agregarRol()"></button><br />
+                                    <button id="btnLessThan" onClick="eliminarRol()"></button>
+                                 </div>
+                            </td>   
+                            <td>
+                            	<table id="responsibleUsersGrid" align="center"></table>
+                                <div id="pagerRU"></div>
+                            </td>
+                      </tr>               
+                      </table>					
 				</div>
 				
 				<div id="tabs-2">
