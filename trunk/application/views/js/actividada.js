@@ -4,7 +4,7 @@ numFollowersOnGrid = 0;
 $(document).ready(function(){
 	 idArchivo = "";
 	 upload = null;
-	 
+	 $("#actividadaButton").addClass("highlight");
 	 js_ini();	 
 	 if(navigator.appName == "Microsoft Internet Explorer"){$("#txtStartingDate,#txtEndingDate").css("height", "16px");};
 	 
