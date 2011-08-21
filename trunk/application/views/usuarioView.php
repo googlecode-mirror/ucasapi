@@ -93,10 +93,10 @@
                     <span class = "requiredFieldLabel">DUI:</span>
                     <input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario" maxlength="11"/><br>               
                    
-                    <span class = "inputFieldLabel">NIT:</span>
+                    <span class = "requiredFieldLabel">NIT:</span>
                     <input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria" maxlength="17"/><br>
                    
-                    <span class = "inputFieldLabel">ISSS:</span>
+                    <span class = "requiredFieldLabel">ISSS:</span>
                     <input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS" maxlength="9"/><br>
                    
                     <span class = "inputFieldLabel">NUP:</span>
