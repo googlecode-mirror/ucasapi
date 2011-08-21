@@ -18,7 +18,7 @@
 			<ul>
 				<?echo $menu;?>
 			</ul>			
-		</div>
+		</div> 
 		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
@@ -35,7 +35,7 @@
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Departamentos</span>
-					<input id="txtRecords" type="text"  value="" title = "Seleccione un Departamento para edición o eliminación" class="inputFieldAC"/><br>
+					<input id="txtRecords" type="text"  value="" title = "Seleccione un Departamento para edición o eliminación" class="inputFieldAC" maxlength="256"/><br>
 				</div>
 										
 				<div class="divCRUDButtons">
@@ -60,10 +60,10 @@
 					<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>
 				
 					<span class = "requiredFieldLabel" >Nombre</span>
-					<input id="txtDepartmentName" type="text"  value="" class = "inputField" title="Nombre del departamento"/><br>
+					<input id="txtDepartmentName" type="text"  value="" class = "inputField" title="Nombre del departamento" maxlength="256"/><br>
 					
 					<span class = "inputFieldLabel">Descripción</span>
-					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento"></textArea>
+					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" onkeydown="if(this.value.length >= 256){ return false ;}"></textArea>
 				</div>
 				
 				<div id="tabs-2">
