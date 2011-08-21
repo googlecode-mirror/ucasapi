@@ -85,6 +85,7 @@ function save() {
 		formData += "idEstado=" + $("#idEstado").val();
 		formData += "&idTipoEstado=" + $("#idTipoEstado").val();
 		formData += "&estado=" + $("#txtStatusName").val();
+		formData += "&accionActual=" + $("#accionActual").val();
 
 		$.ajax({
 			type : "POST",
@@ -108,7 +109,7 @@ function save() {
 					// de
 					// depuración
 				} else {
-					if ($("idEstado").val() == "") {
+					if ($("#accionActual").val() == "") {
 						msgBoxInfo("Registro agregado con &eacute;xito");
 					} else {
 						msgBoxInfo("Registro actualizado con &eacute;xito");
@@ -127,8 +128,7 @@ function save() {
 function edit() {
 	var formData = "idEstado=" + $("#idEstado").val();
 	if ($("#txtRecords").val() != "") {
-		//alert('MANO');
-
+		$("#accionActual").val("editando")
 		$.ajax({
 			type : "POST",
 			url : "index.php/estado/statusRead",
