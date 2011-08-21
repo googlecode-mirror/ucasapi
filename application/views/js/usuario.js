@@ -258,6 +258,8 @@ function save() {
 	formData += "&telefonoContacto=" + $("#txtUsuarioTelefono").val();
 	formData += "&fechaNacimiento=" + $("#txtProyectoFechaNacimiento").val();
 	formData += "&accionActual=" + $("#accionActual").val();
+	
+	alert(formData);
 
 	rol_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
@@ -549,7 +551,7 @@ function validar_campos() {
 	
 	if($("#txtUsuarioExtension").val()!=""){
 		if(!validarExtension($("#txtUsuarioExtension").val())){
-			camposFallan += "Formato de extensi�n incorrecto <br />";
+			camposFallan += "Formato de extensi\u00f3n incorrecto <br />";
 		}
 	}
 	
