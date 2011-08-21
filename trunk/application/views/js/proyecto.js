@@ -2,6 +2,7 @@ var faseCorrel = 0;
 
 $(document).ready(function() {
 	js_ini();
+	$("#proyectoButton").addClass("highlight");
 	idArchivo = "";
 	upload = null;
 	proyectoAutocomplete();	
