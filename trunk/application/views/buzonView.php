@@ -36,8 +36,8 @@
 	<div class="container">
 		<div style="height: 20px"></div>
 		<div id="msgBox"></div>
-		<input id="idUsuario" type="hidden" value="2" class="hiddenId" />
-
+		<input id="idUsuario" type="hidden" value=<?php echo $idUsuario;?> class="hiddenId" />
+		
 		<div class="divDataForm" style="height: 200">
 			<table id="todosMensajes"></table>
 			<div id="pager"></div>
