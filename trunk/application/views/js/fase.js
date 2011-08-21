@@ -111,7 +111,7 @@ function validar_campos(){
 	
 	if($("#txtFaseName").val()!=""){
 		if(!validarAlfa($("#txtFaseName").val())){
-			camposFallan += "Formato de NOMBRE FASE es incorrecto <br />";
+			camposFallan += "El campos NOMBRE FASE contiene caracteres no validos <br />";
 		}
 	}else{
 		camposFallan += "El campo NOMBRE FASE es requerido <br />";
@@ -119,7 +119,7 @@ function validar_campos(){
 	
 	if($("#txtFaseDesc").val()!=""){
 		if(!validarAlfaEspNum($("#txtFaseDesc").val())){
-			camposFallan += "Formato de DESCRIPCION FASE es incorrecto <br />";
+			camposFallan += "El campos DESCRIPCION FASE contiene caracteres no validos <br />";
 		}
 	}else{
 		camposFallan += "El campo DESCRIPCION FASE es requerido <br />";
