@@ -65,7 +65,7 @@ class Login extends CI_Controller{
 		$this->session->set_userdata("idRol", $idRol);
 		$this->session->set_userdata("roleName", $roleName);
 		
-		redirect("departamento","refresh");		
+		redirect("buzon","refresh");		
 	}
 	
 }
