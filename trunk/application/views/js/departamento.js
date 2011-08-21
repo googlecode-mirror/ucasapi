@@ -84,70 +84,84 @@ function save() {
 }
 
 function edit() {
-	var formData = "idDepto=" + $("#idDepto").val();
+	if ($("txtRecords").val() == "") {
+		$("#accionActual").val("editado");
+		var formData = "idDepto=" + $("#idDepto").val();
+		$
+				.ajax({
+					type : "POST",
+					url : "index.php/departamento/departmentRead",
+					data : formData,
+					dataType : "json",
+					success : function(retrievedData) {
+						if (retrievedData.status != 0) {
+							alert("Mensaje de error: " + retrievedData.msg); // Por
+							// el
+							// momento,
+							// el
+							// mensaje
+							// que se
+							// está
+							// mostrando
+							// es
+							// técnico,
+							// para
+							// cuestiones
+							// de
+							// depuración
+						} else {
+							$("#txtDepartmentName").val(
+									retrievedData.data.nombreDepto);
+							$("#txtDepartmentDesc").val(
+									retrievedData.data.descripcion);
 
-	$.ajax({
-		type : "POST",
-		url : "index.php/departamento/departmentRead",
-		data : formData,
-		dataType : "json",
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
-			} else {
-				$("#txtDepartmentName").val(retrievedData.data.nombreDepto);
-				$("#txtDepartmentDesc").val(retrievedData.data.descripcion);
-
-				$('#list').setGridParam(
-						{
-							url : "index.php/departamento/gridRead/"
-									+ $("#idDepto").val()
-						}).trigger("reloadGrid");
-			}
-		}
-	});
+							$('#list')
+									.setGridParam(
+											{
+												url : "index.php/departamento/gridRead/"
+														+ $("#idDepto").val()
+											}).trigger("reloadGrid");
+						}
+					}
+				});
+	} else {
+		msgBoxInfo("Debe seleccionar un DEPARTAMENTO a editar");
+	}
 
 }
 
 function deleteData() {
-	var formData = "idDepto=" + $("#idDepto").val();
+	if ($("txtRecords").val() != "") {
+		var formData = "idDepto=" + $("#idDepto").val();
 
-	var answer = confirm("Está seguro que quiere eliminar el registro: "
-			+ $("#txtRecords").val() + " ?");
+		var answer = confirm("Está seguro que quiere eliminar el registro: "
+				+ $("#txtRecords").val() + " ?");
 
-	if (answer) {
-		$.ajax({
-			type : "POST",
-			url : "index.php/departamento/departmentDelete",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					msgBoxInfo(retrievedData.msg);
-					// alert("Mensaje de error: " + retrievedData.msg); //Por el
-					// momento, el mensaje que se está mostrando es técnico,
-					// para cuestiones de depuración
-				} else {
-					msgBoxSucces("Registro eliminado con éxito");
-					// alert("Registro eliminado con éxito");
-					departmentAutocomplete();
-					clear();
+		if (answer) {
+			$.ajax({
+				type : "POST",
+				url : "index.php/departamento/departmentDelete",
+				data : formData,
+				dataType : "json",
+				success : function(retrievedData) {
+					if (retrievedData.status != 0) {
+						msgBoxInfo(retrievedData.msg);
+						// alert("Mensaje de error: " + retrievedData.msg);
+						// //Por el
+						// momento, el mensaje que se está mostrando es técnico,
+						// para cuestiones de depuración
+					} else {
+						msgBoxSucces("Registro eliminado con éxito");
+						// alert("Registro eliminado con éxito");
+						departmentAutocomplete();
+						clear();
+					}
 				}
-			}
 
-		});
+			});
+		}
+	}else{
+		msgBoxInfo("Debe seleccionar un DEPARTAMENTO a eliminar");
 	}
 }
 
