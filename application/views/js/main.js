@@ -146,6 +146,18 @@ function browserValidation(){
 	
 }
 
+function txtEn(txtId){
+    $("#"+txtId).attr("readonly", "true")
+    $("#"+txtId).css("background", "#F0F0F0");
+    $("#"+txtId).css("color", "#8A8A8A");
+}
+
+function txtDis(txtId){
+    $("#"+txtId).attr("readonly", "")
+    $("#"+txtId).css("background", "#FFF");
+    $("#"+txtId).css("color", "#000");
+}
+
 //Permite que todos los autocompletes muestren todos sus elementos en el evento focus, todos deben tener en sus parámetros minLength: 0.
 /*function autocompletesShowsAll(){
 	element = document.getElementsByClassName("inputFieldAC");
