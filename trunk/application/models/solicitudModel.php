@@ -9,8 +9,8 @@ class solicitudModel extends CI_Model {
 
 		//Colocando las reglas para los campos, el segundo par�metro es el nombre del campo que aparecer� en el mensaje
 		//Habr� que reemplazar los mensajes, pues por el momento est�n en ingl�s
-		$this->form_validation->set_rules("asunto", "Asunto", 'required|alpha_numeric');
-		$this->form_validation->set_rules("descripcion", "Descripcion", 'required|alpha_numeric');
+		$this->form_validation->set_rules("asunto", "Asunto", 'required');
+		$this->form_validation->set_rules("descripcion", "Descripcion", 'required');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumpli�...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
