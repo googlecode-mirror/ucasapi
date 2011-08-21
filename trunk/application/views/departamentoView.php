@@ -67,7 +67,7 @@
 					<input id="txtDepartmentName" type="text"  value="" class = "inputField" title="Nombre del departamento" maxlength="256"/><br>
 					
 					<span class = "inputFieldLabel">Descripción</span>
-					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" onkeydown="if(this.value.length >= 256){ return false ;}"></textArea>
+					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea>
 				</div>
 				
 				<div id="tabs-2">
