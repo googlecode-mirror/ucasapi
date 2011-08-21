@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <roles>
 	<rol id = "1">
-		<nombreRol>Administrador</nombreRol>
-		
+		<nombreRol>Coordinador de desarrollo</nombreRol>
+		<paginas>
+			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Actividades asignadas</nombrePagina>
+				<controller>actividadg</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Proyectos</nombrePagina>
+				<controller>proyecto</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Procesos</nombrePagina>
+				<controller>proceso</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Actividades</nombrePagina>
+				<controller>actividada</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Solicitud</nombrePagina>
+				<controller>cliente</controller>
+			</pagina>
+		</paginas>		
 	</rol>
 	<rol id = "2">
 		<nombreRol>Coordinador de desarrollo</nombreRol>
 		<paginas>
+			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
 			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
@@ -17,6 +46,10 @@
 		<nombreRol>Coordinador de proyecto</nombreRol>
 		<paginas>
 			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
 			</pagina>
@@ -25,6 +58,10 @@
 	<rol id = "4">
 		<nombreRol>Coordinador de atención</nombreRol>
 		<paginas>
+			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
 			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
@@ -35,6 +72,10 @@
 		<nombreRol>Desarrollador</nombreRol>
 		<paginas>
 			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
 			</pagina>
@@ -44,6 +85,10 @@
 		<nombreRol>Analista de atención</nombreRol>
 		<paginas>
 			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
 			</pagina>
@@ -52,6 +97,10 @@
 	<rol id = "7">
 		<nombreRol>Ventanilla única</nombreRol>
 		<paginas>
+			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
 			<pagina>
 				<nombrePagina>Acción</nombrePagina>
 				<controller>accion</controller>
@@ -101,6 +150,10 @@
 		<rol id = "8">
 		<nombreRol>Usuario final</nombreRol>
 		<paginas>
+			<pagina>
+				<nombrePagina>Buzón</nombrePagina>
+				<controller>buzon</controller>
+			</pagina>
 			<pagina>
 				<nombrePagina>Departamento</nombrePagina>
 				<controller>departamento</controller>
