@@ -259,7 +259,6 @@ function save() {
 	formData += "&fechaNacimiento=" + $("#txtProyectoFechaNacimiento").val();
 	formData += "&accionActual=" + $("#accionActual").val();
 	
-	alert(formData);
 
 	rol_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
