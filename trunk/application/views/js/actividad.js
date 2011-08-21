@@ -149,7 +149,7 @@ function loadGrid() {
 function loadGridTR() {
 
 	$("#list").jqGrid( {
-		url : "index.php/actividad/gridUsuarioSet/" + $("#idUsuario").val(),
+		url : "index.php/actividad/gridUsuarioSet/" + $("#idActividad").val(),
 		datatype : "json",
 		mtype : "POST",
 		colNames : [ "Id", "Cod.", "Usuario", "Rol" ],
