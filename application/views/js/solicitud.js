@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	js_ini();
+	$("#solicitudButton").addClass("highlight");
 	usuarioAutocomplete();
 	llenarPrioridades();
 });
