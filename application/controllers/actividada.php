@@ -29,7 +29,6 @@ class Actividada extends CI_Controller{
 				
 			}
 			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
-				$previousPage = $this->session->userdata("currentPage");
 				redirect($previousPage,"refresh");
 			}
 						
