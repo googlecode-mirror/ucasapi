@@ -179,9 +179,17 @@
 				<controller>buzon</controller>
 			</pagina>
 			<pagina>
-				<nombrePagina>Cliente</nombrePagina>
-				<controller>cliente</controller>
+				<nombrePagina>Lista de solicitudes</nombrePagina>
+				<controller>cliente/listaSolicitudes</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Crear solicitud</nombrePagina>
+				<controller>solicitud</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Resumen de mis proyetcos</nombrePagina>
+				<controller>cliente/resumenProyectos</controller>
+			</pagina>			
 		</paginas>
 	</rol>
 </roles>
