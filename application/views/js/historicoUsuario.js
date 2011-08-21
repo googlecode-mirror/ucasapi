@@ -131,7 +131,7 @@ function loadGridRolHistorico() {
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
-					width : 150
+					width : 200
 				}, {
 					name : "idRolHistorico",
 					index : "idRolHistorico",
@@ -169,6 +169,7 @@ function loadGridRolHistorico() {
 function saveContrato() {
 
 	if (validarCampos()) {
+		
 		var formData = "";
 		formData += "idUsuario=" + $("#idUsuario").val();
 		formData += "&correlUsuarioHistorico="
@@ -178,6 +179,7 @@ function saveContrato() {
 				+ $("#txtFechaInicioContrato").val();
 		formData += "&fechaFinContrato=" + $("#txtFechaFinContrato").val();
 		formData += "&tiempoContrato=" + $("#txtTiempoContrato").val();
+
 		if ($("#idUsuario").val() != "") {
 			if ($("#contratosPressed").val() == "yes") {
 				$
@@ -191,7 +193,7 @@ function saveContrato() {
 									msgBoxInfo(retrievedData.msg);
 								} else {
 									if ($("#accionActual").val() == "") {
-										msgBoxSucces("Registro agregado con éxito");
+										msgBoxSucces("Registro agregado con \u00e9xito");
 										/* LIMPIANDO EL GRID */
 										$('#usuarioHist')
 												.setGridParam(
@@ -214,7 +216,7 @@ function saveContrato() {
 														})
 												.trigger("reloadGrid");
 
-										msgBoxSucces("Registro actualizado con éxito");
+										msgBoxSucces("Registro actualizado con \u00e9xito");
 									}
 									usuarioAutocomplete();
 									clearSaveContrato();
@@ -371,6 +373,7 @@ function deleteContrato() {
 			// obteniendo el rol seleccionado del grid de todos los roles
 			row_id = $("#usuarioHist").jqGrid("getGridParam", "selrow");
 			if (row_id != null) {
+				clearRol();
 				row_data = $("#usuarioHist").jqGrid("getRowData", row_id);
 				$("#correlUsuarioHistorico").val(
 						row_data["correlUsuarioHistorico"]);
@@ -403,7 +406,7 @@ function deleteContrato() {
 														})
 												.trigger("reloadGrid");
 
-										msgBoxSucces("Contrato eliminado con éxito");
+										msgBoxSucces("Contrato eliminado con \u00e9xito");
 										usuarioAutocomplete();
 										clearInside();
 									}
@@ -430,7 +433,7 @@ function deleteRol() {
 		if (row_id != null) {
 			$("#idRolHistorico").val(row_data["idRolHistorico"]);
 			var formData = "idRolHistorico=" + $("#idRolHistorico").val();
-			var answer = confirm("Está seguro que quiere eliminar el rol seleccionado ?");
+			var answer = confirm("Est\u00e9 seguro que quiere eliminar el rol seleccionado ?");
 			if (answer) {
 				$
 						.ajax({
@@ -454,7 +457,7 @@ function deleteRol() {
 																		"#correlUsuarioHistorico")
 																		.val()
 													}).trigger("reloadGrid");
-									msgBoxSucces01("Asignación de Rol eliminado con éxito");
+									msgBoxSucces01("Asignaci\u00f3n de Rol eliminado con \u00e9xito");
 									usuarioAutocomplete();
 									usuarioRolAutocomplete();
 									clearDeleteRole();
@@ -484,7 +487,7 @@ function editarContrato() {
 				$("#correlUsuarioHistorico").val(
 						row_data["correlUsuarioHistorico"]);
 				$("#idUsuario").val(row_data["idUsuario"]);
-				$("#accionActual").val("roleando");
+				//$("#accionActual").val("roleando");
 				$('#rolesHist')
 						.setGridParam(
 								{
@@ -532,9 +535,17 @@ function cancelRol() {
 	$("#txtSalarioRol").val("");
 	$("#accionActualRol").val("");
 	$("#idRol").val("");
-	$('#usuarioHist').setGridParam({
+	$('#rolesHist')
+	.setGridParam(
+			{
+				url : "index.php/historicoUsuario/gridContratoRolRead/"
+						+ -1
+						+ "/"
+						+ "-1"
+			}).trigger("reloadGrid");
+	/*$('#usuarioHist').setGridParam({
 		url : "index.php/historicoUsuario/gridContratoUsuarioRead/" + -1
-	}).trigger("reloadGrid");
+	}).trigger("reloadGrid");*/
 	$("#roles").hide();
 }
 
@@ -601,37 +612,51 @@ function clearRol() {
 }
 
 function validarCampos() {
-	var camposFaltan = "";
+	var camposFallan = "";
 	if ($("#txtFechaInicioContrato").val() != "") {
 		
 	} else {
-		camposFaltan += "El campo INICIO CONTRATO es obligatorio"
+		camposFallan += "El campo INICIO CONTRATO es obligatorio"
 	}
 
 	if ($("#txtFechaFinContrato").val() != "") {
 		
 	} else {
-		camposFaltan += "El campo FIN DE CONTRATO es obligatorio"
+		camposFallan += "El campo FIN DE CONTRATO es obligatorio"
 	}
-	return true;
+	if(camposFallan == ""){
+		return true;
+	}else{
+		msgBoxInfo(camposFallan);
+		return false;
+	}
 }
 
 function validarCamposRol() {
-	var camposFaltan = "";
+	var camposFallan = "";
 
+	if ($("#txtHistoricoRol").val() == "") {
+		camposFallan += "El campo ROL es requerido <br/>"		
+	}
+	
+	if ($("#txtFechaInicioRol").val() == "") {
+		camposFallan += "El campo FECHA ASIGNACION es requerido <br/>"		
+	}
+	
 	if ($("#txtSalarioRol").val() != "") {
-		if (!validarSalario()) {
-			camposFaltan += "El formato del salario es invalido <br/>"
+		if (!validarSalario($("#txtSalarioRol").val())) {
+			camposFallan += "El formato de SALARIO es incorrecto o contiene caracteres no validos <br/>"
 		}
 	}
-}
-
-function soloNumeros() {
-	var key = window.event.keyCode;
-	if (key < 48 || key > 57) {
-		window.event.keyCode = 0;
+	
+	if(camposFallan == ""){
+		return true;
+	}else{
+		msgBoxInfo01(camposFallan);
+		return false;
 	}
 }
+
 
 $("#chkUsuarioActivo").change(function() {
 	alert('Handler for .change() called.');
