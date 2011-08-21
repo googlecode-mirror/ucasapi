@@ -102,7 +102,7 @@ function deleteData() {
 			}
 		});
 	} else {
-		msgBoxInfo("Debe seleccionar unn TIPO DE ESTADO a eliminar");
+		msgBoxInfo("Debe seleccionar un TIPO DE ESTADO a eliminar");
 	}
 
 }
@@ -125,7 +125,7 @@ function edit() {
 			}
 		});
 	} else {
-		msgBoxInfo("Debe seleccionar unn TIPO DE ESTADO a editar");
+		msgBoxInfo("Debe seleccionar un TIPO DE ESTADO a editar");
 	}
 
 }
