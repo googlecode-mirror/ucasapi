@@ -30,8 +30,9 @@ class TipoEstado extends CI_Controller{
 		
 		if($validationInfo["status"] == 0){
 			$idTipo = $this->input->post("idTipo");
+			$accionActual = $this->input->post("accionActual");
 			
-			if($idTipo == ""){
+			if($accionActual == ""){
 				$retArray = $this->tipoEstadoModel->create();
 			}
 			else{
