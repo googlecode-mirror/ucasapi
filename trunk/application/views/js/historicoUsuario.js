@@ -603,17 +603,13 @@ function clearRol() {
 function validarCampos() {
 	var camposFaltan = "";
 	if ($("#txtFechaInicioContrato").val() != "") {
-		if (!validarFechasOverlap()) {
-			camposFaltan += "La fecha de inicio de contrato es mayor que la feche fin <br/>"
-		}
+		
 	} else {
 		camposFaltan += "El campo INICIO CONTRATO es obligatorio"
 	}
 
 	if ($("#txtFechaFinContrato").val() != "") {
-		if (!validarFechasOverlap()) {
-			camposFaltan += "La fecha de FIN DE CONTRATO es mayor que la feche fin <br/>"
-		}
+		
 	} else {
 		camposFaltan += "El campo FIN DE CONTRATO es obligatorio"
 	}
