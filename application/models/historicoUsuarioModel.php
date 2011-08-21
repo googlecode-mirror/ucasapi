@@ -59,7 +59,13 @@ class historicoUsuarioModel extends CI_Model{
 
 		$fechaInicio = $this->input->post("fechaInicio");
 		$fechaFin = $this->input->post("fechaFin");
+		if($fechaFin == ""){
+			$fechaFin = null;
+		}
 		$salario = $this->input->post("salario");
+		if($salario == ""){
+			$salario = null;
+		}
 		$nuevoCorrel = 1;
 
 		$this->db->trans_begin();
@@ -150,6 +156,14 @@ class historicoUsuarioModel extends CI_Model{
 		$fechaFin = $this->input->post("fechaFin");
 		$salario = $this->input->post("salario");
 
+		if($fechaFin == ""){
+			$fechaFin = null;
+		}
+
+		if($salario == ""){
+			$salario = null;
+		}
+
 		$sql = "UPDATE ROL_HISTORICOS
 				SET fechaInicio=".$this->db->escape($fechaInicio).",
 				    fechaFin=".$this->db->escape($fechaFin).",
@@ -194,7 +208,7 @@ class historicoUsuarioModel extends CI_Model{
 		$retArray = array("status"=> 0, "msg" => "");
 
 		$idRolHistorico = $this->input->post("idRolHistorico");
-		
+
 		$sql = "DELETE FROM ROL_HISTORICOS
 				 WHERE idRolHistorico = ". $idRolHistorico;
 			
@@ -208,7 +222,7 @@ class historicoUsuarioModel extends CI_Model{
 		return $retArray;
 	}
 
-	
+
 	function autocompleteRead(){
 		$this->load->database();
 
@@ -317,7 +331,7 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		$sql = "SELECT fechaInicioContrato, fechaFinContrato, tiempoContrato, correlUsuarioHistorico, idUsuario  FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario)." AND activo='1'";
+		$sql = "SELECT fechaInicioContrato, if(fechaFinContrato=null,'',fechaFinContrato) fechaFinContrato, tiempoContrato, correlUsuarioHistorico, idUsuario  FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario)." AND activo='1'";
 		$query = $this->db->query($sql);
 
 		$i = 0;
