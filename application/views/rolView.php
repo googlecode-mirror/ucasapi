@@ -6,8 +6,10 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/rol.js"></script>
 	</head>
 	
@@ -49,6 +51,7 @@
 				
 			<div class="divDataForm" style="height:128px">
 				<input id="idRol" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre: </span>
 				<input id="txtRolName" type="text"  value="" class = "inputField" title="Ingrese el nombre del rol" maxlength="40"/><br>
