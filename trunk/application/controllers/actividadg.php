@@ -50,14 +50,23 @@ class Actividadg extends CI_Controller{
 	function actividad($idActividad, $idProyecto){
 		$this->load->library('session');
 		$this->load->helper(array('url'));
+		$this->load->model("roleOptionsModel");	
 		
 		//$this->session->set_userdata("idActividad", $idActividad);
 		//$this->session->set_userdata("idProyecto", $idProyecto);
+		
+		$idRol = $this->session->userdata("idRol");
+		$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
+		$roleName = $this->session->userdata("roleName");
+		$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menú
 		
 		//redirect("actividad","refresh");
 		$data = array();
 		$data["idActividad"] = $idActividad;
 		$data["idProyecto"] = $idProyecto;
+		$data["menu"] = $menu;
+		$data["userName"] = $userName;
+		$data["roleName"] = $roleName;
 		$data["idUsuario"] = $this->session->userdata("idUsuario");
 		
 		$this->load->view("actividadView", $data);
