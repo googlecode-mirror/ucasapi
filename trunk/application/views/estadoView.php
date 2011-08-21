@@ -50,6 +50,7 @@
 			<div class="divDataForm">
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="idTipoEstado" type="hidden" value="" class="hiddenId"/>
+				<input id="accionActual" type="hidden" value="" class="hiddenId"/>
 			
 				<span class = "requiredFieldLabel">Nombre: </span>
 				<input id="txtStatusName" type="text"  value="" class = "inputField" maxlength="40" title="Nombre del estado"/><br>
