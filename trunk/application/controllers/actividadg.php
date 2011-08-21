@@ -39,8 +39,11 @@ class Actividadg extends CI_Controller{
 		}
 	}
 	
-	function actividadgRead($idUsuario){
+	function actividadgRead(){
+		// este metodo recibia $idUsuario
+		$this->load->library('session');
 		$this->load->model("actividadgModel");
+		$idUsuario = $this->session->userdata("idUsuario");
 		echo json_encode($this->actividadgModel->actividadRead($idUsuario));
 	}
 	
@@ -55,6 +58,7 @@ class Actividadg extends CI_Controller{
 		$data = array();
 		$data["idActividad"] = $idActividad;
 		$data["idProyecto"] = $idProyecto;
+		$data["idUsuario"] = $this->session->userdata("idUsuario");
 		
 		$this->load->view("actividadView", $data);
 		
