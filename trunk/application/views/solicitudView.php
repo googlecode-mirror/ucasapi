@@ -7,6 +7,9 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
+		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/solicitud.js"></script>
 
@@ -28,20 +31,26 @@
 		</div>
 
 		<div><span id="pageTittle"></span></div>
-
+		
+		
 		<div class="container">
-			<div style="height: 20px"></div>
-
+		<br/>	
+		
+			 <div class="divActions"> 
+			 	<div class="divCRUDButtons">
+						<button id="btnSave" onClick="crearSolicitud()">Guardar</button>
+						<button id="btnCancel" onClick="cancel()">Cancelar</button>
+				</div>
+			 </div>			
 			<div id ="msgBox"></div>
 
-			<div class="divDataForm">
+			<div class="divDataForm" style="height: 250px">
 
 				<span class = "requiredFieldLabel">Asunto:</span>
-				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField" title = "Titulo de la peticion"/><br>
+				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField" title = "Titulo de la peticion" maxlength="40"/><br>
 
 				<span class = "requiredFieldLabel">Prioridad:</span>
 				<select name="prioridades" id="cbxPrioridades" class = "selectList" >
-
 				</select>
 				<br>
 
@@ -61,13 +70,10 @@
 				</div>
 
 				<div class="divCRUDButtons">
+				<br>
 					<button id="btnDelete" onClick="remove()">Quitar interesado</button>
 				</div>
-
-				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="crearSolicitud()">Guardar</button>
-					<button id="btnCancel" onClick="cancel()">Cancelar</button>
-				</div>
+				
 			</div>
 
 		</div>
