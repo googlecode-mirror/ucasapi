@@ -12,7 +12,21 @@ function faseAutocomplete(){
 	        dataType : "json",
 	        success: function(retrievedData){        	
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+	        		alert("Mensaje de error: " + retrievedData.msg); // Por
+																		// el
+																		// momento,
+																		// el
+																		// mensaje
+																		// que
+																		// se
+																		// est�
+																		// mostrando
+																		// es
+																		// t�cnico,
+																		// para
+																		// cuestiones
+																		// de
+																		// depuraci�n
 	        	}
 	        	else{        		
 	        		$("#txtSearch").autocomplete({
@@ -87,22 +101,26 @@ function deleteData(){
 
 function edit(){
 	var formData = "idFase=" + $("#idFase").val();
-
-	$.ajax({
-		type: "POST",
-		url: "index.php/fase/faseRead",
-		data: formData,
-		dataType: "json",
-		success: function(retrievedData){
-			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg);
+	
+	if ($("txtRecords").val() == "") {
+		$.ajax({
+			type: "POST",
+			url: "index.php/fase/faseRead",
+			data: formData,
+			dataType: "json",
+			success: function(retrievedData){
+				if(retrievedData.status != 0){
+					alert("Mensaje de error: " + retrievedData.msg);
+				}
+				else{
+					$("#txtFaseName").val(retrievedData.data.nombreFase);
+					$("#txtFaseDesc").val(retrievedData.data.descripcion);
+				}
 			}
-			else{
-				$("#txtFaseName").val(retrievedData.data.nombreFase);
-				$("#txtFaseDesc").val(retrievedData.data.descripcion);
-			}
-		}
-	});
+		});
+	} else {
+		msgBoxInfo("Debe seleccionar un FASE a editar");
+	}
 	
 }
 
