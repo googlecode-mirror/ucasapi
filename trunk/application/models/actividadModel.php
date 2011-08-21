@@ -74,6 +74,17 @@ class actividadModel extends CI_Model{
 		
 		//Manejando la transaccion
 		$this->db->trans_begin();
+		
+		//Iniciando el texto de notificacion
+		$sql = "SELECT nombreActividad
+				FROM ACTIVIDAD
+				WHERE idActividad = " .$idActividad;
+		
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		
+		$cadAsignaciones = "Los siguientes usuarios fueron asignados/desasignados de la actividad '" .$row->nombreActividad."': ";
+		
 		//Actualizando el estado de la actividad
 		$sql = "UPDATE ACTIVIDAD SET idEstado = ".$idEstado." WHERE idActividad = ".$idActividad;
 		$query = $this->db->query($sql);
@@ -84,6 +95,17 @@ class actividadModel extends CI_Model{
 			foreach ($id_array as $element){
 				$sql = "UPDATE USUARIO_ACTIVIDAD SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;
 				$this->db->query($sql);
+
+				//Creando String de notificacion
+				$sql = "SELECT CONCAT_WS(' ',primerNombre, primerApellido) AS nombre
+						FROM USUARIO
+						WHERE idUsuario = " .$idUsuario;
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				
+				$cadAsignaciones += "";  
+				
+				 
 			}
 		}
 		
@@ -199,10 +221,11 @@ class actividadModel extends CI_Model{
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
-					$response->rows[$i]["idUsuario"] = $row->idUsuario;
+					/*$response->rows[$i]["idUsuario"] = $row->idUsuario;
 					$response->rows[$i]["codEmp"] = $row->codEmp;
 					$response->rows[$i]["nombre"] = $row->nombre;
-					$response->rows[$i]["nombreRol"] = $row->nombreRol;
+					$response->rows[$i]["nombreRol"] = $row->nombreRol;*/
+					$response->rows[$i]["id"] = $row->idUsuario;
 					$response->rows[$i]["cell"] = array($row->idUsuario, $row->codEmp, $row->nombre, $row->nombreRol);
 					$i++;
 				}
@@ -263,10 +286,11 @@ class actividadModel extends CI_Model{
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
-					$response->rows[$i]["idUsuario"] = $row->idUsuario;
+					/*$response->rows[$i]["idUsuario"] = $row->idUsuario;
 					$response->rows[$i]["codEmp"] = $row->codEmp;
 					$response->rows[$i]["nombre"] = $row->nombre;
-					$response->rows[$i]["nombreRol"] = $row->nombreRol;
+					$response->rows[$i]["nombreRol"] = $row->nombreRol;*/
+					$response->rows[$i]["id"] = $row->idUsuario;
 					$response->rows[$i]["cell"] = array($row->idUsuario, $row->codEmp, $row->nombre, $row->nombreRol);
 					$i++;
 				}
