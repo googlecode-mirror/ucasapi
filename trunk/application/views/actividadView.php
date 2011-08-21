@@ -17,7 +17,7 @@
 <body>
 	<div class="menuBar">
 		<ul>
-			<li><span class="menu_button_to"><a href="http://www.google.com"><span
+			<li><span class="menu_button_to"><a href="http://google.com"><span
 						class="menu_button_text">Dinamic</span>
 				</a>
 			</span>
