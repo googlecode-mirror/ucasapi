@@ -21,6 +21,7 @@ function cargoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idCargo").val(ui.item.id);
+						$(this).blur();
 					}
 				});
 

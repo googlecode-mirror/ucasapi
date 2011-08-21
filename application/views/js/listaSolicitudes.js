@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	js_ini();
+	$("#cliente\\/listaSolicitudesButton").addClass("highlight");
 	loadGrid();
 	
 	$("#dialogoSolicitud").dialog({

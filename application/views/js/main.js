@@ -48,7 +48,7 @@ function js_ini(){
 	
 	//Cierre de sessi�n
 	$('#logoutButton').click(function() {
-	    window.location = "login/close"
+		window.location = "/ucasapi/login/close";
 	});
 
 }
@@ -146,13 +146,13 @@ function browserValidation(){
 	
 }
 
-function txtEnable(txtId){
+function txtDisable(txtId){
     $("#"+txtId).attr("readonly", "true")
     $("#"+txtId).css("background", "#F0F0F0");
     $("#"+txtId).css("color", "#8A8A8A");
 }
 
-function txtDisable(txtId){
+function txtEnable(txtId){
     $("#"+txtId).attr("readonly", "")
     $("#"+txtId).css("background", "#FFF");
     $("#"+txtId).css("color", "#000");
