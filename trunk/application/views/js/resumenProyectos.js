@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	js_ini();
 	loadGrid();
-	
+	$("#cliente\\/resumenProyectosButton").addClass("highlight");
 	$("#dialogoProyecto").dialog({
 		width: 700,
 		autoOpen: false
