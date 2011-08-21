@@ -131,14 +131,16 @@ function procesoEstadoAutocomplete() {
 
 function save() {
 	var formData = "";
-	formData += "idProceso=" + $("#idProceso").val();
-	formData += "&idProyecto=" + $("#idProyecto").val();
-	formData += "&idFase=" + $("#idFase").val();
-	formData += "&idEstado=" + $("#cbEstado").val();
-	formData += "&nombreProceso=" + $("#txtProcesoName").val();
-	formData += "&descripcion=" + $("#txtProcesoDesc").val();
+
 
 	if (validarCampos()) {
+		
+		formData += "idProceso=" + $("#idProceso").val();
+		formData += "&idProyecto=" + $("#idProyecto").val();
+		formData += "&idFase=" + $("#idFase").val();
+		formData += "&idEstado=" + $("#cbEstado").val();
+		formData += "&nombreProceso=" + $("#txtProcesoName").val();
+		formData += "&descripcion=" + $("#txtProcesoDesc").val();
 
 		proc_rows = $("#tablaFases").jqGrid("getRowData");
 		var gridData = "";
