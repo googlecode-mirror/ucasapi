@@ -60,11 +60,12 @@
 				
 				<div id="tabs-1" class="divDataForm">
 					<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>
+					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 				
 					<span class = "requiredFieldLabel" >Nombre</span>
 					<input id="txtDepartmentName" type="text"  value="" class = "inputField" title="Nombre del departamento" maxlength="256"/><br>
 					
-					<span class = "inputFieldLabel">Descripción</span>
+					<span class = "requiredFieldLabel">Descripción</span>
 					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea>
 				</div>
 				
