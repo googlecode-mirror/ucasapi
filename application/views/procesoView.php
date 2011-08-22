@@ -35,6 +35,7 @@
 		<div><span id="pageTittle"></span></div>
 		
 		<div class="container" style = "height: 850px">
+			<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 			<div style="height: 20px"></div>
 			
 			<div class="divActions">				
@@ -64,19 +65,19 @@
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
 				<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 						
-				<span class = "inputFieldLabel">Nombre: </span>
+				<span class = "requiredFieldLabel">Nombre: </span>
 				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="40"/><br>
 				
-				<span class = "inputFieldLabel">Proyecto (opcional): </span>
+				<span class = "inputFieldLabel">Proyecto: </span>
 				<input id="txtProyectoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="100"/>
 				
-				<span class = "inputFieldLabel">Estado: </span>
+				<span class = "requiredFieldLabel">Estado: </span>
 				<select id="cbEstado"></select>
 				
 				<span class = "inputFieldLabel">Fase que pertenece el proceso: </span>
 				<select id="cbFases"></select>
 				
-				<span class = "inputFieldLabel">Descripción: </span>
+				<span class = "requiredFieldLabel">Descripción: </span>
 				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>			
 				
 			</div>
