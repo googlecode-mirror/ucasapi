@@ -15,6 +15,11 @@ $(document).ready(function() {
 	loadGridDocuments();
 	proyectoUsuarioDuenhoAutocomplete();
 	proyectoUsuarioEncAutocomplete();
+	
+	if(){	
+		$("#btnSave").attr("disabled", true);
+	}
+		
 });
 
 function proyectoUsuarioEncAutocomplete(){
@@ -179,7 +184,8 @@ function save() {
 					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con \u00E9xito");
 					} else {
-						msgBoxSucces("Registro actualizado con \u00E9xito");						
+						msgBoxSucces("Registro actualizado con \u00E9xito");
+						unlockAutocomplete();
 					}
 					proyectoAutocomplete();
 					proyectoUsuarioDuenhoAutocomplete();
@@ -198,6 +204,7 @@ function edit() {
 		$("#accionActual").val("editando");
 		$("#tabs-2").show();
 		$("#tagBliblioteca").show();
+		lockAutocomplete();
 		$.ajax({
 			type : "POST",
 			url : "index.php/proyecto/proyectoRead",
@@ -351,6 +358,7 @@ function clear() {
 	loadGrid($("#idProyecto").val());
 	$("#tabs-2").hide();
 	$("#tagBliblioteca").hide();
+	unlockAutocomplete();
 }
 
 function addFase(){
@@ -715,4 +723,21 @@ function clearFileForm() {
 	$("#btnUpdateFile").hide();
 	$("#idProyecto").val("0");
 
+}
+
+/* OTRAS FUNCIONES */
+function lockAutocomplete() {
+	if($("#idRol").val() != 1){
+		$("#btnSave").attr("disabled", false);		
+	}
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "F9FCFF"});		
+}
+
+function unlockAutocomplete() {
+	if($("#idRol").val() != 1){
+		$("#btnSave").attr("disabled", true);
+	}	
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});		
 }
