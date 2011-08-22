@@ -77,6 +77,7 @@
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
+					<input id="idRol" type="hidden"  value=<?php echo $idRol;?> class = "hiddenId"/>
 					
 					<span class = "requiredFieldLabel">Nombre:</span>
 					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" maxlength="100"/><br>
