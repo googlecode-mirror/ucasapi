@@ -9,7 +9,7 @@ $(document).ready(function() {
 });
 
 function procesoAutocomplete($idProyecto) {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/proceso/procesoAutocompleteRead/" + $idProyecto,
 		data : "statusAutocomplete",
@@ -18,7 +18,7 @@ function procesoAutocomplete($idProyecto) {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
-				$("#txtRecordsProc").autocomplete( {
+				$("#txtRecordsProc").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -34,7 +34,7 @@ function procesoAutocomplete($idProyecto) {
 }
 
 function procesoProyectoAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/proyecto/proyectoAutocompleteRead",
 		data : "procesoProyectoAutocomplete",
@@ -43,7 +43,7 @@ function procesoProyectoAutocomplete() {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
-				$("#txtRecordsProy").autocomplete( {
+				$("#txtRecordsProy").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -52,7 +52,7 @@ function procesoProyectoAutocomplete() {
 						procesoAutocomplete($("#idProyecto").val());
 					}
 				});
-				$("#txtProyectoName").autocomplete( {
+				$("#txtProyectoName").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
 					minLength : 1,
@@ -69,7 +69,7 @@ function procesoProyectoAutocomplete() {
 }
 
 function procesoFaseAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/fase/faseAutocompleteRead",
 		data : "procesoFaseAutocomplete",
@@ -88,7 +88,7 @@ function procesoFaseAutocomplete() {
 }
 
 function procesoEstadoAutocomplete() {
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/proceso/procesoEstadoAutocompleteRead/2",
 		data : "procesoEstadoAutocomplete",
@@ -108,9 +108,8 @@ function procesoEstadoAutocomplete() {
 function save() {
 	var formData = "";
 
-
 	if (validarCampos()) {
-		
+
 		formData += "idProceso=" + $("#idProceso").val();
 		formData += "&idProyecto=" + $("#idProyecto").val();
 		formData += "&idFase=" + $("#idFase").val();
@@ -132,7 +131,7 @@ function save() {
 		;
 		formData += "&proc_data=" + gridData;
 
-		$.ajax( {
+		$.ajax({
 			type : "POST",
 			url : "index.php/proceso/procesoValidateAndSave",
 			data : formData,
@@ -158,26 +157,23 @@ function save() {
 
 function edit() {
 	var formData = "idProceso=" + $("#idProceso").val();
-	if (validarCampos()) {
-		$.ajax( {
-			type : "POST",
-			url : "index.php/proceso/procesoRead",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg);
-				} else {
-					$("#txtProcesoName").val(retrievedData.data.nombreProceso);
-					$("#cbEstado").val(retrievedData.data.idEstado);
-					$("#txtProcesoDesc").val(retrievedData.data.descripcion);
-					$("#txtProyectoName")
-							.val(retrievedData.data.nombreProyecto)
-					$("#cbFases").val(retrievedData.data.idFase);
-				}
+	$.ajax({
+		type : "POST",
+		url : "index.php/proceso/procesoRead",
+		data : formData,
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				$("#txtProcesoName").val(retrievedData.data.nombreProceso);
+				$("#cbEstado").val(retrievedData.data.idEstado);
+				$("#txtProcesoDesc").val(retrievedData.data.descripcion);
+				$("#txtProyectoName").val(retrievedData.data.nombreProyecto)
+				$("#cbFases").val(retrievedData.data.idFase);
 			}
-		});
-	}
+		}
+	});
 }
 
 function addFase() {
@@ -194,7 +190,7 @@ function loadGrid($idProceso) {
 	var lastsel;
 	var fases = "";
 
-	$.ajax( {
+	$.ajax({
 		type : "POST",
 		url : "index.php/proceso/procesoFaseRead",
 		data : "fasesRetrieve",
@@ -202,7 +198,7 @@ function loadGrid($idProceso) {
 		async : false,
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); 
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$.each(retrievedData.data, function(i, obj) {
 					fases += obj.id + ':' + obj.value + ';';
@@ -285,7 +281,7 @@ function loadGrid($idProceso) {
 }
 
 function pickdates(id) {
-	jQuery("#" + id + "_fechaIniPlan", "#tablaFases").datepicker( {
+	jQuery("#" + id + "_fechaIniPlan", "#tablaFases").datepicker({
 		dateFormat : "yy-mm-dd"
 	});
 }
@@ -297,14 +293,14 @@ function deleteData() {
 			+ $("#txtRecords").val() + " ?");
 
 	if (answer) {
-		$.ajax( {
+		$.ajax({
 			type : "POST",
 			url : "index.php/estado/statusDelete",
 			data : formData,
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); 
+					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
 					alert("Registro eliminado con éxito");
 					procesoAutocomplete();
@@ -366,15 +362,15 @@ function validarCampos() {
 	} else {
 		camposFallan += "El campo NOMBRE es requerido <br/>";
 	}
-	
+
 	if ($("#cbEstado").val() == "") {
 		camposFallan += "Debe seleccionar un ESTADO <br />";
 	}
-	
+
 	if ($("#cbFases").val() == "") {
 		camposFallan += "Debe seleccionar una FASE <br />";
 	}
-	
+
 	if ($("#txtProcesoDesc").val() != "") {
 		if ($("#txtProcesoDesc").val().length > 256) {
 			camposFallan += "El campo DESCRIPCION es mayor a 256 caracteres <br/>";
