@@ -328,7 +328,7 @@ function validarCamposFases() {
 	}else{
 		msgBoxInfo(camposFallan);
 		return false;
-	}	
+	}
 }
 
 function cancel() {
