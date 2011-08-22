@@ -16,19 +16,7 @@ function procesoAutocomplete($idProyecto) {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtRecordsProc").autocomplete( {
 					minChars : 0,
@@ -53,19 +41,7 @@ function procesoProyectoAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtRecordsProy").autocomplete( {
 					minChars : 0,
@@ -99,7 +75,7 @@ function procesoFaseAutocomplete() {
 		data : "procesoFaseAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
-			options = '<option value="">-Fases-</option>';
+			options = '<option value="">Seleccione una fase</option>';
 			$.each(retrievedData.data, function(i, obj) {
 				options += '<option value="' + obj.id + '">' + obj.value
 						+ '</option>';
@@ -118,7 +94,7 @@ function procesoEstadoAutocomplete() {
 		data : "procesoEstadoAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
-			options = '<option value="">--Estado--</option>';
+			options = '<option value="">Seleccione un estado</option>';
 			$.each(retrievedData.data, function(i, obj) {
 				options += '<option value="' + obj.id + '">' + obj.value
 						+ '</option>';
@@ -163,21 +139,7 @@ function save() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-					// el
-					// momento,
-					// el
-					// mensaje
-					// que
-					// se
-					// está
-					// mostrando
-					// es
-					// técnico,
-					// para
-					// cuestiones
-					// de
-					// depuración
+					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
 					if ($("idProceso").val() == "") {
 						alert("Registro agregado con éxito");
@@ -204,20 +166,7 @@ function edit() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-					// el
-					// momento,
-					// el
-					// mensaje
-					// que se
-					// está
-					// mostrando
-					// es
-					// técnico,
-					// para
-					// cuestiones
-					// de
-					// depuración
+					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
 					$("#txtProcesoName").val(retrievedData.data.nombreProceso);
 					$("#cbEstado").val(retrievedData.data.idEstado);
@@ -253,19 +202,7 @@ function loadGrid($idProceso) {
 		async : false,
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg); 
 			} else {
 				$.each(retrievedData.data, function(i, obj) {
 					fases += obj.id + ':' + obj.value + ';';
@@ -367,21 +304,7 @@ function deleteData() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-					// el
-					// momento,
-					// el
-					// mensaje
-					// que
-					// se
-					// está
-					// mostrando
-					// es
-					// técnico,
-					// para
-					// cuestiones
-					// de
-					// depuración
+					alert("Mensaje de error: " + retrievedData.msg); 
 				} else {
 					alert("Registro eliminado con éxito");
 					procesoAutocomplete();
@@ -443,6 +366,15 @@ function validarCampos() {
 	} else {
 		camposFallan += "El campo NOMBRE es requerido <br/>";
 	}
+	
+	if ($("#cbEstado").val() == "") {
+		camposFallan += "Debe seleccionar un ESTADO <br />";
+	}
+	
+	if ($("#cbFases").val() == "") {
+		camposFallan += "Debe seleccionar una FASE <br />";
+	}
+	
 	if ($("#txtProcesoDesc").val() != "") {
 		if ($("#txtProcesoDesc").val().length > 256) {
 			camposFallan += "El campo DESCRIPCION es mayor a 256 caracteres <br/>";
