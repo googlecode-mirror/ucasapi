@@ -112,7 +112,7 @@ function save() {
 
 		formData += "idProceso=" + $("#idProceso").val();
 		formData += "&idProyecto=" + $("#idProyecto").val();
-		formData += "&idFase=" + $("#idFase").val();
+		formData += "&idFase=" + $("#cbFases").val();
 		formData += "&idEstado=" + $("#cbEstado").val();
 		formData += "&nombreProceso=" + $("#txtProcesoName").val();
 		formData += "&descripcion=" + $("#txtProcesoDesc").val();
@@ -138,12 +138,12 @@ function save() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg);
+					alert("Mensaje de error: " + retrievedData.msg); 
 				} else {
 					if ($("idProceso").val() == "") {
-						alert("Registro agregado con éxito");
+						msgBoxSucces("Proceso agregado con \u00e9xito");
 					} else {
-						alert("Registro actualizado con éxito");
+						msgBoxSucces("Proceso actualizado con \u00e9xito");
 					}
 					procesoProyectoAutocomplete();
 					procesoEstadoAutocomplete();
@@ -157,23 +157,24 @@ function save() {
 
 function edit() {
 	var formData = "idProceso=" + $("#idProceso").val();
-	$.ajax({
-		type : "POST",
-		url : "index.php/proceso/procesoRead",
-		data : formData,
-		dataType : "json",
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
-			} else {
-				$("#txtProcesoName").val(retrievedData.data.nombreProceso);
-				$("#cbEstado").val(retrievedData.data.idEstado);
-				$("#txtProcesoDesc").val(retrievedData.data.descripcion);
-				$("#txtProyectoName").val(retrievedData.data.nombreProyecto)
-				$("#cbFases").val(retrievedData.data.idFase);
+		$.ajax({
+			type : "POST",
+			url : "index.php/proceso/procesoRead",
+			data : formData,
+			dataType : "json",
+			success : function(retrievedData) {
+				if (retrievedData.status != 0) {
+					alert("Mensaje de error: " + retrievedData.msg); 
+				} else {
+					$("#txtProcesoName").val(retrievedData.data.nombreProceso);
+					$("#cbEstado").val(retrievedData.data.idEstado);
+					$("#txtProcesoDesc").val(retrievedData.data.descripcion);
+					$("#txtProyectoName")
+							.val(retrievedData.data.nombreProyecto)
+					$("#cbFases").val(retrievedData.data.idFase);
+				}
 			}
-		}
-	});
+		});
 }
 
 function addFase() {
