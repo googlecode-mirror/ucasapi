@@ -731,7 +731,7 @@ function lockAutocomplete() {
 		$("#btnSave").attr("disabled", false);		
 	}
 	$("#txtRecords").attr("disabled", true);	
-	$("#txtRecords").css({"background-color": "F9FCFF"});		
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
 }
 
 function unlockAutocomplete() {
