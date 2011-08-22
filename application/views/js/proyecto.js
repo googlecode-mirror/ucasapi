@@ -9,6 +9,8 @@ $(document).ready(function() {
 	proyectoFaseAutocomplete();
 	ajaxUpload();
 	$("#idProyecto").val("0");
+	$("#tabs-2").hide();
+	$("#tagBliblioteca").hide();	
 	loadGrid("0");
 	loadGridDocuments();
 	proyectoUsuarioDuenhoAutocomplete();
@@ -136,40 +138,35 @@ function proyectoFaseAutocomplete(){
 }
 
 function save() {
-	var formData = "";
-	formData += "idProyecto=" + $("#idProyecto").val();
-	formData += "&nombreProyecto=" + $("#txtProyectoNombre").val();
-	formData += "&fechaPlanIni=" + $("#txtProyectoFechaPlanIni").val();
-	formData += "&fechaPlanFin=" + $("#txtProyectoFechaPlanFin").val();
-	formData += "&fechaRealIni=" + $("#txtProyectoFechaRealIni").val();
-	formData += "&fechaRealFin=" + $("#txtProyectoFechaRealFin").val();
-	formData += "&descripcion=" + $("#txtProyectoDescripcion").val();
-	formData += "&idUsuarioDuenho=" + $("#idUsuarioDuenho").val();
-	formData += "&idUsuario=" + $("#idUsuarioProy").val();
-	
-	if ($("#chkProyectoActivo").is(':checked')) {
-		// alert('ACTIVO');
-		formData += "&activo=1";
-	} else {
-		// alert('INACTIVO');
-		formData += "&activo=0";
-	}
-
-	proc_rows = $("#tablaFases").jqGrid("getRowData");
-	var gridData = "";
-	for ( var Elemento in proc_rows) {
-		for ( var Propiedad in proc_rows[Elemento]) {
-			if (Propiedad == "nombreFase" || Propiedad == "fechaIniPlan" || Propiedad == "fechaFinPlan" || Propiedad == "fechaIniReal" || Propiedad == "fechaFinReal")
-				gridData += proc_rows[Elemento][Propiedad] + "|";
+	var formData = "";	
+	if (validarCampos()) {	
+		formData += "idProyecto=" + $("#idProyecto").val();
+		formData += "&nombreProyecto=" + $("#txtProyectoNombre").val();
+		formData += "&fechaPlanIni=" + $("#txtProyectoFechaPlanIni").val();
+		formData += "&fechaPlanFin=" + $("#txtProyectoFechaPlanFin").val();
+		formData += "&fechaRealIni=" + $("#txtProyectoFechaRealIni").val();
+		formData += "&fechaRealFin=" + $("#txtProyectoFechaRealFin").val();
+		formData += "&descripcion=" + $("#txtProyectoDescripcion").val();
+		formData += "&idUsuarioDuenho=" + $("#idUsuarioDuenho").val();
+		formData += "&idUsuario=" + $("#idUsuarioProy").val();
+		formData += "&accionActual=" + $("#accionActual").val();		
+		if ($("#chkProyectoActivo").is(':checked')) {
+			formData += "&activo=1";
+		} else {
+			formData += "&activo=0";
 		}
-	};
-
-	formData += "&proc_data=" + gridData;
-
-	// alert(formData);
-
-	if (validarCampos()) {
-
+	
+		proc_rows = $("#tablaFases").jqGrid("getRowData");
+		var gridData = "";
+		for ( var Elemento in proc_rows) {
+			for ( var Propiedad in proc_rows[Elemento]) {
+				if (Propiedad == "nombreFase" || Propiedad == "fechaIniPlan" || Propiedad == "fechaFinPlan" || Propiedad == "fechaIniReal" || Propiedad == "fechaFinReal")
+					gridData += proc_rows[Elemento][Propiedad] + "|";
+			}
+		};
+	
+		formData += "&proc_data=" + gridData;
+	
 		$.ajax({
 			type : "POST",
 			url : "index.php/proyecto/proyectoValidateAndSave",
@@ -179,101 +176,109 @@ function save() {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
 				} else {
-					if ($("#idProyecto").val() == "") {
-						msgBoxSucces("Registro agregado con éxito");
+					if ($("#accionActual").val() == "") {
+						msgBoxSucces("Registro agregado con \u00E9xito");
 					} else {
-						msgBoxSucces("Registro actualizado con éxito");						
+						msgBoxSucces("Registro actualizado con \u00E9xito");						
 					}
 					proyectoAutocomplete();
 					proyectoUsuarioDuenhoAutocomplete();
 					clear();
 				}
 			}
-
+	
 		});
-
 	}
 
 }
 
 function edit() {
 	var formData = "idProyecto=" + $("#idProyecto").val();
-
-	$.ajax({
-		type : "POST",
-		url : "index.php/proyecto/proyectoRead",
-		data : formData,
-		dataType : "json",
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
-			} else {
-				$("#txtProyectoNombre").val(retrievedData.data.nombreProyecto);
-				$("#txtProyectoNombreDuenho").val(
-						retrievedData.data.nombreUsuario);
-				$("#txtCoordinadorEnc").val(retrievedData.data.nombreEnc);
-				$("#txtProyectoFechaPlanIni").val(
-						retrievedData.data.fechaPlanIni);
-				$("#txtProyectoFechaPlanFin").val(
-						retrievedData.data.fechaPlanFin);
-				$("#txtProyectoFechaRealIni").val(
-						retrievedData.data.fechaRealIni);
-				$("#txtProyectoFechaRealFin").val(
-						retrievedData.data.fechaRealFin);
-				$("#idUsuarioDuenho").val(retrievedData.data.idUsuario);
-				$("#txtProyectoDescripcion")
-				.val(retrievedData.data.descripcion);
-				if (retrievedData.data.activo == '1') {
-					// alert('ACTIVO');
-					$("#chkProyectoActivo").attr('checked', true);
+	if($("#txtRecords").val() != ""){
+		$("#accionActual").val("editando");
+		$("#tabs-2").show();
+		$("#tagBliblioteca").show();
+		$.ajax({
+			type : "POST",
+			url : "index.php/proyecto/proyectoRead",
+			data : formData,
+			dataType : "json",
+			success : function(retrievedData) {
+				if (retrievedData.status != 0) {
+					msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 				} else {
-					// alert('INACTIVO');
-					$("#chkProyectoActivo").attr('checked', false);
+					$("#txtProyectoNombre").val(retrievedData.data.nombreProyecto);
+					$("#txtProyectoNombreDuenho").val(
+							retrievedData.data.nombreUsuario);
+					$("#txtCoordinadorEnc").val(retrievedData.data.nombreEnc);
+					$("#txtProyectoFechaPlanIni").val(
+							retrievedData.data.fechaPlanIni);
+					$("#txtProyectoFechaPlanFin").val(
+							retrievedData.data.fechaPlanFin);
+					$("#txtProyectoFechaRealIni").val(
+							retrievedData.data.fechaRealIni);
+					$("#txtProyectoFechaRealFin").val(
+							retrievedData.data.fechaRealFin);
+					$("#idUsuarioDuenho").val(retrievedData.data.idUsuario);
+					$("#txtProyectoDescripcion")
+					.val(retrievedData.data.descripcion);
+					if (retrievedData.data.activo == '1') {
+						// alert('ACTIVO');
+						$("#chkProyectoActivo").attr('checked', true);
+					} else {
+						// alert('INACTIVO');
+						$("#chkProyectoActivo").attr('checked', false);
+					}
+					$('#gridDocuments').setGridParam(
+							{
+								url : "index.php/proyecto/gridDocumentsLoad/"
+									+ $("#idProyecto").val()
+							}).trigger("reloadGrid");
+					$("#tablaFases").jqGrid("GridUnload");
+					loadGrid($("#idProyecto").val());
 				}
-				$('#gridDocuments').setGridParam(
-						{
-							url : "index.php/proyecto/gridDocumentsLoad/"
-								+ $("#idProyecto").val()
-						}).trigger("reloadGrid");
-				$("#tablaFases").jqGrid("GridUnload");
-				loadGrid($("#idProyecto").val());
 			}
-		}
-	});
+		});
+	}else {
+		msgBoxInfo("Debe seleccionar un PROYECTO a editar");
+	}
 
 }
 
 function deleteData() {
 	var formData = "idProyecto=" + $("#idProyecto").val();
-
-	if($("#idProyecto").val() == ""){
-		msgBoxError("Debe seleccionar un proyecto.");
-	}
-	else{
-		var answer = confirm("Está seguro que quiere eliminar el registro: "
-				+ $("#txtRecords").val() + " ?");
-		if (answer) {
-			$.ajax({
-				type : "POST",
-				url : "index.php/proyecto/proyectoDelete",
-				data : formData,
-				dataType : "json",
-				success : function(retrievedData) {
-					if (retrievedData.status != 0) {
-						msgBoxInfo(retrievedData.msg);
-
-					} else {
-
-						msgBoxSucces("Registro eliminado con éxito");
-
-						proyectoAutocomplete();
-						proyectoUsuarioAutocomplete();
-						clear();
-					}
-				}
-
-			});
+	if($("#txtRecords").val() != ""){	
+		if($("#idProyecto").val() == ""){
+			msgBoxError("Debe seleccionar un PROYECTO a eliminar.");
 		}
+		else{
+			var answer = confirm("Está seguro que quiere eliminar el registro: "
+					+ $("#txtRecords").val() + " ?");
+			if (answer) {
+				$.ajax({
+					type : "POST",
+					url : "index.php/proyecto/proyectoDelete",
+					data : formData,
+					dataType : "json",
+					success : function(retrievedData) {
+						if (retrievedData.status != 0) {
+							msgBoxInfo(retrievedData.msg);
+	
+						} else {
+	
+							msgBoxSucces("Registro eliminado con éxito");
+	
+							proyectoAutocomplete();
+							proyectoUsuarioAutocomplete();
+							clear();
+						}
+					}
+	
+				});
+			}
+		}
+	}else {
+		msgBoxInfo("Debe seleccionar un PROYECTO a eliminar");
 	}
 }
 
@@ -294,6 +299,12 @@ function validarCampos() {
 	
 	if($("#txtCoordinadorEnc").val()==""){
 		camposFallan += "El campo COOR. ENCARGADO es requerido <br/>";
+	}
+	
+	if ($("#txtProyectoDescripcion").val() != "") {
+		if ($("#txtProyectoDescripcion").val().length > 256) {
+			camposFallan += "Longutud de DESCRIPCION es mayor que 256 caracteres <br/>";
+		}
 	}
 	
 	if(camposFallan == ""){
@@ -334,9 +345,11 @@ function clear() {
 	$("#chkProyectoActivo").attr('checked', false);
 	$("#txtProyectoDescripcion").val();
 	$("#idProyecto").val("0");
+	$("#txtProyectoDescripcion").val("");
 	$("#tablaFases").jqGrid("GridUnload");
 	loadGrid($("#idProyecto").val());
-
+	$("#tabs-2").hide();
+	$("#tagBliblioteca").hide();
 }
 
 function addFase(){
@@ -350,7 +363,7 @@ function editFase(){
 	var gr = jQuery("#tablaFases").jqGrid('getGridParam','selrow'); 
 	if( gr != null ) 
 		jQuery("#tablaFases").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:false}); 
-	else alert("Por favor seleccione una fila");
+	else msgBoxInfo("Por favor seleccione una FASE a editar");
 }
 
 $("#chkUsuarioActivo").change(function() {
@@ -393,19 +406,24 @@ function ajaxUpload() {
 
 // Función asociada al botón "Agregar"
 function uploadFile() {
-	if (upload == null) {
-		msgBoxInfo('Debe seleccionar un archivo');
-		return false;
+	if($("#accionActual").val() != ""){
+		if (upload == null) {
+			msgBoxInfo('Debe seleccionar un archivo');
+			return false;
+		}
+		if ($("#txtFileName").val() == "") {
+			msgBoxInfo('El campo "Nombre" es requerido');
+			return false;
+		}
+		upload.setData({// Datos adicionales en el envío del archivo
+			uploadIdName : "idProyecto",
+			uploadIdValue : $("#idProyecto").val()
+		});
+		upload.submit();
 	}
-	if ($("#txtFileName").val() == "") {
-		msgBoxInfo('El campo "Nombre" es requerido');
-		return false;
+	else{
+		msgBoxInfo("Debe seleccionar un PROYECTO al cual subir los archivos");
 	}
-	upload.setData({// Datos adicionales en el envío del archivo
-		uploadIdName : "idProyecto",
-		uploadIdValue : $("#idProyecto").val()
-	});
-	upload.submit();
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

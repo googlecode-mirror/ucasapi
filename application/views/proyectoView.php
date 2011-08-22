@@ -16,6 +16,9 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/ajaxupload.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
+		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/proyecto.js"></script>
 	</head>	
@@ -41,7 +44,7 @@
 			
 			<div class="divActions">				
 				<div class="divCRUDRecords">
-					<span class = "recordsLabel">Nombre del proyecto</span>
+					<span class = "recordsLabel">Nombre proyecto</span>
 					<input id="txtRecords" type="text"  value=""/><br>
 					<!-- 
 					<span class = "recordsLabel">Dueño del proyecto</span>
@@ -64,7 +67,7 @@
 			<div id="tabs" style = "height: auto;">
 				<ul>
 					<li><a href="#tabs-1">Información General</a></li>
-					<li><a href="#tabs-2">Biblioteca</a></li>
+					<li id="tagBliblioteca"><a href="#tabs-2">Biblioteca</a></li>
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
@@ -73,6 +76,7 @@
 					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
+					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 					
 					<span class = "requiredFieldLabel">Nombre:</span>
 					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" maxlength="100"/><br>
