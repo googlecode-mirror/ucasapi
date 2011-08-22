@@ -86,8 +86,9 @@ class Proyecto extends CI_Controller{
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idProyecto =  $this->input->post("idProyecto");
+			$accionActual =  $this->input->post("accionActual");
 
-			if($idProyecto == "0"){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->proyectoModel->create();
 			}
 			else{
