@@ -46,6 +46,8 @@ class actividadaModel extends CI_Model{
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
+		
+		
 	    
 		$sql = "SELECT LAST_INSERT_ID() lastId FROM ACTIVIDAD";
 			$query = $this->db->query($sql);
@@ -53,7 +55,10 @@ class actividadaModel extends CI_Model{
 				$row = $query->row();
 				$lastId = $row->lastId;
 			}
-	    
+			
+		//Insertando en bitacora informacion inicial de la actividad
+		$sql = "CALL sp_insert_bitacora(".$this->db>escape($lastId).",".$idUsuario.",10,NULL,1,1)";
+		$query = $this->db->query($sql);
 	    
 		$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
