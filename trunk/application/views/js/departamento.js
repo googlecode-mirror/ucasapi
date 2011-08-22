@@ -69,9 +69,9 @@ function save() {
 					// cuestiones de depuración
 				} else {
 					if ($("#accionActual").val() == "") {
-						msgBoxSucces("Registro agregado con éxito");
+						msgBoxSucces("Registro agregado con \u00E9xito");
 					} else {
-						msgBoxSucces("Registro actualizado con éxito");
+						msgBoxSucces("Registro actualizado con \u00E9xito");
 						// alert("Registro actualizado con éxito");
 					}
 					departmentAutocomplete();
