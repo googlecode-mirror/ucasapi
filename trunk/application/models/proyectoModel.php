@@ -175,7 +175,7 @@ class proyectoModel extends CI_Model{
 
 		$idProyecto = $this->input->post("idProyecto");
 
-		$sql = "SELECT m.nombreProyecto, m.nombreUsuario,s.idUsuario, CONCAT_WS(' ',s.primerNombre,s.primerApellido) AS nombreEnc, m.fechaPlanIni, m.fechaPlanFin, m.fechaRealIni, m.fechaRealFin, m.activo, m.descripcion
+		$sql = "SELECT m.nombreProyecto, m.nombreUsuario, m.idUsuario, m.idUsuarioEncargado, CONCAT_WS(' ',s.primerNombre,s.primerApellido) AS nombreEnc, m.fechaPlanIni, m.fechaPlanFin, m.fechaRealIni, m.fechaRealFin, m.activo, m.descripcion
 				FROM
 					(SELECT p.idUsuarioEncargado,
         				u.idUsuario,
@@ -349,8 +349,6 @@ class proyectoModel extends CI_Model{
 					activo = ".$this->db->escape($activo).",
 					descripcion = ".$this->db->escape($descripcion)."
 					WHERE idProyecto = ". $idProyecto;
-
-		echo "QUERY UPDATE: " .$sql;
 		
 		$query = $this->db->query($sql);
 

@@ -47,7 +47,7 @@ class actividadgModel extends CI_Model{
 					INNER JOIN ESTADO e ON  a.idEstado = e.idEstado
 					INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
  					INNER JOIN USUARIO u ON uxa.idUsuario = u.idUsuario
-				WHERE uxa.idUsuario = " .$idUsuario;
+				WHERE uxa.idUsuario = " .$idUsuario. " AND uxa.activo = '1'";
 
 		$query = $this->db->query($sql);
 

@@ -14,16 +14,15 @@ class procesoModel extends CI_Model{
 		$idEstado = $this->input->post("idEstado");
 		$proc_data = $this->input->post("proc_data");
 
-		$this->db->trans_begin();
 		//Inserto la informacion general del proceso
 
-		$sql = "INSERT INTO PROCESO (nombreProceso,descripcion,idProyecto,idEstado,activo) 
-   				VALUES (".$this->db->escape($nombreProceso).", ".$this->db->escape($descripcion).",".$idProyecto.",".$idEstado.",'1')";
+		$sql = "INSERT INTO PROCESO (nombreProceso,descripcion,idProyecto,idEstado,activo,idFase) 
+   				VALUES (".$this->db->escape($nombreProceso).", ".$this->db->escape($descripcion).",".$idProyecto.",".$idEstado.",'1',".$idFase.")";
 		
 		$this->db->query($sql);
 		
 		//Obtengo el id del proceso que acabo de insertar
-		$sql = "SELECT MAX(idProceso) FROM PROCESO";
+		/*$sql = "SELECT MAX(idProceso) FROM PROCESO";
 		
 		$this->db->query($sql);
 		
@@ -31,26 +30,25 @@ class procesoModel extends CI_Model{
 		foreach ($query->result() as $row){
 			$idProceso = $row->idProceso;
 		}
-		echo "IDPROCESO: " .$idProceso;
 		//Inserto las fases asociadas al proceso
 		$data_array = explode("|",$proc_data);
 
 		$insert_statements = $this->getFPInsert($data_array, $idProceso);
 		foreach ($insert_statements as $queryFases) {
 			$this->db->query($queryFases);
-		}
+		}*/
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
-		if($this->db->trans_status() == FALSE) {
+		/*if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
-		}
+		}*/
 	    
 		return $retArray;		
 	}
@@ -63,7 +61,7 @@ class procesoModel extends CI_Model{
 		
 		$idProceso = $this->input->post("idProceso");		
 		
-		$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto, f.idFase
+		$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto, f.idFase, pr.idProyecto 
     			FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
     			INNER JOIN ESTADO e ON p.idEstado = e.idEstado INNER JOIN FASE f
     			ON p.idFase = f.idFase
@@ -175,13 +173,15 @@ class procesoModel extends CI_Model{
 		
 		$idEstado = $this->input->post("idEstado");
 		$idProceso = $this->input->post("idProceso");
+		$idProyecto = $this->input->post("idProyecto");
+		$idFase = $this->input->post("idFase");
 		$nombreProceso = $this->input->post("nombreProceso");
 		$descripcion = $this->input->post("descripcion");
 		$proc_data = $this->input->post("proc_data");
 		
 		$data_array = explode("|",$proc_data);
 
-		$this->db->trans_begin();
+		/*$this->db->trans_begin();
 		$sql = "DELETE FROM FASE_PROCESO WHERE idProceso = " .$idProceso;
 
 		$this->db->query($sql); 
@@ -189,11 +189,12 @@ class procesoModel extends CI_Model{
 		$insert_statements = $this->getFPInsert($data_array, $idProceso);
 		foreach ($insert_statements as $queryRoles) {
 			$this->db->query($queryRoles);
-		}
+		}*/
 		
 		$sql = "UPDATE PROCESO  
-				SET idEstado = ".$idEstado.", nombreProceso = ".$this->db->escape($nombreProceso).", descripcion = ".$this->db->escape($descripcion)." 
-				 WHERE idProceso = " .$idProceso; 
+				SET idEstado = ".$idEstado.", nombreProceso = ".$this->db->escape($nombreProceso).", descripcion = ".$this->db->escape($descripcion).
+				", idProyecto = ".$this->db->escape($idProyecto).", idFase = " .$this->db->escape($idFase). 
+				 " WHERE idProceso = " .$idProceso; 
 		
 		$query = $this->db->query($sql);
 		
@@ -201,13 +202,13 @@ class procesoModel extends CI_Model{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
-		if($this->db->trans_status() == FALSE) {
+		/*if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
-		}
+		}*/
 		
 		return $retArray;		
 	}

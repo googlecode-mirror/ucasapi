@@ -83,7 +83,7 @@ class actividadModel extends CI_Model{
 		$query = $this->db->query($sql);
 		$row = $query->row();
 		
-		$cadAsignaciones = "Los siguientes usuarios fueron asignados/desasignados de la actividad '" .$row->nombreActividad."': ";
+		$cadAsignaciones = "Los siguientes usuarios fueron desasignados de la actividad '" .$row->nombreActividad."': ";
 		
 		//Actualizando el estado de la actividad
 		$sql = "UPDATE ACTIVIDAD SET idEstado = ".$idEstado." WHERE idActividad = ".$idActividad;
@@ -100,18 +100,14 @@ class actividadModel extends CI_Model{
 				$sql = "SELECT CONCAT_WS(' ',primerNombre, primerApellido) AS nombre
 						FROM USUARIO
 						WHERE idUsuario = " .$idUsuario;
+				
 				$query = $this->db->query($sql);
 				$row = $query->row();
-				
-				$cadAsignaciones += "";  
-				
+
+				$cadAsignaciones += "- '" .$row->nombre. "'\n";
 				 
 			}
 		}
-		
-		//Actualizando la informacion de la actividad
-		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1)";
-		$query = $this->db->query($sql);
 		
 		//Asignando a los usuarios a la actividad
 		$statements = new actividadModel();
@@ -120,6 +116,11 @@ class actividadModel extends CI_Model{
 		foreach ($insert_statements as $sql) {
 			$this->db->query($sql);
 		}
+		
+		//Actualizando la informacion de la actividad
+		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1)";
+		$query = $this->db->query($sql);
+		
 		
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
@@ -137,6 +138,9 @@ class actividadModel extends CI_Model{
 		$idUsuarioInsert;
 		$indexTrippin = 0;
 		$trippin;
+		
+		
+		$this->load->database();
 
 		foreach ($data_array as $value) {
 			$idUsuarioInsert = $value;
@@ -144,6 +148,20 @@ class actividadModel extends CI_Model{
 				return $trippin;
 			}
 			$trippin[$indexTrippin++] = "CALL sp_insert_ua(".$idUsuarioInsert.",".$idActividad.",".$idUsuarioAsigna.")";
+			
+			//Obteniendo el nombre de la actividad
+			$sql = "SELECT nombreActividad
+					FROM ACTIVIDAD
+					WHERE idActividad = " .$idActividad;
+		
+			$query = $this->db->query($sql);
+			$row = $query->row();
+			$cadNotificacion = "Se le ha asignado la actividad '" .$row->nombre. "'";
+			
+			//Insertando la notificacion de actividad asignada al usuario
+			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES('" .$this->db->escape($cadNotificacion). ",'Actividad asignada',CURDATE())";
+			$query = $this->db->query($sql);
+			
 		}
 
 		return  $trippin;

@@ -220,8 +220,9 @@ function edit() {
 					$("#txtProyectoFechaRealFin").val(
 							retrievedData.data.fechaRealFin);
 					$("#idUsuarioDuenho").val(retrievedData.data.idUsuario);
-					$("#txtProyectoDescripcion")
-					.val(retrievedData.data.descripcion);
+					$("#txtProyectoDescripcion").val(retrievedData.data.descripcion);
+					$("#idUsuarioDuenho").val(retrievedData.data.idUsuario);
+					$("#idUsuarioProy").val(retrievedData.data.idUsuarioEncargado);
 					if (retrievedData.data.activo == '1') {
 						// alert('ACTIVO');
 						$("#chkProyectoActivo").attr('checked', true);
