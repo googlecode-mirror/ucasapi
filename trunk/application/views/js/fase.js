@@ -1,7 +1,8 @@
 $(document).ready(function(){
 	js_ini();
 	$("#faseButton").addClass("highlight");
-	faseAutocomplete();		
+	faseAutocomplete();
+	llenarFases();
 });
 
 function faseAutocomplete(){
@@ -12,21 +13,7 @@ function faseAutocomplete(){
 	        dataType : "json",
 	        success: function(retrievedData){        	
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); // Por
-																		// el
-																		// momento,
-																		// el
-																		// mensaje
-																		// que
-																		// se
-																		// est�
-																		// mostrando
-																		// es
-																		// t�cnico,
-																		// para
-																		// cuestiones
-																		// de
-																		// depuraci�n
+	        		alert("Mensaje de error: " + retrievedData.msg);
 	        	}
 	        	else{        		
 	        		$("#txtSearch").autocomplete({
@@ -44,11 +31,38 @@ function faseAutocomplete(){
 		});
 }
 
+function llenarFases() {
+	$.ajax({
+		type : "POST",
+		url : "index.php/fase/faseAutocompleteRead",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				 msgBoxInfo(retrievedData.msg);
+//				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				var i = 0;
+				var options = '<option value="0">Seleccione fase</option>';
+				
+				for(; i< retrievedData.data.length ; i++) {
+					options += '<option value="' + retrievedData.data[i].id + '">' + retrievedData.data[i].value + '</option>';
+				}
+				
+				$("#cbxFasePrev").html(options);
+				$("#cbxFaseSig").html(options);
+			}
+		}
+
+	});
+}
+
 function save(){
 		var formData = "";
 		formData += "idFase=" + $("#idFase").val();
 		formData += "&nombreFase=" + $("#txtFaseName").val();
 		formData += "&descripcion=" + $("#txtFaseDesc").val();
+		formData += "&idFasePrevia=" + $("#cbxFasePrev").val();
+		formData += "&idFaseSiguiente=" + $("#cbxFaseSig").val();
 
 		if(validar_campos()){
 			$.ajax({
@@ -68,6 +82,7 @@ function save(){
 							alert("Fase actualizada con exito");
 						}
 						faseAutocomplete();
+						llenarFases();
 						clear();
 							
 					}
@@ -102,7 +117,7 @@ function deleteData(){
 function edit(){
 	var formData = "idFase=" + $("#idFase").val();
 	
-	if ($("txtRecords").val() == "") {
+	if ($("#txtSearch").val() != "") {
 		$.ajax({
 			type: "POST",
 			url: "index.php/fase/faseRead",
@@ -115,6 +130,11 @@ function edit(){
 				else{
 					$("#txtFaseName").val(retrievedData.data.nombreFase);
 					$("#txtFaseDesc").val(retrievedData.data.descripcion);
+					$("#cbxFasePrev").val(retrievedData.data.anterior);
+					$("#cbxFaseSig").val(retrievedData.data.siguiente);
+					
+					$("select").attr("disabled", "disabled");					
+					
 				}
 			}
 		});
@@ -143,6 +163,12 @@ function validar_campos(){
 		camposFallan += "El campo DESCRIPCION FASE es requerido <br />";
 	}
 	
+	if ( $("#cbxFasePrev").val() == "0" && $("#cbxFaseSig").val() == "0" ) {
+		camposFallan += "Debe seleccionar al menos una FASE PREVIA o una FASE SIGUIENTE <br />";
+	} else if ( $("#cbxFasePrev").val() == $("#cbxFaseSig").val() ) {
+		camposFallan += "Los campos FASE PREVIA y FASE SIGUIENTE no deben ser iguales";
+	}
+	
 	if(camposFallan == ""){
 		return true;
 	}else{
@@ -156,5 +182,8 @@ function clear(){
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtSearch").val("");
+	$("#txtFaseDesc").val("");
+	
+	$("select").attr("disabled", "");
 }
 
