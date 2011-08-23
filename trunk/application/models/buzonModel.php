@@ -79,8 +79,8 @@ class buzonModel extends CI_Model{
 		$idUsuario = $this->input->post("idUsuario");
 		
 		$sql = "SELECT n.subject, n.notificacion
-				FROM Notificacion n INNER JOIN Usuario_Notificacion uxn ON n.idNotificacion = uxn.idNotificacion
-    				INNER JOIN Usuario u ON uxn.idUsuario = u.idUsuario
+				FROM NOTIFICACION n INNER JOIN USUARIO_NOTIFICACION uxn ON n.idNotificacion = uxn.idNotificacion
+    				INNER JOIN USUARIO u ON uxn.idUsuario = u.idUsuario
 				WHERE u.idUsuario = ".$idUsuario." AND n.idNotificacion = ".$idNotificacion;
 		
 		$query = $this->db->query($sql);
@@ -104,7 +104,7 @@ class buzonModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idUsuario = $this->input->post("idUsuario");
 		
-		$sql = "UPDATE USUARIO_NOTIFICACION SET idEstado = 5 WHERE idNotificacion = ".$idN." AND idUsuario = ".$idUsuario;
+		$sql = "UPDATE USUARIO_NOTIFICACION SET idEstado = 17 WHERE idNotificacion = ".$idN." AND idUsuario = ".$idUsuario;
 		
 		$query = $this->db->query($sql);
 		

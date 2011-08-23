@@ -68,12 +68,15 @@ class actividadModel extends CI_Model{
 		$idUsuario = $this->input->post("idUsuario");
 		$idActividad = $this->input->post("idActividad");
 		$progreso = $this->input->post("progreso");
+		$asignar = $this->input->post("asignarBand");
+		$desasignar = $this->input->post("desasignarBand");
 		$comentario = $this->input->post("comentario");
 		$user_rows = $this->input->post("user_data");
 		$remove_ids = $this->input->post("remove_data");
+		$add_ids = $this->input->post("add_data");
 		
 		//Manejando la transaccion
-		$this->db->trans_begin();
+		$this->db->trans_start();
 		
 		//Iniciando el texto de notificacion
 		$sql = "SELECT nombreActividad
@@ -83,8 +86,12 @@ class actividadModel extends CI_Model{
 		$query = $this->db->query($sql);
 		$row = $query->row();
 		
-		$cadAsignaciones = "Los siguientes usuarios fueron desasignados de la actividad '" .$row->nombreActividad."': ";
+		$cadAsignaciones = "";		
+		$cadAsignaciones .= "<b>Actividad: '" .$row->nombreActividad."'</b><br />";
 		
+		if($desasignar == 1){
+			$cadAsignaciones .= "Los siguientes usuarios fueron desasignados de la actividad: <br />";
+		}
 		//Actualizando el estado de la actividad
 		$sql = "UPDATE ACTIVIDAD SET idEstado = ".$idEstado." WHERE idActividad = ".$idActividad;
 		$query = $this->db->query($sql);
@@ -92,26 +99,54 @@ class actividadModel extends CI_Model{
 		//Desasignando a los usuarios de la actividad
 		$id_array = explode(",",$remove_ids);
 		if($id_array[0] != 0){
+			$cadNotificacion = "Se le ha desasignado la actividad: <b>'" .$row->nombreActividad."'</b>";
+			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad desasignada',CURDATE())";
+			$this->db->query($sql);
+			
+			//Obteniendo el ultimo ID
+			$sql = "SELECT LAST_INSERT_ID() lastId FROM NOTIFICACION";
+			$query = $this->db->query($sql);
+			$row = $query->row();
+			$idNotificacion = $row->lastId;
+			
 			foreach ($id_array as $element){
 				$sql = "UPDATE USUARIO_ACTIVIDAD SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;
 				$this->db->query($sql);
-
-				//Creando String de notificacion
+				
+				$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado) VALUES(".$element.",".$idNotificacion.",18)";
+				$this->db->query($sql);
+				
+				if($desasignar == 1){ //Es por que hay personas que se van a desasignar
+					//	Creando String de notificacion
+					$sql = "SELECT CONCAT_WS(' ',primerNombre, primerApellido) AS nombre
+							FROM USUARIO
+							WHERE idUsuario = " .$element;
+				
+					$query = $this->db->query($sql);
+					$row = $query->row();
+					$cadAsignaciones .= "- '" .$row->nombre. "'<br />";
+				}
+				 
+			}
+		}
+		$id = explode(",",$add_ids);
+		if($asignar == 1){
+			$cadAsignaciones .= "Los siguientes usuarios fueron asignados a la actividad: <br />";
+			foreach ($id as $item){
 				$sql = "SELECT CONCAT_WS(' ',primerNombre, primerApellido) AS nombre
 						FROM USUARIO
-						WHERE idUsuario = " .$idUsuario;
-				
+						WHERE idUsuario = " .$item;
+			
 				$query = $this->db->query($sql);
 				$row = $query->row();
-
-				$cadAsignaciones += "- '" .$row->nombre. "'\n";
-				 
+				$cadAsignaciones .= "- '" .$row->nombre. "'<br />";
 			}
 		}
 		
 		//Asignando a los usuarios a la actividad
 		$statements = new actividadModel();
 		$data_array = explode("|",$user_rows);
+		
 		$insert_statements = $statements->execUAInsert($data_array, $idUsuario);
 		foreach ($insert_statements as $sql) {
 			$this->db->query($sql);
@@ -121,26 +156,60 @@ class actividadModel extends CI_Model{
 		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1)";
 		$query = $this->db->query($sql);
 		
-		
-		if($this->db->trans_status() == FALSE) {
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-			$this->db->trans_rollback();
-		} else {
-			$this->db->trans_commit();
+		//Insertando la notificacion a los seguidores
+		if($asignar == 1 || $desasignar == 1){
+			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadAsignaciones).",'Asignaciones ocurridas en actividad',CURDATE())";
+			$this->db->query($sql);
 		}
+		
+		//Obteniendo el ultimo ID
+		$sql = "SELECT LAST_INSERT_ID() lastId FROM NOTIFICACION";
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		$idNotificacion = $row->lastId;
+		
+		$sql = "SELECT DISTINCT uxa.idUsuario
+				FROM USUARIO_ACTIVIDAD uxa INNER JOIN TIPO_ASOCIACION ta ON uxa.idTipoAsociacion = ta.idTipoAsociacion
+				WHERE uxa.idActividad = ".$idActividad." AND uxa.idTipoAsociacion = 2";
+		$query = $this->db->query($sql);
+		
+		foreach ($query->result() as $row){
+			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado) VALUES(".$row->idUsuario.",".$idNotificacion.",18)"; 	
+			$this->db->query($sql);		
+		}
+		
+		$this->db->trans_complete();
 		
 		return $retArray;
 	}
 	
 	function execUAInsert($data_array, $idUsuarioAsigna){
 		$idActividad = $this->input->post("idActividad");
+		$idNotificacion;
 		$idUsuarioInsert;
 		$indexTrippin = 0;
 		$trippin;
 		
 		
 		$this->load->database();
+		$this->db->trans_start();
+		
+		//Obteniendo el nombre de la actividad
+		$sql = "SELECT nombreActividad
+				FROM ACTIVIDAD
+				WHERE idActividad = " .$idActividad;
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		$cadNotificacion = "Se le ha asignado la actividad '" .$row->nombreActividad. "'";
+		
+		//Insertando la notificacion de actividad asignada al usuario
+		$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURDATE())";
+		$this->db->query($sql);
+		
+		$sql = "SELECT LAST_INSERT_ID() lastId FROM NOTIFICACION";
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		$idNotificacion = $row->lastId;
 
 		foreach ($data_array as $value) {
 			$idUsuarioInsert = $value;
@@ -149,20 +218,13 @@ class actividadModel extends CI_Model{
 			}
 			$trippin[$indexTrippin++] = "CALL sp_insert_ua(".$idUsuarioInsert.",".$idActividad.",".$idUsuarioAsigna.")";
 			
-			//Obteniendo el nombre de la actividad
-			$sql = "SELECT nombreActividad
-					FROM ACTIVIDAD
-					WHERE idActividad = " .$idActividad;
-		
-			$query = $this->db->query($sql);
-			$row = $query->row();
-			$cadNotificacion = "Se le ha asignado la actividad '" .$row->nombre. "'";
-			
-			//Insertando la notificacion de actividad asignada al usuario
-			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES('" .$this->db->escape($cadNotificacion). ",'Actividad asignada',CURDATE())";
-			$query = $this->db->query($sql);
-			
+			//Insertando la notificacion al usuario
+			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado) VALUES(".$idUsuarioInsert.",".$idNotificacion.",18)";
+			$this->db->query($sql);	
+
 		}
+		
+		$this->db->trans_complete();
 
 		return  $trippin;
 	}

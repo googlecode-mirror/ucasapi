@@ -8,9 +8,11 @@ $(document).ready(function(){
 });
 
 var idUsuariosQuitar = new Array();
-
+var idUsuariosAdd = new Array();
 var arrayUserSet = new Array();
 var arrayUserUnset = new Array();
+var aBand = 0; //Bandera para ver si ha asignado a alguien
+var dBand = 0; //Bandera para ver si ha desasignado a alguien
 
 function estadoAutocomplete(){
 	//index.php/actividad/actividadEstados
@@ -56,12 +58,23 @@ function save(){
 		}
 	};
 	
+	if(idUsuariosAdd.length != 0){
+		formData += "&add_data=" + idUsuariosAdd;
+		formData += "&asignarBand=1";
+	}
+	else{
+		formData += "&add_data=0";
+		formData += "&asignarBand=0";
+	}
+	
 	formData += "&user_data=" + gridData;
 	if(idUsuariosQuitar.length != 0){
 		formData += "&remove_data=" + idUsuariosQuitar;
+		formData += "&desasignarBand=1";
 	}
 	else{
-		formData += "&remove_data=0"; 
+		formData += "&remove_data=0";
+		formData += "&desasignarBand=0";
 	}
 
 	$.ajax({
@@ -75,6 +88,8 @@ function save(){
 			}
 			else{
 				alert("Actividad actualizada con exito");
+				idUsuariosQuitar = new Array();
+				idUsuariosAdd = new Array();
 			}
 		}
 
@@ -211,6 +226,8 @@ function asignar() {
 		//Eliminar del array el ID del usuario que ya no se va desasignar...
 		var index = idUsuariosQuitar.indexOf(row_data["idUsuario"]);
 		if(index != -1) idUsuariosQuitar.splice(index,1);
+		
+		idUsuariosAdd.push(row_data["idUsuario"]);
 	
 		$("#list").addRowData(num_rows + 1, new_row_data);
 		$("#todosUsuarios").delRowData(row_id);
@@ -233,6 +250,10 @@ function desasignar() {
 		};
 		//Insertar en array de IDs el id del usuario que se va a desasignar...
 		idUsuariosQuitar.push(row_data["idUsuario"]);
+		
+		//Eliminar del array el ID del usuario que ya no se va asignar...
+		var index = idUsuariosAdd.indexOf(row_data["idUsuario"]);
+		if(index != -1) idUsuariosAdd.splice(index,1);
 		
 		$("#todosUsuarios").addRowData(num_rows + 1, new_row_data);
 
