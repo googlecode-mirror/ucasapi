@@ -95,14 +95,55 @@ class faseModel extends CI_Model{
 
 		$nombreFase = $this->input->post("nombreFase");
 		$descripcion = $this->input->post("descripcion");
+		$fasePrevia = $this->input->post("idFasePrevia");
+		$faseSiguiente = $this->input->post("idFaseSiguiente");
 
-		$sql = "INSERT INTO FASE (nombreFase, descripcion) VALUES(" .$this->db->escape($nombreFase). "," .$this->db->escape($descripcion). ")";
+		if ($fasePrevia == "0") {
+			$sql = "INSERT INTO FASE (nombreFase, descripcion, idFaseSiguiente)
+				VALUES(" .$this->db->escape($nombreFase). "," .$this->db->escape($descripcion). "," . intval($faseSiguiente) . ")";
 
-		$query = $this->db->query($sql);
+			$query = $this->db->query($sql);
 
-		if(!$query){
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			if(!$query){
+				$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+			}
+		} else if ($faseSiguiente == "0") {
+			$sql = "INSERT INTO FASE (nombreFase, descripcion, idFaseSiguiente)
+				VALUES(" .$this->db->escape($nombreFase). "," .$this->db->escape($descripcion). ",null)";
+
+			$sql2 = "UPDATE FASE SET idFaseSiguiente = LAST_INSERT_ID() WHERE idFase = " . intval($fasePrevia);
+
+			$this->db->trans_begin();
+
+			$this->db->query($sql);
+			$this->db->query($sql2);
+
+			if($this->db->trans_status() == FALSE) {
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+				$this->db->trans_rollback();
+		    } else {
+		    	$this->db->trans_commit();
+		    }
+		} else {
+			$sql = "INSERT INTO FASE (nombreFase, descripcion, idFaseSiguiente)
+				VALUES(" .$this->db->escape($nombreFase). "," .$this->db->escape($descripcion). "," . intval($faseSiguiente) . ")";
+
+			$sql2 = "UPDATE FASE SET idFaseSiguiente = LAST_INSERT_ID() WHERE idFase = " . intval($fasePrevia);
+
+			$this->db->trans_begin();
+
+			$this->db->query($sql);
+			$this->db->query($sql2);
+
+			if($this->db->trans_status() == FALSE) {
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+				$this->db->trans_rollback();
+		    } else {
+		    	$this->db->trans_commit();
+		    }
 		}
 
 		return $retArray;
@@ -114,7 +155,10 @@ class faseModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idFase = $this->input->post("idFase");
 
-		$sql = 	"SELECT nombreFase, descripcion FROM FASE WHERE idFase = " .$idFase;
+		$sql = 	"select ant.idFase anterior, f.idFase, f.nombreFase, f.descripcion, f.idFaseSiguiente siguiente
+				from FASE f
+				left join FASE ant ON ant.idFaseSiguiente = f.idFase
+				where f.idFase = " .$idFase;
 
 		$query = $this->db->query($sql);
 
