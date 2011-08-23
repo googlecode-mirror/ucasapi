@@ -56,7 +56,7 @@ class actividadaModel extends CI_Model{
 				$lastId = $row->lastId;
 			}
 			
-		//Insertando en bitacora informacion inicial de la actividad
+		//Insertando en bitacora informacion inicial de la actividad para
 		$sql = "CALL sp_insert_bitacora(".$this->db>escape($lastId).",".$idUsuario.",10,NULL,1,1)";
 		$query = $this->db->query($sql);
 	    

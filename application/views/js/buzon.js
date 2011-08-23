@@ -36,7 +36,7 @@ function loadBuzon() {
 				gridview : false,
 				caption : "Lista de Notificaciones",
 				afterInsertRow: function(rowid,rowdata){
-					if(rowdata.idEstado == '6'){
+					if(rowdata.idEstado == '18'){
 						jQuery("#todosMensajes").setCell(rowid,'subject','',{'font-weight':'bold'});
 						jQuery("#todosMensajes").setCell(rowid,'fechaNotificacion','',{'font-weight':'bold'});
 					}
