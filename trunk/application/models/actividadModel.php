@@ -200,7 +200,7 @@ class actividadModel extends CI_Model{
 				WHERE idActividad = " .$idActividad;
 		$query = $this->db->query($sql);
 		$row = $query->row();
-		$cadNotificacion = "Se le ha asignado la actividad '" .$row->nombreActividad. "'";
+		$cadNotificacion = "Se le ha asignado la actividad <b>'" .$row->nombreActividad. "'</b>";
 		
 		//Insertando la notificacion de actividad asignada al usuario
 		$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURDATE())";
