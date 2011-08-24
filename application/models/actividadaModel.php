@@ -24,6 +24,7 @@ class actividadaModel extends CI_Model{
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
 		
 		$seguidores = $this->input->post("seguidores");
+		$responsables = $this->input->post("responsables");
 		
 		//Si no se est� en sesi�n
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
@@ -57,8 +58,8 @@ class actividadaModel extends CI_Model{
 			}
 			
 		//Insertando en bitacora informacion inicial de la actividad para
-		$sql = "CALL sp_insert_bitacora(".$this->db>escape($lastId).",".$idUsuario.",10,NULL,1,1)";
-		$query = $this->db->query($sql);
+		//$sql = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuario.",10,NULL,1,1)";
+		//$query = $this->db->query($sql);
 	    
 		$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
@@ -79,16 +80,14 @@ class actividadaModel extends CI_Model{
 	    }
 	    
 	    
-		//Insertando los datos en USUARIO_ACTIVIDAD del usuario responsable de la actividad
-	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion,idTipoAsociacion, idUsuarioAsigna)".
-	    		"VALUES(".
-	    				$this->db->escape($idUsuarioResponsable).
-	    				",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuarioResponsable)." AND ua.idActividad=".$this->db->escape($lastId)." ), 1)),".
-	    				  $this->db->escape($lastId).",".
-	    				  "DATE(NOW()),1,".
-	    				$this->db->escape($idUsuarioAsigna).")";
-                		
-		$query = $this->db->query($sql);
+		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
+		if($responsables != ""){
+			$data_array1 = explode("|",$responsables);
+			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId);
+			foreach ($insert_statements as $queryResponsibles) {
+				$this->db->query($queryResponsibles);
+			}
+		}
 		
 		
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
@@ -107,6 +106,8 @@ class actividadaModel extends CI_Model{
 		} else {
 			$this->db->trans_commit();
 		}	    
+		
+		$retArray["msg"] = $lastId;
 	    
 		return $retArray;		
 	}
@@ -600,12 +601,14 @@ class actividadaModel extends CI_Model{
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
+		$response->sql = $sql;
 		
 		//-------------------------
 		
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario, d.nombreDepto ".
-				"FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ".
-				"WHERE u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
+				"FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ";		
+		
+		if($idActividad != NULL)$sql.="WHERE u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
 		
 		$query = $this->db->query($sql);		
 	
@@ -685,7 +688,7 @@ class actividadaModel extends CI_Model{
 	}
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	function gridUsuarios1Read($idActividad){
+	function gridUsuarios1Read($idActividad=NULL){
 		$this->load->database();		
 		
 		$page = $this->input->post("page");
@@ -699,7 +702,10 @@ class actividadaModel extends CI_Model{
 				"FROM (SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
 					  "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
 					  "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
-					  "GROUP BY u.idUsuario) AS BLAH";
+					  "GROUP BY u.idUsuario) AS BLAH ";
+		
+		
+		if($idActividad != NULL)$sql.=  "WHERE idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad).")";
 		
 		$query = $this->db->query($sql);
 		
@@ -721,13 +727,16 @@ class actividadaModel extends CI_Model{
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
+		$response->sql = $sql;
 		
 		//-------------------------
 		
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
 			   "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
                "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
-			   "GROUP BY u.idUsuario";
+			   "GROUP BY u.idUsuario ";
+		
+		if($idActividad != NULL)$sql.= 	"WHERE idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad).")";
 		
 		$query = $this->db->query($sql);		
 	
@@ -746,7 +755,124 @@ class actividadaModel extends CI_Model{
 	}
 	
 	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function gridResponsablesRead($idActividad){
+		$this->load->database();		
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		$sql = "SELECT COUNT(*) FROM (SELECT 1 ".
+				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario ". 
+								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ". 
+            	" WHERE ua.idActividad = ".$this->db->escape($idActividad).
+				" GROUP BY u.idUsuario) AS BLAH" ;
+		
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		//$response->sql = $sql;
+		
+		//-------------------------
+		
+		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
+				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario ". 
+								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ". 
+            	" WHERE ua.idActividad = ".$this->db->escape($idActividad).
+				" GROUP BY u.idUsuario" ;
+		
+		$query = $this->db->query($sql);		
 	
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $i;
+					$response->rows[$i]["cell"] = array($row->idUsuario, $row->nombreUsuario, $row->nombreCargo);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+	}
+	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function gridProyectosRead($idActividad){
+		$this->load->database();		
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		$sql = "SELECT COUNT(*) FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario" ;
+		
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		//$response->sql = $sql;
+		
+		//-------------------------
+		
+		$sql = "SELECT p.idProyecto, p.nombreProyecto, CONCAT(u.primerNombre, ' ', u.primerApellido) as nombreUsuario ".
+				"FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario" ;
+		
+		$query = $this->db->query($sql);		
+	
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $i;
+					$response->rows[$i]["cell"] = array($row->idProyecto, $row->nombreProyecto, $row->nombreUsuario);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+	}
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -930,15 +1056,50 @@ class actividadaModel extends CI_Model{
     										"VALUES(".
 													$this->db->escape($idUsuario).
 													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
-													  $this->db->escape($idActividad).",".
-													  "DATE(NOW()),2,".
-												    	$this->db->escape('1').")";
-
+												    $this->db->escape($idActividad).",".
+												    "DATE(NOW()),2,".
+											    	$this->db->escape('1').")";
 				continue;
 			}
 		}
 
 		return  $trippin;
 	}
+	
+	function getResponsiblesInsert($data_array,$idActividad){
+		$counter = 1;
+		$idUsuario;
+		$idUsuarioInsert;
+		$fechaAsignacionSistema;
+		$index = 0;
+		$indexTrippin = 0;
+		$trippin;
 
+		foreach ($data_array as $value) {
+			if($counter == 1){
+				$idUsuario = $value;
+				$counter++;
+				continue;
+			}
+			if($counter == 2){
+				$counter++;
+				continue;
+			}
+			if($counter == 3){
+				$fechaAsignacionSistema = $value;
+				$counter = 1;
+				$trippin[$indexTrippin++] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
+    										"VALUES(".
+													$this->db->escape($idUsuario).
+													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
+												    $this->db->escape($idActividad).",".
+												    "DATE(NOW()),1,".
+											    	$this->db->escape('1').")";
+				continue;
+			}
+		}
+
+		return  $trippin;
+	}
+	
 }
