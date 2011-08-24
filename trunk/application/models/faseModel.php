@@ -58,14 +58,39 @@ class faseModel extends CI_Model{
 		$retArray = array("status" => "0", "msg" => "");
 		$idFase = $this->input->post("idFase");
 
-		$sql = "DELETE FROM FASE WHERE idFase = " .$idFase;
+		// ---------------------------------------------------------------------
+		$this->db->trans_begin();
 
-		$query = $this->db->query($sql);
+		$sql = "select idFase from FASE where idFaseSiguiente = ?"; // $idFase
 
-		if (!$query) {
+		$result = $this->db->query($sql, array(intval($idFase)));
+
+		$idFaseUpdate = $result->first_row('array');
+
+		$sql = "select idFaseSiguiente from FASE
+						where idFase = ?";
+
+		$result = $this->db->query($sql, array(intval($idFase)));
+
+		$idFaseSiguienteUpdate = $result->first_row('array');
+
+		$sqlUpdate = "update FASE
+						set idFaseSiguiente = ?
+						where idfase = ?"; // $idFaseUpdate["idFase"]
+
+		$this->db->query($sqlUpdate, array(intval($idFaseSiguienteUpdate["idFaseSiguiente"]), intval($idFaseUpdate["idFase"])));
+
+		$sqlDelete = "DELETE FROM FASE WHERE idFase = " .$idFase;
+
+		$query = $this->db->query($sqlDelete);
+
+		if($this->db->trans_status() == FALSE){
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }
+		} else {
+			$this->db->trans_commit();
+		}
+		// ---------------------------------------------------------------------
 
 		return $retArray;
 
