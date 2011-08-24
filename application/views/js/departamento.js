@@ -63,16 +63,11 @@ function save() {
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
-					// alert("Mensaje de error: " + retrievedData.msg); //Por el
-					// momento, el mensaje que se está mostrando es técnico,
-					// para
-					// cuestiones de depuración
 				} else {
 					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con \u00E9xito");
 					} else {
 						msgBoxSucces("Registro actualizado con \u00E9xito");
-						// alert("Registro actualizado con éxito");
 					}
 					departmentAutocomplete();
 					clear();
@@ -87,6 +82,7 @@ function save() {
 function edit() {
 	if ($("txtRecords").val() != "") {
 		$("#accionActual").val("editado");
+		lockAutocomplete();
 		var formData = "idDepto=" + $("#idDepto").val();
 		$
 				.ajax({
@@ -96,20 +92,7 @@ function edit() {
 					dataType : "json",
 					success : function(retrievedData) {
 						if (retrievedData.status != 0) {
-							alert("Mensaje de error: " + retrievedData.msg); // Por
-							// el
-							// momento,
-							// el
-							// mensaje
-							// que se
-							// está
-							// mostrando
-							// es
-							// técnico,
-							// para
-							// cuestiones
-							// de
-							// depuración
+							alert("Mensaje de error: " + retrievedData.msg); 
 						} else {
 							$("#txtDepartmentName").val(
 									retrievedData.data.nombreDepto);
@@ -203,6 +186,7 @@ function clear() {
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
 	$("#txtDepartmentDesc").val("");
+	unlockAutocomplete();
 }
 
 function ajaxUpload() {
@@ -257,4 +241,15 @@ function validarCampos() {
 		msgBoxInfo(camposFallan);
 		return false;
 	}
+}
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING*/
+function lockAutocomplete() {	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
 }
