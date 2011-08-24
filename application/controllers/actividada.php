@@ -167,6 +167,24 @@ class Actividada extends CI_Controller{
 			echo json_encode($this->actividadaModel->gridSeguidoresRead($idActividad));
 	}
 	
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	function gridUsers1Read($idActividad){
+			$this->load->model("actividadaModel");	
+			echo json_encode($this->actividadaModel->gridUsuarios1Read($idActividad));
+	}
+	
+	function gridResponsiblesRead($idActividad){
+			$this->load->model("actividadaModel");	
+			echo json_encode($this->actividadaModel->gridResponsablesRead($idActividad));
+	}
+	
+	function gridProjectsRead($idActividad){
+			$this->load->model("actividadaModel");	
+			echo json_encode($this->actividadaModel->gridProyectosRead($idActividad));
+	}
+	
+	
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function fileValidateAndSave(){
