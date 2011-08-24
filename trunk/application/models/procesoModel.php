@@ -324,15 +324,13 @@ class procesoModel extends CI_Model{
 		
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
-		$this->form_validation->set_rules("nombreProceso", "Nombre", 'required|alpha');
-		$this->form_validation->set_rules("descripcion", "Descripcion", 'alpha');
+		$this->form_validation->set_rules("nombreProceso", "Nombre", 'required');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 			
 			$retArray["msg"] .= form_error("nombreProceso");
-			$retArray["msg"] .= form_error("descripcion");			
 		}
 		
 		return $retArray;
