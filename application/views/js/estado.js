@@ -13,19 +13,7 @@ function statusAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg); 
 			} else {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
@@ -50,19 +38,7 @@ function statusTypeAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg); 
 			} else {
 				$("#txtStatusTypeName").autocomplete({
 					minChars : 0,
@@ -94,25 +70,12 @@ function save() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-																		// el
-					// momento,
-					// el
-					// mensaje
-					// que se
-					// está
-					// mostrando
-					// es
-					// técnico,
-					// para
-					// cuestiones
-					// de
-					// depuración
+					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
 					if ($("#accionActual").val() == "") {
-						msgBoxInfo("Registro agregado con &eacute;xito");
+						msgBoxSucces("Registro agregado con &eacute;xito");
 					} else {
-						msgBoxInfo("Registro actualizado con &eacute;xito");
+						msgBoxSucces("Registro actualizado con &eacute;xito");
 					}
 					statusAutocomplete();
 					statusTypeAutocomplete();
@@ -129,6 +92,7 @@ function edit() {
 	var formData = "idEstado=" + $("#idEstado").val();
 	if ($("#txtRecords").val() != "") {
 		$("#accionActual").val("editando")
+		lockAutocomplete();
 		$.ajax({
 			type : "POST",
 			url : "index.php/estado/statusRead",
@@ -136,20 +100,7 @@ function edit() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-					// el
-					// momento,
-					// el
-					// mensaje
-					// que se
-					// está
-					// mostrando
-					// es
-					// técnico,
-					// para
-					// cuestiones
-					// de
-					// depuración
+					alert("Mensaje de error: " + retrievedData.msg); 
 				} else {
 					$("#txtStatusName").val(retrievedData.data.estado);
 					$("#txtStatusTypeName").val(
@@ -180,21 +131,7 @@ function deleteData() {
 				dataType : "json",
 				success : function(retrievedData) {
 					if (retrievedData.status != 0) {
-						alert("Mensaje de error: " + retrievedData.msg); // Por
-						// el
-						// momento,
-						// el
-						// mensaje
-						// que
-						// se
-						// está
-						// mostrando
-						// es
-						// técnico,
-						// para
-						// cuestiones
-						// de
-						// depuración
+						alert("Mensaje de error: " + retrievedData.msg); 
 					} else {
 						msgBoxInfo("Registro eliminado con &eacute;xito");
 						statusAutocomplete();
@@ -217,6 +154,7 @@ function clear() {
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	unlockAutocomplete();
 }
 
 function validarCampos() {
@@ -243,4 +181,17 @@ function validarCampos() {
 		msgBoxInfo(camposFallan);
 		return false;
 	}
+}
+
+
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING*/
+function lockAutocomplete() {	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
 }
