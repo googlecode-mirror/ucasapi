@@ -567,7 +567,7 @@ class actividadaModel extends CI_Model{
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function gridUsuariosRead($idActividad){
+	function gridUsuariosRead($idActividad){
 		$this->load->database();		
 		
 		$page = $this->input->post("page");
@@ -625,7 +625,7 @@ function gridUsuariosRead($idActividad){
 	
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function gridSeguidoresRead($idActividad){
+	function gridSeguidoresRead($idActividad){
 		$this->load->database();		
 		
 		$page = $this->input->post("page");
@@ -684,7 +684,71 @@ function gridSeguidoresRead($idActividad){
 		return $response;
 	}
 	
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function gridUsuarios1Read($idActividad){
+		$this->load->database();		
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		$sql = "SELECT COUNT(*) AS count ".
+				"FROM (SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
+					  "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
+					  "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
+					  "GROUP BY u.idUsuario) AS BLAH";
+		
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		//-------------------------
+		
+		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
+			   "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
+               "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
+			   "GROUP BY u.idUsuario";
+		
+		$query = $this->db->query($sql);		
+	
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $i;
+					$response->rows[$i]["cell"] = array($row->idUsuario, $row->nombreUsuario, $row->nombreCargo);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+	}
+	
+	
+	
+	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
