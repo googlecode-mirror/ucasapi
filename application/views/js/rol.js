@@ -72,20 +72,7 @@ function edit() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por
-					// el
-					// momento,
-					// el
-					// mensaje
-					// que se
-					// est�
-					// mostrando
-					// es
-					// t�cnico,
-					// para
-					// cuestiones
-					// de
-					// depuraci�n
+					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
 					$("#txtRolName").val(retrievedData.data.nombreRol);
 				}
@@ -111,21 +98,7 @@ function deleteData() {
 				dataType : "json",
 				success : function(retrievedData) {
 					if (retrievedData.status != 0) {
-						alert("Mensaje de error: " + retrievedData.msg); // Por
-						// el
-						// momento,
-						// el
-						// mensaje
-						// que
-						// se
-						// est�
-						// mostrando
-						// es
-						// t�cnico,
-						// para
-						// cuestiones
-						// de
-						// depuraci�n
+						alert("Mensaje de error: " + retrievedData.msg);
 					} else {
 						msgBoxSucces("Registro eliminado con &eacute;xito");
 						rolAutocomplete();
