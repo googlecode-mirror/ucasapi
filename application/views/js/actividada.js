@@ -1,5 +1,9 @@
 numUsersOnGrid = 0;
 numFollowersOnGrid = 0;
+numUsers1OnGrid = 0;
+numResponsiblesOnGrid = 0;
+numProjectsOnGrid = 0;
+numRProjectsOnGrid=0;
 
 $(document).ready(function(){
 	 idArchivo = "";
@@ -10,16 +14,17 @@ $(document).ready(function(){
 	 
 	 ajaxUpload();
 	 projectAutocomplete();
-	 userAutocomplete();
 	 priorityAutocomplete();
 	 statusAutocomplete();
 	 fileTypeAutocomplete();
 	 $("#txtStartingDate, #txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	 loadProjectsGrid();
+	 loadRelatedProjectsGrid();
 	 loadGridDocuments();
 	 loadFollowersGrid();
 	 loadUsersGrid();
-	 
-	 
+	 loadUsers1Grid();
+	 loadResponsibleUsersGrid();
 	 
 	 //$("#departamentoButton").addClass("highlight");
 	 //departmentAutocomplete();	
@@ -27,6 +32,8 @@ $(document).ready(function(){
 	 //ajaxUpload();
 	 
 });	
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function projectAutocomplete(){
 	$.ajax({				
@@ -71,6 +78,8 @@ function projectAutocomplete(){
 	});		
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function processAutocomplete(idProyecto, processTextBox){
 	$.ajax({				
         type: "POST",
@@ -102,6 +111,8 @@ function processAutocomplete(idProyecto, processTextBox){
 	});		
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function activityAutocomplete(idProyecto, idProceso){
 	$.ajax({				
         type: "POST",
@@ -129,31 +140,9 @@ function activityAutocomplete(idProyecto, idProceso){
 	});		
 }
 
-function userAutocomplete(){
-	$.ajax({				
-        type: "POST",
-        url:  "index.php/actividada/userAutocomplete",
-        dataType : "json",
-        success: function(retrievedData){        	
-        	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-        	}
-        	else{        		
-        		$("#txtResponsibleName").autocomplete({
-            		minChars: 0,
-            		matchContains: true,
-    		        source: retrievedData.data,
-    		        minLength: 0,
-    		        select: function(event, ui) {
-    			        $("#idUsuarioResponsable").val(ui.item.id);					
-    				}
-    			});
-        		
-        	}        	
-      }
-      
-	});		
-}
+
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function priorityAutocomplete(){
 	$.ajax({				
@@ -181,6 +170,8 @@ function priorityAutocomplete(){
 	});		
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function statusAutocomplete(){
 	$.ajax({				
         type: "POST",
@@ -207,6 +198,7 @@ function statusAutocomplete(){
 	});		
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function fileTypeAutocomplete(){
 	$.ajax({				
         type: "POST",
@@ -233,22 +225,26 @@ function fileTypeAutocomplete(){
 	});		
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function save(){	
 	var gridData = $("#followersGrid").jqGrid("getRowData");
+	var gridResponsiblesData = $("#responsibleUsersGrid").jqGrid("getRowData");
+	var gridRelatedProjectsData = $("#relatedProjectsGrid").jqGrid("getRowData");
 	var formData= "";
 	formData += "idProyecto=" + $("#idProyecto").val();
 	formData += "&idProceso=" + $("#idProceso").val();
 	formData += "&idActividad=" + $("#idActividad").val();
 	formData += "&idPrioridad=" + $("#idPrioridad").val();
 	formData += "&idEstado=" + $("#idEstado").val();
-	formData += "&idUsuarioResponsable=" + $("#idUsuarioResponsable").val();
 	formData += "&idUsuarioAsigna=" + $("#idUsuarioAsigna").val();
 	formData += "&nombreActividad=" + $("#txtActivityName").val();
 	formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
 	formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
 	formData += "&descripcion=" + $("#txtActivityDesc").val();
 	formData += "&seguidores=" +parseGridData(gridData);
+	formData += "&responsables=" +parseGridData(gridResponsiblesData);
+	formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
 	
 	
 	$.ajax({				
@@ -277,6 +273,8 @@ function save(){
 	
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function edit(){			
 	var formData = "idActividad=" + $("#idActividad").val();	
 	
@@ -291,14 +289,12 @@ function edit(){
         	}else{
         		$("#idProyecto").val(retrievedData.data.idProyecto);
         		$("#idProceso").val(retrievedData.data.idProceso);
-        		$("#idUsuarioResponsable").val(retrievedData.data.idUsuario);
         		$("#idPrioridad").val(retrievedData.data.idPrioridad);
         		$("#idEstado").val(retrievedData.data.idEstado);
         		$("#txtStartingDate").val(retrievedData.data.fechaInicioPlan);
         		$("#txtEndingDate").val(retrievedData.data.fechaFinalizacionPlan);
         		$("#txtStatusName").val(retrievedData.data.estado);
         		$("#txtPriorityName").val(retrievedData.data.nombrePrioridad);
-        		$("#txtResponsibleName").val(retrievedData.data.nombreUsuario);
         		$("#txtProjectName").val(retrievedData.data.nombreProyecto);
         		$("#txtProcessName").val(retrievedData.data.nombreProceso);
         		$("#txtActivityDesc").val(retrievedData.data.descripcionActividad);
@@ -306,12 +302,17 @@ function edit(){
         		
         		$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
    			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+   			    $('#users1Grid').setGridParam({url:"index.php/actividada/gridUsers1Read/"+$("#idActividad").val()}).trigger("reloadGrid");
+   			    $("#responsibleUsersGrid").setGridParam({url:"index.php/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 			    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+			    $("#projectsGrid").setGridParam({url:"index.php/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
         	}			       
       	}      
 	});
 	
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function deleteData(){
 	var formData = "idDepto=" + $("#idDepto").val();
@@ -341,15 +342,21 @@ function deleteData(){
 	}	
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function cancel(){
 	//$("#btnCancel").toggleClass('ui-state-active');
 	clear();
 	$("#msgBox").hide();
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function clear(){
 	$(".inputField,.inputFieldAC, .hiddenId,.inputFieldTA, #txtRecords, #txtStartingDate, #txtEndingDate").val("");
 }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function loadFollowersGrid(){	
 	 $("#followersGrid").jqGrid({
@@ -379,6 +386,8 @@ function loadFollowersGrid(){
 	  });	
 }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function loadUsersGrid(){	
 	 $("#usersGrid").jqGrid({
 		   	url:  "index.php/actividada/gridUsersRead/",
@@ -407,6 +416,195 @@ function loadUsersGrid(){
 	  });	
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function loadProjectsGrid(){	
+	 $("#projectsGrid").jqGrid({
+		   	url:  "index.php/actividada/gridProjectsRead/",
+		    datatype: "json",
+		    mtype: "POST",
+		    colNames:["Id","Proyecto","Responsable"],
+		    colModel :[ 
+              {name:"id", index:"id", hidden:true}, 
+ 		      {name:"proyecto", index:"proyecto", width:190},
+	 		  {name:"responsableProyecto", index:"responsableProyecto", width:190}
+		    ],
+		    pager: "#fpager",
+		    rowNum:10,
+		    width : 480,
+		    rowList:[10,20,30],
+		    sortname: "id",
+		    sortorder: "desc",
+		    viewrecords: true,
+		    gridview: true,
+		    caption: "Proyectos del sistema",
+		    loadComplete: function(){
+				if(numFollowersOnGrid==0){
+					numProjectsOnGrid = $("#projectsGrid").jqGrid("getGridParam","records");
+				}
+		    }	    	
+	  });	
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function loadRelatedProjectsGrid(){	
+	 $("#relatedProjectsGrid").jqGrid({
+		   //	url:  "index.php/actividada/gridUsersRead/",
+		    datatype: "json",
+		    mtype: "POST",
+		    colNames:["Id","Proyecto", "Responsable"],
+		    colModel :[ 
+		      {name:"id", index:"id", hidden:true}, 
+		      {name:"proyecto", index:"responsable", width:190},
+		      {name:"responsableProyecto", index:"responsableProyecto", width:190}
+		    ],
+		    pager: "#upager",
+		    rowNum:10,
+		    width : 480,
+		    rowList:[10,20,30],
+		    sortname: "id",
+		    sortorder: "desc",
+		    viewrecords: true,
+		    gridview: true,
+		    caption: "Proyectos relacionados con la actividad",
+		    loadComplete: function(){
+				if(numUsersOnGrid==0){
+					numRProjectsOnGrid = $("#relatedProjectsGrid").jqGrid("getGridParam","records");
+				}
+		    }
+	  });	
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function loadUsers1Grid(){	
+$("#users1Grid").jqGrid({
+	   	url:  "index.php/actividada/gridUsers1Read/",
+	    datatype: "json",
+	    mtype: "POST",
+	    colNames:["Id","Usuario","Departamento"],
+	    colModel :[ 
+        {name:"id", index:"id", hidden:true}, 
+	      {name:"usuario", index:"usuario", width:22},
+		  {name:"depto", index:"depto", width:64}
+	    ],
+	    pager: "#fpager",
+	    rowNum:10,
+	    width : 200,
+	    rowList:[10,20,30],
+	    sortname: "id",
+	    sortorder: "desc",
+	    viewrecords: true,
+	    gridview: true,
+	    caption: "Usuarios asginables",
+	    loadComplete: function(){
+			if(numUsers1OnGrid==0){
+				numUsers1OnGrid = $("#users1Grid").jqGrid("getGridParam","records");
+			}
+	    }	    	
+	});
+}
+
+function loadResponsibleUsersGrid(){	
+$("#responsibleUsersGrid").jqGrid({
+	   	//url:  "index.php/actividada/gridUsersRead/",
+	    datatype: "json",
+	    mtype: "POST",
+	    colNames:["Id","Usuario", "Departamento"],
+	    colModel :[ 
+	      {name:"id", index:"id", hidden:true}, 
+	      {name:"usuario", index:"usuario", width:22},
+	      {name:"depto", index:"depto", width:64}
+	    ],
+	    pager: "#upager",
+	    rowNum:10,
+	    width : 200,
+	    rowList:[10,20,30],
+	    sortname: "id",
+	    sortorder: "desc",
+	    viewrecords: true,
+	    gridview: true,
+	    caption: "Usuarios responsables",
+	    loadComplete: function(){
+			if(numResponsiblesOnGrid==0){
+				numResponsiblesOnGrid = $("#usersGrid").jqGrid("getGridParam","records");
+			}
+	    }
+	});	
+}
+
+function addResponsible(){
+	rowId = $("#users1Grid").jqGrid("getGridParam","selrow");
+	rowData = $("#users1Grid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un usuario para agregar");
+		return;
+	}
+	
+	numUsers1OnGrid--;
+	numResponsiblesOnGrid++;
+	
+	$("#responsibleUsersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#users1Grid").jqGrid("delRowData", rowId, rowData);	
+	
+}
+
+function removeResponsible(){
+	rowId = $("#responsibleUsersGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#responsibleUsersGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un usuario para quitar");
+		return;
+	}
+	
+	numResponsiblesOnGrid--;
+	numUsers1OnGrid++;
+		
+	$("#users1Grid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#responsibleUsersGrid").jqGrid("delRowData", rowId, rowData);	
+	
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+function addProject(){
+	rowId = $("#projectsGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#projectsGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un proyecto para agregar");
+		return;
+	}
+	
+	numProjectsOnGrid--;
+	numRProjectsOnGrid++;
+	
+	$("#relatedProjectsGrid").jqGrid("addRowData", numRProjectsOnGrid, rowData);
+	$("#projectsGrid").jqGrid("delRowData", rowId, rowData);	
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function removeProject(){
+	rowId = $("#relatedProjectsGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#relatedProjectsGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un proyecto para quitar");
+		return;
+	}
+	
+	numRProjectsOnGrid--;
+	numProjectsOnGrid++;	
+	
+	$("#projectsGrid").jqGrid("addRowData", numProjectsOnGrid, rowData);
+	$("#relatedProjectsGrid").jqGrid("delRowData", rowId, rowData);	
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 function addUser(){
 	rowId = $("#usersGrid").jqGrid("getGridParam","selrow");
@@ -424,6 +622,8 @@ function addUser(){
 	$("#usersGrid").jqGrid("delRowData", rowId, rowData);	
 }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function removeUser(){
 	rowId = $("#followersGrid").jqGrid("getGridParam","selrow");
 	rowData = $("#followersGrid").jqGrid("getRowData",rowId);
@@ -440,11 +640,28 @@ function removeUser(){
 	$("#followersGrid").jqGrid("delRowData", rowId, rowData);	
 }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 function parseGridData(gridData){
 	var parsedData = "";
 	for ( var Elemento in gridData) {
 		for ( var Propiedad in gridData[Elemento]) {
 			parsedData += gridData[Elemento][Propiedad] + "|";
+		}
+	}
+	return parsedData;
+}
+
+function parseGridDataIds(gridData){
+	var parsedData = "";
+	var i = 0;
+	for ( var Elemento in gridData) {
+		i=0;
+		for ( var Propiedad in gridData[Elemento]) {
+			if(i==0){
+				parsedData += gridData[Elemento][Propiedad] + ",";
+			}			
+			i++;
 		}
 	}
 	return parsedData;
