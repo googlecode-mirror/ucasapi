@@ -53,8 +53,7 @@
 				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre del Estado: </span>
-				<input id="txtTipoName" type="text"  value="" class = "inputField" maxlength="40"/><br>
-				
+				<input id="txtTipoName" type="text"  value="" class = "inputField" maxlength="40"/><br>				
 			</div>
 			
 		</div>

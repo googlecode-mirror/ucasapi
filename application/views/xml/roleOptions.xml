@@ -48,6 +48,18 @@
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Proyectos</nombrePagina>
+				<controller>proyecto</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Procesos</nombrePagina>
+				<controller>proceso</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Actividades</nombrePagina>
+				<controller>actividada</controller>
+			</pagina>
 		</paginas>
 	</rol>
 	<rol id = "3">

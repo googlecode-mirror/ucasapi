@@ -16,7 +16,7 @@ $(document).ready(function() {
 	proyectoUsuarioDuenhoAutocomplete();
 	proyectoUsuarioEncAutocomplete();
 	
-	if(){	
+	if($("#idRol").val() != 2){	
 		$("#btnSave").attr("disabled", true);
 	}
 		
@@ -184,8 +184,7 @@ function save() {
 					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con \u00E9xito");
 					} else {
-						msgBoxSucces("Registro actualizado con \u00E9xito");
-						unlockAutocomplete();
+						msgBoxSucces("Registro actualizado con \u00E9xito");						
 					}
 					proyectoAutocomplete();
 					proyectoUsuarioDuenhoAutocomplete();
@@ -727,15 +726,13 @@ function clearFileForm() {
 
 /* OTRAS FUNCIONES */
 function lockAutocomplete() {
-	if($("#idRol").val() != 1){
-		$("#btnSave").attr("disabled", false);		
-	}
+	$("#btnSave").attr("disabled", false);	
 	$("#txtRecords").attr("disabled", true);	
 	$("#txtRecords").css({"background-color": "DBEBFF"});		
 }
 
 function unlockAutocomplete() {
-	if($("#idRol").val() != 1){
+	if($("#idRol").val() != 2){
 		$("#btnSave").attr("disabled", true);
 	}	
 	$("#txtRecords").attr("disabled", false);

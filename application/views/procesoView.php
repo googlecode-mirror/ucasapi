@@ -34,7 +34,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style = "height: 850px">
+		<div class="container" style = "height: 650px">
 			<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 			<div style="height: 20px"></div>
 			
@@ -64,6 +64,7 @@
 				<input id="idFase" type="hidden"  value="" class = "hiddenId"/>
 				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
 				<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
+				<input id="idRol" type="hidden"  value=<?php echo $idRol;?> class = "hiddenId"/>
 						
 				<span class = "requiredFieldLabel">Nombre: </span>
 				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="40"/><br>

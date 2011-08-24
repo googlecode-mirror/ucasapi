@@ -312,11 +312,12 @@ function save() {
 
 }
 
-function edit() {
-	var formData = "idUsuario=" + $("#idUsuario").val();	
-	$("#accionActual").val("editando");
-	formData += "&accionActual=" + $("#accionActual").val();
-	if($("#idUsuario").val()!=""){			
+function edit() {	
+	if($("#idUsuario").val()!=""){
+		var formData = "idUsuario=" + $("#idUsuario").val();	
+		$("#accionActual").val("editando");
+		formData += "&accionActual=" + $("#accionActual").val();
+		lockAutocomplete();
 		// grid donde se cargan los roles que un usuario tiene asignados
 		$('#list').setGridParam({
 			url : "index.php/usuario/gridRolesUsuarioRead/" + $("#idUsuario").val()
@@ -335,7 +336,8 @@ function edit() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); // Por el
+					alert("Mensaje de error: " + retrievedData.msg); // Por
+																		// el
 				} else {
 					$("#txtUsuarioCodigo").val(retrievedData.data.codEmp);
 					$("#txtUsuarioPrimerNombre").val(
@@ -382,40 +384,45 @@ function edit() {
 			}
 		});
 	}else{
-		msgBoxSucces("Debe seleccionar un usuario");
+		msgBoxSucces("Debe seleccionar un usuario a editar");
 	}
 
 }
 
 function deleteData() {
-	var formData = "idUsuario=" + $("#idUsuario").val();
-
-	var answer = confirm("Est� seguro que quiere eliminar el registro: "
-			+ $("#txtRecords").val() + " ?");
-
-	if (answer) {
-		$.ajax({
-			type : "POST",
-			url : "index.php/usuario/usuarioDelete",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					msgBoxInfo(retrievedData.msg);
-				} else {
-
-					// msgBoxSucces("<p>Registro eliminado con �xito</p>");
-					msgBoxSucces("Registro eliminado con \u00e9xito");
-					// alert("Registro eliminado con �xito");
-
-					usuarioAutocomplete();
-					usuarioCargoAutocomplete();
-					usuarioDepartamentoAutocomplete()
-					clear();
+	
+	if($("#txtRecords").val() != ""){
+		var formData = "idUsuario=" + $("#idUsuario").val();
+	
+		var answer = confirm("Est\00e1 seguro que quiere eliminar el registro: "
+				+ $("#txtRecords").val() + " ?");
+	
+		if (answer) {
+			$.ajax({
+				type : "POST",
+				url : "index.php/usuario/usuarioDelete",
+				data : formData,
+				dataType : "json",
+				success : function(retrievedData) {
+					if (retrievedData.status != 0) {
+						msgBoxInfo(retrievedData.msg);
+					} else {
+	
+						// msgBoxSucces("<p>Registro eliminado con �xito</p>");
+						msgBoxSucces("Registro eliminado con \u00e9xito");
+						// alert("Registro eliminado con �xito");
+	
+						usuarioAutocomplete();
+						usuarioCargoAutocomplete();
+						usuarioDepartamentoAutocomplete()
+						clear();
+					}
 				}
-			}
-
-		});
+	
+			});
+		}
+	}else{
+		msgBoxSucces("Debe seleccionar un usuario a eliminar");
 	}
 }
 
@@ -568,6 +575,7 @@ function validar_campos() {
 function cancel() {
 	// $("#btnCancel").toggleClass('ui-state-active');
 	clear();
+	clearGrids();
 	$("#msgBox").hide();
 }
 
@@ -579,8 +587,33 @@ function clear() {
 	$("#txtRecords").val("");
 	$("#chkUsuarioActivo").attr('checked', false);
 	$("#accionActual").val("");
+	unlockAutocomplete();
 }
 
 $("#chkUsuarioActivo").change(function() {
 	alert('Handler for .change() called.');
 });
+
+
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
+function lockAutocomplete() {	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
+}
+
+function clearGrids(){
+	// grid donde se cargan los roles que un usuario tiene asignados
+	$('#list').setGridParam({
+		url : "index.php/usuario/gridRolesUsuarioRead/" + -1
+	}).trigger("reloadGrid");
+	// grid donde se cargan todos los roles que son asignables
+	$('#todosRoles').setGridParam({
+		url : "index.php/usuario/gridRead/" + -1
+	}).trigger("reloadGrid");
+}

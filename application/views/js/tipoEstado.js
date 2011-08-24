@@ -109,6 +109,7 @@ function deleteData() {
 
 function edit() {
 	if ($("#txtSearch").val() != "") {
+		lockAutocomplete();
 		var formData = "idTipo=" + $("#idTipo").val();
 		$("#accionActual").val("editando");
 		$.ajax({
@@ -130,10 +131,15 @@ function edit() {
 
 }
 
+function cancel(){
+	clear();
+}
+
 function clear() {
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtSearch").val("");
+	unlockAutocomplete();
 }
 
 function validarCampos() {
@@ -154,4 +160,16 @@ function validarCampos() {
 		return false;
 	}
 
+}
+
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING*/
+function lockAutocomplete() {	
+	$("#txtSearch").attr("disabled", true);	
+	$("#txtSearch").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtSearch").attr("disabled", false);
+	$("#txtSearch").css({"background-color": "FFFFFF"});	
 }
