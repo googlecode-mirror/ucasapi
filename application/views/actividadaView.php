@@ -63,15 +63,15 @@
 			<div id="tabs" style = "height: auto;">
 				<ul>
 					<li><a href="#tabs-1">Información General</a></li>
-					<li><a href="#tabs-2">Seguidores</a></li>
-					<li><a href="#tabs-3">Documentos</a></li>
+					<li><a href="#tabs-2">Proyectos relacionados</a></li>
+					<li><a href="#tabs-3">Seguidores</a></li>
+					<li><a href="#tabs-4">Documentos</a></li>
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style= "height: auto">	
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
-					<input id="idUsuarioResponsable" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idPrioridad" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>					
@@ -84,10 +84,7 @@
 					
 					<span class = "inputFieldLabel" >Proceso</span>
 					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad está asociada"/><br>
-					
-					<span class = "requiredFieldLabel" >Responsable</span>
-					<input id="txtResponsibleName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
-					
+										
 					<span class = "requiredFieldLabel" >Prioridad</span>
 					<input id="txtPriorityName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
 					
@@ -114,8 +111,8 @@
                          	</td>
                             <td>
                             	<div class="divLessOrMoreThan">
-                                	<button id="btnMoreThan" onClick="agregarRol()"></button><br />
-                                    <button id="btnLessThan" onClick="eliminarRol()"></button>
+                                	<button id="btnMoreThan" onClick="addResponsible()"></button><br />
+                                    <button id="btnLessThan" onClick="removeResponsible()"></button>
                                  </div>
                             </td>   
                             <td>
@@ -125,8 +122,26 @@
                       </tr>               
                       </table>					
 				</div>
-				
 				<div id="tabs-2">
+					<div class = "gridView" style = "width : 480px">
+						<table id="projectsGrid"><tr><td/></tr></table> 
+						<div id="ppager"></div>
+					</div>
+					<div class="divAddButton">
+						<button id="btnAddProject" onClick = "addProject()">Agregar</button>
+					</div>	
+					
+					<div class = "gridView" style = "width : 480px">
+						<table id="relatedProjectsGrid"><tr><td/></tr></table> 
+						<div id="rpager"></div>
+					</div>
+						<div class="divAddButton">
+						<button id="btnRemoveProject" onClick = "removeProject()">Quitar</button>
+					</div>
+				</div>
+				
+				
+				<div id="tabs-3">
 					<div class = "gridView" style = "width : 480px">
 						<table id="usersGrid"><tr><td/></tr></table> 
 						<div id="upager"></div>
@@ -144,7 +159,7 @@
 					</div>
 				</div>
 				
-				<div id="tabs-3" class="divDataForm" style="height: 600px">
+				<div id="tabs-4" class="divDataForm" style="height: 600px">
 					<div class="divUploadButton">
 						<button id="btnUpload">Seleccionar archivo</button><p></p>
 					</div>					
