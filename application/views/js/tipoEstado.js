@@ -22,19 +22,7 @@ function tipoAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtSearch").autocomplete({
 					minChars : 0,
