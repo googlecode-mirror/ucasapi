@@ -5,6 +5,13 @@ $(document).ready(function() {
 	procesoEstadoAutocomplete();
 	procesoFaseAutocomplete();
 	$("#idProceso").val("0");
+	
+	alert($("#idRol").val());
+	
+	if($("#idRol").val() != 2){	
+		$("#btnSave").attr("disabled", true);
+	}
+	
 	// loadGrid("0");
 });
 
@@ -138,7 +145,7 @@ function save() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); 
+					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
 					if ($("idProceso").val() == "") {
 						msgBoxSucces("Proceso agregado con \u00e9xito");
@@ -156,25 +163,38 @@ function save() {
 }
 
 function edit() {
-	var formData = "idProceso=" + $("#idProceso").val();
-		$.ajax({
-			type : "POST",
-			url : "index.php/proceso/procesoRead",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg); 
-				} else {
-					$("#txtProcesoName").val(retrievedData.data.nombreProceso);
-					$("#cbEstado").val(retrievedData.data.idEstado);
-					$("#txtProcesoDesc").val(retrievedData.data.descripcion);
-					$("#txtProyectoName")
-							.val(retrievedData.data.nombreProyecto)
-					$("#cbFases").val(retrievedData.data.idFase);
+
+	if ($("#txtRecordsProy").val() != "") {
+		if ($("#txtRecordsProc").val() != "") {
+			var formData = "idProceso=" + $("#idProceso").val();
+			lockAutocomplete();
+			$.ajax({
+				type : "POST",
+				url : "index.php/proceso/procesoRead",
+				data : formData,
+				dataType : "json",
+				success : function(retrievedData) {
+					if (retrievedData.status != 0) {
+						alert("Mensaje de error: " + retrievedData.msg);
+					} else {
+						$("#txtProcesoName").val(
+								retrievedData.data.nombreProceso);
+						$("#cbEstado").val(retrievedData.data.idEstado);
+						$("#txtProcesoDesc")
+								.val(retrievedData.data.descripcion);
+						$("#txtProyectoName").val(
+								retrievedData.data.nombreProyecto)
+						$("#cbFases").val(retrievedData.data.idFase);
+					}
 				}
-			}
-		});
+			});
+		}else{
+			msgBoxInfo("Debe seleccionar un PROCESO a editar");
+		}
+	}else{
+		msgBoxInfo("Debe seleccionar un PROYECTO al que pertenece el proceso");
+	}
+
 }
 
 function addFase() {
@@ -351,6 +371,7 @@ function clear() {
 	$("#cbEstado").val("--Estado--");
 	$("#idProceso").val("0");
 	$("#tablaFases").GridUnload();
+	unlockAutocomplete();
 	loadGrid();
 }
 
@@ -358,32 +379,62 @@ function validarCampos() {
 	var camposFallan = "";
 	if ($("#txtProcesoName").val() != "") {
 		if (!validarAlfaEspNum($("#txtProcesoName").val())) {
-			camposFallan += "El campo NOMBRE contiene caracteres no permitidos";
+			camposFallan += "	El campo NOMBRE contiene caracteres no validos";
 		}
 	} else {
-		camposFallan += "El campo NOMBRE es requerido <br/>";
+		camposFallan += "	El campo NOMBRE es requerido <br/>";
 	}
 
 	if ($("#cbEstado").val() == "") {
-		camposFallan += "Debe seleccionar un ESTADO <br />";
+		camposFallan += "	Debe seleccionar un ESTADO <br />";
 	}
 
 	if ($("#cbFases").val() == "") {
-		camposFallan += "Debe seleccionar una FASE <br />";
+		camposFallan += "	Debe seleccionar una FASE <br />";
 	}
 
 	if ($("#txtProcesoDesc").val() != "") {
 		if ($("#txtProcesoDesc").val().length > 256) {
-			camposFallan += "El campo DESCRIPCION es mayor a 256 caracteres <br/>";
+			camposFallan += "	El campo DESCRIPCION es mayor a 256 caracteres <br/>";
 		}
 	} else {
-		camposFallan += "El campo DESCRIPCION es requerido <br/>";
+		camposFallan += "	El campo DESCRIPCION es requerido <br/>";
 	}
 
 	if (camposFallan == "") {
+		camposFallan = "Se encontraron los siguientes problemas: <br/>"
 		return true;
 	} else {
 		msgBoxInfo(camposFallan);
 		return false;
 	}
+}
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
+function lockAutocomplete() {
+	$("#btnSave").attr("disabled", false);
+	$("#txtRecordsProy").attr("disabled", true);
+	$("#txtRecordsProy").css({
+		"background-color" : "DBEBFF"
+	});
+
+	$("#txtRecordsProc").attr("disabled", true);
+	$("#txtRecordsProc").css({
+		"background-color" : "DBEBFF"
+	});
+}
+
+function unlockAutocomplete() {
+	if($("#idRol").val() != 2){
+		$("#btnSave").attr("disabled", true);
+	}
+	$("#txtRecordsProy").attr("disabled", false);
+	$("#txtRecordsProy").css({
+		"background-color" : "FFFFFF"
+	});	
+		
+	$("#txtRecordsProc").attr("disabled", false);
+	$("#txtRecordsProc").css({
+		"background-color" : "FFFFFF"
+	});
 }

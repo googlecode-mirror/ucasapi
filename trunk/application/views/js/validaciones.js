@@ -72,7 +72,7 @@ function validarNUP(campo) {
 }
 
 function validarExtension(campo) {
-	var RegExPattern = /^[0-9]{3}$/;
+	var RegExPattern = /^[0-9]{3,4}$/;
 	var errorMessage = 'Password Incorrecta.';
 	if ((campo.match(RegExPattern)) && (campo.value != '')) {
 		return true;
