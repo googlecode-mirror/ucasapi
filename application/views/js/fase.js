@@ -107,6 +107,7 @@ function deleteData(){
 			else{
 				alert("Fase eliminada con exito");
 				faseAutocomplete();
+				llenarFases();
 				clear();
 			}
 		}
@@ -148,7 +149,7 @@ function validar_campos(){
 	var camposFallan = "";
 	
 	if($("#txtFaseName").val()!=""){
-		if(!validarAlfa($("#txtFaseName").val())){
+		if(!validarAlfaEsp($("#txtFaseName").val())){
 			camposFallan += "El campos NOMBRE FASE contiene caracteres no validos <br />";
 		}
 	}else{
