@@ -8,7 +8,7 @@ $(document).ready(function() {
 	
 	alert($("#idRol").val());
 	
-	if($("#idRol").val() != 2){	
+	if($("#idRol").val() != 1){	
 		$("#btnSave").attr("disabled", true);
 	}
 	
@@ -425,7 +425,7 @@ function lockAutocomplete() {
 }
 
 function unlockAutocomplete() {
-	if($("#idRol").val() != 2){
+	if($("#idRol").val() != 1){
 		$("#btnSave").attr("disabled", true);
 	}
 	$("#txtRecordsProy").attr("disabled", false);
