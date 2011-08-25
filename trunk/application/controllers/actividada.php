@@ -118,10 +118,10 @@ class Actividada extends CI_Controller{
 	
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	function departmentDelete(){
-		$this->load->model("departamentoModel");
+	function activityDelete(){
+		$this->load->model("actividadaModel");
 		
-		$deleteInfo = $this->departamentoModel->delete();		
+		$deleteInfo = $this->actividadaModel->delete();		
 		
 		echo json_encode($deleteInfo);
 	}
@@ -182,6 +182,11 @@ class Actividada extends CI_Controller{
 	function gridProjectsRead($idActividad){
 			$this->load->model("actividadaModel");	
 			echo json_encode($this->actividadaModel->gridProyectosRead($idActividad));
+	}
+	
+	function gridRProjectsRead($idActividad){
+			$this->load->model("actividadaModel");	
+			echo json_encode($this->actividadaModel->gridRProyectosRead($idActividad));
 	}
 	
 	
