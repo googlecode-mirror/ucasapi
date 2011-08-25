@@ -306,6 +306,7 @@ function edit(){
    			    $("#responsibleUsersGrid").setGridParam({url:"index.php/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 			    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 			    $("#projectsGrid").setGridParam({url:"index.php/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+			    $("#relatedProjectsGrid").setGridParam({url:"index.php/actividada/gridRProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
         	}			       
       	}      
 	});
@@ -315,14 +316,14 @@ function edit(){
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function deleteData(){
-	var formData = "idDepto=" + $("#idDepto").val();
+	var formData = "idActividad=" + $("#idActividad").val();
 	
 	var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
 	
 	if (answer){		
 		$.ajax({				
 	        type: "POST",
-	        url:  "index.php/departamento/departmentDelete",
+	        url:  "index.php/actividada/activityDelete",
 	        data: formData,
 	        dataType : "json",
 	        success: function(retrievedData){
@@ -333,7 +334,7 @@ function deleteData(){
 	        	else{
 	        		msgBoxSucces("Registro eliminado con éxito");
 	        		//alert("Registro eliminado con éxito");
-	        		departmentAutocomplete();
+	        		//departmentAutocomplete();
 	        		clear();
 	        	}
 	      	}
