@@ -40,12 +40,12 @@ class buzonModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idNotificacion = $this->input->post("idNotificacion");
 		
-		$sql = "SELECT n.idNotificacion, n.subject, n.fechaNotificacion, uxn.idEstado
+		$sql = "SELECT n.idNotificacion, n.subject, n.fechaNotificacion, uxn.idEstado, uxn.horaEntrada
 				FROM NOTIFICACION n INNER JOIN USUARIO_NOTIFICACION uxn ON n.idNotificacion = uxn.idNotificacion
     				INNER JOIN USUARIO u ON uxn.idUsuario = u.idUsuario INNER JOIN ESTADO e ON uxn.idEstado = e.idEstado
     				INNER JOIN TIPO_ESTADO te ON e.idTipoEstado = te.idTipoEstado
 				WHERE u.idUsuario = " .$idUsuario.
-				" ORDER BY n.fechaNotificacion";
+				" ORDER BY uxn.horaEntrada DESC";
 		
 		$query = $this->db->query($sql);
 		

@@ -12,6 +12,8 @@ class proyectoModel extends CI_Model{
 		$nombreProyecto = $this->input->post("nombreProyecto");
 		$fechaPlanIni = $this->input->post("fechaPlanIni");
 		$fechaPlanFin = $this->input->post("fechaPlanFin");
+		$fechaRealIni = $this->input->post("fechaRealIni");
+		$fechaRealFin = $this->input->post("fechaRealFin");
 		$descripcion = $this->input->post("descripcion");
 		$activo = $this->input->post("activo");
 		$proc_data = $this->input->post("proc_data");

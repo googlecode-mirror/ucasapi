@@ -113,7 +113,7 @@ class actividadModel extends CI_Model{
 				$sql = "UPDATE USUARIO_ACTIVIDAD SET activo = '0', fechaDesvinculacion = CURDATE() WHERE idActividad = ".$idActividad. " AND idUsuario = ".$element;
 				$this->db->query($sql);
 				
-				$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado) VALUES(".$element.",".$idNotificacion.",18)";
+				$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$element.",".$idNotificacion.",18,CURTIME())";
 				$this->db->query($sql);
 				
 				if($desasignar == 1){ //Es por que hay personas que se van a desasignar
@@ -174,7 +174,7 @@ class actividadModel extends CI_Model{
 		$query = $this->db->query($sql);
 		
 		foreach ($query->result() as $row){
-			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado) VALUES(".$row->idUsuario.",".$idNotificacion.",18)"; 	
+			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$row->idUsuario.",".$idNotificacion.",18,CURTIME())"; 	
 			$this->db->query($sql);		
 		}
 		
@@ -219,7 +219,7 @@ class actividadModel extends CI_Model{
 			$trippin[$indexTrippin++] = "CALL sp_insert_ua(".$idUsuarioInsert.",".$idActividad.",".$idUsuarioAsigna.")";
 			
 			//Insertando la notificacion al usuario
-			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado) VALUES(".$idUsuarioInsert.",".$idNotificacion.",18)";
+			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$idUsuarioInsert.",".$idNotificacion.",18,CURTIME())";
 			$this->db->query($sql);	
 
 		}
@@ -287,7 +287,7 @@ class actividadModel extends CI_Model{
 		
 		$retArray = array("status" => 0, "msg" => "");
 		
-		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre, r.nombreRol
+		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre
 				FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
         			ON rxu.idUsuario = u.idUsuario
         		WHERE (r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5)
@@ -306,7 +306,7 @@ class actividadModel extends CI_Model{
 					$response->rows[$i]["nombre"] = $row->nombre;
 					$response->rows[$i]["nombreRol"] = $row->nombreRol;*/
 					$response->rows[$i]["id"] = $row->idUsuario;
-					$response->rows[$i]["cell"] = array($row->idUsuario, $row->codEmp, $row->nombre, $row->nombreRol);
+					$response->rows[$i]["cell"] = array($row->idUsuario, $row->codEmp, $row->nombre);
 					$i++;
 				}
 			}
@@ -353,7 +353,7 @@ class actividadModel extends CI_Model{
 		
 		//------------------------------------------------------------
 		
-		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre, r.nombreRol
+		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ', u.primerApellido,' ') nombre
     			FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
     				ON rxu.idUsuario = u.idUsuario INNER JOIN USUARIO_ACTIVIDAD uxa
     				ON u.idUsuario = uxa.idUsuario

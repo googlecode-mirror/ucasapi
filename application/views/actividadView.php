@@ -60,7 +60,7 @@
 			<span class="inputFieldLabel">Estado: </span>
 			<select id="cbEstado"></select> <span class="inputFieldLabel">Progreso:
 			</span> <select id="cbProgreso">
-				<option value="">--Progreso--</option>
+				<option value="0">--Progreso--</option>
 				<option value="10">10</option>
 				<option value="20">20</option>
 				<option value="30">30</option>
