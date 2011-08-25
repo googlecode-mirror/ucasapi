@@ -17,7 +17,7 @@ function accionAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+        		alert("Mensaje de error: " + retrievedData.msg); 
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
@@ -34,10 +34,12 @@ function accionAutocomplete(){
 }
 
 function save(){
+	if(validar_campos()){
 		var formData= "";
 		formData += "idAccion=" + $("#idAccion").val();
-		formData += "&nombreAccion=" + $("#txtAccionName").val();	
-		if(validar_campos()){
+		formData += "&nombreAccion=" + $("#txtAccionName").val();
+		formData += "&accionActual=" + $("#accionActual").val();
+		
 			$.ajax({				
 		        type: "POST",
 		        url:  "index.php/accion/accionValidateAndSave",
@@ -45,14 +47,14 @@ function save(){
 		        dataType : "json",
 		        success: function(retrievedData){
 		        	if(retrievedData.status != 0){
-		        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
+		        		alert("Mensaje de error: " + retrievedData.msg); 
 		        	}
 		        	else{
-		        		if($("idAccion").val()==""){
-		        			alert("Registro agregado con �xito");
+		        		if($("#accionActual").val()==""){
+		        			msgBoxSucces("Registro agregado con &eacute;xito");
 		        		}
 		        		else{
-		        			alert("Registro actualizado con �xito");
+		        			msgBoxSucces("Registro actualizado con &eacute;xito");
 		        		}
 		        		accionAutocomplete();
 		        		clear();
@@ -64,64 +66,73 @@ function save(){
 }
 
 function edit(){
-	var formData = "idAccion=" + $("#idAccion").val();	
-	
-	$.ajax({				
-        type: "POST",
-        url:  "index.php/accion/accionRead",
-        data: formData,
-        dataType : "json",
-        success: function(retrievedData){
-        	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
-        	}else{
-        		$("#txtAccionName").val(retrievedData.data.nombreAccion);
-        	}			       
-      	}      
-	});
-	
-}
-
-function deleteData(){
-	var formData = "idAccion=" + $("#idAccion").val();
-	
-	var answer = confirm("Est� seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
-	
-	if (answer){		
+	if($("#txtRecords").val() != ""){
+		$("#accionActual").val("editando");
+		lockAutocomplete();
+		var formData = "idAccion=" + $("#idAccion").val();
+		
 		$.ajax({				
 	        type: "POST",
-	        url:  "index.php/accion/accionDelete",
+	        url:  "index.php/accion/accionRead",
 	        data: formData,
 	        dataType : "json",
 	        success: function(retrievedData){
 	        	if(retrievedData.status != 0){
-	        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
-	        	}
-	        	else{
-	        		alert("Registro eliminado con �xito");
-	        		accionAutocomplete();
-	        		clear();
-	        	}
-	      	}
-	      
-		});		
-	}	
+	        		alert("Mensaje de error: " + retrievedData.msg); 
+	        	}else{
+	        		$("#txtAccionName").val(retrievedData.data.nombreAccion);
+	        	}			       
+	      	}      
+		});
+	}else{
+		msgBoxInfo("Debe seleccionar una acci&oacute;n a editar");
+	}
+	
+}
+
+function deleteData(){
+	if($("#txtRecords").val() != ""){
+		var formData = "idAccion=" + $("#idAccion").val();	
+		var answer = confirm("Est&aacute; seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");	
+		if (answer){		
+			$.ajax({				
+		        type: "POST",
+		        url:  "index.php/accion/accionDelete",
+		        data: formData,
+		        dataType : "json",
+		        success: function(retrievedData){
+		        	if(retrievedData.status != 0){
+		        		alert("Mensaje de error: " + retrievedData.msg);
+		        	}
+		        	else{
+		        		msgBoxSucces("Registro eliminado con &eacute;xito");
+		        		accionAutocomplete();
+		        		clear();
+		        	}
+		      	}
+		      
+			});		
+		}	
+	}else{
+		msgBoxInfo("Debe seleccionar una acci&oacute;n a eliminar");
+	}
 }
 
 function validar_campos(){
 	var camposFallan = "";
 	
 	if($("#txtAccionName").val()!=""){
-		if(!validarAlfa($("#txtAccionName").val())){
-			camposFallan += "Formato de NOMBRE ACCION es incorrecto <br />";
+		if(!validarAlfaEsp($("#txtAccionName").val())){
+			camposFallan += "<p><dd>El campo NOMBRE ACCION contiene caracteres no validos</dd><br /></p>";
 		}
 	}else{
-		camposFallan += "El campo NOMBRE ACCION es requerido <br />";
+		camposFallan += "<p><dd>El campo NOMBRE ACCION es requerido</dd> <br /> </p>";
 	}
 	
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se han encontrado los siguientes problemas: <br/>" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}
@@ -135,4 +146,16 @@ function clear(){
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
+	unlockAutocomplete();
+}
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
+function lockAutocomplete() {	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
 }

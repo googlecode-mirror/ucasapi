@@ -15,19 +15,7 @@ function departmentAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// está
-				// mostrando
-				// es
-				// técnico,
-				// para
-				// cuestiones
-				// de
-				// depuración
+				alert("Mensaje de error: " + retrievedData.msg); 
 			} else {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
@@ -80,7 +68,7 @@ function save() {
 }
 
 function edit() {
-	if ($("txtRecords").val() != "") {
+	if ($("#txtRecords").val() != "" ) {
 		$("#accionActual").val("editado");
 		lockAutocomplete();
 		var formData = "idDepto=" + $("#idDepto").val();
@@ -115,7 +103,7 @@ function edit() {
 }
 
 function deleteData() {
-	if ($("txtRecords").val() != "") {
+	if ($("#txtRecords").val() != "") {
 		var formData = "idDepto=" + $("#idDepto").val();
 
 		var answer = confirm("Está seguro que quiere eliminar el registro: "

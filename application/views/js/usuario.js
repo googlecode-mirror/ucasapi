@@ -384,7 +384,7 @@ function edit() {
 			}
 		});
 	}else{
-		msgBoxSucces("Debe seleccionar un usuario a editar");
+		msgBoxInfo("Debe seleccionar un usuario a editar");
 	}
 
 }
@@ -422,7 +422,7 @@ function deleteData() {
 			});
 		}
 	}else{
-		msgBoxSucces("Debe seleccionar un usuario a eliminar");
+		msgBoxInfo("Debe seleccionar un usuario a eliminar");
 	}
 }
 

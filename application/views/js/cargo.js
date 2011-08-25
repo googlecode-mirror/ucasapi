@@ -36,6 +36,7 @@ function save() {
 		var formData = "";
 		formData += "idCargo=" + $("#idCargo").val();
 		formData += "&nombreCargo=" + $("#txtCargoName").val();
+		formData += "&accionActual=" + $("#accionActual").val();
 
 		$.ajax({
 			type : "POST",
@@ -46,7 +47,7 @@ function save() {
 				if (retrievedData.status != 0) {
 					msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);
 				} else {
-					if ($("idCargo").val() == "") {
+					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con &eacute;xito");
 					} else {
 						msgBoxSucces("Registro actualizado con &eacute;xito");
@@ -62,6 +63,8 @@ function save() {
 
 function edit() {
 	if ($("#txtRecords").val() != "") {
+		$("#accionActual").val("editando");
+		lockAutocomplete();
 		var formData = "idCargo=" + $("#idCargo").val();
 		$.ajax({
 			type : "POST",
@@ -85,7 +88,7 @@ function edit() {
 function deleteData() {
 	if ($("#txtRecords").val() != "") {
 		var formData = "idCargo=" + $("#idCargo").val();
-		var answer = confirm("Est� seguro que quiere eliminar el registro: "
+		var answer = confirm("Esta seguro que quiere eliminar el registro: "
 				+ $("#txtRecords").val() + " ?");
 
 		if (answer) {
@@ -96,21 +99,7 @@ function deleteData() {
 				dataType : "json",
 				success : function(retrievedData) {
 					if (retrievedData.status != 0) {
-						alert("Mensaje de error: " + retrievedData.msg); // Por
-						// el
-						// momento,
-						// el
-						// mensaje
-						// que
-						// se
-						// est�
-						// mostrando
-						// es
-						// t�cnico,
-						// para
-						// cuestiones
-						// de
-						// depuraci�n
+						alert("Mensaje de error: " + retrievedData.msg);
 					} else {
 						msgBoxSucces("Registro eliminado con &eacute;xito");
 						cargoAutocomplete();
@@ -134,22 +123,35 @@ function clear() {
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
 	$("#spancargo").text("");
+	unlockAutocomplete();
 }
 
 function validarCampos() {
 	var camposFallan = "";
 	if ($("#txtCargoName").val() != "") {
 		if (!validarAlfaEsp($("#txtCargoName").val())) {
-			camposFallan += "El campo NOMBRE contiene caracteres no validos <br/>";
+			camposFallan += "<p><dd>El campo NOMBRE contiene caracteres no validos </dd><br/></p>";
 		}
 	} else {
-		camposFallan += "El campo NOMBRE es requerido <br/>";
+		camposFallan += "<p><dd>El campo NOMBRE es requerido </dd><br/></p>";
 	}
 
 	if (camposFallan == "") {
 		return true;
 	} else {
+		camposFallan = "Se encontraron los siguientes problemas: <br/>" + camposFallan; 
 		msgBoxInfo(camposFallan);
 		return false;
 	}
+}
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
+function lockAutocomplete() {	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
 }

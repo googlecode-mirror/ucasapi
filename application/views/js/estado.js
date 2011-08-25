@@ -153,8 +153,7 @@ function cancel() {
 function clear() {
 	$(".inputField").val("");
 	$(".hiddenId").val("");
-	$("#txtRecords").val("");
-	unlockAutocomplete();
+	$("#txtRecords").val("");	
 }
 
 function validarCampos() {
