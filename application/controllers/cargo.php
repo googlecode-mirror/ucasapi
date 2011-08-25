@@ -68,9 +68,9 @@ class Cargo extends CI_Controller{
 		$validationInfo = $this->cargoModel->saveValidation();
 		
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
-			$idDepto =  $this->input->post("idCargo");
+			$accionActual =  $this->input->post("accionActual");
 			
-			if($idDepto == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->cargoModel->create();
 			}
 			else{
