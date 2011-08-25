@@ -11,7 +11,7 @@ function loadBuzon() {
 				url : "index.php/buzon/gridMensajesBuzon/" + $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Asunto", "Fecha", "Estado" ],
+				colNames : [ "Asunto", "Fecha", "Estado", "Hora" ],
 				colModel : [ {
 					name : "subject",
 					index: "subject",
@@ -23,6 +23,11 @@ function loadBuzon() {
 				}, {
 					name : "idEstado",
 					index : "idEstado",
+					width : 0,
+					hidden: true
+				}, {
+					name : "horaEntrada",
+					index : "horaEntrada",
 					width : 0,
 					hidden: true
 				}],

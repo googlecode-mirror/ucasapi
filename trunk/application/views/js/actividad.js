@@ -22,7 +22,7 @@ function estadoAutocomplete(){
 		data: "statusAutocomplete",
 		dataType : "json",
 		success: function(retrievedData){        	 
-			options = '<option value="">--Estado--</option>';
+			options = '<option value="0">--Estado--</option>';
 			$.each(retrievedData.data, function(i,obj) {
 				options += '<option value="' + obj.idEstado + '">' + obj.estado + '</option>';
 			});			
@@ -41,23 +41,23 @@ function save(){
 	formData += "&idUsuario=" + $("#idUsuario").val();
 	formData += "&progreso=" + $("#cbProgreso").val();
 	formData += "&comentario=" + $("#txtComentarios").val();
-	
+
 	user_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
 	for ( var Elemento in user_rows) {
 		for ( var Propiedad in user_rows[Elemento]) {
 			if (Propiedad == "idUsuario"){
-					if (user_rows[Elemento][Propiedad] == $("#idUsuario").val()){
-						continue;
-					}
-					else{
-						gridData += user_rows[Elemento][Propiedad] + "|";
-					}
+				if (user_rows[Elemento][Propiedad] == $("#idUsuario").val()){
+					continue;
+				}
+				else{
+					gridData += user_rows[Elemento][Propiedad] + "|";
+				}
 			}
-			
+
 		}
 	};
-	
+
 	if(idUsuariosAdd.length != 0){
 		formData += "&add_data=" + idUsuariosAdd;
 		formData += "&asignarBand=1";
@@ -66,7 +66,7 @@ function save(){
 		formData += "&add_data=0";
 		formData += "&asignarBand=0";
 	}
-	
+
 	formData += "&user_data=" + gridData;
 	if(idUsuariosQuitar.length != 0){
 		formData += "&remove_data=" + idUsuariosQuitar;
@@ -76,24 +76,33 @@ function save(){
 		formData += "&remove_data=0";
 		formData += "&desasignarBand=0";
 	}
+	if($("#cbEstado").val() != "0"){
+		if($("#cbProgreso").val() != "0"){
+			$.ajax({
+				type: "POST",
+				url: "/ucasapi/actividad/actividadValidateAndSave",
+				data: formData,
+				dataType: "json",
+				success: function(retrievedData){
+					if(retrievedData.status != 0){
+						alert("Mensaje de error: " + retrievedData.msg);
+					}
+					else{
+						alert("Actividad actualizada con exito");
+						idUsuariosQuitar = new Array();
+						idUsuariosAdd = new Array();
+					}
+				}
 
-	$.ajax({
-		type: "POST",
-		url: "/ucasapi/actividad/actividadValidateAndSave",
-		data: formData,
-		dataType: "json",
-		success: function(retrievedData){
-			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg);
-			}
-			else{
-				alert("Actividad actualizada con exito");
-				idUsuariosQuitar = new Array();
-				idUsuariosAdd = new Array();
-			}
+			});
 		}
-
-	});
+		else{
+			msgBoxInfo("Debe seleccionar un Progreso valido");
+		}
+	}
+	else{
+		msgBoxInfo("Debe seleccionar un Estado valido");
+	}
 }
 
 function actividadData(){
@@ -133,7 +142,7 @@ function loadGrid() {
 				url : "/ucasapi/actividad/gridUsuariosRead/" + $("#idActividad").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Id", "Cod.", "Usuario", "Rol" ],
+				colNames : [ "Id", "Cod.", "Usuario"],
 				colModel : [ {
 					name : "idUsuario",
 					index: "idUsuario",
@@ -148,12 +157,7 @@ function loadGrid() {
 					name : "nombre",
 					index : "nombre",
 					width : 200
-				}, {
-					name : "nombreRol",
-					index : "nombreRol",
-					width : 0,
-					hidden : true
-				} ],
+				}],
 				pager : "#pager",
 				rowNum : 10,
 				rowList : [ 10, 20, 30 ],
@@ -175,7 +179,7 @@ function loadGridTR() {
 		url : "/ucasapi/actividad/gridUsuarioSet/" + $("#idActividad").val(),
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Cod.", "Usuario", "Rol" ],
+		colNames : [ "Id", "Cod.", "Usuario"],
 		colModel : [ {
 			name : "idUsuario",
 			index: "idUsuario",
@@ -190,12 +194,7 @@ function loadGridTR() {
 			name : "nombre",
 			index : "nombre",
 			width : 200
-		}, {
-			name : "nombreRol",
-			index : "nombreRol",
-			width : 0,
-			hidden : true
-		} ],
+		}],
 		pager : "#pagerTR",
 		rowNum : 10,
 		rowList : [ 10, 20, 30 ],
@@ -214,7 +213,7 @@ function loadGridTR() {
 function asignar() {
 	row_id = $("#todosUsuarios").jqGrid("getGridParam", "selrow");
 	row_data = $("#todosUsuarios").jqGrid("getRowData", row_id);
-	
+
 	if (row_id != null) {
 		num_rows = $("#list").getGridParam("records"); 
 		new_row_data = {
@@ -226,9 +225,9 @@ function asignar() {
 		//Eliminar del array el ID del usuario que ya no se va desasignar...
 		var index = idUsuariosQuitar.indexOf(row_data["idUsuario"]);
 		if(index != -1) idUsuariosQuitar.splice(index,1);
-		
+
 		idUsuariosAdd.push(row_data["idUsuario"]);
-	
+
 		$("#list").addRowData(num_rows + 1, new_row_data);
 		$("#todosUsuarios").delRowData(row_id);
 	}
@@ -238,10 +237,10 @@ function asignar() {
 function desasignar() {
 	row_id = $("#list").jqGrid("getGridParam", "selrow");
 	row_data = $("#list").jqGrid("getRowData", row_id);
-	
+
 	if (row_id != null) {
 		num_rows = $("#todosUsuarios").getGridParam("records");
-	
+
 		new_row_data = {
 				"idUsuario" : row_data["idUsuario"],
 				"codEmp" : row_data["codEmp"],
@@ -250,11 +249,11 @@ function desasignar() {
 		};
 		//Insertar en array de IDs el id del usuario que se va a desasignar...
 		idUsuariosQuitar.push(row_data["idUsuario"]);
-		
+
 		//Eliminar del array el ID del usuario que ya no se va asignar...
 		var index = idUsuariosAdd.indexOf(row_data["idUsuario"]);
 		if(index != -1) idUsuariosAdd.splice(index,1);
-		
+
 		$("#todosUsuarios").addRowData(num_rows + 1, new_row_data);
 
 		$("#list").delRowData(row_id);
