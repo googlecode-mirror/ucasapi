@@ -25,6 +25,8 @@ class actividadaModel extends CI_Model{
 		
 		$seguidores = $this->input->post("seguidores");
 		$responsables = $this->input->post("responsables");
+		$proyectosRelacionados = $this->input->post("proyRelacionados");
+		
 		
 		//Si no se est� en sesi�n
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
@@ -36,9 +38,9 @@ class actividadaModel extends CI_Model{
 		
 		
 		//Insertando en ACTIVIDAD
-		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, anioSolicitud, correlAnio, idPrioridad, idProceso, idEstado)".
+		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, anioSolicitud, correlAnio, idPrioridad, idProceso,activo, idEstado)".
 				"VALUES (".$this->db->escape($nombreActividad).", ".$this->db->escape($fechaInicioPlan).",".$this->db->escape($fechaFinalizacionPlan).",".$this->db->escape($descripcionActividad).",".
-						  $this->db->escape($anioSolicitud).",".$this->db->escape($correlAnio).",".$this->db->escape($idPrioridad).",".$this->db->escape($idProceso).",".
+						  $this->db->escape($anioSolicitud).",".$this->db->escape($correlAnio).",".$this->db->escape($idPrioridad).",".$this->db->escape($idProceso).", 1, ".
 						  $this->db->escape($idEstado).")";
 						 
 		
@@ -57,27 +59,46 @@ class actividadaModel extends CI_Model{
 				$lastId = $row->lastId;
 			}
 			
-		//Insertando en bitacora informacion inicial de la actividad para
-		//$sql = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuario.",10,NULL,1,1)";
-		//$query = $this->db->query($sql);
+		$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1)";
+		$query = $this->db->query($sqlInsert);
+		if (!$query){
+	     	$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+	    }
 	    
-		$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
+		//$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
 		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal) 
 				VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", 1)";
 		
-		foreach ($idProyectoRelacionado as $idProy){
+		/*foreach ($idProyectoRelacionado as $idProy){
 			if($idProy != '') {
 				$sql2 .= ",(" . $this->db->escape($idProy) . ", " .
 						$this->db->escape($lastId) . ", 0)";
 			}
-		}
-		
+		}*/		
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
+	    
+	   
+	    
+		//Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
+		if($proyectosRelacionados != ""){
+			$data_array12 = explode(",",$proyectosRelacionados);
+			$insert_statements = $this->getRProjectsInsert($data_array12, $lastId);
+			foreach ($insert_statements as $queryRProjects) {
+				$this->db->query($queryRProjects);
+				if(!$query){
+			     	$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = $this->db->_error_message();
+					return $retArray;
+					die();
+		   		}
+			}
+		}
 	    
 	    
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
@@ -86,6 +107,12 @@ class actividadaModel extends CI_Model{
 			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId);
 			foreach ($insert_statements as $queryResponsibles) {
 				$this->db->query($queryResponsibles);
+				if (!$query){
+			     	$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = $this->db->_error_message();
+					return $retArray;
+					die();
+		   		}
 			}
 		}
 		
@@ -107,7 +134,7 @@ class actividadaModel extends CI_Model{
 			$this->db->trans_commit();
 		}	    
 		
-		$retArray["msg"] = $lastId;
+
 	    
 		return $retArray;		
 	}
@@ -148,15 +175,14 @@ class actividadaModel extends CI_Model{
 			 return $retArray;	    
 	    }
 	    
-	    $sql = "";
+		
 	    
 	    return $retArray;
 	}
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-
-	function update(){
+function update(){
 		$this->load->database();
 		
 		$retArray = array("status"=> 0, "msg" => "");
@@ -179,6 +205,8 @@ class actividadaModel extends CI_Model{
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
 		
 		$seguidores = $this->input->post("seguidores");
+		$responsables = $this->input->post("responsables");
+		$proyectosRelacionados = $this->input->post("proyRelacionados");
 		
 		//Si no se est� en sesi�n
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
@@ -211,13 +239,31 @@ class actividadaModel extends CI_Model{
 	    
 	    
 		//Actualizando en ACTIVIDAD_PROYECTO
-		$sql = "UPDATE ACTIVIDAD_PROYECTO SET idProyecto =".$this->db->escape($idProyecto)." WHERE idActividad = ".$this->db->escape($idActividad);
+		$sql = "UPDATE ACTIVIDAD_PROYECTO SET idProyecto =".$this->db->escape($idProyecto)." WHERE idActividad = ".$this->db->escape($idActividad)." AND proyectoPrincipal = 1";
 		
 		$query = $this->db->query($sql);		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
+	    
+ 		//Eliminado en ACTIVIDAD_PROYECTO
+		$sqlDP = "DELETE FROM ACTIVIDAD_PROYECTO WHERE proyectoPrincipal = 0 AND idActividad = ".$this->db->escape($idActividad);
+                		
+		$query = $this->db->query($sqlDP);		
+		if (!$query){
+	     	$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+	    }
+	    
+		//Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
+		if($proyectosRelacionados != ""){
+			$data_array12 = explode(",",$proyectosRelacionados);
+			$insert_statements = $this->getRProjectsInsert($data_array12, $idActividad);
+			foreach ($insert_statements as $queryRProjects) {
+				$query = $this->db->query($queryRProjects);
+			}
+		}
 	    
 	    	    
 	    //Eliminado en USUARIO_ACTIVIDAD
@@ -229,20 +275,14 @@ class actividadaModel extends CI_Model{
 			$retArray["msg"] = $this->db->_error_message();
 	    }
 
-		//Insertando los datos en USUARIO_ACTIVIDAD del usuario responsable de la actividad
-	    $sql = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
-	    		"VALUES(".
-	    				$this->db->escape($idUsuarioResponsable).
-	    				",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuarioResponsable)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
-	    				  $this->db->escape($idActividad).",".
-	    				  "DATE(NOW()),1,".
-	    				$this->db->escape($idUsuarioAsigna).")";
-                		
-		$query = $this->db->query($sql);		
-		if (!$query){
-	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-	    }
+		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
+		if($responsables != ""){
+			$data_array1 = explode("|",$responsables);
+			$insert_statements = $this->getResponsiblesInsert($data_array1, $idActividad);
+			foreach ($insert_statements as $queryResponsibles) {
+				$this->db->query($queryResponsibles);
+			}
+		}
 	    
 		
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
@@ -255,6 +295,7 @@ class actividadaModel extends CI_Model{
 			}
 		}
 	
+	
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
@@ -262,8 +303,10 @@ class actividadaModel extends CI_Model{
 		} else {
 			$this->db->trans_commit();
 		}	    
+		
+
 	    
-		return $retArray;		
+		return $retArray;			
 	}
 	
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -274,16 +317,16 @@ class actividadaModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idEstado = $this->input->post("idEstado");
+		$idActividad= $this->input->post("idActividad");
 		
-		$sql = "DELETE FROM ESTADO
-				WHERE idEstado = ". $idEstado;
+		$sql = "DELETE FROM ACTIVIDAD
+				WHERE idActividad = ". $idActividad;
    				
 		$query = $this->db->query($sql);
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = $sql;
 	    }
 		
 		return $retArray;	
@@ -733,10 +776,12 @@ class actividadaModel extends CI_Model{
 		
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
 			   "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
-               "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
-			   "GROUP BY u.idUsuario ";
+               "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ";
+			   
 		
-		if($idActividad != NULL)$sql.= 	"WHERE idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad).")";
+		if($idActividad != NULL)$sql.= 	"WHERE u.idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad).")";
+		
+		$sql.=" GROUP BY u.idUsuario ";
 		
 		$query = $this->db->query($sql);		
 	
@@ -750,7 +795,7 @@ class actividadaModel extends CI_Model{
 				}										
 			}			
 		}
-		
+		$response->sql = $sql;
 		return $response;
 	}
 	
@@ -767,7 +812,7 @@ class actividadaModel extends CI_Model{
 		if(!$sidx) $sidx =1;
 		
 		$sql = "SELECT COUNT(*) FROM (SELECT 1 ".
-				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario ". 
+				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario AND ua.idTipoAsociacion = 1 ". 
 								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ". 
             	" WHERE ua.idActividad = ".$this->db->escape($idActividad).
 				" GROUP BY u.idUsuario) AS BLAH" ;
@@ -797,7 +842,7 @@ class actividadaModel extends CI_Model{
 		//-------------------------
 		
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
-				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario ". 
+				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario AND ua.idTipoAsociacion = 1 ". 
 								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ". 
             	" WHERE ua.idActividad = ".$this->db->escape($idActividad).
 				" GROUP BY u.idUsuario" ;
@@ -819,7 +864,7 @@ class actividadaModel extends CI_Model{
 	}
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	function gridProyectosRead($idActividad){
+	function gridProyectosRead($idActividad=NULL){
 		$this->load->database();		
 		
 		$page = $this->input->post("page");
@@ -829,7 +874,69 @@ class actividadaModel extends CI_Model{
 		$count = 0;		
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario" ;
+		$sql = "SELECT COUNT(*) FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario " ;
+		
+		if($idActividad != NULL) $sql.= "WHERE idProyecto NOT IN (SELECT ap.idProyecto FROM ACTIVIDAD_PROYECTO ap WHERE ap.idActividad =".$this->db->escape($idActividad).")";
+		
+		$query = $this->db->query($sql);		
+		
+		if ($query->num_rows > 0){
+			$row = $query->row();				
+			$count  = $row->count;
+		} 
+		
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		$response->sql = $sql;
+		
+		//-------------------------
+		
+		$sql = "SELECT p.idProyecto, p.nombreProyecto, CONCAT(u.primerNombre, ' ', u.primerApellido) as nombreUsuario ".
+				"FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario ";
+		
+		if($idActividad != NULL)$sql.=  "WHERE idProyecto NOT IN (SELECT ap.idProyecto FROM ACTIVIDAD_PROYECTO ap WHERE ap.idActividad =".$this->db->escape($idActividad).")";
+		
+		$query = $this->db->query($sql);		
+	
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){							
+				foreach ($query->result() as $row){		
+					$response->rows[$i]["id"] = $i;
+					$response->rows[$i]["cell"] = array($row->idProyecto, $row->nombreProyecto, $row->nombreUsuario);
+					$i++;				
+				}										
+			}			
+		}
+		
+		return $response;
+	}
+	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function gridRProyectosRead($idActividad){
+		$this->load->database();		
+		
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;		
+		if(!$sidx) $sidx =1;
+		
+		$sql = "SELECT COUNT(*) as count ".
+				"FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO ap ON ap.idProyecto = p.idProyecto AND ap.proyectoPrincipal = 0 AND ap.idActividad =". $this->db->escape($idActividad).
+                " INNER JOIN USUARIO u ON u.idUsuario = p.idUsuario" ;
 		
 		$query = $this->db->query($sql);
 		
@@ -855,8 +962,9 @@ class actividadaModel extends CI_Model{
 		
 		//-------------------------
 		
-		$sql = "SELECT p.idProyecto, p.nombreProyecto, CONCAT(u.primerNombre, ' ', u.primerApellido) as nombreUsuario ".
-				"FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario" ;
+		$sql = "SELECT p.idProyecto, p.nombreProyecto, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario ".
+				"FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO ap ON ap.idProyecto = p.idProyecto  AND ap.proyectoPrincipal = 0 AND ap.idActividad =".$this->db->escape($idActividad).
+                " INNER JOIN USUARIO u ON u.idUsuario = p.idUsuario" ;
 		
 		$query = $this->db->query($sql);		
 	
@@ -1100,6 +1208,16 @@ class actividadaModel extends CI_Model{
 		}
 
 		return  $trippin;
+	}
+	
+	function getRProjectsInsert($data_array,$idActividad){
+
+		for($i = 0 ; $i< (count($data_array)-1); $i++){
+				$idProyecto = $data_array[$i];
+			
+				$sql[$i] = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal) VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($idActividad).", 0)";
+		}
+		return  $sql;
 	}
 	
 }
