@@ -68,8 +68,9 @@ class Accion extends CI_Controller{
 		
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idAccion =  $this->input->post("idAccion");
+			$accionActual =  $this->input->post("accionActual");
 			
-			if($idAccion == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->accionModel->create();
 			}
 			else{
