@@ -53,6 +53,7 @@
 				
 			<div class="divDataForm" style="height:128px">
 				<input id="idCargo" type="hidden"  value="" class = "hiddenId"/>	
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 						
 				<span class = "requiredFieldLabel">Nombre: </span>
 				<input id="txtCargoName" type="text"  value="" class = "inputField" title="Ingrese el nombre del cargo sin números" maxlength="40"/>

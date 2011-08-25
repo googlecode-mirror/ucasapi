@@ -304,9 +304,10 @@ function saveRol() {
 }
 
 function edit() {
-	if ($("#idUsuario").val() != "") {
+	if ($("#idUsuario").val() != "") {		
+		lockAutocomplete();
 		$("#contratosPressed").val("yes");
-		var formData = "idUsuario=" + $("#idUsuario").val();
+		var formData = "idUsuario=" + $("#idUsuario").val();		
 		$("#usuarioHist").GridUnload();
 		loadGridUsuarioHistorico();
 	} else {
@@ -415,13 +416,13 @@ function deleteContrato() {
 							});
 				}
 			} else {
-				msgBoxSucces("Debe seleccionar un contrato a eliminar");
+				msgBoxInfo("Debe seleccionar un contrato a eliminar");
 			}
 		} else {
-			msgBoxSucces("Debe seleccionar la opcion \"CONTRATOS\" para este usuario");
+			msgBoxInfo("Debe seleccionar la opcion \"CONTRATOS\" para este usuario");
 		}
 	} else {
-		msgBoxSucces("Debe seleccionar un usuario");
+		msgBoxInfo("Debe seleccionar un usuario");
 	}
 }
 
@@ -467,10 +468,10 @@ function deleteRol() {
 						});
 			}
 		} else {
-			msgBoxSucces01("Debe seleccionar un rola eliminar de el contrato");
+			msgBoxInfo01("Debe seleccionar un rola eliminar de el contrato");
 		}
 	} else {
-		msgBoxSucces01("Debe seleccionar un usuario");
+		msgBoxInfo01("Debe seleccionar un usuario");
 	}
 }
 
@@ -487,7 +488,7 @@ function editarContrato() {
 				$("#correlUsuarioHistorico").val(
 						row_data["correlUsuarioHistorico"]);
 				$("#idUsuario").val(row_data["idUsuario"]);
-				//$("#accionActual").val("roleando");
+				// $("#accionActual").val("roleando");
 				$('#rolesHist')
 						.setGridParam(
 								{
@@ -499,11 +500,11 @@ function editarContrato() {
 								}).trigger("reloadGrid");
 			}
 		} else {
-			msgBoxSucces("Debe seleccionar un contrato");
+			msgBoxInfo("Debe seleccionar un contrato");
 		}
 
 	} else {
-		msgBoxSucces("Debe seleccionar un usuario");
+		msgBoxInfo("Debe seleccionar un usuario");
 	}
 }
 
@@ -526,6 +527,7 @@ function cancelContrato() {
 	}).trigger("reloadGrid");
 	$("#msgBox").hide();
 	$("#contratosPressed").val("no")
+	unlockAutocomplete();
 }
 
 function cancelRol() {
@@ -543,9 +545,11 @@ function cancelRol() {
 						+ "/"
 						+ "-1"
 			}).trigger("reloadGrid");
-	/*$('#usuarioHist').setGridParam({
-		url : "index.php/historicoUsuario/gridContratoUsuarioRead/" + -1
-	}).trigger("reloadGrid");*/
+	/*
+	 * $('#usuarioHist').setGridParam({ url :
+	 * "index.php/historicoUsuario/gridContratoUsuarioRead/" + -1
+	 * }).trigger("reloadGrid");
+	 */
 	$("#roles").hide();
 }
 
@@ -575,6 +579,7 @@ function clear() {
 	$("#txtTiempoContrato").val("");
 	$("#correlUsuarioHistorico").val("");
 	$("#accionActual").val("");
+	unlockAutocomplete();
 }
 
 function clearSaveContrato() {
@@ -586,7 +591,7 @@ function clearSaveContrato() {
 	// $("#txtRecords").val("");
 	$("#txtTiempoContrato").val("");
 	// $("#correlUsuarioHistorico").val("");
-	$("#accionActual").val("");
+	$("#accionActual").val("");	
 }
 
 function clearSaveRol() {
@@ -596,7 +601,7 @@ function clearSaveRol() {
 	$("#txtFechaInicioRol").val("");
 	$("#txtFechaFinRol").val("");
 	$("#txtSalarioRol").val("");
-	$("#accionActualRol").val("");
+	$("#accionActualRol").val("");	
 }
 
 function clearRol() {
@@ -616,17 +621,26 @@ function validarCampos() {
 	if ($("#txtFechaInicioContrato").val() != "") {
 		
 	} else {
-		camposFallan += "El campo INICIO CONTRATO es obligatorio"
+		camposFallan += "<p><dd> El campo INICIO CONTRATO es obligatorio </dd><br/></p>"
 	}
 
 	if ($("#txtFechaFinContrato").val() != "") {
 		
 	} else {
-		camposFallan += "El campo FIN DE CONTRATO es obligatorio"
+		camposFallan += "<p><dd> El campo FIN DE CONTRATO es obligatorio </dd><br/></p>"
 	}
+	
+	if ($("#txtTiempoContrato").val() != "") {
+		if (!validarNUM($("#txtTiempoContrato").val())) {
+			camposFallan += "<p><dd> El campo TIEMPO DE CONTRATO contiene caracteres no validos </dd><br/></p>"
+		}
+	}
+	
+	
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se encontraron los siguientes problemas: <br/>" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}
@@ -636,22 +650,23 @@ function validarCamposRol() {
 	var camposFallan = "";
 
 	if ($("#txtHistoricoRol").val() == "") {
-		camposFallan += "El campo ROL es requerido <br/>"		
+		camposFallan += "<p><dd> El campo ROL es requerido </dd><br/></p>"		
 	}
 	
 	if ($("#txtFechaInicioRol").val() == "") {
-		camposFallan += "El campo FECHA ASIGNACION es requerido <br/>"		
+		camposFallan += "<p><dd> El campo FECHA ASIGNACION es requerido </dd><br/></p>"		
 	}
 	
 	if ($("#txtSalarioRol").val() != "") {
 		if (!validarSalario($("#txtSalarioRol").val())) {
-			camposFallan += "El formato de SALARIO es incorrecto o contiene caracteres no validos <br/>"
+			camposFallan += "<p><dd> El formato de SALARIO es incorrecto o contiene caracteres no validos </dd><br/></p>"
 		}
 	}
 	
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se encontraron los siguientes problemas: <br/>" + camposFallan;
 		msgBoxInfo01(camposFallan);
 		return false;
 	}
@@ -661,3 +676,15 @@ function validarCamposRol() {
 $("#chkUsuarioActivo").change(function() {
 	alert('Handler for .change() called.');
 });
+
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
+function lockAutocomplete() {	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});
+}
+
+function unlockAutocomplete() {
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
+}

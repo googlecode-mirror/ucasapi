@@ -26,16 +26,14 @@
 		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
-			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<span id="systemName"><b>PHOBOS PLANNING</b></span> 	
 			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
-		<div><span id="pageTittle"></span></div>
+		<div id="titulo"><span id="pageTittle"></span></div>
 		
 		<div class="container">
-			<div style="height: 20px"></div>
-			
 			<div class="divActions">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Departamentos</span>

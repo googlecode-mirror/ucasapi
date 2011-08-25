@@ -121,4 +121,13 @@ function validarSalario(campo) {
 		}  
 }
 
+function validarNUM(campo) {
+	var RegExPattern = /^\d{1,15}$/
+		if ((campo.match(RegExPattern)) && (campo.value != '')) {
+			return true;
+		} else {
+			return false;
+		}  
+}
+
 /* El rollercoaster de la vida, abroche sus cinturones y disfrute del viaje */

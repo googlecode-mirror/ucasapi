@@ -50,6 +50,7 @@
 				
 			<div class="divDataForm" style="height:128px">
 				<input id="idAccion" type="hidden"  value="" class = "hiddenId"/>
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 				<span class = "inputFieldLabel" >Nombre: </span>
 				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la acción, sin números" maxlength="256"/>
 				
