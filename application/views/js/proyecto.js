@@ -16,7 +16,7 @@ $(document).ready(function() {
 	proyectoUsuarioDuenhoAutocomplete();
 	proyectoUsuarioEncAutocomplete();
 	
-	if($("#idRol").val() != 2){	
+	if($("#idRol").val() != 1){	
 		$("#btnSave").attr("disabled", true);
 	}
 		
@@ -732,7 +732,7 @@ function lockAutocomplete() {
 }
 
 function unlockAutocomplete() {
-	if($("#idRol").val() != 2){
+	if($("#idRol").val() != 1){
 		$("#btnSave").attr("disabled", true);
 	}	
 	$("#txtRecords").attr("disabled", false);
