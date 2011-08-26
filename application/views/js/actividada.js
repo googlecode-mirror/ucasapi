@@ -227,103 +227,32 @@ function fileTypeAutocomplete(){
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function save(){	
-	var gridData = $("#followersGrid").jqGrid("getRowData");
-	var gridResponsiblesData = $("#responsibleUsersGrid").jqGrid("getRowData");
-	var gridRelatedProjectsData = $("#relatedProjectsGrid").jqGrid("getRowData");
-	var formData= "";
-	formData += "idProyecto=" + $("#idProyecto").val();
-	formData += "&idProceso=" + $("#idProceso").val();
-	formData += "&idActividad=" + $("#idActividad").val();
-	formData += "&idPrioridad=" + $("#idPrioridad").val();
-	formData += "&idEstado=" + $("#idEstado").val();
-	formData += "&idUsuarioAsigna=" + $("#idUsuarioAsigna").val();
-	formData += "&nombreActividad=" + $("#txtActivityName").val();
-	formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
-	formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
-	formData += "&descripcion=" + $("#txtActivityDesc").val();
-	formData += "&seguidores=" +parseGridData(gridData);
-	formData += "&responsables=" +parseGridData(gridResponsiblesData);
-	formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
+function save(){
+	if(validarCampos()){
 	
-	
-	$.ajax({				
-        type: "POST",
-        url:  "index.php/actividada/activityValidateAndSave",
-        data: formData,
-        dataType : "json",
-        success: function(retrievedData){
-        	if(retrievedData.status != 0){
-        		msgBoxInfo(retrievedData.msg);
-        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-        	}
-        	else{
-        		if($("#idActividad").val()==""){
-        			msgBoxSucces("Registro agregado con éxito");
-        		}
-        		else{
-        			msgBoxSucces("Registro actualizado con éxito");
-        			//alert("Registro actualizado con éxito");
-        		}
-        		clear();
-        	}
-      	}
-      
-	});
-	
-}
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function edit(){			
-	var formData = "idActividad=" + $("#idActividad").val();	
-	
-	$.ajax({				
-        type: "POST",
-        url:  "index.php/actividada/activityRead",
-        data: formData,
-        dataType : "json",
-        success: function(retrievedData){
-        	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
-        	}else{
-        		$("#idProyecto").val(retrievedData.data.idProyecto);
-        		$("#idProceso").val(retrievedData.data.idProceso);
-        		$("#idPrioridad").val(retrievedData.data.idPrioridad);
-        		$("#idEstado").val(retrievedData.data.idEstado);
-        		$("#txtStartingDate").val(retrievedData.data.fechaInicioPlan);
-        		$("#txtEndingDate").val(retrievedData.data.fechaFinalizacionPlan);
-        		$("#txtStatusName").val(retrievedData.data.estado);
-        		$("#txtPriorityName").val(retrievedData.data.nombrePrioridad);
-        		$("#txtProjectName").val(retrievedData.data.nombreProyecto);
-        		$("#txtProcessName").val(retrievedData.data.nombreProceso);
-        		$("#txtActivityDesc").val(retrievedData.data.descripcionActividad);
-        		$("#txtActivityName").val(retrievedData.data.nombreActividad);
-        		
-        		$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
-   			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-   			    $('#users1Grid').setGridParam({url:"index.php/actividada/gridUsers1Read/"+$("#idActividad").val()}).trigger("reloadGrid");
-   			    $("#responsibleUsersGrid").setGridParam({url:"index.php/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-			    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-			    $("#projectsGrid").setGridParam({url:"index.php/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-			    $("#relatedProjectsGrid").setGridParam({url:"index.php/actividada/gridRProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-        	}			       
-      	}      
-	});
-	
-}
-
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function deleteData(){
-	var formData = "idActividad=" + $("#idActividad").val();
-	
-	var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
-	
-	if (answer){		
+		var gridData = $("#followersGrid").jqGrid("getRowData");
+		var gridResponsiblesData = $("#responsibleUsersGrid").jqGrid("getRowData");
+		var gridRelatedProjectsData = $("#relatedProjectsGrid").jqGrid("getRowData");
+		var formData= "";
+		formData += "idProyecto=" + $("#idProyecto").val();
+		formData += "&idProceso=" + $("#idProceso").val();
+		formData += "&idActividad=" + $("#idActividad").val();
+		formData += "&idPrioridad=" + $("#idPrioridad").val();
+		formData += "&idEstado=" + $("#idEstado").val();
+		formData += "&idUsuarioAsigna=" + $("#idUsuarioAsigna").val();
+		formData += "&nombreActividad=" + $("#txtActivityName").val();
+		formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
+		formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
+		formData += "&descripcion=" + $("#txtActivityDesc").val();
+		formData += "&seguidores=" +parseGridData(gridData);
+		formData += "&responsables=" +parseGridData(gridResponsiblesData);
+		formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
+		formData += "&accionActual=" + $("#accionActual").val();
+		
+		
 		$.ajax({				
 	        type: "POST",
-	        url:  "index.php/actividada/activityDelete",
+	        url:  "index.php/actividada/activityValidateAndSave",
 	        data: formData,
 	        dataType : "json",
 	        success: function(retrievedData){
@@ -332,15 +261,107 @@ function deleteData(){
 	        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
 	        	}
 	        	else{
-	        		msgBoxSucces("Registro eliminado con éxito");
-	        		//alert("Registro eliminado con éxito");
-	        		//departmentAutocomplete();
+	        		if($("#accionActual").val()==""){
+	        			msgBoxSucces("Registro agregado con &eacute;xito");
+	        		}
+	        		else{
+	        			msgBoxSucces("Registro actualizado con &eacute;xito");
+	        			//alert("Registro actualizado con éxito");
+	        		}
 	        		clear();
 	        	}
 	      	}
 	      
-		});		
-	}	
+		});
+	}
+	
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function edit(){			
+	var formData = "idActividad=" + $("#idActividad").val();	
+	if($("#txtProjectRecords").val() != ""){		
+		if($("#txtRecords").val() != ""){	
+			$("#accionActual").val("editando");
+			lockAutocomplete();
+			$.ajax({				
+		        type: "POST",
+		        url:  "index.php/actividada/activityRead",
+		        data: formData,
+		        dataType : "json",
+		        success: function(retrievedData){
+		        	if(retrievedData.status != 0){
+		        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+		        	}else{
+		        		$("#idProyecto").val(retrievedData.data.idProyecto);
+		        		$("#idProceso").val(retrievedData.data.idProceso);
+		        		$("#idPrioridad").val(retrievedData.data.idPrioridad);
+		        		$("#idEstado").val(retrievedData.data.idEstado);
+		        		$("#txtStartingDate").val(retrievedData.data.fechaInicioPlan);
+		        		$("#txtEndingDate").val(retrievedData.data.fechaFinalizacionPlan);
+		        		$("#txtStatusName").val(retrievedData.data.estado);
+		        		$("#txtPriorityName").val(retrievedData.data.nombrePrioridad);
+		        		$("#txtProjectName").val(retrievedData.data.nombreProyecto);
+		        		$("#txtProcessName").val(retrievedData.data.nombreProceso);
+		        		$("#txtActivityDesc").val(retrievedData.data.descripcionActividad);
+		        		$("#txtActivityName").val(retrievedData.data.nombreActividad);
+		        		
+		        		$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $('#users1Grid').setGridParam({url:"index.php/actividada/gridUsers1Read/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $("#responsibleUsersGrid").setGridParam({url:"index.php/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $("#projectsGrid").setGridParam({url:"index.php/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $("#relatedProjectsGrid").setGridParam({url:"index.php/actividada/gridRProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+		        	}			       
+		      	}      
+			});
+		}else{
+			msgBoxInfo("Debe seleccionar una ACTIVIDAD ");
+		}
+	}else{
+		msgBoxInfo("Debe seleccionar un PROYECTO ");
+	}
+	
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function deleteData(){
+	
+	if($("#txtProjectRecords").val() != ""){		
+		if($("#txtRecords").val() != ""){	
+			var formData = "idActividad=" + $("#idActividad").val();	
+			var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
+			
+			if (answer){		
+				$.ajax({				
+			        type: "POST",
+			        url:  "index.php/actividada/activityDelete",
+			        data: formData,
+			        dataType : "json",
+			        success: function(retrievedData){
+			        	if(retrievedData.status != 0){
+			        		msgBoxInfo(retrievedData.msg);
+			        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+			        	}
+			        	else{
+			        		msgBoxSucces("Registro eliminado con &eacute;xito");
+			        		//alert("Registro eliminado con éxito");
+			        		//departmentAutocomplete();
+			        		clear();
+			        	}
+			      	}
+			      
+				});		
+			}
+		}else{
+			msgBoxInfo("Debe seleccionar una ACTIVIDAD ");
+		}
+	}else{
+		msgBoxInfo("Debe seleccionar un PROYECTO ");	
+	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -355,6 +376,7 @@ function cancel(){
 
 function clear(){
 	$(".inputField,.inputFieldAC, .hiddenId,.inputFieldTA, #txtRecords, #txtStartingDate, #txtEndingDate").val("");
+	unlockAutocomplete();
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -902,3 +924,66 @@ function clearFileForm() {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+function validarCampos() {
+	var camposFallan = "";
+	if($("#txtActivityName").val()!=""){
+		if(!validarAlfaEsp($("#txtActivityName").val())){
+			camposFallan += "<p><dd>El campo NOMBRE contiene caracteres no validos </dd><br /></p>";
+		}
+	}else{
+		camposFallan += "<p><dd>El campo NOMBRE es requerido </dd><br /></p>";
+	}
+	
+	if($("#txtProjectName").val()==""){		
+		camposFallan += "<p><dd>El campo PROYECTO es requerido </dd><br /></p>";
+	}
+	
+	if($("#txtPriorityName").val()==""){		
+		camposFallan += "<p><dd>El campo PRIORIDAD es requerido </dd><br /></p>";
+	}
+	
+	if($("#txtStatusName").val()==""){		
+		camposFallan += "<p><dd>El campo ESTADO es requerido </dd><br /></p>";
+	}
+	
+	if ($("#txtActivityDesc").val() != "") {
+		if ($("#txtActivityDesc").val().length > 256) {
+			camposFallan += "<p><dd>Longutud de DESCRIPCION es mayor que 256 caracteres </dd><br /></p>";
+		}
+	}
+		
+	if(camposFallan == ""){
+		return true;
+	}else{
+		camposFallan = "Se han encontrado los siguientes problemas:<br/>" + camposFallan;
+		msgBoxInfo(camposFallan);
+		return false;
+	}
+	
+	
+}
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
+function lockAutocomplete() {	
+	$("#txtProjectRecords").attr("disabled", true);	
+	$("#txtProjectRecords").css({"background-color": "DBEBFF"});
+	
+	$("#txtProcessRecords").attr("disabled", true);	
+	$("#txtProcessRecords").css({"background-color": "DBEBFF"});
+	
+	$("#txtRecords").attr("disabled", true);	
+	$("#txtRecords").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtProjectRecords").attr("disabled", false);	
+	$("#txtProjectRecords").css({"background-color": "FFFFFF"});
+	
+	$("#txtProcessRecords").attr("disabled", false);	
+	$("#txtProcessRecords").css({"background-color": "FFFFFF"});
+	
+	$("#txtRecords").attr("disabled", false);
+	$("#txtRecords").css({"background-color": "FFFFFF"});	
+}
