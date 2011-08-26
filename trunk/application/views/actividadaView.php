@@ -75,6 +75,7 @@
 					<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idPrioridad" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>					
+					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 				
 					<span class = "requiredFieldLabel" >Nombre</span>
 					<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
