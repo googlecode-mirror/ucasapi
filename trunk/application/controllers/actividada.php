@@ -137,8 +137,9 @@ class Actividada extends CI_Controller{
 		
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idActividad =  $this->input->post("idActividad");
+			$accionActual =  $this->input->post("accionActual");
 			
-			if($idActividad == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
 				$retArray = $this->actividadaModel->create();
 			}
 			else{
