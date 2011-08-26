@@ -150,17 +150,14 @@ class actividadaModel extends CI_Model{
 		
 		$sql = "SELECT a.nombreActividad, a.fechaInicioPlan, a.fechaFinalizacionPlan, a.descripcionActividad, ".
 						"a.activo,prio.idPrioridad,prio.nombrePrioridad,e.idEstado,e.estado, a.idFase, proc.idProceso, ".
-						"proc.nombreProceso, proy.idProyecto, proy.nombreProyecto,u.idUsuario, ".
-						"CONCAT( u.primerNombre,' ',u.primerApellido) AS nombreUsuario".
+						"proc.nombreProceso, proy.idProyecto, proy.nombreProyecto ".
 		
 				" FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON ap.idActividad = a.idActividad".
 								" INNER JOIN PROYECTO proy ON  proy.idProyecto = ap.idProyecto".
 								" LEFT JOIN PROCESO proc ON proc.idProceso = a.idProceso".
 								" LEFT JOIN PRIORIDAD prio ON prio.idPrioridad = a.idPrioridad".
 								" LEFT JOIN ESTADO e ON e.idEstado = a.idEstado".
-								" LEFT JOIN USUARIO_ACTIVIDAD ua ON ua.idActividad = a.idActividad AND ua.idTipoAsociacion = 1".
-								" INNER JOIN USUARIO u ON u.idUsuario = ua.idUsuario".
-				
+
 				" WHERE a.idActividad =".$this->db->escape($idActividad);
 		
 		$query = $this->db->query($sql);
@@ -174,8 +171,6 @@ class actividadaModel extends CI_Model{
 			$retArray["msg"] = $this->db->_error_message();
 			 return $retArray;	    
 	    }
-	    
-		
 	    
 	    return $retArray;
 	}
