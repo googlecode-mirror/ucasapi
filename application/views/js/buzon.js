@@ -3,6 +3,7 @@ $(document).ready(function(){
 	 $("#btnGet").button({icons: {primary: "ui-icon-folder-open"}});	
 	 $("#buzonButton").addClass("highlight");
 	 loadBuzon();
+	 $("#todosMensajes").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
 });	
 
 function loadBuzon() {
@@ -32,11 +33,13 @@ function loadBuzon() {
 					hidden: true
 				}],
 				pager : "#pager",
-				rowNum : 10,
-				rowList : [ 10, 20, 30 ],
+				rowNum : 20,
+				width : 900,
+				height : 500,
+				rowList : [20, 40, 60],
 				sortname : "id",
 				sortorder : "desc",
-				loadonce : false,
+				loadonce : true,
 				viewrecords : true,
 				gridview : false,
 				caption : "Lista de Notificaciones",
@@ -45,7 +48,10 @@ function loadBuzon() {
 						jQuery("#todosMensajes").setCell(rowid,'subject','',{'font-weight':'bold'});
 						jQuery("#todosMensajes").setCell(rowid,'fechaNotificacion','',{'font-weight':'bold'});
 					}
-				}
+				},
+				ondblClickRow: function(id) {
+			    	load();
+			    }
 			});
 	
 }
@@ -66,13 +72,17 @@ function load(){
 			}
 			else{
 				var $dialog = $('<div></div>')
-				.html(retrievedData.data.notificacion)
+				.html("<br>"+retrievedData.data.notificacion)
 				.dialog({
+					buttons: { "Cerrar": function() { $(this).dialog("close"); }},
 					height: 200,
-					width: 300,
+					resizable : false,
+					width: 400,
+					modal : true,
 					autoOpen: false,
 					close: function(event, ui){
 						//loadBuzon();
+						$("#todosMensajes").setGridParam({ datatype: 'json' });
 						$("#todosMensajes").trigger("reloadGrid");
 					},
 					title: retrievedData.data.subject
