@@ -234,7 +234,7 @@ function asignarSolicitud() {
 		formData += "&idActividad=" + $("#idActividad").val();
 		formData += "&idPrioridad=" + $("#idPrioridad").val();
 		formData += "&idEstado=" + $("#idEstado").val();
-		formData += "&idUsuarioResponsable=" + $("#idUsuarioResponsable").val();
+		formData += "&responsables=" + $("#idUsuarioResponsable").val();
 		formData += "&idUsuarioAsigna=" + $("#idUsuarioAsigna").val();
 		formData += "&nombreActividad=" + $("#txtActivityName").val();
 		formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();

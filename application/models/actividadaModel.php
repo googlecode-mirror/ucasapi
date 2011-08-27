@@ -19,7 +19,7 @@ class actividadaModel extends CI_Model{
 		$idProceso = ($this->input->post("idProceso")!="")?$this->input->post("idProceso"):null;
 		$idEstado = $this->input->post("idEstado");
 		
-		$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
+		//$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
 		
 		$seguidores = $this->input->post("seguidores");
