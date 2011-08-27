@@ -134,10 +134,6 @@
 		<nombreRol>Administrador</nombreRol>
 		<paginas>
 			<pagina>
-				<nombrePagina>Buzón</nombrePagina>
-				<controller>buzon</controller>
-			</pagina>
-			<pagina>
 				<nombrePagina>Acción</nombrePagina>
 				<controller>accion</controller>
 			</pagina>
