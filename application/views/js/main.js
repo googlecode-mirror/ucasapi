@@ -158,6 +158,19 @@ function txtEnable(txtId){
     $("#"+txtId).css("color", "#000");
 }
 
+//Retorna true si el elemento text se encuentra en el arrayData
+function autocompleteMatch(arrayData, text){
+	var exists = false;
+	
+	for(var i in arrayData){
+		if(arrayData[i].value == text){
+			exists = true;
+			break;
+		}
+	}
+	return exists;	
+}
+
 //Permite que todos los autocompletes muestren todos sus elementos en el evento focus, todos deben tener en sus parámetros minLength: 0.
 /*function autocompletesShowsAll(){
 	element = document.getElementsByClassName("inputFieldAC");
