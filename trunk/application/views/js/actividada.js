@@ -30,12 +30,7 @@ $(document).ready(function(){
 	 //departmentAutocomplete();	
 	 //loadGrid();
 	 //ajaxUpload();
-	 $("<div></div>").ajaxStart(function(){
-		 $("#loading").modal();
-	 });
-		$("<div></div>").ajaxStop(function(){
-			$.modal.close();
-	 }); 
+	
 	 
 });	
 

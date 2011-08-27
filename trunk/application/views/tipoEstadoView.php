@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-ui-1.8.14.custom.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
-		
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.simplemodal.1.4.1.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/tipoEstado.js"></script>
 	</head>
@@ -22,6 +22,12 @@
 				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
 				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
 			</ul>			
+		</div>
+		
+		<div id="loading" style="display:none; text-align:center">
+			<span style = "color:white">Obteniendo datos ...</span>
+			<div style="clear:both"></div>
+			<img  src="<?php echo base_url(); ?>application/views/css/img/loading.gif"/>
 		</div>
 		
 		<div class="sessionBar">
