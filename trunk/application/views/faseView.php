@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>PHOBOS - Fases</title>
+		 <meta http-equiv="X-UA-Compatible" content="IE=8" >		
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery-1.5.2.min.js"></script>
@@ -36,7 +37,7 @@
 			<div class="divActions">
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Buscar fase: </span>
-					<input id="txtSearch" type="text"  value="" class = "inputFieldAC"  title="Seleccione una Fase para edici�n o eliminaci�n"/><br>
+					<input id="txtSearch" type="text"  value="" class = "inputFieldAC"  title="Seleccione una Fase para edici&oacute;n o eliminaci&oacute;n"/><br>
 				</div>
 
 				<div class="divCRUDButtons">
@@ -56,7 +57,7 @@
 				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Nombre de la fase" maxlength="40"/><br>
 
 				<span class = "inputFieldLabel">Descripcion: </span>
-				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci�n de la fase" ></textArea>
+				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci&oacute;n de la fase" ></textArea>
 				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 				<span class = "requiredFieldLabel">Fase Previa:</span>

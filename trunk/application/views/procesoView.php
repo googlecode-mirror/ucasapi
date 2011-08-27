@@ -1,6 +1,7 @@
 <html>
 	<head>
-		<title>PHOBOS - Procesos</title>		
+		<title>PHOBOS - Procesos</title>	
+		 <meta http-equiv="X-UA-Compatible" content="IE=8" >			
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
