@@ -519,6 +519,11 @@ body {
 	margin-top : 30px;
 }
 
+.ui-search-toolbar{
+	font-family: Lucida Grande, Lucida Sans, Arial;
+	font-size: 0.8em;	
+}
+
 #simplemodal-overlay {background-color:#000;}
 #simplemodal-container {background-color:#333; border:2px solid #444; padding:1px;}
 
