@@ -4,8 +4,23 @@ $(document).ready(function() {
 	departmentAutocomplete();
 	loadGrid();
 	ajaxUpload();
+	
+	//Esto se debería hacer para cada autocomplete de la página, para que muestre todos los registro en el focus
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
 
 });
+
+function autocompleteMatch(arrayData, text){
+	var exists = false;
+	
+	for(var i in arrayData){
+		if(arrayData[i].value == text){
+			exists = true;
+			break;
+		}
+	}
+	return exists;	
+}
 
 function departmentAutocomplete() {
 	$.ajax({
@@ -21,9 +36,17 @@ function departmentAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
-					select : function(event, ui) {
+					minLength : 0,
+					select : function(event, ui) {						
 						$("#idDepto").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idDepto").val("");
+						}
 					}
 				});
 
@@ -32,6 +55,8 @@ function departmentAutocomplete() {
 
 	});
 }
+
+
 
 function save() {
 	var formData = "";
