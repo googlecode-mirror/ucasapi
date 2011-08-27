@@ -33,7 +33,7 @@
 		<div><span id="pageTittle"></span></div>
 		
 		
-		<div class="container">
+		<div class="container" style="height: auto">
 		<br/>	
 		
 			 <div class="divActions"> 
@@ -75,6 +75,7 @@
 				</div>
 				
 			</div>
+			<div style="height: 20px"></div>
 
 		</div>
 

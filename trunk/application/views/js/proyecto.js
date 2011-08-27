@@ -19,6 +19,12 @@ $(document).ready(function() {
 	if($("#idRol").val() != 1){	
 		$("#btnSave").attr("disabled", true);
 	}
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	$("#txtCoordinadorEnc").focus(function(){$("#txtCoordinadorEnc").autocomplete('search', '');});	
+	$("#txtRecordsUsuario").focus(function(){$("#txtRecordsUsuario").autocomplete('search', '');});
+	$("#txtProyectoNombreDuenho").focus(function(){$("#txtProyectoNombreDuenho").autocomplete('search', '');});
+	
 		
 });
 
@@ -36,7 +42,7 @@ function proyectoUsuarioEncAutocomplete(){
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuarioProy").val(ui.item.id);
 					},
@@ -69,7 +75,7 @@ function proyectoAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 					},
@@ -101,7 +107,7 @@ function proyectoUsuarioAutocomplete() {
 				$("#txtRecordsUsuario").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
 					},
@@ -134,7 +140,7 @@ function proyectoUsuarioDuenhoAutocomplete() {
 				$("#txtProyectoNombreDuenho").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuarioDuenho").val(ui.item.id);
 					},

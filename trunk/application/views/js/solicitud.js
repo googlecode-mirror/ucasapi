@@ -3,6 +3,9 @@ $(document).ready(function() {
 	$("#solicitudButton").addClass("highlight");
 	usuarioAutocomplete();
 	llenarPrioridades();
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	
 });
 
 function usuarioAutocomplete() {
@@ -32,7 +35,7 @@ function usuarioAutocomplete() {
 							minChars : 0,
 							matchContains : true,
 							source : retrievedData.data,
-							minLength : 1,
+							minLength : 0,
 							select : function(event, ui) {
 								// $("#idUsuario").val(ui.item.id);
 								$("#cbxInteresados").append(

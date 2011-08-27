@@ -2,6 +2,8 @@ $(document).ready(function() {
 	js_ini();
 	$("#prioridadButton").addClass("highlight");
 	prioridadAutocomplete();
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
 });
 
 function prioridadAutocomplete() {
@@ -17,7 +19,7 @@ function prioridadAutocomplete() {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idPrioridad").val(ui.item.id);
 					},

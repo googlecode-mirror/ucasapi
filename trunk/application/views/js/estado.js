@@ -3,6 +3,8 @@ $(document).ready(function() {
 	$("#estadoButton").addClass("highlight");
 	statusAutocomplete();
 	statusTypeAutocomplete();
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
 });
 
 function statusAutocomplete() {
@@ -18,7 +20,7 @@ function statusAutocomplete() {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idEstado").val(ui.item.id);
 					},

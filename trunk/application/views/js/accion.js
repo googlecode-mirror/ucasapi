@@ -6,7 +6,10 @@ $(document).ready(function(){
 	$('.divDataForm').addClass("ui-corner-all");
 	$('.container').addClass("ui-corner-bottom");
 	$("button").button({icons: {primary: "ui-icon-locked"}});
-	accionAutocomplete();			
+	accionAutocomplete();
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	
 });	
 
 function accionAutocomplete(){
@@ -23,7 +26,7 @@ function accionAutocomplete(){
         		$("#txtRecords").autocomplete({
             		minChars: 0,  
     		        source: retrievedData.data,
-    		        minLength: 1,
+    		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idAccion").val(ui.item.id);					
     				},

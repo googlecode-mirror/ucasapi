@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	js_ini();
 	loadGrid();
-	proyectoAutocomplete()
+	proyectoAutocomplete();
 	$("#ventanillaButton").addClass("highlight");
 
 	$("#dialogoSolicitud").dialog({
@@ -21,6 +21,9 @@ $(document).ready(function() {
 	});
 	// $("#list").hideCol("anio");
 	// $("#list").hideCol("correl");
+	
+	
+	
 });
 
 function loadGrid() {
