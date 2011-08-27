@@ -71,12 +71,12 @@ function mostrarSolicitud (idSolicitud) {
         		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
         	}
         	else{
-        		$("#tituloSolicitud").html(retrievedData.data.titulo);
-        		$("#fecha").html(retrievedData.data.fechaEntrada);
-        		$("#cliente").html(retrievedData.data.cliente);
-        		$("#txtSolicitudDesc").val(retrievedData.data.descripcion);
-        		$("#fechaInicio").html(retrievedData.data.fechaAtencion);
-        		$("#progreso").html(retrievedData.data.progreso);
+        		$("#tituloSolicitud").html(retrievedData.data[0].titulo);
+        		$("#fecha").html(retrievedData.data[0].fechaIngreso);
+        		$("#cliente").html(retrievedData.data[0].cliente);
+        		$("#txtSolicitudDesc").val(retrievedData.data[0].descripcion);
+        		$("#fechaInicio").html(retrievedData.data[0].fechaAtencion);
+        		$("#progreso").html(retrievedData.data[0].progreso);
         		
         		$("#dialogoSolicitud").css('visibility', 'visible').dialog('open');
         	}
