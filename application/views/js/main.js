@@ -5,6 +5,8 @@ function js_ini(){
 	//Autocompletes muestran todos los elementos en el focus
 	//autocompletesShowsAll();
 	
+	ajaxLoading();
+	
 	//Seteo de estilos
 	$("#msgBox").addClass("ui-corner-all");
 	$("#msgBox01").addClass("ui-corner-all");
@@ -169,6 +171,15 @@ function autocompleteMatch(arrayData, text){
 		}
 	}
 	return exists;	
+}
+
+function ajaxLoading(){
+	 $("<div></div>").ajaxStart(function(){
+		 $("#loading").modal();
+	 });
+		$("<div></div>").ajaxStop(function(){
+			$.modal.close();
+	 }); 
 }
 
 //Permite que todos los autocompletes muestren todos sus elementos en el evento focus, todos deben tener en sus parámetros minLength: 0.

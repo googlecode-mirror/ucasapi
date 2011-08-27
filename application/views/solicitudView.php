@@ -9,6 +9,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
 		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.simplemodal.1.4.1.min.js"></script>
 		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/solicitud.js"></script>
@@ -21,6 +22,12 @@
 			<ul>
 				<?php echo $menu;?>
 			</ul>
+		</div>
+		
+		<div id="loading" style="display:none; text-align:center">
+			<span style = "color:white">Obteniendo datos ...</span>
+			<div style="clear:both"></div>
+			<img  src="<?php echo base_url(); ?>application/views/css/img/loading.gif"/>
 		</div>
 
 		<div class="sessionBar">
