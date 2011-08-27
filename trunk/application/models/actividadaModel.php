@@ -1169,39 +1169,21 @@ function update(){
 	}
 	
 	function getResponsiblesInsert($data_array,$idActividad){
-		$counter = 1;
-		$idUsuario;
-		$idUsuarioInsert;
-		$fechaAsignacionSistema;
-		$index = 0;
-		$indexTrippin = 0;
-		$trippin;
-
-		foreach ($data_array as $value) {
-			if($counter == 1){
-				$idUsuario = $value;
-				$counter++;
-				continue;
-			}
-			if($counter == 2){
-				$counter++;
-				continue;
-			}
-			if($counter == 3){
-				$fechaAsignacionSistema = $value;
-				$counter = 1;
-				$trippin[$indexTrippin++] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
-    										"VALUES(".
+		
+		for($i = 0 ; $i< (count($data_array)-1); $i++){
+				$idUsuario = $data_array[$i];
+				
+				$sql[$i] = "INSERT INTO ACTIVIDAD_PROYECTO 
+							(idProyecto, idActividad, proyectoPrincipal) 
+							VALUES(".
 													$this->db->escape($idUsuario).
 													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),1,".
 											    	$this->db->escape('1').")";
-				continue;
-			}
 		}
-
-		return  $trippin;
+		return  $sql;
+		
 	}
 	
 	function getRProjectsInsert($data_array,$idActividad){
