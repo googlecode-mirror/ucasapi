@@ -10,17 +10,6 @@ $(document).ready(function() {
 
 });
 
-function autocompleteMatch(arrayData, text){
-	var exists = false;
-	
-	for(var i in arrayData){
-		if(arrayData[i].value == text){
-			exists = true;
-			break;
-		}
-	}
-	return exists;	
-}
 
 function departmentAutocomplete() {
 	$.ajax({
