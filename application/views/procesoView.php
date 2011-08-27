@@ -35,7 +35,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style = "height: 650px">
+		<div class="container" style = "height: auto">
 			<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 			<div style="height: 20px"></div>
 			
@@ -83,6 +83,8 @@
 				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>			
 				
 			</div>
+			
+			<div style="height: 20px"></div>
 			
 		</div>
 		

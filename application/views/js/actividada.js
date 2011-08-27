@@ -63,7 +63,14 @@ function projectAutocomplete(){
     			        $("#idProceso").val("");
     			        processAutocomplete($("#idProyecto").val(), "#txtProcessRecords");
     			        activityAutocomplete($("#idProyecto").val(), "");
-    				}
+    				},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtProjectRecords").val())){
+							$("#txtProjectRecords").val("");
+							$("#idProyecto").val("");
+						}
+					}
     			});
         		$("#txtProjectName").autocomplete({
             		minChars: 0,
@@ -109,8 +116,7 @@ function processAutocomplete(idProyecto, processTextBox){
 			        		activityAutocomplete($("#idProyecto").val(),$("#idProceso").val());
     			        }    			        
     				}
-    			});
-        		
+    			});        		
         	}        	
       }
       

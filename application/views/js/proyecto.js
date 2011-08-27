@@ -39,6 +39,13 @@ function proyectoUsuarioEncAutocomplete(){
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idUsuarioProy").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtCoordinadorEnc").val())){
+							$("#txtCoordinadorEnc").val("");
+							$("#idUsuarioProy").val("");
+						}
 					}
 				});
 
@@ -65,6 +72,13 @@ function proyectoAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idProyecto").val("");
+						}
 					}
 				});
 
@@ -90,6 +104,13 @@ function proyectoUsuarioAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsUsuario").val())){
+							$("#txtRecordsUsuario").val("");
+							$("#idUsuario").val("");
+						}
 					}
 				});
 
@@ -116,6 +137,13 @@ function proyectoUsuarioDuenhoAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idUsuarioDuenho").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtProyectoNombreDuenho").val())){
+							$("#txtProyectoNombreDuenho").val("");
+							$("#idUsuarioDuenho").val("");
+						}
 					}
 				});
 
@@ -198,8 +226,8 @@ function save() {
 }
 
 function edit() {
-	var formData = "idProyecto=" + $("#idProyecto").val();
-	if($("#txtRecords").val() != ""){
+	if($("#txtRecords").val() != "" && $("#idProyecto").val() != "0" ){
+		var formData = "idProyecto=" + $("#idProyecto").val();
 		$("#accionActual").val("editando");
 		$("#tabs-2").show();
 		$("#tagBliblioteca").show();
@@ -252,9 +280,9 @@ function edit() {
 
 }
 
-function deleteData() {
-	var formData = "idProyecto=" + $("#idProyecto").val();
-	if($("#txtRecords").val() != ""){	
+function deleteData() {	
+	if($("#txtRecords").val() != "" && $("#idProyecto").val() != "0"){
+		var formData = "idProyecto=" + $("#idProyecto").val();
 		if($("#idProyecto").val() == ""){
 			msgBoxError("Debe seleccionar un PROYECTO a eliminar.");
 		}

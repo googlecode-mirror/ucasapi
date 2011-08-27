@@ -26,6 +26,13 @@ function usuarioAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idUsuario").val("");
+						}
 					}
 				});
 			}
@@ -50,6 +57,13 @@ function usuarioRolAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idRol").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtHistoricoRol").val())){
+							$("#txtHistoricoRol").val("");
+							$("#idRol").val("");
+						}
 					}
 				});
 
@@ -258,6 +272,7 @@ function saveRol() {
 							if (retrievedData.status != 0) {
 								msgBoxInfo01(retrievedData.msg);
 							} else {
+								//alert($("#accionActualRol").val());
 								if ($("#accionActualRol").val() == "") {
 									msgBoxSucces01("Rol agregado con éxito al contrato");
 									/* LIMPIANDO EL GRID */
@@ -361,10 +376,10 @@ function editRol() {
 			$("#idRol").val(row_data["idRol"]);
 			$("#idRolHistorico").val(row_data["idRolHistorico"]);
 		} else {
-			msgBoxSucces01("Debe seleccionar un rol a editar");
+			msgBoxInfo01("Debe seleccionar un rol a editar");
 		}
 	} else {
-		msgBoxSucces01("Debe seleccionar un usuario");
+		msgBoxInfo01("Debe seleccionar un usuario");
 	}
 }
 
@@ -379,7 +394,7 @@ function deleteContrato() {
 				$("#correlUsuarioHistorico").val(
 						row_data["correlUsuarioHistorico"]);
 				$("#idUsuario").val(row_data["idUsuario"]);
-				$("#accionActual").val("eliminando");
+				//$("#accionActual").val("eliminando");
 
 				var formData = "idUsuario=" + $("#idUsuario").val();
 				formData += "&correlUsuarioHistorico="

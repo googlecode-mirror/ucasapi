@@ -30,79 +30,92 @@ function estadoAutocomplete(){
 			actividadData();
 
 		}
-
 	});
 }
 
 function save(){
-	var formData = "idEstado=" + $("#cbEstado").val()
-	formData += "&idProyecto=" + $("#idProyecto").val();
-	formData += "&idActividad=" + $("#idActividad").val();
-	formData += "&idUsuario=" + $("#idUsuario").val();
-	formData += "&progreso=" + $("#cbProgreso").val();
-	formData += "&comentario=" + $("#txtComentarios").val();
-
-	user_rows = $("#list").jqGrid("getRowData");
-	var gridData = "";
-	for ( var Elemento in user_rows) {
-		for ( var Propiedad in user_rows[Elemento]) {
-			if (Propiedad == "idUsuario"){
-				if (user_rows[Elemento][Propiedad] == $("#idUsuario").val()){
-					continue;
-				}
-				else{
-					gridData += user_rows[Elemento][Propiedad] + "|";
-				}
-			}
-
-		}
-	};
-
-	if(idUsuariosAdd.length != 0){
-		formData += "&add_data=" + idUsuariosAdd;
-		formData += "&asignarBand=1";
-	}
-	else{
-		formData += "&add_data=0";
-		formData += "&asignarBand=0";
-	}
-
-	formData += "&user_data=" + gridData;
-	if(idUsuariosQuitar.length != 0){
-		formData += "&remove_data=" + idUsuariosQuitar;
-		formData += "&desasignarBand=1";
-	}
-	else{
-		formData += "&remove_data=0";
-		formData += "&desasignarBand=0";
-	}
-	if($("#cbEstado").val() != "0"){
-		if($("#cbProgreso").val() != "0"){
-			$.ajax({
-				type: "POST",
-				url: "/ucasapi/actividad/actividadValidateAndSave",
-				data: formData,
-				dataType: "json",
-				success: function(retrievedData){
-					if(retrievedData.status != 0){
-						alert("Mensaje de error: " + retrievedData.msg);
+	
+	if(validarCampos()){
+	
+		var formData = "idEstado=" + $("#cbEstado").val()
+		formData += "&idProyecto=" + $("#idProyecto").val();
+		formData += "&idActividad=" + $("#idActividad").val();
+		formData += "&idUsuario=" + $("#idUsuario").val();
+		formData += "&progreso=" + $("#cbProgreso").val();
+		formData += "&comentario=" + $("#txtComentarios").val();
+	
+		user_rows = $("#list").jqGrid("getRowData");
+		var gridData = "";
+		for ( var Elemento in user_rows) {
+			for ( var Propiedad in user_rows[Elemento]) {
+				if (Propiedad == "idUsuario"){
+					if (user_rows[Elemento][Propiedad] == $("#idUsuario").val()){
+						continue;
 					}
 					else{
-						alert("Actividad actualizada con exito");
-						idUsuariosQuitar = new Array();
-						idUsuariosAdd = new Array();
+						gridData += user_rows[Elemento][Propiedad] + "|";
 					}
 				}
-
-			});
+	
+			}
+		};
+	
+		if(idUsuariosAdd.length != 0){
+			formData += "&add_data=" + idUsuariosAdd;
+			formData += "&asignarBand=1";
 		}
 		else{
-			msgBoxInfo("Debe seleccionar un Progreso valido");
+			formData += "&add_data=0";
+			formData += "&asignarBand=0";
 		}
+	
+		formData += "&user_data=" + gridData;
+		if(idUsuariosQuitar.length != 0){
+			formData += "&remove_data=" + idUsuariosQuitar;
+			formData += "&desasignarBand=1";
+		}
+		else{
+			formData += "&remove_data=0";
+			formData += "&desasignarBand=0";
+		}
+		$.ajax({
+			type: "POST",
+			url: "/ucasapi/actividad/actividadValidateAndSave",
+			data: formData,
+			dataType: "json",
+			success: function(retrievedData){
+				if(retrievedData.status != 0){
+					alert("Mensaje de error: " + retrievedData.msg);
+				}
+				else{
+					alert("Actividad actualizada con exito");
+					idUsuariosQuitar = new Array();
+					idUsuariosAdd = new Array();
+				}
+			}
+	
+		});
 	}
-	else{
-		msgBoxInfo("Debe seleccionar un Estado valido");
+	
+}
+
+function validarCampos() {
+	var camposFallan = "";
+	if($("#cbEstado").val() == "0"){
+		camposFallan +=  "<p><dd>Debe seleccionar un Estado valido</dd><br/></p>";
 	}
+	if($("#cbProgreso").val() == "0"){
+		camposFallan += "<p><dd>Debe seleccionar un Progreso valido</dd><br/></p>";
+	}
+	
+	if (camposFallan == "") {
+		return true;
+	} else {
+		camposFallan = "Se han encontrado los siguientes problemas:" + camposFallan;
+		msgBoxInfo(camposFallan);
+		return false;
+	}
+	
 }
 
 function actividadData(){
@@ -271,3 +284,5 @@ function clear() {
 	$(".jqcalendario").val("");
 	$(".hiddenId").val("");
 }
+
+

@@ -82,7 +82,7 @@ function save() {
 }
 
 function edit() {
-	if ($("#txtRecords").val() != "" ) {
+	if ($("#txtRecords").val() != "" && $("#idDepto").val() != "") {
 		$("#accionActual").val("editado");
 		lockAutocomplete();
 		var formData = "idDepto=" + $("#idDepto").val();
@@ -117,7 +117,7 @@ function edit() {
 }
 
 function deleteData() {
-	if ($("#txtRecords").val() != "") {
+	if ($("#txtRecords").val() != "" && $("#idDepto").val() != "") {
 		var formData = "idDepto=" + $("#idDepto").val();
 
 		var answer = confirm("Está seguro que quiere eliminar el registro: "
@@ -223,23 +223,24 @@ function validarCampos() {
 
 	if ($("#txtDepartmentName").val() != "") {
 		if (!validarAlfaEsp($("#txtDepartmentName").val())) {
-			camposFallan += "El campo NOMBRE solo permite caracteres alfabeticos <br/>";
+			camposFallan += "<p><dd>El campo NOMBRE solo permite caracteres alfabeticos </dd><br/></p>";
 		}
 	} else {
-		camposFallan += "El campo NOMBRE es requerido <br/>";
+		camposFallan += "<p><dd>El campo NOMBRE es requerido </dd><br/></p>";
 	}
 
 	if ($("#txtDepartmentDesc").val() != "") {
 		if ($("#txtDepartmentDesc").val().length > 256) {
-			camposFallan += "Longutud de DESCRIPCION es mayor que 256 caracteres <br/>";
+			camposFallan += "<p><dd>Longutud de DESCRIPCION es mayor que 256 caracteres</dd><br/></p>";
 		}
 	} else {
-		camposFallan += "El campo DESCRIPCION es requerido <br/>";
+		camposFallan += "<p><dd>El campo DESCRIPCION es requerido </dd><br/></p>";
 	}
 
 	if (camposFallan == "") {
 		return true;
 	} else {
+		camposFallan = "Se han encontrado los siguientes problemas:" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}
