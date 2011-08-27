@@ -48,17 +48,10 @@
 		<div id="msgBox"></div>
 		<input id="idUsuario" type="hidden" value=<?php echo $idUsuario;?> class="hiddenId" />
 		
-		<div class="divDataForm" style="height: 200">
+		<div align = "center">
 			<table id="todosMensajes"></table>
 			<div id="pager"></div>
-			<br>
 		</div>
-		<br> <br> <br>
-		<div align="center">
-			<button id="btnGet" onClick="load()">Ver Mensaje</button>
-			<button id="btnCancel" onClick="cancel()">Ocultar</button>
-		</div>
-
 		<br>
 
 	</div>
