@@ -14,7 +14,6 @@ class actividadaModel extends CI_Model{
 		
 		$anioSolicitud = ($this->input->post("anioSolicitud")!="")?$this->input->post("anioSolicitud"):null;
 		$correlAnio = ($this->input->post("correlAnio")!="")?$this->input->post("correlAnio"):null;
-		
 		$idProyecto = $this->input->post("idProyecto");
 		$idPrioridad = $this->input->post("idPrioridad");
 		$idProceso = ($this->input->post("idProceso")!="")?$this->input->post("idProceso"):null;
