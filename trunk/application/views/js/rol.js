@@ -20,6 +20,13 @@ function rolAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idRol").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idRol").val("");
+						}
 					}
 				});
 
@@ -61,7 +68,7 @@ function save() {
 }
 
 function edit() {
-	if ($("#txtRecords").val() != "") {
+	if ($("#txtRecords").val() != "" && $("#idRol").val() != "") {
 		$("#accionActual").val("editando");
 		lockAutocomplete();
 		var formData = "idRol=" + $("#idRol").val();
@@ -85,7 +92,7 @@ function edit() {
 }
 
 function deleteData() {
-	if ($("#txtRecords").val() != "") {
+	if ($("#txtRecords").val() != "" && $("#idRol").val() != "") {
 		var formData = "idRol=" + $("#idRol").val();
 		var answer = confirm("Est&aacute; seguro que quiere eliminar el registro: "
 				+ $("#txtRecords").val() + " ?");
@@ -132,15 +139,16 @@ function validarCampos() {
 	var camposFallan = "";
 	if ($("#txtRolName").val() != "") {
 		if (!validarAlfaEsp($("#txtRolName").val())) {
-			camposFallan += "El campo NOMBRE contiene caracteres no permitidos <br/>";
+			camposFallan += "<p><dd>El campo NOMBRE contiene caracteres no permitidos </dd><br/></p>";
 		}
 	} else {
-		camposFallan += "El campo NOMBRE es requerido <br/>";
+		camposFallan += "<p><dd>El campo NOMBRE es requerido </dd><br/></p>";
 	}
 
 	if (camposFallan == "") {
 		return true;
 	} else {
+		camposFallan = "Se encontraron los siguiente problemas: <br/>" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}

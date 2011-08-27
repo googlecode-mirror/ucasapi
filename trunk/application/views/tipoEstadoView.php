@@ -30,7 +30,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container">
+		<div class="container" style="height: auto">
 			<div style="height: 20px"></div>
 			
 			<div class="divActions">				
@@ -49,13 +49,15 @@
 				
 			<div id ="msgBox"></div>	
 				
-			<div class="divDataForm">
+			<div class="divDataForm" style="height: 100px 	">
 				<input id="idTipo" type="hidden"  value="" class = "hiddenId"/><br>
 				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 			
 				<span class = "inputFieldLabel">Nombre del Estado: </span>
 				<input id="txtTipoName" type="text"  value="" class = "inputField" maxlength="40"/><br>				
 			</div>
+			
+			<div style="height: 20px"></div>
 			
 		</div>
 	</body>

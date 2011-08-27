@@ -30,6 +30,13 @@ function tipoAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idTipo").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtSearch").val())){
+							$("#txtSearch").val("");
+							$("#idTipo").val("");
+						}
 					}
 				});
 
@@ -71,9 +78,8 @@ function save() {
 }
 
 function deleteData() {
-	if ($("#txtSearch").val() != "") {
+	if ($("#txtSearch").val() != "" && $("#idTipo").val() != "") {
 		var formData = "idTipo=" + $("#idTipo").val();
-
 		$.ajax({
 			type : "POST",
 			url : "index.php/tipoEstado/tipoDelete",
@@ -96,7 +102,7 @@ function deleteData() {
 }
 
 function edit() {
-	if ($("#txtSearch").val() != "") {
+	if ($("#txtSearch").val() != "" && $("#idTipo").val() != "") {
 		lockAutocomplete();
 		var formData = "idTipo=" + $("#idTipo").val();
 		$("#accionActual").val("editando");

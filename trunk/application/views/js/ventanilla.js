@@ -3,7 +3,7 @@ $(document).ready(function() {
 	loadGrid();
 	proyectoAutocomplete()
 	$("#ventanillaButton").addClass("highlight");
-	
+
 	$("#dialogoSolicitud").dialog({
 		width : 700,
 		autoOpen : false
@@ -83,6 +83,14 @@ function proyectoAutocomplete() {
 								$("#cbxRelacionados").append(
 										'<option value="' + ui.item.id + '">'
 												+ ui.item.value + '</option>');
+							},
+							// Esto es para el esperado mustMatch o algo
+							// parecido
+							change : function() {
+								if (!autocompleteMatch(retrievedData.data, $(
+										"#txtProjectRecords").val())) {
+									$("#txtProjectRecords").val("");
+								}
 							}
 						});
 
@@ -100,29 +108,26 @@ function empleadosAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
-				$("#txtRecords").autocomplete({
-					minChars : 0,
-					matchContains : true,
-					source : retrievedData.data,
-					minLength : 1,
-					select : function(event, ui) {
-						$("#idUsuario").val(ui.item.id);
-					}
-				});
+				$("#txtRecords").autocomplete(
+						{
+							minChars : 0,
+							matchContains : true,
+							source : retrievedData.data,
+							minLength : 1,
+							select : function(event, ui) {
+								$("#idUsuario").val(ui.item.id);
+							},
+							// Esto es para el esperado mustMatch o algo
+							// parecido
+							change : function() {
+								if (!autocompleteMatch(retrievedData.data, $(
+										"#txtRecords").val())) {
+									$("#txtRecords").val("");
+								}
+							}
+						});
 
 			}
 		}
@@ -221,7 +226,7 @@ function asignarSolicitud() {
 		$('#cbxRelacionados option').each(function(i, selected) {
 			relacionados += $(selected).val() + ",";
 		});
-		
+
 		var solicitud = $("#idSolicitud").val().split("-");
 		var formData = "";
 		formData += "idProyecto=" + $("#idProyecto").val();
@@ -309,6 +314,14 @@ function projectAutocomplete() {
 								$("#idProceso").val("");
 								processAutocomplete($("#idProyecto").val(),
 										"#txtProcessName");
+							},
+							//Esto es para el esperado mustMatch o algo parecido
+							change :function(){
+								if(!autocompleteMatch(retrievedData.data, $("#txtProjectName").val())){
+									$("#txtProjectName").val("");	
+									$("#idProyecto").val("");
+									$("#idProceso").val("");
+								}
 							}
 						});
 
@@ -354,6 +367,13 @@ function processAutocomplete(idProyecto, processTextBox) {
 											$("#idProyecto").val(), $(
 													"#idProceso").val());
 								}
+							},
+							//Esto es para el esperado mustMatch o algo parecido
+							change :function(){
+								if(!autocompleteMatch(retrievedData.data, $("#txtProcessName").val())){
+									$("#txtProjectRecords").val("");	
+									$("#idActividad").val("");
+								}
 							}
 						});
 
@@ -391,6 +411,13 @@ function userAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idUsuarioResponsable").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtResponsibleName").val())){
+							$("#idUsuarioResponsable").val("");
+							$("#txtResponsibleName").val("");		
+						}
 					}
 				});
 
@@ -428,6 +455,13 @@ function priorityAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idPrioridad").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtPriorityName").val())){
+							$("#txtPriorityName").val("");			
+							$("#idPrioridad").val("");
+						}
 					}
 				});
 
@@ -465,6 +499,13 @@ function statusAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idEstado").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtStatusName").val())){
+							$("#txtStatusName").val("");		
+							$("#idEstado").val("");
+						}
 					}
 				});
 
@@ -496,9 +537,9 @@ function validarCampos() {
 		if (!validarAlfaEsp($("#txtProcessName").val())) {
 			camposFallan += "El campos PROCESO contiene caracteres no validos <br />";
 		}
-	} /*else {
-		camposFallan += "El campo PROCESO es requerido <br />";
-	}*/
+	} /*
+		 * else { camposFallan += "El campo PROCESO es requerido <br />"; }
+		 */
 
 	if ($("#txtResponsibleName").val() != "") {
 		if (!validarAlfaEsp($("#txtResponsibleName").val())) {
@@ -523,8 +564,8 @@ function validarCampos() {
 	} else {
 		camposFallan += "El campo ESTADO es requerido <br />";
 	}
-	
-	if ($("#txtActivityDesc").val() == "") {		
+
+	if ($("#txtActivityDesc").val() == "") {
 		camposFallan += "El campo DESCRIPCION es requerido <br />";
 	}
 

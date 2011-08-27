@@ -6,7 +6,7 @@ $(document).ready(function() {
 	procesoFaseAutocomplete();
 	$("#idProceso").val("0");
 	
-	alert($("#idRol").val());
+	//alert($("#idRol").val());
 	
 	if($("#idRol").val() != 1){	
 		$("#btnSave").attr("disabled", true);
@@ -31,6 +31,13 @@ function procesoAutocomplete($idProyecto) {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idProceso").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProc").val())){
+							$("#txtRecordsProc").val("");
+							$("#idProceso").val("0");
+						}
 					}
 				});
 
@@ -57,6 +64,13 @@ function procesoProyectoAutocomplete() {
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 						procesoAutocomplete($("#idProyecto").val());
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProy").val())){
+							$("#txtRecordsProy").val("");
+							$("#idProyecto").val("0");
+						}
 					}
 				});
 				$("#txtProyectoName").autocomplete({
@@ -66,6 +80,13 @@ function procesoProyectoAutocomplete() {
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 						procesoAutocomplete($("#idProyecto").val());
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtProyectoName").val())){
+							$("#txtProyectoName").val("");
+							$("#idProyecto").val("0");
+						}
 					}
 				});
 

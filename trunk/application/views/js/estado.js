@@ -21,6 +21,13 @@ function statusAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idEstado").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idEstado").val("");
+						}
 					}
 				});
 
@@ -88,9 +95,9 @@ function save() {
 
 }
 
-function edit() {
-	var formData = "idEstado=" + $("#idEstado").val();
-	if ($("#txtRecords").val() != "") {
+function edit() {	
+	if ($("#txtRecords").val() != "" && $("#idEstado").val() != "") {
+		var formData = "idEstado=" + $("#idEstado").val();
 		$("#accionActual").val("editando")
 		lockAutocomplete();
 		$.ajax({
@@ -116,10 +123,8 @@ function edit() {
 }
 
 function deleteData() {
-	var formData = "idEstado=" + $("#idEstado").val();
-
-	if ($("#txtRecords").val() != "") {
-
+	if ($("#txtRecords").val() != "" && $("#idEstado").val() != "") {
+		var formData = "idEstado=" + $("#idEstado").val();
 		var answer = confirm("Está seguro que quiere eliminar el registro: "
 				+ $("#txtRecords").val() + " ?");
 

@@ -22,7 +22,14 @@ function faseAutocomplete(){
 	    		        minLength: 1,
 	    		        select: function(event, ui) {
 	    			        $("#idFase").val(ui.item.id);					
-	    				}
+	    				},
+						//Esto es para el esperado mustMatch o algo parecido
+						change :function(){
+							if(!autocompleteMatch(retrievedData.data, $("#txtSearch").val())){
+								$("#txtSearch").val("");
+								$("#idFase").val("");
+							}
+						}
 	    			});
 	        		
 	        	}        	
@@ -93,32 +100,34 @@ function save(){
 }
 
 function deleteData(){
-	var formData = "idFase=" + $("#idFase").val();
-	
-	$.ajax({
-		type: "POST",
-		url: "index.php/fase/faseDelete",
-		data: formData,
-		dataType: "json",
-		success: function(retrievedData){
-			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg);
+	if ($("#txtSearch").val() != "" && $("#idFase").val() != "") {
+		var formData = "idFase=" + $("#idFase").val();
+		
+		$.ajax({
+			type: "POST",
+			url: "index.php/fase/faseDelete",
+			data: formData,
+			dataType: "json",
+			success: function(retrievedData){
+				if(retrievedData.status != 0){
+					alert("Mensaje de error: " + retrievedData.msg);
+				}
+				else{
+					alert("Fase eliminada con exito");
+					faseAutocomplete();
+					llenarFases();
+					clear();
+				}
 			}
-			else{
-				alert("Fase eliminada con exito");
-				faseAutocomplete();
-				llenarFases();
-				clear();
-			}
-		}
-	});
-	
+		});
+	} else {
+		msgBoxInfo("Debe seleccionar un FASE a eliminar");
+	}
 }
 
 function edit(){
-	var formData = "idFase=" + $("#idFase").val();
-	
-	if ($("#txtSearch").val() != "") {
+	if ($("#txtSearch").val() != "" && $("#idFase").val() != "") {
+		var formData = "idFase=" + $("#idFase").val();
 		$.ajax({
 			type: "POST",
 			url: "index.php/fase/faseRead",
@@ -150,29 +159,30 @@ function validar_campos(){
 	
 	if($("#txtFaseName").val()!=""){
 		if(!validarAlfaEsp($("#txtFaseName").val())){
-			camposFallan += "El campos NOMBRE FASE contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>El campos NOMBRE FASE contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo NOMBRE FASE es requerido <br />";
+		camposFallan += "<p><dd>El campo NOMBRE FASE es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtFaseDesc").val()!=""){
 		if(!validarAlfaEspNum($("#txtFaseDesc").val())){
-			camposFallan += "El campos DESCRIPCION FASE contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>El campos DESCRIPCION FASE contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo DESCRIPCION FASE es requerido <br />";
+		camposFallan += "<p><dd>El campo DESCRIPCION FASE es requerido </dd><br/></p>";
 	}
 	
 	if ( $("#cbxFasePrev").val() == "0" && $("#cbxFaseSig").val() == "0" ) {
-		camposFallan += "Debe seleccionar al menos una FASE PREVIA o una FASE SIGUIENTE <br />";
+		camposFallan += "<p><dd>Debe seleccionar al menos una FASE PREVIA o una FASE SIGUIENTE </dd><br/></p>";
 	} else if ( $("#cbxFasePrev").val() == $("#cbxFaseSig").val() ) {
-		camposFallan += "Los campos FASE PREVIA y FASE SIGUIENTE no deben ser iguales";
+		camposFallan += "<p><dd>Los campos FASE PREVIA y FASE SIGUIENTE no deben ser iguales </dd><br/></p>";
 	}
 	
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se han encontrado los siguientes problemas: <br/>" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}

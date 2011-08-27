@@ -38,6 +38,12 @@ function usuarioAutocomplete() {
 								$("#cbxInteresados").append(
 										'<option value="' + ui.item.id + '">'
 												+ ui.item.value + '</option>');
+							},
+							//Esto es para el esperado mustMatch o algo parecido
+							change :function(){
+								if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+									$("#txtRecords").val("");									
+								}
 							}
 						});
 

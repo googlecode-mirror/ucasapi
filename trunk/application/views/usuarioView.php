@@ -34,7 +34,7 @@
        
         <div><span id="pageTittle"></span></div>
        
-        <div class="container" style = "height : 1080px">
+        <div class="container" style = "height : auto">
             <div style="height: 20px"></div>            
            
             <div class="divActions">               

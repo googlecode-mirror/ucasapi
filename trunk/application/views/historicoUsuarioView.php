@@ -96,7 +96,7 @@
 				<span class = "inputFieldLabel">Fecha fin:</span>
 				<input id="txtFechaFinRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se desvinculo" readonly/><br>
 								
-				<span class = "inputFieldLabel">Salario $:</span>
+				<span class = "inputFieldLabel">Salario:</span>
 				<input id="txtSalarioRol" type="text"  value="" class = "inputFieldNUM" title = "Salario devengado" maxlength="8"/><br>
 								
 				<div class="divCRUDButtons">

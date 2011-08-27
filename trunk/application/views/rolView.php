@@ -31,7 +31,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container">
+		<div class="container" style="height: auto">
 			<div style="height: 20px"></div>
 			
 			<div class="divActions">				
@@ -58,6 +58,8 @@
 				<input id="txtRolName" type="text"  value="" class = "inputField" title="Ingrese el nombre del rol" maxlength="40"/><br>
 				
 			</div>
+			
+			<div style="height: 20px"></div>
 			
 		</div>
 	

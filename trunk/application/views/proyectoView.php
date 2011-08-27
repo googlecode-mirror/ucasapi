@@ -33,7 +33,7 @@
 				
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container" style = "height : 1100px">
+		<div class="container" style = "height : auto">
 			<div style="height: 20px"></div>
 			<input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/><br>
 			
@@ -133,7 +133,10 @@
 						<div id="pager"></div>
 					</div>						
 				</div>				
-			</div>			
+			</div>
+			
+			<div style="height: 20px"></div>
+						
 		</div>		
 	</body>
 </html>

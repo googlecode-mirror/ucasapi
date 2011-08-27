@@ -33,7 +33,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
-		<div class="container">
+		<div class="container" style="height: auto">
 			<div style="height: 20px"></div>
 			
 			<div class="divActions">				
@@ -60,6 +60,8 @@
 				<input id="txtCargoName" type="text"  value="" class = "inputField" title="Ingrese el nombre del cargo sin números" maxlength="40"/>
 				
 			</div>
+			
+			<div style="height: 20px"></div>
 			
 		</div>
 		

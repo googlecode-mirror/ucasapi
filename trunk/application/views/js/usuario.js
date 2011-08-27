@@ -29,6 +29,13 @@ function usuarioAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idUsuario").val("");
+						}
 					}
 				});
 
@@ -55,6 +62,13 @@ function usuarioDepartamentoAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idDepto").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtUsuarioDepartamento").val())){
+							$("#txtUsuarioDepartamento").val("");
+							$("#idDepto").val("");
+						}
 					}
 				});
 
@@ -81,6 +95,13 @@ function usuarioCargoAutocomplete() {
 					minLength : 1,
 					select : function(event, ui) {
 						$("#idCargo").val(ui.item.id);
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtUsuarioCargo").val())){
+							$("#txtUsuarioCargo").val("");
+							$("#idCargo").val("");
+						}
 					}
 				});
 
@@ -391,7 +412,7 @@ function edit() {
 
 function deleteData() {
 	
-	if($("#txtRecords").val() != ""){
+	if($("#txtRecords").val() != "" && $("#idUsuario").val() != ""){
 		var formData = "idUsuario=" + $("#idUsuario").val();
 	
 		var answer = confirm("Est\00e1 seguro que quiere eliminar el registro: "
@@ -431,139 +452,135 @@ function validar_campos() {
 	
 	if($("#txtUsuarioPrimerNombre").val()!=""){
 		if(!validarAlfa($("#txtUsuarioPrimerNombre").val())){
-			camposFallan += "El campo PRIMER NOMBRE contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>El campo PRIMER NOMBRE contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo PRIMER NOMBRE es requerido <br />";
+		camposFallan += "<p><dd>El campo PRIMER NOMBRE es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioOtrosNombres").val()!=""){
 		if(!validarAlfaEsp($("#txtUsuarioOtrosNombres").val())){
-			camposFallan += "El campos OTROS NOMBRES contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>El campos OTROS NOMBRES contiene caracteres no validos </dd><br/></p>";
 		}
 	}
 	
 	if($("#txtUsuarioPrimerApellido").val()!=""){
 		if(!validarAlfa($("#txtUsuarioPrimerApellido").val())){
-			camposFallan += "El campo PRIMER APELLIDO contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>El campo PRIMER APELLIDO contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo PRIMER APELLIDO es requerido <br />";
+		camposFallan += "<p><dd>El campo PRIMER APELLIDO es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioOtrosApellidos").val()!=""){
 		if(!validarAlfaEsp($("#txtUsuarioOtrosApellidos").val())){
-			camposFallan += "El campo OTROS APELLIDOS contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>El campo OTROS APELLIDOS contiene caracteres no validos </dd><br/></p>";
 		}
 	}
 	
 	if ($("#txtUsuarioPassword").val() == ""
 			|| $("#txtUsuarioConfirmar").val() == "") {		
-		camposFallan += "Complete la Contrase\u00f1s <br />";		
+		camposFallan += "<p><dd>Complete la Contrase\u00f1s </dd><br/></p>";		
 	}
 	if ($("#txtUsuarioPassword").val() < 4) {		
-		camposFallan += "La contrase\u00f1a debe ser mayor de 4 digitos <br />";			
+		camposFallan += "<p><dd>La contrase\u00f1a debe ser mayor de 4 digitos </dd><br/></p>";			
 	}
 	if ($("#txtUsuarioConfirmar").val() == "") {
-		camposFallan += "Debe confirmar la contrase\u00f1a <br />";		
+		camposFallan += "<p><dd>Debe confirmar la contrase\u00f1a </dd><br/></p>";		
 	}
 
 	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
-		camposFallan += "La contrase\u00f1a confirmada no concuerda con la contrase\u00f1a escrita <br />";		
+		camposFallan += "<p><dd>La contrase\u00f1a confirmada no concuerda con la contrase\u00f1a escrita </dd><br/></p>";		
 	}
 	
 	if ($("#txtUsuarioPassword").val() != $("#txtUsuarioConfirmar").val()) {
-		camposFallan += "La contrase\u00f1a confirmada no concuerda con la contrase\u00f1a escrita <br />";		
+		camposFallan += "<p><dd>La contrase\u00f1a confirmada no concuerda con la contrase\u00f1a escrita </dd><br/></p>";		
 	}
 	
 	/* validacions de documentos personales */
 	if($("#txtUsuarioDUI").val()!=""){
 		if(!validarDUI($("#txtUsuarioDUI").val())){
-			camposFallan += "Formato de DUI es incorrecto o contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>Formato de DUI es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo DUI es requerido <br />";
+		camposFallan += "<p><dd>El campo DUI es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioNIT").val()!=""){
 		if(!validarNIT($("#txtUsuarioNIT").val())){
-			camposFallan += "Formato de NIT es incorrecto o contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>Formato de NIT es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo NIT es requerido <br />";
+		camposFallan += "<p><dd>El campo NIT es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioISSS").val()!=""){
 		if(!validarISSS($("#txtUsuarioISSS").val())){
-			camposFallan += "Formato de ISSS es incorrecto o contiene caracteres no validos <br />";
+			camposFallan += "<p><dd>Formato de ISSS es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo ISSS es requerido <br />";
+		camposFallan += "<p><dd>El campo ISSS es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioNUP").val()!=""){
 		if(!validarNUP($("#txtUsuarioNUP").val())){
-			camposFallan += "Formato de NUP es incorrecto o contiene caracteres no validos<br />";
+			camposFallan += "<p><dd>Formato de NUP es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
 	}
 	
-	if($("#txtUsuarioDepartamento").val()==""){
-		camposFallan += "El campos DEPARTAMENTO es requerido<br />";
+	if($("#txtUsuarioDepartamento").val()=="" || $("#txtUsuarioDepartamento").val()==""){
+		camposFallan += "<p><dd>El campos DEPARTAMENTO es requerido </dd><br/></p>";
 	}
 	
-	if($("#txtUsuarioDepartamento").val()==""){
-		camposFallan += "El campos ROL es requerido<br />";
+	if($("#txtUsuarioCargo").val()=="" && $("#idCargo").val()==""){
+		camposFallan += "<p><dd>El campos CARGO es requerido </dd><br/></p>";
 	}
 	
 	
 	if($("#txtUsuarioCarnet").val()!=""){
 		if(!validarCarnet($("#txtUsuarioCarnet").val())){
-			camposFallan += "Formato de CARNET es incorrecto o contiene caracteres no validos<br />";
+			camposFallan += "<p><dd>Formato de CARNET es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
 	}
 	
 	if($("#txtUsuarioCodigo").val()!=""){
 		if(!validarCodEmpleado($("#txtUsuarioCodigo").val())){
-			camposFallan += "Formato de CODIGO es incorrecto o contiene caracteres no validos<br />";
+			camposFallan += "<p><dd>Formato de CODIGO es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
 	}else{
-		camposFallan += "El campo C\u00d3DIGO es requerido <br />";
+		camposFallan += "<p><dd>El campo C\u00d3DIGO es requerido </dd><br/></p>";
 	}
-	
-	
-	
-	
-	/* otras validaciones */
 	
 	
 	/* mail validations */
 	if($("#txtUsuarioEmailPersonal").val()!=""){
 		if(!validarEmail($("#txtUsuarioEmailPersonal").val())){
-			camposFallan += "El correo electronico personal tiene un formato incorrecto <br />";
+			camposFallan += "<p><dd>El correo electronico personal tiene un formato incorrecto </dd><br/></p>";
 		}
 	}
 	
 	if($("#txtUsuarioEmailInstitucional").val()!=""){
 		if(!validarEmail($("#txtUsuarioEmailInstitucional").val())){
-			camposFallan += "El correo electronico institucional tiene un formato incorrecto <br />";
+			camposFallan += "<p><dd>El correo electronico institucional tiene un formato incorrecto </dd><br/></p>";
 		}
 	}
 	
 	if($("#txtUsuarioTelefono").val()!=""){
 		if(!validarTelefono($("#txtUsuarioTelefono").val())){
-			camposFallan += "Formato de telefono incorrecto <br />";
+			camposFallan += "<p><dd>Formato de telefono incorrecto </dd><br/></p>";
 		}
 	}
 	
 	if($("#txtUsuarioExtension").val()!=""){
 		if(!validarExtension($("#txtUsuarioExtension").val())){
-			camposFallan += "Formato de extensi\u00f3n incorrecto <br />";
+			camposFallan += "<p><dd>Formato de extensi\u00f3n incorrecto </dd><br/></p>";
 		}
 	}
 	
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se encontraron los siguientes problemas:" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}
