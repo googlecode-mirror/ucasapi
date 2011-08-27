@@ -79,7 +79,8 @@ class prioridadModel extends CI_Model{
 		
 		$idPrioridad = $this->input->post("idPrioridad");
 		
-		$sql = "DELETE FROM PRIORIDAD
+		$sql = "UPDATE PRIORIDAD
+				SET activo = '0'
 				WHERE idPrioridad = ". $idPrioridad;
    				
 		$query = $this->db->query($sql);
@@ -98,7 +99,7 @@ class prioridadModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idPrioridad, nombrePrioridad FROM PRIORIDAD";
+		$sql = "SELECT idPrioridad, nombrePrioridad FROM PRIORIDAD WHERE activo = '1'";
 		$query = $this->db->query($sql);		
 	
 		if($query){
