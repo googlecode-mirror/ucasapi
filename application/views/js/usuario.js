@@ -4,10 +4,13 @@ $(document).ready(function() {
 	$("#usuarioButton").addClass("highlight");
 	usuarioAutocomplete();
 	usuarioCargoAutocomplete();
-	usuarioDepartamentoAutocomplete()
-	usuarioRolAutocomplete()
+	usuarioDepartamentoAutocomplete();
 	loadGrid();
 	loadGridTR();
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	$("#txtUsuarioDepartamento").focus(function(){$("#txtUsuarioDepartamento").autocomplete('search', '');});
+	$("#txtUsuarioCargo").focus(function(){$("#txtUsuarioCargo").autocomplete('search', '');});
 
 });
 
@@ -26,7 +29,7 @@ function usuarioAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
 					},
@@ -59,7 +62,7 @@ function usuarioDepartamentoAutocomplete() {
 				$("#txtUsuarioDepartamento").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idDepto").val(ui.item.id);
 					},
@@ -92,7 +95,7 @@ function usuarioCargoAutocomplete() {
 				$("#txtUsuarioCargo").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idCargo").val(ui.item.id);
 					},

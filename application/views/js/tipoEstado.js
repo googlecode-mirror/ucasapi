@@ -12,6 +12,8 @@ $(document).ready(function() {
 		}
 	});
 	tipoAutocomplete();
+	
+	$("#txtSearch").focus(function(){$("#txtSearch").autocomplete('search', '');});
 });
 
 function tipoAutocomplete() {
@@ -27,7 +29,7 @@ function tipoAutocomplete() {
 				$("#txtSearch").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idTipo").val(ui.item.id);
 					},

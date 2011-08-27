@@ -50,8 +50,8 @@
 			<div id ="msgBox"></div>	
 				
 			<div class="divDataForm" style="height: 100px 	">
-				<input id="idTipo" type="hidden"  value="" class = "hiddenId"/><br>
-				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
+				<input id="idTipo" type="hidden"  value="" class = "hiddenId"/>
+				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 			
 				<span class = "inputFieldLabel">Nombre del Estado: </span>
 				<input id="txtTipoName" type="text"  value="" class = "inputField" maxlength="40"/><br>				

@@ -3,6 +3,9 @@ $(document).ready(function(){
 	$("#faseButton").addClass("highlight");
 	faseAutocomplete();
 	llenarFases();
+	
+	$("#txtSearch").focus(function(){$("#txtSearch").autocomplete('search', '');});
+	
 });
 
 function faseAutocomplete(){
@@ -19,7 +22,7 @@ function faseAutocomplete(){
 	        		$("#txtSearch").autocomplete({
 	            		minChars: 0,  
 	    		        source: retrievedData.data,
-	    		        minLength: 1,
+	    		        minLength: 0,
 	    		        select: function(event, ui) {
 	    			        $("#idFase").val(ui.item.id);					
 	    				},
@@ -126,8 +129,9 @@ function deleteData(){
 }
 
 function edit(){
-	if ($("#txtSearch").val() != "" && $("#idFase").val() != "") {
+	if ($("#txtSearch").val() != "" && $("#idFase").val() != "") {		
 		var formData = "idFase=" + $("#idFase").val();
+		lockAutocomplete();
 		$.ajax({
 			type: "POST",
 			url: "index.php/fase/faseRead",
@@ -189,12 +193,27 @@ function validar_campos(){
 	return true;
 }
 
+function cancel() {
+	clear();
+}
+
 function clear(){
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtSearch").val("");
-	$("#txtFaseDesc").val("");
-	
+	$("#txtFaseDesc").val("");	
 	$("select").attr("disabled", "");
+	unlockAutocomplete();
+}
+
+/* OTRAS FUNCIONES DE VALIDACION Y LOCKING*/
+function lockAutocomplete() {	
+	$("#txtSearch").attr("disabled", true);	
+	$("#txtSearch").css({"background-color": "DBEBFF"});		
+}
+
+function unlockAutocomplete() {
+	$("#txtSearch").attr("disabled", false);
+	$("#txtSearch").css({"background-color": "FFFFFF"});	
 }
 

@@ -6,6 +6,10 @@ $(document).ready(function() {
 	usuarioRolAutocomplete();
 	loadGridUsuarioHistorico();
 	loadGridRolHistorico();
+	
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	$("#txtHistoricoRol").focus(function(){$("#txtHistoricoRol").autocomplete('search', '');});
+	
 });
 
 function usuarioAutocomplete() {
@@ -23,7 +27,7 @@ function usuarioAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
 					},
@@ -54,7 +58,7 @@ function usuarioRolAutocomplete() {
 				$("#txtHistoricoRol").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idRol").val(ui.item.id);
 					},

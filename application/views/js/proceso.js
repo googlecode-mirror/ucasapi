@@ -5,14 +5,15 @@ $(document).ready(function() {
 	procesoEstadoAutocomplete();
 	procesoFaseAutocomplete();
 	$("#idProceso").val("0");
-	
-	//alert($("#idRol").val());
-	
 	if($("#idRol").val() != 1){	
 		$("#btnSave").attr("disabled", true);
 	}
 	
-	// loadGrid("0");
+	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
+	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
+	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
+	$("#txtProyectoName").focus(function(){$("#txtProyectoName").autocomplete('search', '');});	
+
 });
 
 function procesoAutocomplete($idProyecto) {
@@ -28,7 +29,7 @@ function procesoAutocomplete($idProyecto) {
 				$("#txtRecordsProc").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idProceso").val(ui.item.id);
 					},
@@ -60,7 +61,7 @@ function procesoProyectoAutocomplete() {
 				$("#txtRecordsProy").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 						procesoAutocomplete($("#idProyecto").val());
@@ -68,6 +69,8 @@ function procesoProyectoAutocomplete() {
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
 						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProy").val())){
+							$("#txtRecordsProc").autocomplete("destroy");
+							$("#txtRecordsProc").val("");
 							$("#txtRecordsProy").val("");
 							$("#idProyecto").val("0");
 						}
@@ -76,7 +79,7 @@ function procesoProyectoAutocomplete() {
 				$("#txtProyectoName").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 						procesoAutocomplete($("#idProyecto").val());

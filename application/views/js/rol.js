@@ -2,6 +2,8 @@ $(document).ready(function() {
 	js_ini();
 	$("#rolButton").addClass("highlight");
 	rolAutocomplete();
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	
 });
 
 function rolAutocomplete() {
@@ -17,7 +19,7 @@ function rolAutocomplete() {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idRol").val(ui.item.id);
 					},
