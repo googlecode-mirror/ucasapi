@@ -496,9 +496,9 @@ function validarCampos() {
 		if (!validarAlfaEsp($("#txtProcessName").val())) {
 			camposFallan += "El campos PROCESO contiene caracteres no validos <br />";
 		}
-	} else {
+	} /*else {
 		camposFallan += "El campo PROCESO es requerido <br />";
-	}
+	}*/
 
 	if ($("#txtResponsibleName").val() != "") {
 		if (!validarAlfaEsp($("#txtResponsibleName").val())) {

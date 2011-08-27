@@ -53,7 +53,7 @@ function mostrarProyecto (idProyecto) {
 //        		$("#progreso").html(retrievedData.data[0].progreso);
 
         		$("#nombreProyecto").html(retrievedData.data.nombreProyecto);
-        		$("#coordinadorProyecto").html(retrievedData.data.nombreUsuario);
+        		$("#coordinadorProyecto").html(retrievedData.data.nombreEnc);
         		$("#fechaInicio").html(retrievedData.data.fechaPlanIni);
         		$("#fechaFin").html(retrievedData.data.fechaPlanFin);
         		$("#txtSolicitudDesc").val(retrievedData.data.descripcion);
