@@ -343,7 +343,7 @@ class procesoModel extends CI_Model{
 		
 		$sql = "select e.idEstado, e.estado
 				from ESTADO e INNER JOIN TIPO_ESTADO tp ON e.idTipoEstado = tp.idTipoEstado
-				WHERE e.idTipoEstado = " .$idTipo;
+				WHERE e.activo = '1' and e.idTipoEstado = " .$idTipo;
 		
 		$query = $this->db->query($sql);		
 	
