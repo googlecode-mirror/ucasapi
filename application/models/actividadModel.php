@@ -32,6 +32,7 @@ class actividadModel extends CI_Model{
 		$idProyecto = $this->input->post("idProyecto");
 		$idUsuario = $this->input->post("idUsuario");
 		
+		
 		$sql = "SELECT DISTINCT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, a.nombreActividad, a.descripcionActividad, 
 					e.idEstado, b.progreso, b.comentario
 				FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto 
@@ -61,6 +62,7 @@ class actividadModel extends CI_Model{
 	
 	function update(){
 		$this->load->database();
+		$idProyTemp = $this->input->post("idProyecto");
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
@@ -77,7 +79,7 @@ class actividadModel extends CI_Model{
 		
 		//Manejando la transaccion
 		$this->db->trans_start();
-		
+			
 		//Iniciando el texto de notificacion
 		$sql = "SELECT nombreActividad
 				FROM ACTIVIDAD
@@ -85,6 +87,32 @@ class actividadModel extends CI_Model{
 		
 		$query = $this->db->query($sql);
 		$row = $query->row();
+		
+		//Si el progreso es igual a 100 notifico al coordinador de proyecto que la actividad fue terminada
+		if($progreso == 100){
+			$cadNotificacion = "La actividad <b>'" .$row->nombreActividad."' ha sido finalizada";
+			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad finalizada',CURDATE())";
+			
+			$this->db->query($sql);
+			
+			$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
+			$query = $this->db->query($sql);
+			$rowT = $query->row();
+			$idNotificacion = $rowT->lastId;
+			
+			//Obteniendo ID del coordinador de proyecto
+			$sql = "SELECT p.idUsuarioEncargado 
+					FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
+						INNER JOIN PROYECTO p ON axp.idProyecto = p.idProyecto
+					WHERE a.idActividad = " .$idActividad." AND p.idProyecto = " .$idProyTemp;
+			
+			$query = $this->db->query($sql);
+			$rowT = $query->row();
+			
+			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$rowT->idUsuarioEncargado.",".$idNotificacion.",18,CURTIME())";
+			$this->db->query($sql); 
+		}
+		
 		
 		$cadAsignaciones = "";		
 		$cadAsignaciones .= "<b>Actividad: '" .$row->nombreActividad."'</b><br />";
@@ -104,7 +132,7 @@ class actividadModel extends CI_Model{
 			$this->db->query($sql);
 			
 			//Obteniendo el ultimo ID
-			$sql = "SELECT LAST_INSERT_ID() lastId FROM NOTIFICACION";
+			$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
 			$query = $this->db->query($sql);
 			$row = $query->row();
 			$idNotificacion = $row->lastId;
@@ -163,7 +191,7 @@ class actividadModel extends CI_Model{
 		}
 		
 		//Obteniendo el ultimo ID
-		$sql = "SELECT LAST_INSERT_ID() lastId FROM NOTIFICACION";
+		$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
 		$query = $this->db->query($sql);
 		$row = $query->row();
 		$idNotificacion = $row->lastId;
@@ -206,7 +234,7 @@ class actividadModel extends CI_Model{
 		$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURDATE())";
 		$this->db->query($sql);
 		
-		$sql = "SELECT LAST_INSERT_ID() lastId FROM NOTIFICACION";
+		$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
 		$query = $this->db->query($sql);
 		$row = $query->row();
 		$idNotificacion = $row->lastId;

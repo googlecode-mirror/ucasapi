@@ -26,9 +26,9 @@ class Proyecto extends CI_Controller{
 				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
 				$roleName = $this->session->userdata("roleName");
 				$idRol = $this->session->userdata("idRol");
+				$idUsuario = $this->session->userdata("idUsuario");
 				
-				$this->load->view("proyectoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view
-				
+				$this->load->view("proyectoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "idUsuario" => $idUsuario, "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view				
 			}
 			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
 				redirect($previousPage,"refresh");
@@ -56,9 +56,9 @@ class Proyecto extends CI_Controller{
 		echo json_encode($this->proyectoModel->faseRead());
 	}
 
-	function proyectoAutocompleteRead(){
+	function proyectoAutocompleteRead($idUsuario,$idRol){
 		$this->load->model("proyectoModel");
-		echo json_encode($this->proyectoModel->autocompleteRead());
+		echo json_encode($this->proyectoModel->autocompleteRead($idUsuario,$idRol));
 	}
 
 	function proyectoUsuarioAutocompleteRead(){
