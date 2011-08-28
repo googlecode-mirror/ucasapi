@@ -278,6 +278,34 @@ class UsuarioModel extends CI_Model{
 
 		return $retArray;
 	}
+	
+	// Buscar usuarios para solicitud
+	function autocompleteSolicitudRead(){
+		$this->load->database();
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', if(OtrosNombres=null,'',OtrosNombres),' ',primerApellido,' ',if(otrosApellidos=null,'',otrosApellidos)) nombreUsuario FROM USUARIO WHERE activo = '1' ";
+		$query = $this->db->query($sql);
+ 
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idUsuario;
+					$rowArray["value"] = $row->nombreUsuario;
+
+					$retArray["data"][] = $rowArray;
+				}
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+
+		return $retArray;
+	}
 
 	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librería form_validation
 	function saveValidation(){
