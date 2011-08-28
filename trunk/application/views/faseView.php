@@ -68,7 +68,7 @@
 				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 				<span class = "requiredFieldLabel">Fase Previa:</span>
-				<select name="fasesSiguientes" id="cbxFasePrev" class = "selectList" ></select><br/><br/>
+				<select name="fasesSiguientes" id="cbxFasePrev" class = "selectList" onchange="cargarSiguientefase(this.value)"></select><br/><br/>
 
 				<span class = "requiredFieldLabel">Fase siguiente:</span>
 				<select name="fasesSiguientes" id="cbxFaseSig" class = "selectList" ></select>
