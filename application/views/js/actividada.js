@@ -58,6 +58,7 @@ function projectAutocomplete(){
     		        selectFirst: true,
     		        select: function(event, ui) {
     			        $("#idProyecto").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
     			        $("#txtProcessRecords").val("");
     			        $("#idProceso").val("");
     			        processAutocomplete($("#idProyecto").val(), "#txtProcessRecords");
@@ -78,6 +79,7 @@ function projectAutocomplete(){
     		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idProyecto").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
     			        $("#txtProcessName").val("");
     			        $("#idProceso").val("");
     			        processAutocomplete($("#idProyecto").val(), "#txtProcessName");
@@ -109,6 +111,7 @@ function processAutocomplete(idProyecto, processTextBox){
     		        minLength: 0,
     		        select: function(event, ui) {
     			        $("#idProceso").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
     			        $("#idActividad").val("");
     			        if(processTextBox=="#txtProcessRecords"){
 			        		$("#txtRecords").val("");
@@ -140,7 +143,8 @@ function activityAutocomplete(idProyecto, idProceso){
     		        source: retrievedData.data,
     		        minLength: 0,
     		        select: function(event, ui) {
-    			        $("#idActividad").val(ui.item.id);					
+    			        $("#idActividad").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
     			        //processAutocompleteRead($("#idDepto").val());
     				}
     			});
@@ -171,7 +175,8 @@ function priorityAutocomplete(){
     		        source: retrievedData.data,
     		        minLength:0,
     		        select: function(event, ui) {
-    			        $("#idPrioridad").val(ui.item.id);					
+    			        $("#idPrioridad").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
     				}
     			});
         		
@@ -199,7 +204,8 @@ function statusAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 0,
     		        select: function(event, ui) {
-    			        $("#idEstado").val(ui.item.id);					
+    			        $("#idEstado").val(ui.item.id);	
+    			        $(this).blur();//Dedicado al IE
     				}
     			});
         		
@@ -226,7 +232,8 @@ function fileTypeAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 0,
     		        select: function(event, ui) {
-    			        $("#idTipoArchivo").val(ui.item.id);					
+    			        $("#idTipoArchivo").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
     				}
     			});
         		

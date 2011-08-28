@@ -32,6 +32,7 @@ function tipoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idTipo").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){

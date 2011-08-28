@@ -28,7 +28,8 @@ function accionAutocomplete(){
     		        source: retrievedData.data,
     		        minLength: 0,
     		        select: function(event, ui) {
-    			        $("#idAccion").val(ui.item.id);					
+    			        $("#idAccion").val(ui.item.id);	
+    			        $(this).blur();//Dedicado al IE
     				},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){

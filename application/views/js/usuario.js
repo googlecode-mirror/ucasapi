@@ -32,6 +32,7 @@ function usuarioAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -65,6 +66,7 @@ function usuarioDepartamentoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idDepto").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -98,6 +100,7 @@ function usuarioCargoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idCargo").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){

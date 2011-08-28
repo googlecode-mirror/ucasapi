@@ -45,6 +45,7 @@ function proyectoUsuarioEncAutocomplete(){
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuarioProy").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -78,6 +79,7 @@ function proyectoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -110,6 +112,7 @@ function proyectoUsuarioAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuario").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -143,6 +146,7 @@ function proyectoUsuarioDuenhoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuarioDuenho").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){

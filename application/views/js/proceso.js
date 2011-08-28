@@ -32,6 +32,7 @@ function procesoAutocomplete($idProyecto) {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idProceso").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -64,6 +65,7 @@ function procesoProyectoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 						procesoAutocomplete($("#idProyecto").val());
 					},
 					//Esto es para el esperado mustMatch o algo parecido
