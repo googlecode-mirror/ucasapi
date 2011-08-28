@@ -114,30 +114,6 @@ function usuarioCargoAutocomplete() {
 	});
 }
 
-function usuarioRolAutocomplete() {
-	$.ajax({
-		type : "POST",
-		url : "index.php/usuario/usuarioRolAutocompleteRead",
-		data : "usuarioRolAutocomplete",
-		dataType : "json",
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
-			} else {
-				$("#txtUsuarioRolNombre").autocomplete({
-					minChars : 0,
-					source : retrievedData.data,
-					minLength : 1,
-					select : function(event, ui) {
-						$("#idRol").val(ui.item.id);
-					}
-				});
-
-			}
-		}
-
-	});
-}
 
 // grid donde estan lo roles que el usuario tiene asignados actualmente
 function loadGrid() {
@@ -329,9 +305,7 @@ function save() {
 					clear();
 				}
 			}
-
 		});
-
 	}
 
 }
