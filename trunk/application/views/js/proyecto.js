@@ -367,6 +367,7 @@ function validarCampos() {
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se encontraron los siguientes problemas:<br/>" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}
