@@ -357,7 +357,7 @@ class UsuarioModel extends CI_Model{
 
 		//-------------------------
 
-		$sql = "SELECT idRol, nombreRol FROM ROL WHERE idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
+		$sql = "SELECT idRol, nombreRol FROM ROL WHERE activo='1' AND idRol NOT IN (SELECT idRol FROM ROL_USUARIO WHERE idUsuario = ".$this->db->escape($idUsuario).")";
 		$query = $this->db->query($sql);
 
 		$i = 0;
