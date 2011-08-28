@@ -7,7 +7,7 @@ $(document).ready(function() {
 	upload = null;
 	proyectoAutocomplete();	
 	proyectoFaseAutocomplete();
-	ajaxUpload();
+	//ajaxUpload();
 	$("#idProyecto").val("0");
 	$("#tabs-2").hide();
 	$("#tagBliblioteca").hide();	
@@ -349,6 +349,18 @@ function validarCampos() {
 	if ($("#txtProyectoDescripcion").val() != "") {
 		if ($("#txtProyectoDescripcion").val().length > 256) {
 			camposFallan += "Longutud de DESCRIPCION es mayor que 256 caracteres <br/>";
+		}
+	}
+	
+	if ($("#txtProyectoFechaPlanFin").val() != "" &&	 $("#txtProyectoFechaPlanIni").val() != "") { 
+		if(!validateOverlapFechas($("#txtProyectoFechaPlanFin").val(),$("#txtProyectoFechaPlanIni").val())) {
+			 camposFallan += "<p><dd> El campo INICIO PLANIFICADO debe ser menor o igual a FIN PLANIFICADO </dd><br/></p>";
+		}
+	}
+	
+	if ($("#txtProyectoFechaRealFin").val() != "" &&	 $("#txtProyectoFechaRealIni").val() != "") { 
+		if(!validateOverlapFechas($("#txtProyectoFechaRealFin").val(),$("#txtProyectoFechaRealIni").val())) {
+			 camposFallan += "<p><dd> El campo INICIO REAL debe ser menor o igual a FIN REAL </dd><br/></p>";
 		}
 	}
 	
