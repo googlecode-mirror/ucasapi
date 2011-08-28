@@ -90,15 +90,15 @@ function loadGridUsuarioHistorico() {
 				colModel : [ {
 					name : "fechaInicioContrato",
 					index : "fechaInicioContrato",
-					width : 150
+					width : 130
 				}, {
 					name : "fechaFinContrato",
 					index : "fechaFinContrato",
-					width : 150
+					width : 130
 				}, {
 					name : "tiempoContrato",
 					index : "tiempoContrato",
-					width : 150
+					width : 130
 				}, {
 					name : "correlUsuarioHistorico",
 					index : "correlUsuarioHistorico",
@@ -137,19 +137,19 @@ function loadGridRolHistorico() {
 				colModel : [ {
 					name : "fechaInicio",
 					index : "fechaInicio",
-					width : 150
+					width : 110
 				}, {
 					name : "fechaFin",
 					index : "fechaFin",
-					width : 150
+					width : 110
 				}, {
 					name : "salario",
 					index : "salario",
-					width : 150
+					width : 80
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
-					width : 200
+					width : 250
 				}, {
 					name : "idRolHistorico",
 					index : "idRolHistorico",
