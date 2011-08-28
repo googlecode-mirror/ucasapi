@@ -494,7 +494,7 @@ function update(){
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 				
-		$sql = "SELECT idPrioridad, nombrePrioridad FROM PRIORIDAD";
+		$sql = "SELECT idPrioridad, nombrePrioridad FROM PRIORIDAD WHERE activo = '1' ";
 		
 		$query = $this->db->query($sql);		
 	
@@ -524,7 +524,7 @@ function update(){
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 				
-		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1";
+		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1 AND activo = '1' ";
 		
 		$query = $this->db->query($sql);		
 	
