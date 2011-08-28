@@ -11,13 +11,18 @@ $(document).ready(function() {
 		autoOpen : false
 	});
 	$("#dialogoTransferir").dialog({
+		open: function() {$("#txtRecords").blur()},
+		modal : true,
+		resizable : false,
+		width : 500,
+		height : 200,
 		autoOpen : false
 	});
 	$("#dialogoAsignar").dialog({
 		modal : true,
-		//resizable : false,
-		width : 600,
-		height : 800,
+		resizable : false,
+		width : 576,
+		height : 900,
 		autoOpen : false
 	});
 
@@ -26,6 +31,17 @@ $(document).ready(function() {
 	});
 	
 	 $("#listPeticion").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
+	 
+	 $("#btnRemoveProject").button({icons: {primary: "ui-icon-trash"}});
+	 $("#btnAsign").button({icons: {primary: "ui-icon-disk"}});
+	 $("#btnTransfer").button({icons: {primary: "ui-icon-arrowreturnthick-1-e"}});
+	 
+	$("#txtProjectName").focus(function(){$("#txtProjectName").autocomplete('search', '');});
+	$("#txtProjectRecords").focus(function(){$("#txtProjectRecords").autocomplete('search', '');});
+	$("#txtResponsibleName").focus(function(){$("#txtResponsibleName").autocomplete('search', '');});
+	$("#txtPriorityName").focus(function(){$("#txtPriorityName").autocomplete('search', '');});
+	$("#txtStatusName").focus(function(){$("#txtStatusName").autocomplete('search', '');});
+	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
 
 	// $("#list").hideCol("anio");
 	// $("#list").hideCol("correl");
@@ -90,12 +106,13 @@ function proyectoAutocomplete() {
 							minChars : 0,
 							matchContains : true,
 							source : retrievedData.data,
-							minLength : 1,
+							minLength : 0,
 							select : function(event, ui) {
 								// $("#idUsuario").val(ui.item.id);
 								$("#cbxRelacionados").append(
 										'<option value="' + ui.item.id + '">'
 												+ ui.item.value + '</option>');
+								$(this).blur();//Dedicado al IE
 							},
 							// Esto es para el esperado mustMatch o algo
 							// parecido
@@ -128,9 +145,10 @@ function empleadosAutocomplete() {
 							minChars : 0,
 							matchContains : true,
 							source : retrievedData.data,
-							minLength : 1,
+							minLength : 0,
 							select : function(event, ui) {
 								$("#idUsuario").val(ui.item.id);
+								$(this).blur();//Dedicado al IE
 							},
 							// Esto es para el esperado mustMatch o algo
 							// parecido
@@ -243,7 +261,7 @@ function asignarSolicitud() {
 		var solicitud = $("#idSolicitud").val().split("-");
 		var formData = "";
 		formData += "idProyecto=" + $("#idProyecto").val();
-		formData += "&idProceso=" + $("#idProceso").val();
+		//formData += "&idProceso=" + $("#idProceso").val();
 		formData += "&idActividad=" + $("#idActividad").val();
 		formData += "&idPrioridad=" + $("#idPrioridad").val();
 		formData += "&idEstado=" + $("#idEstado").val();
@@ -320,20 +338,21 @@ function projectAutocomplete() {
 							minChars : 0,
 							matchContains : true,
 							source : retrievedData.data,
-							minLength : 1,
+							minLength : 0,
 							select : function(event, ui) {
 								$("#idProyecto").val(ui.item.id);
 								$("#txtProcessName").val("");
-								$("#idProceso").val("");
+								//$("#idProceso").val("");
 								processAutocomplete($("#idProyecto").val(),
 										"#txtProcessName");
+								$(this).blur();//Dedicado al IE
 							},
 							//Esto es para el esperado mustMatch o algo parecido
 							change :function(){
 								if(!autocompleteMatch(retrievedData.data, $("#txtProjectName").val())){
 									$("#txtProjectName").val("");	
 									$("#idProyecto").val("");
-									$("#idProceso").val("");
+									//$("#idProceso").val("");
 								}
 							}
 						});
@@ -372,7 +391,7 @@ function processAutocomplete(idProyecto, processTextBox) {
 							source : retrievedData.data,
 							minLength : 0,
 							select : function(event, ui) {
-								$("#idProceso").val(ui.item.id);
+								//$("#idProceso").val(ui.item.id);
 								$("#idActividad").val("");
 								if (processTextBox == "#txtProcessRecords") {
 									$("#txtRecords").val("");
@@ -380,6 +399,7 @@ function processAutocomplete(idProyecto, processTextBox) {
 											$("#idProyecto").val(), $(
 													"#idProceso").val());
 								}
+								$(this).blur();//Dedicado al IE
 							},
 							//Esto es para el esperado mustMatch o algo parecido
 							change :function(){
@@ -421,9 +441,10 @@ function userAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idUsuarioResponsable").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -465,9 +486,10 @@ function priorityAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idPrioridad").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -509,9 +531,10 @@ function statusAutocomplete() {
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idEstado").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -546,7 +569,7 @@ function validarCampos() {
 		camposFallan += "El campo PROYETCO es requerido <br />";
 	}
 
-	if ($("#txtProcessName").val() != "") {
+	/*if ($("#txtProcessName").val() != "") {
 		if (!validarAlfaEsp($("#txtProcessName").val())) {
 			camposFallan += "El campos PROCESO contiene caracteres no validos <br />";
 		}
