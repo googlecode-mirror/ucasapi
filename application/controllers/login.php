@@ -68,6 +68,7 @@ class Login extends CI_Controller{
 		$this->session->set_userdata("roleName", $roleName);
 		
 		if($idRol == "6")$homePage = "ventanilla";
+		if($idRol == "7")$homePage = "accion";
 		
 		redirect($homePage,"refresh");		
 	}
