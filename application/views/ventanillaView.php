@@ -75,11 +75,13 @@
 				<button id="btnUpload" onClick="definirDestinatario()">Transferir la solicitud</button>
 			</div>
 
-			<div align="center" id="dialogoTransferir" style="visibility: hidden;">
+			<div id="dialogoTransferir" style="visibility: hidden;" class="divDataForm">
 				<input type="hidden" value="" id="idUsuario"/>
-				<span class = "inputFieldLabel"><b>Destinatario:</b></span><br/>
-				<input id="txtRecords" type="text" disabled="disabled"  value="" class="inputFiledAC" /><br/><br/>
-				<button id="btnUpload" onClick="transferirSolicitud()">Transferir</button>
+				<span class = "inputFieldLabel" style="margin-left:50px">Destinatario:</span>
+				<input id="txtRecords" type="text" disabled="disabled"  value="" class="inputFieldAC" style="margin-right:50px"/><br/><br/>
+				<div align="center" style="margin-top: 40px">
+					<button id="btnTransfer" onClick="transferirSolicitud()">Transferir</button>
+				</div>				
 			</div>
 
 			<div align="center" id="dialogoAsignar" style="visibility: hidden;" class="divDataForm">
