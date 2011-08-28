@@ -60,6 +60,37 @@ function llenarFases() {
 				}
 				
 				$("#cbxFasePrev").html(options);
+				
+				var optionsSig = '<option value="' + retrievedData.data[0].id + '">' + retrievedData.data[0].value + '</option>';
+				$("#cbxFaseSig").html(optionsSig);
+			}
+		}
+
+	});
+}
+
+function cargarSiguientefase(idFasePrevia) {
+	//var idFasePrevia = $("#cbxFasePrev").val();
+	$.ajax({
+		type : "POST",
+		url : "index.php/fase/faseGetNextFase/" + idFasePrevia,
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				 msgBoxInfo(retrievedData.msg);
+//				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				var i = 0;
+				var options = '';
+				
+				for(; i< retrievedData.data.length ; i++) {
+					options += '<option value="' + retrievedData.data[i].id + '">' + retrievedData.data[i].value + '</option>';
+				}
+				
+				if (options == "") {
+					 options = '<option value="0"></option>';
+				}
+				
 				$("#cbxFaseSig").html(options);
 			}
 		}
@@ -146,7 +177,9 @@ function edit(){
 					$("#txtFaseName").val(retrievedData.data.nombreFase);
 					$("#txtFaseDesc").val(retrievedData.data.descripcion);
 					$("#cbxFasePrev").val(retrievedData.data.anterior);
-					$("#cbxFaseSig").val(retrievedData.data.siguiente);
+					
+					cargarSiguientefase($("#idFase").val());
+					//$("#cbxFaseSig").val(retrievedData.data.siguiente);
 					
 					$("select").attr("disabled", "disabled");					
 					
@@ -196,6 +229,7 @@ function validar_campos(){
 
 function cancel() {
 	clear();
+	llenarFases();
 }
 
 function clear(){

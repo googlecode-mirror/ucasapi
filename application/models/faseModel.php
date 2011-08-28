@@ -51,6 +51,38 @@ class faseModel extends CI_Model{
 		return $retArray;
 
 	}
+	
+	function getNextFase($idFasePrev) {
+		$this->load->database();
+
+		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$faseList = array();
+		$minFase = 0;
+
+		$sql = "select fa.idFaseSiguiente idFase, fb.nombreFase nombreFase
+				from FASE fa
+				inner join FASE fb ON fa.idFaseSiguiente = fb.idFase
+				where fa.idFase = ?";
+		$query = $this->db->query($sql, array(intval($idFasePrev)));
+
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idFase;
+					$rowArray["value"] = $row->nombreFase;
+					$retArray["data"][] = $rowArray;
+				}
+			}
+
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+
+		return $retArray;
+	}
 
 	function delete(){
 		$this->load->database();
