@@ -59,7 +59,7 @@ class Actividada extends CI_Controller{
 	function projectAutocomplete(){
 		$this->load->model("proyectoModel");
 		
-		$autocompleteData = $this->proyectoModel->autocompleteRead();		
+		$autocompleteData = $this->proyectoModel->autocompleteReadActividada();		
 		
 		echo json_encode($autocompleteData);
 	}
