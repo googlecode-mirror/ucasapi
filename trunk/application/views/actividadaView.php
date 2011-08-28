@@ -74,7 +74,7 @@
 					<li><a href="#tabs-1">Información General</a></li>
 					<li><a href="#tabs-2">Proyectos relacionados</a></li>
 					<li><a href="#tabs-3">Seguidores</a></li>
-					<li><a href="#tabs-4">Documentos</a></li>
+					<li id="tagBliblioteca"><a href="#tabs-4">Documentos</a></li>
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style= "height: auto">	
