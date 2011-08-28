@@ -39,11 +39,7 @@
 			<pagina>
 				<nombrePagina>Actividades asignadas</nombrePagina>
 				<controller>actividadg</controller>
-			</pagina>
-			<pagina>
-				<nombrePagina>Departamento</nombrePagina>
-				<controller>departamento</controller>
-			</pagina>
+			</pagina>	
 			<pagina>
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
