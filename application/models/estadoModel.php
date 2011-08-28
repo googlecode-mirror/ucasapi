@@ -103,7 +103,7 @@ class estadoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idEstado, estado FROM ESTADO";
+		$sql = "SELECT idEstado, estado FROM ESTADO WHERE activo = '1' ";
 		$query = $this->db->query($sql);		
 	
 		if($query){
