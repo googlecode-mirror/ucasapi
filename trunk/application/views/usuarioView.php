@@ -72,7 +72,7 @@
                     <input id="accionActual" type="hidden"  value="" class = "hiddenId"/>               
                    
                     <span class = "requiredFieldLabel">Código empleado:</span>
-                    <input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA" maxlength="10"/><br>
+                    <input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA" maxlength="7"/><br>
                                
                     <span class = "requiredFieldLabel">Primer nombre:</span>
                     <input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField" title = "Primer nombre del usuario" maxlength="80"/><br>
