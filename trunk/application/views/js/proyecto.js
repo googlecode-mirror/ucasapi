@@ -7,7 +7,7 @@ $(document).ready(function() {
 	upload = null;
 	proyectoAutocomplete();	
 	proyectoFaseAutocomplete();
-	//ajaxUpload();
+	ajaxUpload();
 	$("#idProyecto").val("0");
 	$("#tabs-2").hide();
 	$("#tagBliblioteca").hide();	
@@ -15,6 +15,7 @@ $(document).ready(function() {
 	loadGridDocuments();
 	proyectoUsuarioDuenhoAutocomplete();
 	proyectoUsuarioEncAutocomplete();
+	fileTypeAutocomplete();
 	
 	if($("#idRol").val() != 1){	
 		$("#btnSave").attr("disabled", true);
@@ -24,6 +25,7 @@ $(document).ready(function() {
 	$("#txtCoordinadorEnc").focus(function(){$("#txtCoordinadorEnc").autocomplete('search', '');});	
 	$("#txtRecordsUsuario").focus(function(){$("#txtRecordsUsuario").autocomplete('search', '');});
 	$("#txtProyectoNombreDuenho").focus(function(){$("#txtProyectoNombreDuenho").autocomplete('search', '');});
+	$("#txtFileType").focus(function(){$("#txtFileType").autocomplete('search', '');});
 	
 		
 });
@@ -439,7 +441,7 @@ function ajaxUpload() {
 		responseType : "json",
 		action : "index.php/upload/do_upload/",
 		onSubmit : function(file, ext) {
-			if (!(ext && /^(txt|png|jpeg|docx)$/.test(ext))) {
+			if (!(ext && /^(txt|png|jpeg|docx|doc|rtf|ppt|pptx|bmp|gif|xls|xlsx|odt|ods|odp|odb|odf|odg|csv|pdf)$/.test(ext))) {
 				msgBoxInfo("El tipo de archivo no está perimitido");
 				return false;
 			}
@@ -485,6 +487,42 @@ function uploadFile() {
 	}
 }
 
+
+function fileTypeAutocomplete(){
+	$.ajax({				
+        type: "POST",
+        url:  "index.php/actividada/fileTypeAutocomplete",
+        dataType : "json",
+        success: function(retrievedData){        	
+        	if(retrievedData.status != 0){
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        	}
+        	else{        		
+        		$("#txtFileType").autocomplete({
+            		minChars: 0,
+            		matchContains: true,
+    		        source: retrievedData.data,
+    		        minLength: 0,
+    		        change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtFileType").val())){
+							$("#txtFileType").val("");
+							$("#idTipoArchivo").val("");
+						}
+					},
+    		        select: function(event, ui) {
+    			        $("#idTipoArchivo").val(ui.item.id);
+    			        $(this).blur();//Dedicado al IE
+    				}
+        		
+    			});
+        		
+        	}        	
+      }
+      
+	});		
+}
+
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Función desencadenada en el onComplete de la subida del archivo y asociada al
@@ -494,6 +532,8 @@ function saveFileData(fileName) {
 	var formData = "nombreArchivo=" + fileName;
 	formData += "&idProyecto=" + $("#idProyecto").val();
 	formData += "&descripcion=" + $("#txtFileDesc").val();
+	formData += "&tituloArchivo=" + $("#txtFileName").val();
+	formData += "&idTipoArchivo=" + $("#idTipoArchivo").val();
 	formData += "&idArchivo=" + idArchivo;
 	if($idProyecto != ""){
 		// alert($idProyecto);
@@ -618,22 +658,17 @@ function loadGridDocuments() {
 		/* url: "index.php/departamento/gridRead/", */
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Nombre", "Descripción" ],
-		colModel : [ {
-			name : "idArchivo",
-			index : "idArchivo",
-			width : 20,
-			hidden : true
-		}, {
-			name : "nombreArchivo",
-			index : "nombreArchivo",
-			width : 160
-		}, {
-			name : "descripcion",
-			index : "descripcion",
-			width : 320
-		} ],
-		pager : "#pager",
+		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion", "idTipo" ],
+		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
+		             {name : "Tipo",index : "Tipo",width : 160}, 
+		             {name : "Título",index : "Título",width : 160}, 
+		             {name : "Nombre",index : "Nombre", hidden : true}, 
+		             {name : "Subido",index : "Subido",width : 160}, 
+		             {name : "Descripcion",index : "Descripcion",hidden : true},
+		             {name : "idTipoArchivo",index : "idTipoArchivo",hidden : true}
+		             
+		             ],
+		pager : "#dpager",
 		rowNum : 10,
 		width : 480,
 		rowList : [ 10, 20, 30 ],
@@ -645,13 +680,13 @@ function loadGridDocuments() {
 	});
 
 	// Utilizando botones personalizados en el grid
-	$("#gridDocuments").navGrid("#pager", {
+	$("#gridDocuments").navGrid("#dpager", {
 		edit : false,
 		add : false,
 		del : false,
 		refresh : false
 	});
-	$("#gridDocuments").jqGrid("navButtonAdd", "#pager", {
+	$("#gridDocuments").jqGrid("navButtonAdd", "#dpager", {
 		caption : "",
 		buttonicon : "ui-icon-folder-open",
 		title : "Abrir documento",
@@ -659,7 +694,7 @@ function loadGridDocuments() {
 			openFile();
 		}
 	});
-	$("#gridDocuments").jqGrid("navButtonAdd", "#pager", {
+	$("#gridDocuments").jqGrid("navButtonAdd", "#dpager", {
 		caption : "",
 		buttonicon : "ui-icon-pencil",
 		title : "Editar",
@@ -667,7 +702,7 @@ function loadGridDocuments() {
 			editFileData();
 		}
 	});
-	$("#gridDocuments").jqGrid("navButtonAdd", "#pager", {
+	$("#gridDocuments").jqGrid("navButtonAdd", "#dpager", {
 		caption : "",
 		buttonicon : "ui-icon-trash",
 		title : "Eliminar",
@@ -686,7 +721,7 @@ function openFile() {
 		msgBoxInfo("Debe seleccionar un archivo para abrir");
 	} else {
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
-		fileName = rowData["nombreArchivo"];
+		fileName = rowData["Nombre"];
 		fileURL = $("#filePath").val() + fileName;
 
 		window.open(fileURL);
@@ -698,15 +733,17 @@ function openFile() {
 // Permite la edición de los datos del archivo seleccionado
 function editFileData() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
-	if (rowId == null) {
+	if(rowId == null){
 		msgBoxInfo("Debe seleccionar un archivo para editar");
-	} else {
+	}else{
 		$("#btnAddFile").hide()
 		$("#btnUpdateFile").show();
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
 		idArchivo = rowData["idArchivo"];
-		$("#txtFileDesc").val(rowData["descripcion"]);
-		$("#txtFileName").val(rowData["nombreArchivo"]);
+		$("#txtFileDesc").val(rowData["Descripcion"]);
+		$("#txtFileName").val(rowData["Título"]);
+		$("#txtFileType").val(rowData["Tipo"]);
+		$("#idTipoArchivo").val(rowData["idTipoArchivo"]);
 	}
 }
 
@@ -755,12 +792,14 @@ function deleteFile() {
 
 // Abre el documento correspondiente a la fila seleccionada
 function clearFileForm() {
-	idArchivo = "";
+	idArchivo = "";	
+	$("#txtFileName").val("");
+	$("#txtFileType").val("");
+	$("#idTipoArchivo").val("");	
 	$("#txtFileDesc").val("");
 	$("#btnAddFile").show();
 	$("#btnUpdateFile").hide();
-	$("#idProyecto").val("0");
-
+	$(".divUploadButton p").text("");
 }
 
 /* OTRAS FUNCIONES */
