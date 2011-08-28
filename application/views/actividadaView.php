@@ -33,7 +33,7 @@
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
 			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
-			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />			
+			<img id="logoutButton" title="Cerrar sesiï¿½n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />			
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
@@ -48,13 +48,13 @@
 			<div class="divActions" style = "height: 210px">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Proyectos</span>
-					<input id="txtProjectRecords" type="text"  value="" title = "Búsqueda por proyectos" class = "inputFieldAC"/><br>
+					<input id="txtProjectRecords" type="text"  value="" title = "Bï¿½squeda por proyectos" class = "inputFieldAC"/><br>
 					
 					<span class = "recordsLabel">Procesos</span>
-					<input id="txtProcessRecords" type="text"  value="" title = "Búesqueda por procesos" class = "inputFieldAC"/><br>
+					<input id="txtProcessRecords" type="text"  value="" title = "Bï¿½esqueda por procesos" class = "inputFieldAC"/><br>
 					
 					<span class = "recordsLabel">Actividades</span>
-					<input id="txtRecords" type="text"  value="" title = "Selección de actividad" class = "inputFieldAC"/><br>
+					<input id="txtRecords" type="text"  value="" title = "Selecciï¿½n de actividad" class = "inputFieldAC"/><br>
 				</div>
 										
 				<div class="divCRUDButtons" style="margin-top: 110px">
@@ -71,7 +71,7 @@
 				
 			<div id="tabs" style = "height: auto;">
 				<ul>
-					<li><a href="#tabs-1">Información General</a></li>
+					<li><a href="#tabs-1">Informaciï¿½n General</a></li>
 					<li><a href="#tabs-2">Proyectos relacionados</a></li>
 					<li><a href="#tabs-3">Seguidores</a></li>
 					<li id="tagBliblioteca"><a href="#tabs-4">Documentos</a></li>
@@ -85,17 +85,17 @@
 					<input id="idPrioridad" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>					
 					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
-					<input id="anioSolicitud" type="hidden"  value="" class = "hiddenId"/>
-					<input id="correlAnio" type="hidden"  value="" class = "hiddenId"/>
+					<input id="anioSolicitud" type="hidden"  value="<?php echo $anioSolicitud; ?>" class = "hiddenId"/>
+					<input id="correlAnio" type="hidden"  value="<?php echo $correlAnio; ?>" class = "hiddenId"/>
 					
 					<span class = "requiredFieldLabel" >Nombre</span>
 					<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
 					
 					<span class = "requiredFieldLabel" >Proyecto</span>
-					<input id="txtProjectName" type="text"  value="" class = "inputFieldAC" title="Proyecto al que la actividad está asociada"/><br>
+					<input id="txtProjectName" type="text"  value="" class = "inputFieldAC" title="Proyecto al que la actividad estï¿½ asociada"/><br>
 					
 					<span class = "inputFieldLabel" >Proceso</span>
-					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad está asociada"/><br>
+					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad estï¿½ asociada"/><br>
 										
 					<span class = "requiredFieldLabel" >Prioridad</span>
 					<input id="txtPriorityName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
@@ -103,7 +103,7 @@
 					<span class = "requiredFieldLabel" >Estado</span>
 					<input id="txtStatusName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
 					
-					<span class = "inputFieldLabel" >Planificación</span>
+					<span class = "inputFieldLabel" >Planificaciï¿½n</span>
 					<div class="divDateCombo">
 						<span>Inicio</span>
 						<input id="txtStartingDate" type="text"  value=""  title="Fecha de inicio planificada de la actividad" readonly/><br>
@@ -111,8 +111,8 @@
 						<input id="txtEndingDate" type="text"  value=""  title="Fecha fin planificada de la actividad" readonly/><br>
 					</div>
 
-					<span class = "requiredFieldLabel" style = "clear:both">Descripción</span>
-					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea><br>
+					<span class = "requiredFieldLabel" style = "clear:both">Descripciï¿½n</span>
+					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripciï¿½n del departamento" ></textArea><br>
 					
 					<span style = "clear:both; margin-bottom:20px" class = "requiredFieldLabel" >Responsables</span><br>
 					<table align="center">
@@ -176,13 +176,13 @@
 						<button id="btnUpload">Seleccionar archivo</button><p></p>
 					</div>					
 				
-					<span class = "requiredFieldLabel">Título: </span>
+					<span class = "requiredFieldLabel">Tï¿½tulo: </span>
 					<input id="txtFileName" type="text"  value="" class = "inputField"/><br>
 					
 					<span class = "inputFieldLabel">Tipo: </span>
 					<input id="txtFileType" type="text"  value="" class = "inputField"/><br>
 					
-					<span class = "inputFieldLabel">Descripción: </span>
+					<span class = "inputFieldLabel">Descripciï¿½n: </span>
 					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>
 					
 					<div class="divAddButton">

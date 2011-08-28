@@ -1,7 +1,7 @@
 <?php
 class Actividada extends CI_Controller{
 
-	function index(){
+	function index($anioSolicitud=null, $correlAnio=null){
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
 		$this->load->model("roleOptionsModel");	
@@ -12,29 +12,37 @@ class Actividada extends CI_Controller{
 		$previousPage = $this->session->userdata("currentPage");
 		$previousPage = ($previousPage!="")?$previousPage:"buzon";
 						
-		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
+		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesiï¿½n
 		
-		if($idRol != ""){//Si está en sesión
+		if($idRol != ""){//Si estï¿½ en sesiï¿½n
 			$allowedPage = $this->roleOptionsModel->validatePage($idRol, $controllerName); 
 			
-			if($allowedPage){//Si el usuario según rol tiene permiso para acceder a la página
+			if($allowedPage){//Si el usuario segï¿½n rol tiene permiso para acceder a la pï¿½gina
 				$this->session->set_userdata("previousPage", $previousPage);
 				$this->session->set_userdata("currentPage", $controllerName);
 				
-				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menú
-				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
+				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menï¿½
+				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesiï¿½n
 				$roleName = $this->session->userdata("roleName");
 				$idUsuario = $this->session->userdata("idUsuario");
 				
-				$this->load->view("actividadaView", array("menu"=> $menu, "idUsuario" => $idUsuario,"userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view
+				$params = array("menu"=> $menu, "idUsuario" => $idUsuario,"userName" => $userName, 
+								"roleName" => str_replace("%20", " ", $roleName), "filePath" => $filePath);
+				
+				if ($anioSolicitud != null && $correlAnio != null) {
+					$params["anioSolicitud"] = $anioSolicitud;
+					$params["correlAnio"] = $correlAnio;
+				}
+				
+				$this->load->view("actividadaView", $params);//Se agrega el cï¿½digo del menï¿½ y el nombre del usuario como variables al view
 				
 			}
-			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
+			else{//Si el usuario no tiene permiso para acceder a la pï¿½gina se redirige a la anterior				
 				redirect($previousPage,"refresh");
 			}
 						
 		}
-		else{//Si no existe usuario en sesión se redirige al login
+		else{//Si no existe usuario en sesiï¿½n se redirige al login
 			redirect("login", "refresh");
 		}		
 	}
@@ -139,7 +147,7 @@ class Actividada extends CI_Controller{
 			$idActividad =  $this->input->post("idActividad");
 			$accionActual =  $this->input->post("accionActual");
 			
-			if($accionActual == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($accionActual == ""){//Si no se recibe el id, los datos se guardarï¿½n como un nuevo registro
 				$retArray = $this->actividadaModel->create();
 			}
 			else{
@@ -202,7 +210,7 @@ class Actividada extends CI_Controller{
 
 		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
 			$idArchivo =  $this->input->post("idArchivo");
-			if($idArchivo == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+			if($idArchivo == ""){//Si no se recibe el id, los datos se guardarï¿½n como un nuevo registro
 				$retArray = $this->actividadaModel->createActivityFile();
 			}
 			else{
