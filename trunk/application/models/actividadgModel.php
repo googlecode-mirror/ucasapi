@@ -39,7 +39,7 @@ class actividadgModel extends CI_Model{
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT DISTINCT a.idActividad, axp.idProyecto, a.nombreActividad, a.fechaFinalizacionPlan, p.nombreProceso, pr.nombrePrioridad, e.estado
+		$sql = "SELECT DISTINCT a.idActividad, axp.idProyecto, a.nombreActividad, a.fechaFinalizacionPlan, p.nombreProceso, e.estado, pr.nombrePrioridad
 				FROM ACTIVIDAD a LEFT JOIN PROCESO p ON a.idProceso = p.idProceso
 					INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
 					INNER JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
@@ -56,7 +56,7 @@ class actividadgModel extends CI_Model{
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $row->idActividad;
-					$response->rows[$i]["cell"] = array($row->idActividad, $row->idProyecto, $row->nombreActividad, $row->fechaFinalizacionPlan, $row->nombreProceso, $row->nombrePrioridad, $row->estado);
+					$response->rows[$i]["cell"] = array($row->idActividad, $row->idProyecto, $row->nombreActividad, $row->fechaFinalizacionPlan, $row->nombreProceso, $row->estado, $row->nombrePrioridad);
 					$i++;
 				}
 			}

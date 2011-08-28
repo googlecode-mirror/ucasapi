@@ -5,9 +5,6 @@ $(document).ready(function() {
 	procesoEstadoAutocomplete();
 	procesoFaseAutocomplete();
 	$("#idProceso").val("0");
-	if($("#idRol").val() != 1){	
-		$("#btnSave").attr("disabled", true);
-	}
 	
 	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
 	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
@@ -50,9 +47,10 @@ function procesoAutocomplete($idProyecto) {
 }
 
 function procesoProyectoAutocomplete() {
+	
 	$.ajax({
 		type : "POST",
-		url : "index.php/proyecto/proyectoAutocompleteRead",
+		url : "index.php/proceso/proyectoAutocompleteRead/" + $("#idUsuario").val() + "/" + $("#idRol").val(),
 		data : "procesoProyectoAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
@@ -334,22 +332,22 @@ function pickdates(id) {
 }
 
 function deleteData() {
-	var formData = "idEstado=" + $("#idEstado").val();
+	var formData = "idProceso=" + $("#idProceso").val();
 
-	var answer = confirm("Está seguro que quiere eliminar el registro: "
-			+ $("#txtRecords").val() + " ?");
+	var answer = confirm("Está seguro que quiere eliminar el proceso: "
+			+ $("#txtRecordsProc").val() + " ?");
 
 	if (answer) {
 		$.ajax({
 			type : "POST",
-			url : "index.php/estado/statusDelete",
+			url : "index.php/proceso/procesoDelete",
 			data : formData,
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
-					alert("Registro eliminado con éxito");
+					msgBoxSucces("Registro eliminado con éxito");
 					procesoAutocomplete();
 					clear();
 				}
@@ -395,6 +393,7 @@ function clear() {
 	$(".inputFieldTA").val("");
 	$(".hiddenId").val("");
 	$("#cbEstado").val("--Estado--");
+	$("#cbEstado").val("Seleccione una fase");
 	$("#idProceso").val("0");
 	$("#tablaFases").GridUnload();
 	unlockAutocomplete();
@@ -438,7 +437,7 @@ function validarCampos() {
 
 /* OTRAS FUNCIONES DE VALIDACION Y LOCKING */
 function lockAutocomplete() {
-	$("#btnSave").attr("disabled", false);
+
 	$("#txtRecordsProy").attr("disabled", true);
 	$("#txtRecordsProy").css({
 		"background-color" : "DBEBFF"
@@ -451,9 +450,7 @@ function lockAutocomplete() {
 }
 
 function unlockAutocomplete() {
-	if($("#idRol").val() != 1){
-		$("#btnSave").attr("disabled", true);
-	}
+	
 	$("#txtRecordsProy").attr("disabled", false);
 	$("#txtRecordsProy").css({
 		"background-color" : "FFFFFF"

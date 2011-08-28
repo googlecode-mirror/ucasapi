@@ -12,10 +12,9 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/validaciones.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.simplemodal.1.4.1.min.js"></script>
 		
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
-		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/proceso.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/actividadh.js"></script>
 		
 	</head>
 	
@@ -25,12 +24,9 @@
 				<?php echo $menu;?>
 			</ul>			
 		</div>
-		
-		<div id="loading" style="display:none; text-align:center">
-			<span style = "color:white">Obteniendo datos ...</span>
-			<div style="clear:both"></div>
-			<img  src="<?php echo base_url(); ?>application/views/css/img/loading.gif"/>
-		</div>
+		<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
+		<input id="idUsuario" type="hidden"  value="1" class = "hiddenId"/>
+		<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
 		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
@@ -41,6 +37,7 @@
 		
 		<div><span id="pageTittle"></span></div>
 		
+		
 		<div class="container" style = "height: auto">
 			<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 			<div style="height: 20px"></div>
@@ -50,46 +47,23 @@
 					<span class = "recordsLabel">Buscar proyecto: </span>
 					<input id="txtRecordsProy" class = "inputFieldAC" type="text"  value="" title = "Proyectos encontrados"/><br>
 					
-					<span class = "recordsLabel">Procesos: </span>
-					<input id="txtRecordsProc" class = "inputFieldAC" type="text"  value="" title = "Procesos encontrados"/><br><br>
+					<span class = "recordsLabel">Actividades: </span>
+					<input id="txtRecordsAct" class = "inputFieldAC" type="text"  value="" title = "Actividades encontrados"/><br><br>
 				</div>
 							
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="save()">Guardar</button>
-					<button id="btnEdit" onClick="edit()">Editar</button>
-					<button id="btnDelete" onClick="deleteData()">Eliminar</button>
+					<button id="btnSave" onClick="ver()">Ver Bitacora</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
-
 				</div>
 			</div>
 				
 			<div id ="msgBox"></div>	
-				
-			<div class="divDataForm" style = "height: 400px; width: 700px">
-				<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
-				<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
-				<input id="idFase" type="hidden"  value="" class = "hiddenId"/>
-				<input id="idEstado" type="hidden"  value="" class = "hiddenId"/>
-				<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
-				<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
-				<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
-						
-				<span class = "requiredFieldLabel">Nombre: </span>
-				<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="40"/><br>
-				
-				<span class = "inputFieldLabel">Proyecto: </span>
-				<input id="txtProyectoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="100"/>
-				
-				<span class = "requiredFieldLabel">Estado: </span>
-				<select id="cbEstado"></select>
-				
-				<span class = "inputFieldLabel">Fase que pertenece el proceso: </span>
-				<select id="cbFases"></select>
-				
-				<span class = "requiredFieldLabel">Descripción: </span>
-				<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>			
-				
+			<div class="divDataForm" style="height: 500; width: 750">
+				<table id="actividadBitacora"></table>
+				<div id="pager"></div>
+				<br>
 			</div>
+			
 			
 			<div style="height: 20px"></div>
 			

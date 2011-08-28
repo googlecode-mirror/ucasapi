@@ -153,7 +153,7 @@ class actividadModel extends CI_Model{
 		}
 		
 		//Actualizando la informacion de la actividad
-		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1)";
+		$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",".$this->db->escape($comentario).",1,1,".$idEstado.")";
 		$query = $this->db->query($sql);
 		
 		//Insertando la notificacion a los seguidores

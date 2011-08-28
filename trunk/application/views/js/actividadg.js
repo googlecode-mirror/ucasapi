@@ -46,12 +46,12 @@ function loadGrid(){
 				}, {
 					name : "estado",
 					index : "estado",
-					width : 40
+					width : 70
 					
 				}, {
 					name : "nombrePrioridad",
 					index : "nombrePrioridad",
-					width : 70
+					width : 50
 					
 				}],
 				pager : "#pager",

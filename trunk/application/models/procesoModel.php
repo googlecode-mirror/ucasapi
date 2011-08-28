@@ -1,6 +1,41 @@
 <?php
 class procesoModel extends CI_Model{
 	
+	function proyectoAutocompleteRead($idUsuario, $idRol){
+		$this->load->database();
+		
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		if($idRol == 1){
+			$sql = "SELECT p.nombreProyecto, p.idProyecto
+				FROM PROYECTO p";					
+		}
+		else{
+		
+			$sql = "SELECT p.nombreProyecto, p.idProyecto
+				FROM PROYECTO p
+				WHERE p.idUsuarioEncargado = " .$idUsuario;
+		}
+		$query = $this->db->query($sql);		
+	
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["id"] = $row->idProyecto;
+					$rowArray["value"] = $row->nombreProyecto;
+										
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}		
+		return $retArray;
+	}
+	
 	
 	function create(){
 		$this->load->database();
@@ -271,10 +306,9 @@ class procesoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		
-		$idEstado = $this->input->post("idEstado");
+		$idProceso = $this->input->post("idProceso");
 		
-		$sql = "DELETE FROM ESTADO
-				WHERE idEstado = ". $idEstado;
+		$sql = "UPDATE PROCESO SET activo = '0' WHERE idProceso = " .$idProceso;
    				
 		$query = $this->db->query($sql);
 		
@@ -294,7 +328,7 @@ class procesoModel extends CI_Model{
 		
 		$sql = "SELECT p.nombreProceso, p.idProceso
 				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
-				WHERE p.idProyecto = " .$idProyecto;
+				WHERE p.idProyecto = " .$idProyecto. " AND p.activo = '1'";
 		$query = $this->db->query($sql);		
 	
 		if($query){

@@ -58,7 +58,7 @@ class actividadaModel extends CI_Model{
 				$lastId = $row->lastId;
 			}
 			
-		$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1)";
+		$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1,".$idEstado.")";
 		$query = $this->db->query($sqlInsert);
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
