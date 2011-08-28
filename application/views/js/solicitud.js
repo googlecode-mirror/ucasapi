@@ -11,7 +11,7 @@ $(document).ready(function() {
 function usuarioAutocomplete() {
 	$.ajax({
 		type : "POST",
-		url : "index.php/usuario/usuarioAutocompleteRead",
+		url : "index.php/usuario/usuarioSolicitudAutocompleteRead",
 		data : "usuarioAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
