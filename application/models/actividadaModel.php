@@ -428,7 +428,8 @@ function update(){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 				
 		$sql = "SELECT p.nombreProceso, p.idProceso 
-				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto";
+				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto
+				WHERE p.activo = '1'";
 		
 		$sql.=($idProyecto!=null)?"	 WHERE p.idProyecto = " .$this->db->escape($idProyecto):"";
 		
@@ -462,7 +463,7 @@ function update(){
 				
 		$sql = "SELECT a.idActividad, a.nombreActividad 
 				FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON a.idActividad = ap.idActividad
-				WHERE ap.idProyecto =". $this->db->escape($idProyecto);
+				WHERE a.activo = '1' AND ap.idProyecto =". $this->db->escape($idProyecto);
 		
 		$sql.=($idProceso!='')?"	 AND a.idProceso = " .$this->db->escape($idProceso):"";
 		
@@ -616,7 +617,7 @@ function update(){
 		if(!$sidx) $sidx =1;
 		
 		$sql = "SELECT COUNT(*) as count FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ".
-				"WHERE u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
+				"WHERE u.activo = '1' AND u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
 		
 		$query = $this->db->query($sql);
 		
@@ -868,7 +869,8 @@ function update(){
 		$count = 0;		
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario " ;
+		$sql = "SELECT COUNT(*) FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario 
+				WHERE p.activo = '1' " ;
 		
 		if($idActividad != NULL) $sql.= "WHERE idProyecto NOT IN (SELECT ap.idProyecto FROM ACTIVIDAD_PROYECTO ap WHERE ap.idActividad =".$this->db->escape($idActividad).")";
 		
