@@ -16,6 +16,10 @@
 		$(document).ready(function(){
 			 js_ini();
 		});
+
+		function asignarSolicitud() {
+			window.location = "/ucasapi/actividada/index/" + $("#anioSolicitud").val() + "/" + $("#correlAnio").val();
+		}
 		</script>
 	</head>
 
@@ -48,6 +52,9 @@
 			<div id ="msgBox"></div>
 
 			<div class="divActions" align="center">
+				<input type="hidden" id="anioSolicitud" value="<?php echo $anioSolicitud; ?>" />
+				<input type="hidden" id="correlAnio" value="<?php echo $correlAnio; ?>" />
+				
 				<span class = "inputFieldLabel"><b>Ingresada el:</b></span><br/>
 				<span class="cleanable" id="fecha"><?php echo $data[0]->fechaEntrada; ?></span><br/><br/>
 
@@ -75,7 +82,7 @@
 				</span><br><br><br>
 
 				<div class="divCRUDButtons">
-					<button id="btnSave" onClick="alert('Hay que implementar esta funcionalidad')">Asignar esta solicitud</button>
+					<button id="btnSave" onClick="asignarSolicitud()">Asignar esta solicitud</button>
 				</div>
 			</div>
 
