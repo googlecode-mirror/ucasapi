@@ -9,8 +9,8 @@ class cargoModel extends CI_Model{
 		
 		$nombreCargo = $this->input->post("nombreCargo");				
 		
-		$sql = "INSERT INTO CARGO (nombreCargo) 
-   				VALUES (".$this->db->escape($nombreCargo).")";
+		$sql = "INSERT INTO CARGO (nombreCargo,activo) 
+   				VALUES (".$this->db->escape($nombreCargo).",'1')";
 		
 		$query = $this->db->query($sql);
 		
@@ -79,7 +79,8 @@ class cargoModel extends CI_Model{
 		
 		$idCargo = $this->input->post("idCargo");
 		
-		$sql = "DELETE FROM CARGO 
+		$sql = "UPDATE CARGO
+				SET activo = '0' 
 				WHERE idCargo = ". $idCargo;
    				
 		$query = $this->db->query($sql);
@@ -98,7 +99,7 @@ class cargoModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idCargo, nombreCargo FROM CARGO";
+		$sql = "SELECT idCargo, nombreCargo FROM CARGO WHERE activo = '1' ";
 		$query = $this->db->query($sql);		
 	
 		if($query){
