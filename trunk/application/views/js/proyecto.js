@@ -67,7 +67,7 @@ function proyectoUsuarioEncAutocomplete(){
 function proyectoAutocomplete() {
 	$.ajax({
 		type : "POST",
-		url : "index.php/proyecto/proyectoAutocompleteRead",
+		url : "index.php/proyecto/proyectoAutocompleteRead/" + $("#idUsuario").val() + "/" + $("#idRol").val(),
 		data : "proyectoAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {

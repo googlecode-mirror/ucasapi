@@ -443,12 +443,21 @@ class proyectoModel extends CI_Model{
 	}
 
 
-	function autocompleteRead(){
+	function autocompleteRead($idUsuario,$idRol){
 		$this->load->database();
 
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 
-		$sql = "SELECT idProyecto, nombreProyecto FROM PROYECTO WHERE activo = '1'";
+		if($idRol == 1){
+			$sql = "SELECT p.nombreProyecto, p.idProyecto
+				FROM PROYECTO p WHERE activo = '1'";					
+		}
+		else{
+		
+			$sql = "SELECT p.nombreProyecto, p.idProyecto
+				FROM PROYECTO p
+				WHERE p.idUsuarioEncargado = " .$idUsuario. " AND p.activo = '1'";
+		}
 		$query = $this->db->query($sql);
 
 		if($query){

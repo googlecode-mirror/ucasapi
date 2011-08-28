@@ -74,6 +74,7 @@
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
+
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/>
@@ -81,7 +82,9 @@
 					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
+				
 					<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
+					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 					
 					<span class = "requiredFieldLabel">Nombre:</span>
 					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" maxlength="100"/><br>
