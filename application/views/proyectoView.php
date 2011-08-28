@@ -70,7 +70,7 @@
 			<div id="tabs" style = "height: auto;">
 				<ul>
 					<li><a href="#tabs-1">Información General</a></li>
-					<li id="tagBliblioteca"><a href="#tabs-2">Biblioteca</a></li>
+					<li id="tagBliblioteca"><a href="#tabs-2">Documentos</a></li>
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
