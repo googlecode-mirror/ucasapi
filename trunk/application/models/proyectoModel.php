@@ -679,6 +679,33 @@ function updateProjectFile(){
 			}
 		}
 		return $response;
+	} 
+
+function autocompleteReadActividada(){
+		$this->load->database();
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$sql = "SELECT idProyecto, nombreProyecto FROM PROYECTO WHERE activo = '1'";		
+		$query = $this->db->query($sql);
+
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idProyecto;
+					$rowArray["value"] = $row->nombreProyecto;
+					$retArray["data"][] = $rowArray;
+				}
+			}
+
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+		}
+
+		return $retArray;
 	}
 
 
