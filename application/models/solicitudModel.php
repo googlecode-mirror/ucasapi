@@ -326,7 +326,7 @@ class solicitudModel extends CI_Model {
 		$this->load->database();
 		$retArray = array("status"=> 0, "msg" => "", "data"=>"");
 
-		$query = "SELECT * FROM PRIORIDAD";
+		$query = "SELECT * FROM PRIORIDAD WHERE activo = '1' ";
 		$result = $this->db->query($query);
 
 		if ($result) {
