@@ -35,6 +35,9 @@ $(document).ready(function(){
 		$("#txtStartingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
 		$("#txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
 	
+		$("#tagBliblioteca").hide();	
+		
+		
 	 
 });	
 
@@ -302,6 +305,8 @@ function edit(){
 	if($("#txtProjectRecords").val() != ""){		
 		if($("#txtRecords").val() != ""){	
 			$("#accionActual").val("editando");
+			$("#tabs-4").show();
+			$("#tagBliblioteca").show();
 			lockAutocomplete();
 			$.ajax({				
 		        type: "POST",
@@ -396,6 +401,8 @@ function cancel(){
 
 function clear(){
 	$(".inputField,.inputFieldAC, .hiddenId,.inputFieldTA, #txtRecords, #txtStartingDate, #txtEndingDate").val("");
+	$("#tabs-4").hide();
+	$("#tagBliblioteca").hide();
 	unlockAutocomplete();
 }
 
