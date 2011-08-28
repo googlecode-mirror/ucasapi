@@ -67,7 +67,8 @@
 			<input id="txtAsignada" type="text" readonly="readonly"
 				class="inputField"></input> 
 			<span class="inputFieldLabel">Estado: </span>
-			<select id="cbEstado"></select> <span class="inputFieldLabel">Progreso:
+			<select id="cbEstado"></select>
+			<span class="inputFieldLabel">Progreso:
 			</span> <select id="cbProgreso">
 				<option value="0">--Progreso--</option>
 				<option value="10">10</option>
