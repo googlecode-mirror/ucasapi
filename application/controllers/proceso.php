@@ -8,6 +8,7 @@ class Proceso extends CI_Controller{
 		$this->load->model("roleOptionsModel");	
 		
 		$controllerName = strtolower(get_class($this));
+		$filePath = base_url()."uploads/";
 		
 		$previousPage = $this->session->userdata("currentPage");
 		$previousPage = ($previousPage!="")?$previousPage:"buzon";
@@ -27,7 +28,7 @@ class Proceso extends CI_Controller{
 				$idRol = $this->session->userdata("idRol");
 				$idUsuario = $this->session->userdata("idUsuario");
 				
-				$this->load->view("procesoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "idUsuario" => $idUsuario));//Se agrega el código del menú y el nombre del usuario como variables al view
+				$this->load->view("procesoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "idUsuario" => $idUsuario,  "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view
 				
 			}
 			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
@@ -120,6 +121,47 @@ class Proceso extends CI_Controller{
 		}
 
 		echo json_encode($retArray);
+	}
+	
+/*------------------------------------- FUNCIONES BIBLIOTECA -------------------------------------*/
+
+	function gridDocumentsLoad($idProceso){
+		$this->load->model("procesoModel");
+		echo json_encode($this->procesoModel->processFilesRead($idProceso));
+	}
+
+	function fileValidateAndSave(){
+		$this->load->model("procesoModel");
+
+		$retArray = array();
+
+		$validationInfo = $this->procesoModel->fileSaveValidation();
+
+		if($validationInfo["status"] == 0){//Los datos ingresados pasaron las validaciones
+			$idArchivo =  $this->input->post("idArchivo");
+			if($idArchivo == ""){//Si no se recibe el id, los datos se guardarán como un nuevo registro
+				$retArray = $this->procesoModel->createProcessFile();
+			}
+			else{
+				$retArray = $this->procesoModel->updateProcessFile();
+			}
+
+		}
+		else{//Los datos ingresados no pasaron las validaciones
+			$retArray = $validationInfo;
+		}
+
+		echo json_encode($retArray);
+		//echo json_encode($this->proyectoModel->createProjectFile());
+	}
+
+
+	function fileDelete(){
+		$this->load->model("procesoModel");
+
+		$deleteInfo = $this->procesoModel->fileDataDelete();
+
+		echo json_encode($deleteInfo);
 	}
 
 }
