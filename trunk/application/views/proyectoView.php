@@ -76,7 +76,6 @@
 				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
 
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
-					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>
