@@ -328,7 +328,7 @@ class actividadModel extends CI_Model{
 		
 		$sql = "SELECT COUNT(*) AS count  FROM ROL r INNER JOIN ROL_USUARIO rxu ON r.idRol = rxu.idRol INNER JOIN USUARIO u
     				ON rxu.idUsuario = u.idUsuario
-    				WHERE r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5";
+    				WHERE u.activo = '1' AND (r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5)";
 		
 		$query = $this->db->query($sql);
 
