@@ -17,7 +17,7 @@ $(document).ready(function(){
 	 priorityAutocomplete();
 	 statusAutocomplete();
 	 fileTypeAutocomplete();
-	 $("#txtStartingDate, #txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd' });
+	// $("#txtStartingDate, #txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd' });
 	 loadProjectsGrid();
 	 loadRelatedProjectsGrid();
 	 loadGridDocuments();
@@ -962,6 +962,12 @@ function validarCampos() {
 	if ($("#txtActivityDesc").val() != "") {
 		if ($("#txtActivityDesc").val().length > 256) {
 			camposFallan += "<p><dd>Longutud de DESCRIPCION es mayor que 256 caracteres </dd><br /></p>";
+		}
+	}
+	
+	if ($("#txtEndingDate").val() != "" &&	 $("#txtStartingDate").val() != "") { 
+		if(!validateOverlapFechas($("#txtEndingDate").val(),$("#txtStartingDate").val())) {
+			 camposFallan += "<p><dd> El campo FECHA INICIO debe ser menor o igual a FECHA FIN </dd><br/></p>";
 		}
 	}
 		
