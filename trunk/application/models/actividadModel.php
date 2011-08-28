@@ -7,7 +7,7 @@ class actividadModel extends CI_Model{
 		
 		$retArray = array();
 		
-		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1";
+		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1 AND activo = '1' ";
 		
 		$query = $this->db->query($sql);
 		
