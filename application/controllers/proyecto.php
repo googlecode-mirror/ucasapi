@@ -8,6 +8,7 @@ class Proyecto extends CI_Controller{
 		$this->load->model("roleOptionsModel");	
 		
 		$controllerName = strtolower(get_class($this));
+		$filePath = base_url()."uploads/";
 		
 		$previousPage = $this->session->userdata("currentPage");
 		$previousPage = ($previousPage!="")?$previousPage:"buzon";
@@ -26,7 +27,7 @@ class Proyecto extends CI_Controller{
 				$roleName = $this->session->userdata("roleName");
 				$idRol = $this->session->userdata("idRol");
 				
-				$this->load->view("proyectoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol));//Se agrega el código del menú y el nombre del usuario como variables al view
+				$this->load->view("proyectoView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "filePath" => $filePath));//Se agrega el código del menú y el nombre del usuario como variables al view
 				
 			}
 			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior				
