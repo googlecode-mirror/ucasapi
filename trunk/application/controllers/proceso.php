@@ -40,15 +40,15 @@ class Proceso extends CI_Controller{
 			redirect("login", "refresh");
 		}
 	}
+	
+	function faseAutocompleteRead($idProyecto){
+		$this->load->model("procesoModel");
+		echo json_encode($this->procesoModel->faseRead($idProyecto));
+	}
 
 	function procesoRead(){
 		$this->load->model("procesoModel");
 		echo json_encode($this->procesoModel->read());
-	}
-	
-	function procesoFaseRead(){
-		$this->load->model("procesoModel");
-		echo json_encode($this->procesoModel->faseRead());
 	}
 	
 	function gridFasesProceso($idProceso){
