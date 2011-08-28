@@ -537,15 +537,27 @@ class proyectoModel extends CI_Model{
 		return $retArray;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
 	function createProjectFile(){
 		$this->load->database();
 		$retArray = array("status"=> 0, "msg" => "");
+		
 		$idProyecto = $this->input->post("idProyecto");
+		$idTipoArchivo = $this->input->post("idTipoArchivo");
 		$nombreArchivo = $this->input->post("nombreArchivo");
+		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
-		$sql = "INSERT INTO ARCHIVOS (idProyecto, nombreArchivo, descripcion)
-    VALUES (".$this->db->escape($idProyecto).", ".$this->db->escape($nombreArchivo).", ".$this->db->escape($descripcion).")";
+		
+		$sql = "INSERT INTO ARCHIVOS (idProyecto, nombreArchivo, tituloArchivo, descripcion, idTipoArchivo, fechaSubida)
+    			VALUES (".$this->db->escape($idProyecto).", ".
+						$this->db->escape($nombreArchivo).", ".
+						$this->db->escape($tituloArchivo).", ".
+						$this->db->escape($descripcion).", ".
+						$this->db->escape($idTipoArchivo).
+						",DATE(NOW()))";
+		
 		$query = $this->db->query($sql);
+		
 		if (!$query){
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
@@ -555,21 +567,35 @@ class proyectoModel extends CI_Model{
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	function updateProjectFile(){
+function updateProjectFile(){
 		$this->load->database();
+		
 		$retArray = array("status"=> 0, "msg" => "");
 		$idArchivo = $this->input->post("idArchivo");
+		$idActividad   = $this->input->post("idActividad");
+		$idTipoArchivo = $this->input->post("idTipoArchivo");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
+		
+		if($idTipoArchivo=="")$idTipoArchivo=null;
+		
 		$sql = "UPDATE ARCHIVOS
-				SET descripcion = ".$this->db->escape($descripcion)."
-				WHERE idArchivo = ". $idArchivo;
+				SET descripcion = ".$this->db->escape($descripcion).
+				" , tituloArchivo = ".$this->db->escape($tituloArchivo).
+				" , idTipoArchivo = ".$this->db->escape($idTipoArchivo).
+				" WHERE idArchivo = ". $idArchivo; 
+		
 		$query = $this->db->query($sql);
+		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
+		
 		return $retArray;
 	}
+	
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function fileDataDelete(){
@@ -589,16 +615,23 @@ class proyectoModel extends CI_Model{
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function projectFilesRead($idProyecto=null){
 		$this->load->database();
+		
 		$this->load->helper(array('url'));
+		
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
 		$count = 0;
 		if(!$sidx) $sidx =1;
-		$idProyecto = is_null($idProyecto) ? -1 : $idProyecto;
-		$sql = "SELECT COUNT(*) AS count FROM ARCHIVOS WHERE idProyecto = ".$this->db->escape($idProyecto);
+		
+		$idActividad = is_null($idActividad) ? -1 : $idActividad;
+		
+		$sql = "SELECT COUNT(*) AS count FROM ARCHIVOS a LEFT JOIN TIPO_ARCHIVO ta ON ta.idTipoArchivo = a.idTipoArchivo ".
+			   "WHERE idProyecto = ".$this->db->escape($idProyecto);
+		
 		$query = $this->db->query($sql);
+		
 		if ($query->num_rows() > 0){
 			$row = $query->row();
 			$count  = $row->count;
@@ -609,20 +642,29 @@ class proyectoModel extends CI_Model{
 		else{
 			$total_pages = 0;
 		}
+		
 		if ($page > $total_pages) $page=$total_pages;
+		
 		$start = $limit*$page - $limit;
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
+		
 		//-------------------------
-		$sql = "SELECT idArchivo, nombreArchivo, descripcion FROM ARCHIVOS WHERE idProyecto = ".$this->db->escape($idProyecto);
-		$query = $this->db->query($sql);
+		$sql = "SELECT a.idArchivo, a.tituloArchivo ,a.nombreArchivo, a.descripcion, a.fechaSubida, ta.nombreTipo, ta.idTipoArchivo ".
+				"FROM ARCHIVOS a LEFT JOIN TIPO_ARCHIVO ta on ta.idTipoArchivo = a.idTipoArchivo ".
+				"WHERE idProyecto = ".$this->db->escape($idProyecto);
+		
+		$response->sql = $sql;
+		
+		$query = $this->db->query($sql);		
 		$i = 0;
+		
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i+1;
-					$response->rows[$i]["cell"] = array($row->idArchivo,$row->nombreArchivo, $row->descripcion);
+					$response->rows[$i]["cell"] = array($row->idArchivo,$row->nombreTipo,$row->tituloArchivo, $row->nombreArchivo, $row->fechaSubida, $row->descripcion, $row->idTipoArchivo );
 					$i++;
 				}
 			}
