@@ -1,3 +1,5 @@
+
+
 function validarEmail(campo) {
 	var RegExPattern = /[\w-\.]{3,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	if ((campo.match(RegExPattern)) && (campo.value != '')) {
@@ -129,5 +131,16 @@ function validarNUM(campo) {
 			return false;
 		}  
 }
+
+
+function validateOverlapFechas(fecha1, fecha2){
+	var format = "yyyy-MM-dd";	
+	var result = compareDates(fecha1,format,fecha2,format);
+	if(result == -1){		
+		return false;		
+	}
+	return true;	
+}
+
 
 /* El rollercoaster de la vida, abroche sus cinturones y disfrute del viaje */
