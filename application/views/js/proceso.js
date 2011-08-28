@@ -1,10 +1,11 @@
 $(document).ready(function() {
 	js_ini();
 	
+	idArchivo = "";
 	upload = null;
 	ajaxUpload();	
-	$("#tabs-2").hide();
-	$("#tagBliblioteca").hide();	
+	//$("#tabs-2").hide();
+	//$("#tagBliblioteca").hide();	
 	loadGridDocuments();
 	fileTypeAutocomplete();	
 	
@@ -18,6 +19,7 @@ $(document).ready(function() {
 	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
 	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
 	$("#txtProyectoName").focus(function(){$("#txtProyectoName").autocomplete('search', '');});	
+	$("#txtFileType").focus(function(){$("#txtFileType").autocomplete('search', '');});
 
 });
 
@@ -217,6 +219,7 @@ function edit() {
 						$("#txtProyectoName").val(
 								retrievedData.data.nombreProyecto)
 						$("#cbFases").val(retrievedData.data.idFase);
+						$('#gridDocuments').setGridParam({url:"index.php/proceso/gridDocumentsLoad/"+ $("#idProceso").val()}).trigger("reloadGrid");
 					}
 				}
 			});
@@ -516,7 +519,7 @@ function ajaxUpload() {
 
 //Función asociada al botón "Agregar"
 function uploadFile() {
-	if($("#accionActual").val() != ""){
+	//if($("#accionActual").val() != ""){
 		if (upload == null) {
 			msgBoxInfo('Debe seleccionar un archivo');
 			return false;
@@ -526,14 +529,14 @@ function uploadFile() {
 			return false;
 		}
 		upload.setData({// Datos adicionales en el envío del archivo
-			uploadIdName : "idProyecto",
-			uploadIdValue : $("#idProyecto").val()
+			uploadIdName : "idProceso",
+			uploadIdValue : $("#idProceso").val()
 		});
 		upload.submit();
-	}
+	/*}
 	else{
-		msgBoxInfo("Debe seleccionar un PROYECTO al cual subir los archivos");
-	}
+		msgBoxInfo("Debe seleccionar un PROCESO al cual subir los archivos");
+	}*/
 }
 
 
@@ -558,6 +561,12 @@ function fileTypeAutocomplete(){
 							$("#idTipoArchivo").val("");
 						}
 					},
+				change :function(){
+					if(!autocompleteMatch(retrievedData.data, $("#txtFileType").val())){
+						$("#txtFileType").val("");
+						$("#idTipoArchivo").val("");
+					}
+				},
  		        select: function(event, ui) {
  			        $("#idTipoArchivo").val(ui.item.id);
  			        $(this).blur();//Dedicado al IE
@@ -577,18 +586,18 @@ function fileTypeAutocomplete(){
 //Función desencadenada en el onComplete de la subida del archivo y asociada al
 //botón "Actualizar"
 function saveFileData(fileName) {
-	$idProyecto = $("#idProyecto").val();
+	$idProceso = $("#idProceso").val();
 	var formData = "nombreArchivo=" + fileName;
-	formData += "&idProyecto=" + $("#idProyecto").val();
+	formData += "&idProceso=" + $("#idProceso").val();
 	formData += "&descripcion=" + $("#txtFileDesc").val();
 	formData += "&tituloArchivo=" + $("#txtFileName").val();
 	formData += "&idTipoArchivo=" + $("#idTipoArchivo").val();
 	formData += "&idArchivo=" + idArchivo;
-	if($idProyecto != ""){
+	if($idProceso != ""){
 		// alert($idProyecto);
 		$.ajax({
 			type : "POST",
-			url : "index.php/proyecto/fileValidateAndSave",
+			url : "index.php/proceso/fileValidateAndSave",
 			data : formData,
 			dataType : "json",
 			success : function(retrievedData) {
@@ -596,11 +605,7 @@ function saveFileData(fileName) {
 					msgBoxInfo(retrievedData.msg);
 
 				} else {
-					$('#gridDocuments').setGridParam(
-							{
-								url : "index.php/proyecto/gridDocumentsLoad/"
-									+ $("#idProyecto").val()
-							}).trigger("reloadGrid");
+					$('#gridDocuments').setGridParam({url : "index.php/proceso/gridDocumentsLoad/"+ $("#idProceso").val()}).trigger("reloadGrid");
 					if (idArchivo == "") {
 						msgBoxSucces("Documento agregado con éxito");
 					} else {
@@ -727,7 +732,7 @@ function deleteFile() {
 		if(answer){
 			$.ajax({
 				type : "POST",
-				url : "index.php/proyecto/fileDelete",
+				url : "index.php/proceso/fileDelete",
 				data : formData,
 				dataType : "json",
 				success : function(retrievedData) {
@@ -735,13 +740,7 @@ function deleteFile() {
 						msgBoxInfo(retrievedData.msg);
 
 					} else {
-						$('#gridDocuments')
-						.setGridParam(
-								{
-									url : "index.php/proyecto/gridDocumentsLoad/"
-										+ $("#idProyecto")
-										.val()
-								}).trigger("reloadGrid");
+						$('#gridDocuments').setGridParam({url : "index.php/proceso/gridDocumentsLoad/"+ $("#idProceso").val()}).trigger("reloadGrid");
 						msgBoxSucces("Documento eliminado con éxito");
 						clearFileForm();
 
