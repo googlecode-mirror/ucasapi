@@ -16,19 +16,7 @@ function usuarioAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
+				alert("Mensaje de error: " + retrievedData.msg); 
 			} else {
 				$("#txtRecords").autocomplete(
 						{
@@ -65,19 +53,7 @@ function llenarPrioridades() {
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
 				// msgBoxInfo(retrievedData.msg);
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#cbxPrioridades").html(retrievedData.data);
 			}

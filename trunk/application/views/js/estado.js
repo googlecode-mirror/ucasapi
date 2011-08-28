@@ -5,6 +5,7 @@ $(document).ready(function() {
 	statusTypeAutocomplete();
 	
 	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	$("#txtStatusTypeName").focus(function(){$("#txtStatusTypeName").autocomplete('search', '');});
 });
 
 function statusAutocomplete() {
@@ -23,6 +24,7 @@ function statusAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idEstado").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -52,9 +54,10 @@ function statusTypeAutocomplete() {
 				$("#txtStatusTypeName").autocomplete({
 					minChars : 0,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idTipoEstado").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					}
 				});
 
@@ -161,6 +164,7 @@ function clear() {
 	$(".inputField").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");	
+	unlockAutocomplete();
 }
 
 function validarCampos() {

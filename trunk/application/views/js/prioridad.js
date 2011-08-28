@@ -22,6 +22,7 @@ function prioridadAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idPrioridad").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
