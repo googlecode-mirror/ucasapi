@@ -332,28 +332,37 @@ function pickdates(id) {
 }
 
 function deleteData() {
-	var formData = "idProceso=" + $("#idProceso").val();
-
-	var answer = confirm("Está seguro que quiere eliminar el proceso: "
-			+ $("#txtRecordsProc").val() + " ?");
-
-	if (answer) {
-		$.ajax({
-			type : "POST",
-			url : "index.php/proceso/procesoDelete",
-			data : formData,
-			dataType : "json",
-			success : function(retrievedData) {
-				if (retrievedData.status != 0) {
-					alert("Mensaje de error: " + retrievedData.msg);
-				} else {
-					msgBoxSucces("Registro eliminado con éxito");
-					procesoAutocomplete();
-					clear();
-				}
+	
+	if ($("#txtRecordsProy").val() != "") {
+		if ($("#txtRecordsProc").val() != "") {
+			var formData = "idProceso=" + $("#idProceso").val();
+		
+			var answer = confirm("Está seguro que quiere eliminar el proceso: "
+					+ $("#txtRecordsProc").val() + " ?");
+		
+			if (answer) {
+				$.ajax({
+					type : "POST",
+					url : "index.php/proceso/procesoDelete",
+					data : formData,
+					dataType : "json",
+					success : function(retrievedData) {
+						if (retrievedData.status != 0) {
+							alert("Mensaje de error: " + retrievedData.msg);
+						} else {
+							msgBoxSucces("Registro eliminado con éxito");
+							procesoAutocomplete();
+							clear();
+						}
+					}
+		
+				});
 			}
-
-		});
+		}else{
+			msgBoxInfo("Debe seleccionar un PROCESO a eliminar");
+		}
+	}else{
+		msgBoxInfo("Debe seleccionar un PROYECTO al que pertenece el proceso");
 	}
 }
 
