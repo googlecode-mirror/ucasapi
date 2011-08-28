@@ -8,13 +8,13 @@ class procesoModel extends CI_Model{
 		
 		if($idRol == 1){
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
-				FROM PROYECTO p";					
+				FROM PROYECTO p WHERE activo = '1'";					
 		}
 		else{
 		
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
 				FROM PROYECTO p
-				WHERE p.idUsuarioEncargado = " .$idUsuario;
+				WHERE p.idUsuarioEncargado = " .$idUsuario. " p.AND activo = '1'";
 		}
 		$query = $this->db->query($sql);		
 	
@@ -117,12 +117,12 @@ class procesoModel extends CI_Model{
 	    return $retArray;
 	}
 	
-	function faseRead(){
+	function faseRead($idProyecto){
 		$this->load->database();
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());		
 		
-		$sql = "SELECT idFase, nombreFase FROM FASE";
+		$sql = "SELECT f.idFase, f.nombreFase FROM FASE f INNER JOIN FASE_PROYECTO fp ON (f.idFase = fp.idFase) AND fp.idProyecto = ".$this->db->escape($idProyecto);
 		
 		$query = $this->db->query($sql);
 		

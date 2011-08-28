@@ -111,6 +111,21 @@ class actividadModel extends CI_Model{
 			
 			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$rowT->idUsuarioEncargado.",".$idNotificacion.",18,CURTIME())";
 			$this->db->query($sql); 
+			
+			//Insertando la notificacion a los seguidores
+			$sql = "SELECT DISTINCT uxa.idUsuario
+					FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
+						INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
+						INNER JOIN PROYECTO p ON axp.idProyecto = p.idProyecto
+					WHERE a.idActividad = " .$idActividad." AND uxa.idTipoAsociacion = 2";
+			
+			$query = $this->db->query($sql);
+		
+			foreach ($query->result() as $row){
+				$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$row->idUsuario.",".$idNotificacion.",18,CURTIME())"; 	
+				$this->db->query($sql);		
+			}
+			
 		}
 		
 		
@@ -188,23 +203,27 @@ class actividadModel extends CI_Model{
 		if($asignar == 1 || $desasignar == 1){
 			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadAsignaciones).",'Asignaciones ocurridas en actividad',CURDATE())";
 			$this->db->query($sql);
+			
+			//Obteniendo el ultimo ID
+			$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
+			$query = $this->db->query($sql);
+			$row = $query->row();
+			$idNotificacion = $row->lastId;
+		
+			$sql = "SELECT DISTINCT uxa.idUsuario
+					FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
+						INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
+						INNER JOIN PROYECTO p ON axp.idProyecto = p.idProyecto
+					WHERE a.idActividad = " .$idActividad." AND uxa.idTipoAsociacion = 2";
+			
+			$query = $this->db->query($sql);
+		
+			foreach ($query->result() as $row){
+				$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$row->idUsuario.",".$idNotificacion.",18,CURTIME())"; 	
+				$this->db->query($sql);		
+			}
 		}
 		
-		//Obteniendo el ultimo ID
-		$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
-		$query = $this->db->query($sql);
-		$row = $query->row();
-		$idNotificacion = $row->lastId;
-		
-		$sql = "SELECT DISTINCT uxa.idUsuario
-				FROM USUARIO_ACTIVIDAD uxa INNER JOIN TIPO_ASOCIACION ta ON uxa.idTipoAsociacion = ta.idTipoAsociacion
-				WHERE uxa.idActividad = ".$idActividad." AND uxa.idTipoAsociacion = 2";
-		$query = $this->db->query($sql);
-		
-		foreach ($query->result() as $row){
-			$sql = "INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$row->idUsuario.",".$idNotificacion.",18,CURTIME())"; 	
-			$this->db->query($sql);		
-		}
 		
 		$this->db->trans_complete();
 		
