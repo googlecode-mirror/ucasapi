@@ -30,6 +30,10 @@ $(document).ready(function(){
 	 //departmentAutocomplete();	
 	 //loadGrid();
 	 //ajaxUpload();
+	 
+	//Datepickers
+		$("#txtStartingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
+		$("#txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
 	
 	 
 });	
