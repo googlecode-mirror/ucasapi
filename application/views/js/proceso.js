@@ -12,7 +12,7 @@ $(document).ready(function() {
 	$("#procesoButton").addClass("highlight");
 	procesoProyectoAutocomplete();
 	procesoEstadoAutocomplete();
-	procesoFaseAutocomplete();
+	//procesoFaseAutocomplete();
 	$("#idProceso").val("0");
 	
 	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
@@ -112,7 +112,7 @@ function procesoProyectoAutocomplete() {
 function procesoFaseAutocomplete() {
 	$.ajax({
 		type : "POST",
-		url : "index.php/fase/faseAutocompleteRead",
+		url : "index.php/proceso/faseAutocompleteRead/" + $("#idProyecto").val(),
 		data : "procesoFaseAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
@@ -211,6 +211,7 @@ function edit() {
 					if (retrievedData.status != 0) {
 						alert("Mensaje de error: " + retrievedData.msg);
 					} else {
+						procesoFaseAutocomplete();
 						$("#txtProcesoName").val(
 								retrievedData.data.nombreProceso);
 						$("#cbEstado").val(retrievedData.data.idEstado);
@@ -242,99 +243,6 @@ function addFase() {
 	}, 'last')
 }
 
-function loadGrid($idProceso) {
-	var lastsel;
-	var fases = "";
-
-	$.ajax({
-		type : "POST",
-		url : "index.php/proceso/procesoFaseRead",
-		data : "fasesRetrieve",
-		dataType : "json",
-		async : false,
-		success : function(retrievedData) {
-			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
-			} else {
-				$.each(retrievedData.data, function(i, obj) {
-					fases += obj.id + ':' + obj.value + ';';
-				});
-				// fases = "";
-				fases = fases.substring(0, fases.length - 1);
-				$("#fasesString").val(fases);
-			}
-		}
-	});
-	fases = $("#fasesString").val();
-	$("#tablaFases").jqGrid(
-			{
-				url : "index.php/proceso/gridFasesProceso/"
-						+ $("#idProceso").val(),
-				datatype : "json",
-				mtype : "POST",
-				colNames : [ "Cod.", "Nombre", "Fecha Inicial Plan.",
-						"Fecha Fin Plan." ],
-				colModel : [ {
-					name : "idFase",
-					index : "idFase",
-					width : 0,
-					hidden : true
-				}, {
-					name : "nombreFase",
-					index : "nombreFase",
-					editable : true,
-					edittype : "select",
-					editoptions : {
-						value : fases
-					},
-					width : 180
-				}, {
-					name : "fechaIniPlan",
-					index : "fechaIniPlan",
-					width : 120,
-					editable : true,
-					editoptions : {
-						size : 10
-					},
-					editrules : {
-						date : true
-					},
-					formatter : 'date',
-					formatoptions : {
-						newformat : 'Y-m-d'
-					}
-				}, {
-					name : "fechaFinPlan",
-					index : "fechaFinPlan",
-					width : 120,
-					editable : true,
-					editoptions : {
-						size : 10
-					},
-					editrules : {
-						date : true
-					},
-					formatter : 'date',
-					formatoptions : {
-						newformat : 'Y-m-d'
-					}
-				} ],
-				pager : "#pager",
-				rowNum : 10,
-				rowList : [ 10, 20, 30 ],
-				sortname : "id",
-				sortorder : "desc",
-				ajaxGridOptions : {
-					cache : false
-				},
-				loadonce : true,
-				viewrecords : true,
-				gridview : true,
-				editurl : "proceso",
-				caption : "Fases del proceso"
-			});
-	jQuery("#tablaFases").jqGrid('navGrid', '#pager', {});
-}
 
 function pickdates(id) {
 	jQuery("#" + id + "_fechaIniPlan", "#tablaFases").datepicker({
