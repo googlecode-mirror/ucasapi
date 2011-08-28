@@ -540,19 +540,7 @@ function loadGrid($idProyecto){
 		async : false,
 		success: function(retrievedData){
 			if(retrievedData.status != 0){
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-																	// momento,
-																	// el
-																	// mensaje
-																	// que se
-																	// está
-																	// mostrando
-																	// es
-																	// técnico,
-																	// para
-																	// cuestiones
-																	// de
-																	// depuración
+				alert("Mensaje de error: " + retrievedData.msg); 
 			}else{
 				$.each(retrievedData.data, function(i,obj) {
 					fases += obj.id + ':' + obj.value + ';';
