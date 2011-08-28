@@ -130,7 +130,7 @@
                             </td>   
                             <td>
                             	<table id="responsibleUsersGrid" align="center"></table>
-                                <div id="pagerRU"></div>
+                                <div id="pagerAU"></div>
                             </td>
                       </tr>               
                       </table>					
@@ -157,7 +157,7 @@
 				<div id="tabs-3">
 					<div class = "gridView" style = "width : 480px">
 						<table id="usersGrid"><tr><td/></tr></table> 
-						<div id="upager"></div>
+						<div id="uupager"></div>
 					</div>
 					<div class="divAddButton">
 						<button id="btnAddUser" onClick = "addUser()">Agregar</button>
@@ -165,7 +165,7 @@
 					
 					<div class = "gridView" style = "width : 480px">
 						<table id="followersGrid"><tr><td/></tr></table> 
-						<div id="fpager"></div>
+						<div id="ffpager"></div>
 					</div>
 						<div class="divAddButton">
 						<button id="btnRemoveUser" onClick = "removeUser()">Quitar</button>
