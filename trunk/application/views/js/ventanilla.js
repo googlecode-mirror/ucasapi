@@ -5,6 +5,8 @@ $(document).ready(function() {
 	$("#ventanillaButton").addClass("highlight");
 
 	$("#dialogoSolicitud").dialog({
+		modal : true,
+		resizable : false,
 		width : 700,
 		autoOpen : false
 	});
@@ -12,13 +14,19 @@ $(document).ready(function() {
 		autoOpen : false
 	});
 	$("#dialogoAsignar").dialog({
-		width : 700,
+		modal : true,
+		//resizable : false,
+		width : 600,
+		height : 800,
 		autoOpen : false
 	});
 
 	$("#txtStartingDate, #txtEndingDate").datepicker({
 		dateFormat : 'yy-mm-dd'
 	});
+	
+	 $("#listPeticion").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
+
 	// $("#list").hideCol("anio");
 	// $("#list").hideCol("correl");
 	
@@ -36,19 +44,21 @@ function loadGrid() {
 		colModel : [ {
 			name : "fecha",
 			index : "fecha",
-			width : 190
+			width : 140
 		}, {
 			name : "titulo",
 			index : "titulo",
-			width : 63
+			width : 500
 		}, {
 			name : "usuario",
 			index : "usuario",
-			width : 190
+			width : 200
 		} ],
 		pager : "#pager",
-		rowNum : 10,
-		rowList : [ 10, 20, 30 ],
+		rowNum : 20,
+		rowList : [20, 40, 50 ],
+		width : 900,
+		height : 500,
 		sortname : "id",
 		sortorder : "desc",
 		loadonce : true,
