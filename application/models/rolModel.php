@@ -79,7 +79,8 @@ class rolModel extends CI_Model{
 		
 		$idRol = $this->input->post("idRol");
 		
-		$sql = "DELETE FROM ROL 
+		$sql = "UPDATE ROL
+				SET activo = '0' 
 				WHERE idRol = ". $idRol;
    				
 		$query = $this->db->query($sql);
