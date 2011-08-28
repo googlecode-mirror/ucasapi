@@ -59,6 +59,14 @@ class Usuario extends CI_Controller{
 
 		echo json_encode($autocompleteData);
 	}
+	
+	function usuarioSolicitudAutocompleteRead(){
+		$this->load->model("usuarioModel");
+
+		$autocompleteData = $this->usuarioModel->autocompleteSolicitudRead();
+
+		echo json_encode($autocompleteData);
+	}
 
 	function usuarioCargoAutocompleteRead(){
 		$this->load->model("cargoModel");
