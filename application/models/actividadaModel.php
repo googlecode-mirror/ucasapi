@@ -85,8 +85,8 @@ class actividadaModel extends CI_Model{
 	   
 	    
 		//Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
-		if($proyectosRelacionados != ""){
-			$data_array12 = explode(",",$proyectosRelacionados);
+		if($proyectosRelacionados != ""){			
+			$data_array12 = explode("|",$proyectosRelacionados);
 			$insert_statements = $this->getRProjectsInsert($data_array12, $lastId);
 			foreach ($insert_statements as $queryRProjects) {
 				$this->db->query($queryRProjects);
@@ -98,7 +98,6 @@ class actividadaModel extends CI_Model{
 		   		}
 			}
 		}
-	    
 	    
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsables != ""){
@@ -252,7 +251,7 @@ function update(){
 	    
 		//Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
 		if($proyectosRelacionados != ""){
-			$data_array12 = explode(",",$proyectosRelacionados);
+			$data_array12 = explode("|",$proyectosRelacionados);
 			$insert_statements = $this->getRProjectsInsert($data_array12, $idActividad);
 			foreach ($insert_statements as $queryRProjects) {
 				$query = $this->db->query($queryRProjects);
@@ -1200,12 +1199,12 @@ function update(){
 		
 	}
 	
-	function getRProjectsInsert($data_array,$idActividad){
-
-		for($i = 0 ; $i< (count($data_array)-1); $i++){
+	function getRProjectsInsert($data_array,$idActividad){		
+		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idProyecto = $data_array[$i];
 			
 				$sql[$i] = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal) VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($idActividad).", 0)";
+				//echo $sql[$i];
 		}
 		return  $sql;
 	}
