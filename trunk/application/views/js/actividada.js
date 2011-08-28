@@ -270,6 +270,8 @@ function save(){
 		formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
 		formData += "&accionActual=" + $("#accionActual").val();
 		
+		alert (formData);
+		
 		
 		$.ajax({				
 	        type: "POST",
@@ -399,7 +401,23 @@ function cancel(){
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function clear(){
+function clear(){	
+	$("#projectsGrid").setGridParam({ datatype: 'json' });
+	$("#projectsGrid").trigger("reloadGrid");
+	
+	$("#users1Grid").setGridParam({ datatype: 'json' });
+	$("#users1Grid").trigger("reloadGrid");
+	
+	$("#usersGrid").setGridParam({ datatype: 'json' });
+	$("#usersGrid").trigger("reloadGrid");
+	
+	
+	$("#responsibleUsersGrid").jqGrid("clearGridData", true);
+	$("#followersGrid").jqGrid("clearGridData", true);
+	$("#relatedProjectsGrid").jqGrid("clearGridData", true);
+
+	
+	
 	$(".inputField,.inputFieldAC, .hiddenId,.inputFieldTA, #txtRecords, #txtStartingDate, #txtEndingDate").val("");
 	$("#tabs-4").hide();
 	$("#tagBliblioteca").hide();
@@ -419,7 +437,7 @@ function loadFollowersGrid(){
  		      {name:"usuario", index:"usuario", width:190},
 	 		  {name:"depto", index:"depto", width:190}
 		    ],
-		    pager: "#fpager",
+		    pager: "#ffpager",
 		    rowNum:10,
 		    width : 480,
 		    rowList:[10,20,30],
@@ -449,12 +467,13 @@ function loadUsersGrid(){
 		      {name:"usuario", index:"usuario", width:190},
 		      {name:"depto", index:"depto", width:190}
 		    ],
-		    pager: "#upager",
+		    pager: "#uupager",
 		    rowNum:10,
 		    width : 480,
 		    rowList:[10,20,30],
 		    sortname: "id",
 		    sortorder: "desc",
+		    loadonce : true,
 		    viewrecords: true,
 		    gridview: true,
 		    caption: "Usuarios del sistema",
@@ -479,12 +498,13 @@ function loadProjectsGrid(){
  		      {name:"proyecto", index:"proyecto", width:190},
 	 		  {name:"responsableProyecto", index:"responsableProyecto", width:190}
 		    ],
-		    pager: "#fpager",
+		    pager: "#ppager",
 		    rowNum:10,
 		    width : 480,
 		    rowList:[10,20,30],
 		    sortname: "id",
 		    sortorder: "desc",
+		    loadonce: true,
 		    viewrecords: true,
 		    gridview: true,
 		    caption: "Proyectos del sistema",
@@ -509,7 +529,7 @@ function loadRelatedProjectsGrid(){
 		      {name:"proyecto", index:"responsable", width:190},
 		      {name:"responsableProyecto", index:"responsableProyecto", width:190}
 		    ],
-		    pager: "#upager",
+		    pager: "#rpager",
 		    rowNum:10,
 		    width : 480,
 		    rowList:[10,20,30],
@@ -539,13 +559,14 @@ $("#users1Grid").jqGrid({
 	      {name:"usuario", index:"usuario", width:22},
 		  {name:"depto", index:"depto", width:64}
 	    ],
-	    pager: "#fpager",
+	    pager: "#pagerU",
 	    rowNum:10,
 	    width : 200,
 	    rowList:[10,20,30],
 	    sortname: "id",
 	    sortorder: "desc",
 	    viewrecords: true,
+	    loadonce: true,
 	    gridview: true,
 	    caption: "Usuarios asginables",
 	    loadComplete: function(){
@@ -567,7 +588,7 @@ $("#responsibleUsersGrid").jqGrid({
 	      {name:"usuario", index:"usuario", width:22},
 	      {name:"depto", index:"depto", width:64}
 	    ],
-	    pager: "#upager",
+	    pager: "#pagerAU",
 	    rowNum:10,
 	    width : 200,
 	    rowList:[10,20,30],
