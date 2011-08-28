@@ -10,7 +10,7 @@ class rolModel extends CI_Model{
 		$nombreRol = $this->input->post("nombreRol");
 				
 		
-		$sql = "INSERT INTO ROL (idRol,nombreRol,actividad) 
+		$sql = "INSERT INTO ROL (idRol,nombreRol,activo) 
    				VALUES (DEFAULT,".$this->db->escape($nombreRol).",'1')";
 		
 		$query = $this->db->query($sql);
