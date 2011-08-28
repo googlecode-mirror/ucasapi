@@ -99,7 +99,7 @@ class rolModel extends CI_Model{
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT idRol, nombreRol FROM ROL";
+		$sql = "SELECT idRol, nombreRol FROM ROL WHERE activo='1'";
 		$query = $this->db->query($sql);		
 	
 		if($query){
