@@ -43,7 +43,7 @@
 		
 		<div class="container" style = "height : auto">
 			<div style="height: 20px"></div>
-			<input id="filePath" type="hidden"  value="<?php echo $filePath;?>" class = "hiddenURL"/><br>
+			<input id="filePath" type="hidden"  value="<?php echo $filePath;?>"/><br>
 			
 			<div class="divActions">				
 				<div class="divCRUDRecords">
@@ -74,13 +74,14 @@
 				</ul>
 				
 				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
-					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/><br>
-					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/><br>
-					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/><br>
-					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/><br>
+					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
+					<input id="idUsuario" type="hidden"  value="" class = "hiddenId"/>
+					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/>
+					<input id="idUsuarioDuenho" type="hidden"  value="" class = "hiddenId"/>
+					<input id="idTipoArchivo" type="hidden"  value="" class = "hiddenId"/>
 					<input id="fasesString" type="hidden"  value="" class = "hiddenId"/>
 					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
-					<input id="idRol" type="hidden"  value=<?php echo $idRol;?> class = "hiddenId"/>
+					<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
 					
 					<span class = "requiredFieldLabel">Nombre:</span>
 					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" maxlength="100"/><br>
@@ -125,11 +126,14 @@
 						<button id="btnUpload">Seleccionar archivo</button><p></p>
 					</div>					
 				
-					<span class = "requiredFieldLabel">Nombre: </span>
+					<span class = "requiredFieldLabel">Título: </span>
 					<input id="txtFileName" type="text"  value="" class = "inputField"/><br>
 					
+					<span class = "inputFieldLabel">Tipo: </span>
+					<input id="txtFileType" type="text"  value="" class = "inputField"/><br>
+					
 					<span class = "inputFieldLabel">Descripción: </span>
-					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>	
+					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>
 					
 					<div class="divAddButton">
 						<button id="btnAddFile" onClick = "uploadFile()">Agregar</button>
@@ -138,8 +142,8 @@
 					</div>					
 					<div class = "gridView" style = "width : 480px">
 						<table id="gridDocuments"><tr><td/></tr></table> 
-						<div id="pager"></div>
-					</div>						
+						<div id="dpager"></div>
+					</div>							
 				</div>				
 			</div>
 			
