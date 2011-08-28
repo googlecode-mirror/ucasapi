@@ -146,7 +146,7 @@ class actividadaModel extends CI_Model{
 		
 		$idActividad = $this->input->post("idActividad");		
 		
-		$sql = "SELECT a.nombreActividad, a.fechaInicioPlan, a.fechaFinalizacionPlan, a.descripcionActividad, ".
+		/*$sql = "SELECT a.nombreActividad, a.fechaInicioPlan, a.fechaFinalizacionPlan, a.descripcionActividad, ".
 						"a.activo,prio.idPrioridad,prio.nombrePrioridad,e.idEstado,e.estado, a.idFase, proc.idProceso, ".
 						"proc.nombreProceso, proy.idProyecto, proy.nombreProyecto ".
 		
@@ -156,7 +156,14 @@ class actividadaModel extends CI_Model{
 								" LEFT JOIN PRIORIDAD prio ON prio.idPrioridad = a.idPrioridad".
 								" LEFT JOIN ESTADO e ON e.idEstado = a.idEstado".
 
-				" WHERE a.idActividad =".$this->db->escape($idActividad);
+				" WHERE a.idActividad =".$this->db->escape($idActividad);*/
+		$sql = "SELECT p.idProyecto, p.nombreProyecto, a.nombreActividad, a.fechaInicioPlan,
+		 				a.fechaFinalizacionPlan, a.descripcionActividad, a.activo, a.idFase, pry.idPrioridad, 
+		 				pry.nombrePrioridad, est.idEstado , est.estado, ps.idProceso, ps.nombreProceso
+					FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON (ap.idActividad = a.idActividad AND ap.proyectoPrincipal = '1')
+						INNER JOIN PROYECTO p ON (ap.idProyecto = p.idProyecto) INNER JOIN PROCESO ps ON (ps.idProceso = a.idProceso)
+						INNER JOIN PRIORIDAD pry ON (pry.idPrioridad = a.idPrioridad) INNER JOIN ESTADO est ON (est.idEstado = a.idEstado)
+						WHERE a.idActividad = ".$this->db->escape($idActividad);
 		
 		$query = $this->db->query($sql);
 		
@@ -201,13 +208,13 @@ function update(){
 		$responsables = $this->input->post("responsables");
 		$proyectosRelacionados = $this->input->post("proyRelacionados");
 		
-		//Si no se est� en sesi�n
+		//Si no se esta en sesion
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
 		//$idUsuarioResponsable = 1;
 		
 		$lastId  = -1;
 				
-		//Iniciando transacci�n
+		//Iniciando transaccion
 		$this->db->trans_begin();
 		
 		
@@ -248,16 +255,14 @@ function update(){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 	    }
-	    
-		//Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
+	    //Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
 		if($proyectosRelacionados != ""){
 			$data_array12 = explode("|",$proyectosRelacionados);
 			$insert_statements = $this->getRProjectsInsert($data_array12, $idActividad);
 			foreach ($insert_statements as $queryRProjects) {
 				$query = $this->db->query($queryRProjects);
 			}
-		}
-	    
+		}	    
 	    	    
 	    //Eliminado en USUARIO_ACTIVIDAD
 		$sql = "DELETE FROM USUARIO_ACTIVIDAD WHERE idActividad = ".$this->db->escape($idActividad);
@@ -461,7 +466,7 @@ function update(){
 				
 		$sql = "SELECT a.idActividad, a.nombreActividad 
 				FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON a.idActividad = ap.idActividad
-				WHERE a.activo = '1' AND ap.idProyecto =". $this->db->escape($idProyecto);
+				WHERE ap.proyectoPrincipal = '1' AND a.activo = '1' AND ap.idProyecto =". $this->db->escape($idProyecto);
 		
 		$sql.=($idProceso!='')?"	 AND a.idProceso = " .$this->db->escape($idProceso):"";
 		
@@ -1136,50 +1141,16 @@ function update(){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
 				
-				$sql[$i] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
+				$sql[$i] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna, activo)".
     										"VALUES(".
 													$this->db->escape($idUsuario).
 													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),2,".
-											    	$this->db->escape('1').")";
+											    	$this->db->escape('1').",'1')";
 		}
 		return  $sql;
-		
-		/*
-		$counter = 1;
-		$idUsuario;
-		$idUsuarioInsert;
-		$fechaAsignacionSistema;
-		$index = 0;
-		$indexTrippin = 0;
-		$trippin;
 
-		foreach ($data_array as $value) {
-			if($counter == 1){
-				$idUsuario = $value;
-				$counter++;
-				continue;
-			}
-			if($counter == 2){
-				$counter++;
-				continue;
-			}
-			if($counter == 3){
-				$fechaAsignacionSistema = $value;
-				$counter = 1;
-				$trippin[$indexTrippin++] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
-    										"VALUES(".
-													$this->db->escape($idUsuario).
-													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
-												    $this->db->escape($idActividad).",".
-												    "DATE(NOW()),2,".
-											    	$this->db->escape('1').")";
-				continue;
-			}
-		}
-
-		return  $trippin;*/
 	}
 	
 	function getResponsiblesInsert($data_array,$idActividad){
