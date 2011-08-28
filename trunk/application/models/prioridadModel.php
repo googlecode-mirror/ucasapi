@@ -10,8 +10,8 @@ class prioridadModel extends CI_Model{
 		$nombrePrioridad = $this->input->post("nombrePrioridad");
 				
 		
-		$sql = "INSERT INTO PRIORIDAD (idPrioridad,nombrePrioridad)
-   				VALUES (DEFAULT,".$this->db->escape($nombrePrioridad).")";
+		$sql = "INSERT INTO PRIORIDAD (idPrioridad,nombrePrioridad,activo)
+   				VALUES (DEFAULT,".$this->db->escape($nombrePrioridad).",'1')";
 		
 		$query = $this->db->query($sql);
 		
