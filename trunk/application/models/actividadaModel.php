@@ -1170,16 +1170,15 @@ function update(){
 	
 	function getResponsiblesInsert($data_array,$idActividad){
 		
-		for($i = 0 ; $i< (count($data_array)-1); $i++){
+		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
 				
-				$sql[$i] = "INSERT INTO ACTIVIDAD_PROYECTO 
-							(idProyecto, idActividad, proyectoPrincipal) 
+				$sql[$i] = "INSERT INTO USUARIO_ACTIVIDAD (idUsuario, correlVinculacion, idActividad, fechaVinculacion, activo, idTipoAsociacion, idUsuarioAsigna)
 							VALUES(".
 													$this->db->escape($idUsuario).
 													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
 												    $this->db->escape($idActividad).",".
-												    "DATE(NOW()),1,".
+												    "DATE(NOW()),1,1,".
 											    	$this->db->escape('1').")";
 		}
 		return  $sql;
