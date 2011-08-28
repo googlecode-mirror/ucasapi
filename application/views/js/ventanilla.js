@@ -26,9 +26,11 @@ $(document).ready(function() {
 		autoOpen : false
 	});
 
-	$("#txtStartingDate, #txtEndingDate").datepicker({
-		dateFormat : 'yy-mm-dd'
-	});
+
+	//Datepickers
+	$("#txtStartingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
+	$("#txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
+
 	
 	 $("#listPeticion").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
 	 
@@ -318,19 +320,7 @@ function projectAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 
 				$("#txtProjectName").autocomplete(
@@ -468,19 +458,7 @@ function priorityAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtPriorityName").autocomplete({
 					minChars : 0,
@@ -513,19 +491,7 @@ function statusAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
+				alert("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtStatusName").autocomplete({
 					minChars : 0,
@@ -603,6 +569,12 @@ function validarCampos() {
 
 	if ($("#txtActivityDesc").val() == "") {
 		camposFallan += "El campo DESCRIPCION es requerido <br />";
+	}
+	
+	if ($("#txtEndingDate").val() != "" &&	 $("#txtStartingDate").val() != "") { 
+		if(!validateOverlapFechas($("#txtEndingDate").val(),$("#txtStartingDate").val())) {
+			 camposFallan += "<p><dd> El campo INICIO debe ser menor o igual a FIN </dd><br/></p>";
+		}
 	}
 
 	if (camposFallan == "") {
