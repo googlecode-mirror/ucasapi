@@ -10,8 +10,8 @@ class estadoModel extends CI_Model{
 		$estado = $this->input->post("estado");	
 		$idTipoEstado = $this->input->post("idTipoEstado");
 		
-		$sql = "INSERT INTO ESTADO (estado,idTipoEstado) 
-   				VALUES (".$this->db->escape($estado).", ".$idTipoEstado.")";
+		$sql = "INSERT INTO ESTADO (estado,idTipoEstado,activo) 
+   				VALUES (".$this->db->escape($estado).", ".$idTipoEstado.",'1')";
 		
 		$query = $this->db->query($sql);
 		
@@ -83,7 +83,8 @@ class estadoModel extends CI_Model{
 		
 		$idEstado = $this->input->post("idEstado");
 		
-		$sql = "DELETE FROM ESTADO
+		$sql = "UPDATE ESTADO
+				SET activo = '0'
 				WHERE idEstado = ". $idEstado;
    				
 		$query = $this->db->query($sql);
