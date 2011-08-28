@@ -156,7 +156,7 @@ function loadGrid() {
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
-					width : 190
+					width : 250
 				}, {
 					name : "fechaAsignacionSistema",
 					index : "fechaAsignacionSistema",
@@ -191,7 +191,7 @@ function loadGridTR() {
 		}, {
 			name : "nombreRol",
 			index : "nombreRol",
-			width : 190
+			width : 250
 		}, {
 			name : "fechaAsignacionSistema",
 			index : "fechaAsignacionSistema",
