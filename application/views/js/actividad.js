@@ -88,7 +88,7 @@ function save(){
 					alert("Mensaje de error: " + retrievedData.msg);
 				}
 				else{
-					alert("Actividad actualizada con exito");
+					msgBoxSucces("Actividad actualizada con éxito");
 					idUsuariosQuitar = new Array();
 					idUsuariosAdd = new Array();
 				}

@@ -316,6 +316,8 @@ function edit(){
 		        		$("#idProceso").val(retrievedData.data.idProceso);
 		        		$("#idPrioridad").val(retrievedData.data.idPrioridad);
 		        		$("#idEstado").val(retrievedData.data.idEstado);
+		        		$("#correlAnio").val(retrievedData.data.correlAnio);
+		        		$("#anioSolicitud").val(retrievedData.data.anioSolicitud);
 		        		$("#txtStartingDate").val(retrievedData.data.fechaInicioPlan);
 		        		$("#txtEndingDate").val(retrievedData.data.fechaFinalizacionPlan);
 		        		$("#txtStatusName").val(retrievedData.data.estado);
