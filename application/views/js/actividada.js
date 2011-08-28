@@ -265,8 +265,8 @@ function save(){
 		formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
 		formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
 		formData += "&descripcion=" + $("#txtActivityDesc").val();
-		formData += "&seguidores=" +parseGridData(gridData);
-		formData += "&responsables=" +parseGridData(gridResponsiblesData);
+		formData += "&seguidores=" +parseGridDataIds(gridData);
+		formData += "&responsables=" +parseGridDataIds(gridResponsiblesData);
 		formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
 		formData += "&accionActual=" + $("#accionActual").val();
 		
@@ -709,12 +709,12 @@ function parseGridDataIds(gridData){
 		i=0;
 		for ( var Propiedad in gridData[Elemento]) {
 			if(i==0){
-				parsedData += gridData[Elemento][Propiedad] + ",";
+				parsedData += gridData[Elemento][Propiedad] + "|";
 			}			
 			i++;
 		}
 	}
-	return parsedData;
+	return parsedData.substring(0, parsedData.length-1);
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
