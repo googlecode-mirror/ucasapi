@@ -67,8 +67,8 @@ class actividadaModel extends CI_Model{
 	    
 		//$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
-		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal) 
-				VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", 1)";
+		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo) 
+				VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", '1', '1')";
 		
 		/*foreach ($idProyectoRelacionado as $idProy){
 			if($idProy != '') {
@@ -773,7 +773,7 @@ function update(){
                "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ";
 			   
 		
-		if($idActividad != NULL)$sql.= 	"WHERE u.idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad).")";
+		if($idActividad != NULL)$sql.= 	"WHERE uh.activo = '1' AND u.idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad)." AND idTipoAsociacion = 1)";
 		
 		$sql.=" GROUP BY u.idUsuario ";
 		
@@ -1133,6 +1133,21 @@ function update(){
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function getFollowersInsert($data_array,$idActividad){
+		//echo count($data_array);
+		for($i = 0 ; $i< (count($data_array)); $i++){
+				$idUsuario = $data_array[$i];
+				
+				$sql[$i] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna)".
+    										"VALUES(".
+													$this->db->escape($idUsuario).
+													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
+												    $this->db->escape($idActividad).",".
+												    "DATE(NOW()),2,".
+											    	$this->db->escape('1').")";
+		}
+		return  $sql;
+		
+		/*
 		$counter = 1;
 		$idUsuario;
 		$idUsuarioInsert;
@@ -1165,7 +1180,7 @@ function update(){
 			}
 		}
 
-		return  $trippin;
+		return  $trippin;*/
 	}
 	
 	function getResponsiblesInsert($data_array,$idActividad){
