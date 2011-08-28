@@ -419,7 +419,7 @@ class proyectoModel extends CI_Model{
 		$this->db->trans_begin();
 		
 		$sql = "UPDATE PROYECTO
-				SET activo = 0
+				SET activo = '0'
 				WHERE idProyecto = ". $idProyecto;
 		$this->db->query($sql);
 		
