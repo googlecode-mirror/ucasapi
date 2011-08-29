@@ -589,9 +589,7 @@ function validar_campos() {
 		msgBoxInfo(camposFallan);
 		return false;
 	}
-	
-
-	return (true)
+	return true
 }
 
 function cancel() {
