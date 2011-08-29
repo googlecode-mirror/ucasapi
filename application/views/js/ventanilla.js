@@ -1,7 +1,8 @@
 $(document).ready(function() {
 	js_ini();
 	loadGrid();
-	proyectoAutocomplete();
+	//proyectoAutocomplete();
+	projectAutocomplete();
 	$("#ventanillaButton").addClass("highlight");
 
 	$("#dialogoSolicitud").dialog({
@@ -292,7 +293,6 @@ function asignarSolicitud() {
 					if ($("#idActividad").val() == "") {
 						msgBoxSucces("Registro agregado con �xito");
 					} else {
-						msgBoxSucces("Registro actualizado con �xito");
 						$("div#dialogoAsignar > input:text").val("");
 						$("#txtActivityDesc").val("");
 
@@ -301,6 +301,8 @@ function asignarSolicitud() {
 
 						$("#dialogoAsignar").dialog("close");
 						$("#dialogoSolicitud").dialog("close");
+						
+						msgBoxSucces("Registro actualizado con �xito");
 					}
 
 				}
@@ -343,6 +345,30 @@ function projectAutocomplete() {
 									$("#txtProjectName").val("");	
 									$("#idProyecto").val("");
 									//$("#idProceso").val("");
+								}
+							}
+						});
+				
+				// -------------------------------------------------------------
+				$("#txtProjectRecords").autocomplete(
+						{
+							minChars : 0,
+							matchContains : true,
+							source : retrievedData.data,
+							minLength : 0,
+							select : function(event, ui) {
+								// $("#idUsuario").val(ui.item.id);
+								$("#cbxRelacionados").append(
+										'<option value="' + ui.item.id + '">'
+												+ ui.item.value + '</option>');
+								$(this).blur();//Dedicado al IE
+							},
+							// Esto es para el esperado mustMatch o algo
+							// parecido
+							change : function() {
+								if (!autocompleteMatch(retrievedData.data, $(
+										"#txtProjectRecords").val())) {
+									$("#txtProjectRecords").val("");
 								}
 							}
 						});

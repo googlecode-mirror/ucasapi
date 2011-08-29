@@ -160,13 +160,14 @@ class solicitudModel extends CI_Model {
 					CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente,
 					s.descripcionSolicitud descripcion,
 					a.fechaInicioPlan fechaAtencion,
+					date_format(s.fechaSalida, '%Y-%m-%d') fechaSalida,
 					MAX(b.progreso) progreso
 				FROM SOLICITUD s
 				INNER JOIN ACTIVIDAD a ON (a.anioSolicitud = s.anioSolicitud AND a.correlAnio = s.correlAnio)
 				INNER JOIN BITACORA b ON (b.idActividad = a.idActividad)
 				INNER JOIN USUARIO_SOLICITUD us ON (us.anioSolicitud = s.anioSolicitud AND us.correlAnio = s.correlAnio)
 				INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario)
-				WHERE a.anioSolicitud = ? AND a.correlAnio = ?
+				WHERE a.anioSolicitud = ? AND a.correlAnio = ? AND esAutor = 1
 				GROUP BY s.tituloSolicitud, s.fechaEntrada, s.descripcionSolicitud, a.fechaInicioPlan";
 
 		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1]));
@@ -176,10 +177,12 @@ class solicitudModel extends CI_Model {
 		if ($result) {
 			if($result->num_rows() > 0) {
 				foreach ($result->result() as $row) {
-
 					$retArray["data"][] = $row;
 
 				}
+			} else {
+				$retArray["status"] = 2;
+				$retArray["msg"] = "Esta solicitud a&uacute;n no ha sido asignada.";
 			}
 		} else{
 			$retArray["status"] = $this->db->_error_number();

@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>PHOBOS - Lista de solicitudes</title>
-		<meta http-equiv="X-UA-Compatible" content="IE=8" >		
+		<meta http-equiv="X-UA-Compatible" content="IE=8" >
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
@@ -10,6 +10,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/grid.locale-es.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.jqGrid.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.bt.min.js"></script>
+		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/libraries/jquery.simplemodal.1.4.1.min.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/main.js"></script>
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/listaSolicitudes.js"></script>
 
@@ -24,10 +25,10 @@
 		</div>
 
 		<div class="sessionBar">
-			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
-			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
-			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
-			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
+			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />
+			<span id="systemName"><b>PHOBOS PLANING</b></span>
+			<img id="logoutButton" title="Cerrar sesiï¿½n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span>
 		</div>
 
 		<div><span id="pageTittle"></span></div>
@@ -72,6 +73,9 @@
 
 				<span class = "inputFieldLabel"><b>Fecha de inicio:</b></span><br/>
 				<span class="cleanable" id="fechaInicio"></span><br/><br/>
+
+				<span class = "inputFieldLabel"><b>Fecha de resoluci&oacute;n:</b></span><br/>
+				<span class="cleanable" id="fechaFin"></span><br/><br/>
 
 				<span class = "inputFieldLabel"><b>Progreso (en %):</b></span><br/>
 				<span class="cleanable" id="progreso"></span><br/><br/>
