@@ -2,15 +2,21 @@
 
 class ActividadhModel extends CI_Model{
 	
-	function proyRead($idUsuario){
+	function proyRead($idUsuario,$idRol){
 		$this->load->database();
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$sql = "SELECT p.nombreProyecto, p.idProyecto
-				FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuarioEncargado = u.idUsuario 
-				WHERE u.idUsuario = " .$idUsuario;
-		$query = $this->db->query($sql);		
+		if($idRol == 1){
+			$sql = "SELECT nombreProyecto, idProyecto
+					FROM PROYECTO";
+			$query = $this->db->query($sql);
+		}
+		else{
+			$sql = "SELECT p.nombreProyecto, p.idProyecto
+					FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuarioEncargado = u.idUsuario 
+					WHERE u.idUsuario = " .$idUsuario;
+		}		
 	
 		if($query){
 			if($query->num_rows > 0){			

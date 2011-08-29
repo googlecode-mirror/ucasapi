@@ -8,9 +8,9 @@ class Actividadh extends CI_Controller{
 		$this->load->view("actividadhView");	
 	}
 	
-	function actividadhAutocompleteRead($idUsuario){
+	function actividadhAutocompleteRead($idUsuario, $idRol){
 		$this->load->model("actividadhModel");
-		echo json_encode($this->actividadhModel->proyRead($idUsuario));
+		echo json_encode($this->actividadhModel->proyRead($idUsuario,$idRol));
 	}
 	
 	function actividadhActividades($idProyecto){
