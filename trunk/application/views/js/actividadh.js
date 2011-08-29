@@ -6,6 +6,8 @@ $(document).ready(function() {
 	js_ini();
 	actividadhProyectoAutocomplete();
 	$("#idActividad").val("0");
+	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
+	$("#txtRecordsAct").focus(function(){$("#txtRecordsAct").autocomplete('search', '');});
 	ver();
 });
 
@@ -26,12 +28,13 @@ function actividadhProyectoAutocomplete(){
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 						loadActividades($("#idProyecto").val());
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
-						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
-							$("#txtRecords").val("");
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProy").val())){
+							$("#txtRecordsProy").val("");
 							$("#idProyecto").val("");
 						}
 					}
@@ -61,12 +64,13 @@ function loadActividades($idProyecto){
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idActividad").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
-						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
-							$("#txtRecords").val("");
-							$("#idProyecto").val("");
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsAct").val())){
+							$("#txtRecordsAct").val("");
+							$("#idActividad").val("");
 						}
 					}
 				});
