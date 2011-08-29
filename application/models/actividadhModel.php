@@ -16,7 +16,8 @@ class ActividadhModel extends CI_Model{
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
 					FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuarioEncargado = u.idUsuario 
 					WHERE u.idUsuario = " .$idUsuario;
-		}		
+			$query = $this->db->query($sql);
+		}	
 	
 		if($query){
 			if($query->num_rows > 0){			
