@@ -23,7 +23,7 @@ function actividadhProyectoAutocomplete(){
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 						loadActividades($("#idProyecto").val());
@@ -58,7 +58,7 @@ function loadActividades($idProyecto){
 					minChars : 0,
 					matchContains : true,
 					source : retrievedData.data,
-					minLength : 1,
+					minLength : 0,
 					select : function(event, ui) {
 						$("#idActividad").val(ui.item.id);
 					},
