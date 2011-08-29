@@ -30,8 +30,10 @@
 			<img  src="<?php echo base_url(); ?>application/views/css/img/loading.gif"/>
 		</div>
 		<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
-		<input id="idUsuario" type="hidden"  value="1" class = "hiddenId"/>
 		<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
+		
+		<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
+					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
