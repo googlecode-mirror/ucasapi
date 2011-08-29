@@ -117,7 +117,7 @@
                     <input id="txtUsuarioCargo" type="text"  value="" class = "inputField" title = "Cargo que desempeña en la universidad" maxlength="40"/><br>
                    
                     <span class = "inputFieldLabel">Carnet:</span>
-                    <input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA, solo n&uacute;meros / en total" maxlength="10"/><br>
+                    <input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA, solo n&uacute;meros 8 en total" maxlength="10"/><br>
                    
                     <span class = "inputFieldLabel">E-mail personal:</span>
                     <input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField" title = "Dirección de correo electronico personal" maxlength="40"/><br>
