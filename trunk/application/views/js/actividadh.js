@@ -12,7 +12,7 @@ $(document).ready(function() {
 function actividadhProyectoAutocomplete(){
 	$.ajax({
 		type : "POST",
-		url : "index.php/actividadh/actividadhAutocompleteRead/" + $("#idUsuario").val() + "/" + $("#idRol").val();
+		url : "index.php/actividadh/actividadhAutocompleteRead/" + $("#idUsuario").val() + "/" + $("#idRol").val(),
 		data : "proyectoAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
