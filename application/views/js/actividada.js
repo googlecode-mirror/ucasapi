@@ -5,6 +5,13 @@ numResponsiblesOnGrid = 0;
 numProjectsOnGrid = 0;
 numRProjectsOnGrid=0;
 
+currentResponsibles=new Array();
+dynamicResponsibles = new Array();
+
+currentFollowers = new Array();
+dynamicFollowers = new Array();
+
+
 $(document).ready(function(){
 	 idArchivo = "";
 	 upload = null;
@@ -265,8 +272,10 @@ function save(){
 		formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
 		formData += "&fechaFinalizacionPlan=" + $("#txtEndingDate").val();
 		formData += "&descripcion=" + $("#txtActivityDesc").val();
-		formData += "&seguidores=" +parseGridDataIds(gridData);
-		formData += "&responsables=" +parseGridDataIds(gridResponsiblesData);
+		formData += "&seguidoresI=" +(aNewElements(currentFollowers,dynamicFollowers)).toString();
+		formData += "&seguidoresD=" +(aNewElements(dynamicFollowers,currentFollowers)).toString();
+		formData += "&responsablesI=" +(aNewElements(currentResponsibles,dynamicResponsibles)).toString();
+		formData += "&responsablesD=" +(aNewElements(dynamicResponsibles,currentResponsibles)).toString();
 		formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
 		formData += "&accionActual=" + $("#accionActual").val();
 		
@@ -335,10 +344,13 @@ function edit(){
 		        		$("#txtActivityName").val(retrievedData.data.nombreActividad);
 		        		
 		        		$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
+		        		$("#usersGrid").setGridParam({ datatype: 'json' });
 		   			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $("#users1Grid").setGridParam({ datatype: 'json' });
 		   			    $('#users1Grid').setGridParam({url:"index.php/actividada/gridUsers1Read/"+$("#idActividad").val()}).trigger("reloadGrid");
 		   			    $("#responsibleUsersGrid").setGridParam({url:"index.php/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 					    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $("#projectsGrid").setGridParam({ datatype: 'json' });
 					    $("#projectsGrid").setGridParam({url:"index.php/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 					    $("#relatedProjectsGrid").setGridParam({url:"index.php/actividada/gridRProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 		        	}			       
@@ -422,6 +434,13 @@ function clear(){
 	$("#tabs-4").hide();
 	$("#tagBliblioteca").hide();
 	unlockAutocomplete();
+	
+	numUsersOnGrid = 0;
+	numFollowersOnGrid = 0;
+	numUsers1OnGrid = 0;
+	numResponsiblesOnGrid = 0;
+	numProjectsOnGrid = 0;
+	numRProjectsOnGrid=0;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -448,7 +467,10 @@ function loadFollowersGrid(){
 		    caption: "Seguidores de la actividad",
 		    loadComplete: function(){
 				if(numFollowersOnGrid==0){
-					numFollowersOnGrid = $("#usersGrid").jqGrid("getGridParam","records");
+					numFollowersOnGrid = $("#followersGrid").jqGrid("getGridParam","records");
+					
+					currentFollowers = dataDataIdsToArray($("#followersGrid").jqGrid("getRowData"));
+					dynamicFollowers = dataDataIdsToArray($("#followersGrid").jqGrid("getRowData"));
 				}
 		    }	    	
 	  });	
@@ -599,7 +621,12 @@ $("#responsibleUsersGrid").jqGrid({
 	    caption: "Usuarios responsables",
 	    loadComplete: function(){
 			if(numResponsiblesOnGrid==0){
-				numResponsiblesOnGrid = $("#usersGrid").jqGrid("getGridParam","records");
+				numResponsiblesOnGrid = $("#responsibleUsersGrid").jqGrid("getGridParam","records");
+				
+				//Agregando en un arreglo los ids de los responsables ya asignados
+				currentResponsibles = dataDataIdsToArray($("#responsibleUsersGrid").jqGrid("getRowData"));
+				dynamicResponsibles = dataDataIdsToArray($("#responsibleUsersGrid").jqGrid("getRowData"));
+
 			}
 	    }
 	});	
@@ -617,9 +644,10 @@ function addResponsible(){
 	numUsers1OnGrid--;
 	numResponsiblesOnGrid++;
 	
-	$("#responsibleUsersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#responsibleUsersGrid").jqGrid("addRowData", numResponsiblesOnGrid, rowData);
 	$("#users1Grid").jqGrid("delRowData", rowId, rowData);	
 	
+	dynamicResponsibles.push(rowData["id"]);
 }
 
 function removeResponsible(){
@@ -634,9 +662,54 @@ function removeResponsible(){
 	numResponsiblesOnGrid--;
 	numUsers1OnGrid++;
 		
-	$("#users1Grid").jqGrid("addRowData", numFollowersOnGrid, rowData);
-	$("#responsibleUsersGrid").jqGrid("delRowData", rowId, rowData);	
+	$("#users1Grid").jqGrid("addRowData", numUsers1OnGrid, rowData);
+	$("#responsibleUsersGrid").jqGrid("delRowData", rowId, rowData);
 	
+	
+	var index = dynamicResponsibles.indexOf(rowData["id"]);
+	if(index!=-1)dynamicResponsibles.splice(index,1);
+	
+}
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function addUser(){
+	rowId = $("#usersGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#usersGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un usuario para agregar");
+		return;
+	}
+	
+	numUsersOnGrid--;
+	numFollowersOnGrid++;
+	
+	$("#followersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#usersGrid").jqGrid("delRowData", rowId, rowData);	
+	
+	dynamicFollowers.push(rowData["id"]);
+}
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function removeUser(){
+	rowId = $("#followersGrid").jqGrid("getGridParam","selrow");
+	rowData = $("#followersGrid").jqGrid("getRowData",rowId);
+	
+	if(rowId == null){
+		msgBoxInfo("Debe seleccionar un usuario para quitar");
+		return;
+	}
+	
+	numUsersOnGrid++;
+	numFollowersOnGrid--;
+	
+	$("#usersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
+	$("#followersGrid").jqGrid("delRowData", rowId, rowData);	
+	
+	var index = dynamicFollowers.indexOf(rowData["id"]);
+	if(index!=-1)dynamicFollowers.splice(index,1);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -674,42 +747,7 @@ function removeProject(){
 	$("#relatedProjectsGrid").jqGrid("delRowData", rowId, rowData);	
 }
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-function addUser(){
-	rowId = $("#usersGrid").jqGrid("getGridParam","selrow");
-	rowData = $("#usersGrid").jqGrid("getRowData",rowId);
-	
-	if(rowId == null){
-		msgBoxInfo("Debe seleccionar un usuario para agregar");
-		return;
-	}
-	
-	numUsersOnGrid--;
-	numFollowersOnGrid++;
-	
-	$("#followersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
-	$("#usersGrid").jqGrid("delRowData", rowId, rowData);	
-}
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function removeUser(){
-	rowId = $("#followersGrid").jqGrid("getGridParam","selrow");
-	rowData = $("#followersGrid").jqGrid("getRowData",rowId);
-	
-	if(rowId == null){
-		msgBoxInfo("Debe seleccionar un usuario para quitar");
-		return;
-	}
-	
-	numUsersOnGrid++;
-	numFollowersOnGrid--;
-	
-	$("#usersGrid").jqGrid("addRowData", numFollowersOnGrid, rowData);
-	$("#followersGrid").jqGrid("delRowData", rowId, rowData);	
-}
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -736,6 +774,41 @@ function parseGridDataIds(gridData){
 		}
 	}
 	return parsedData.substring(0, parsedData.length-1);
+}
+
+function dataDataIdsToArray(gridData){
+	var mArray = new Array();
+	var i = 0;
+	for ( var Elemento in gridData) {
+		i=0;
+		for ( var Propiedad in gridData[Elemento]) {
+			if(i==0){
+				mArray.push(gridData[Elemento][Propiedad]);
+			}			
+			i++;
+		}
+	}
+	return mArray;
+}
+
+//Obtiene los elementos que tiene B y no tiene A
+function aNewElements(a,b){
+	var resultArray = new Array();
+
+	for(var i = 0; i<(b.length); i++){
+		var  found = false;
+		
+		for(var j = 0; j<(a.length); j++){
+			
+			if(b[i] == a[j]){
+                found = true;
+                break;
+             }		
+		}	
+		if(found == false)resultArray.push(b[i]);
+	}
+	return resultArray;
+	
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
