@@ -76,7 +76,7 @@ class ActividadhModel extends CI_Model{
 		$count = 0;
 		if(!$sidx) $sidx =1;
 		
-		$sql = "SELECT COUNT(*) AS count FROM ACTIVIDAD";
+		$sql = "SELECT COUNT(*) AS count FROM BITACORA WHERE idActividad = " .$idActividad;
 		
 		$query = $this->db->query($sql);
 

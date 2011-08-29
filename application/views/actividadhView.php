@@ -33,7 +33,7 @@
 		<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
 		
 		<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
-					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
+		<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
