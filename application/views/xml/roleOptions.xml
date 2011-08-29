@@ -27,6 +27,10 @@
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Historial de Bitacora</nombrePagina>
+				<controller>actividadh</controller>
+			</pagina>
 		</paginas>		
 	</rol>
 	<rol id = "2">
@@ -55,6 +59,10 @@
 			<pagina>
 				<nombrePagina>Actividades</nombrePagina>
 				<controller>actividada</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Historial de Bitacora</nombrePagina>
+				<controller>actividadh</controller>
 			</pagina>
 		</paginas>
 	</rol>
