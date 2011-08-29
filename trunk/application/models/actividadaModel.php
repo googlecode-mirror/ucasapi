@@ -22,8 +22,8 @@ class actividadaModel extends CI_Model{
 		//$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
 		
-		$seguidores = $this->input->post("seguidores");
-		$responsables = $this->input->post("responsables");
+		$seguidores = $this->input->post("seguidoresI");
+		$responsables = $this->input->post("responsablesI");
 		$proyectosRelacionados = $this->input->post("proyRelacionados");
 		
 		
@@ -101,7 +101,7 @@ class actividadaModel extends CI_Model{
 	    
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsables != ""){
-			$data_array1 = explode("|",$responsables);
+			$data_array1 = explode(",",$responsables);
 			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId);
 			foreach ($insert_statements as $queryResponsibles) {
 				$this->db->query($queryResponsibles);
@@ -117,7 +117,7 @@ class actividadaModel extends CI_Model{
 		
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidores != ""){
-			$data_array = explode("|",$seguidores);
+			$data_array = explode(",",$seguidores);
 			$insert_statements = $this->getFollowersInsert($data_array, $lastId);
 			foreach ($insert_statements as $queryFollowers) {
 				$this->db->query($queryFollowers);
@@ -204,8 +204,10 @@ function update(){
 		$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
 		
-		$seguidores = $this->input->post("seguidores");
-		$responsables = $this->input->post("responsables");
+		$seguidoresI = $this->input->post("seguidoresI");
+		$seguidoresD = $this->input->post("seguidoresD");
+		$responsablesI = $this->input->post("responsablesI");
+		$responsablesD = $this->input->post("responsablesD");
 		$proyectosRelacionados = $this->input->post("proyRelacionados");
 		
 		//Si no se esta en sesion
@@ -264,18 +266,27 @@ function update(){
 			}
 		}	    
 	    	    
-	    //Eliminado en USUARIO_ACTIVIDAD
-		$sql = "DELETE FROM USUARIO_ACTIVIDAD WHERE idActividad = ".$this->db->escape($idActividad);
-                		
-		$query = $this->db->query($sql);		
-		if (!$query){
-	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-	    }
+	    //Eliminado en USUARIO_ACTIVIDAD de responsables
+		if($responsablesD != ""){
+			$data_array1 = explode(",",$responsablesD);
+			$insert_statements = $this->getUsersDelete($data_array1, $idActividad);
+			foreach ($insert_statements as $queryResponsibles) {
+				$this->db->query($queryResponsibles);
+			}
+		}
+		
+		//Eliminado en USUARIO_ACTIVIDAD de seguidores
+		if($seguidoresD != ""){
+			$data_array1 = explode(",",$seguidoresD);
+			$insert_statements = $this->getUsersDelete($data_array1, $idActividad);
+			foreach ($insert_statements as $queryFollowers) {
+				$this->db->query($queryFollowers);
+			}
+		}
 
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
-		if($responsables != ""){
-			$data_array1 = explode("|",$responsables);
+		if($responsablesI != ""){
+			$data_array1 = explode(",",$responsablesI);
 			$insert_statements = $this->getResponsiblesInsert($data_array1, $idActividad);
 			foreach ($insert_statements as $queryResponsibles) {
 				$this->db->query($queryResponsibles);
@@ -284,8 +295,8 @@ function update(){
 	    
 		
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
-		if($seguidores != ""){
-			$data_array = explode("|",$seguidores);
+		if($seguidoresI != ""){
+			$data_array = explode(",",$seguidoresI);
 			$insert_statements = $this->getFollowersInsert($data_array, $idActividad);
 			foreach ($insert_statements as $queryFollowers) {
 				$this->db->query($queryFollowers);
@@ -1165,6 +1176,17 @@ function update(){
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),1,1,".
 											    	$this->db->escape('1').")";
+		}
+		return  $sql;
+		
+	}
+	
+	function getUsersDelete($data_array,$idActividad){
+		
+		for($i = 0 ; $i< (count($data_array)); $i++){
+				$idUsuario = $data_array[$i];
+				
+				$sql[$i] = "DELETE FROM USUARIO_ACTIVIDAD WHERE idActividad = ". $this->db->escape($idActividad)." AND idUsuario = ".$this->db->escape($idUsuario);
 		}
 		return  $sql;
 		
