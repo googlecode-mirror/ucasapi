@@ -72,7 +72,7 @@
                     <input id="accionActual" type="hidden"  value="" class = "hiddenId"/>               
                    
                     <span class = "requiredFieldLabel">Código empleado:</span>
-                    <input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA" maxlength="7"/><br>
+                    <input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA: Dos letras mayusculas seguidos de 5 n&uacute;meros" maxlength="7"/><br>
                                
                     <span class = "requiredFieldLabel">Primer nombre:</span>
                     <input id="txtUsuarioPrimerNombre" type="text"  value="" class = "inputField" title = "Primer nombre del usuario" maxlength="80"/><br>
@@ -99,16 +99,16 @@
                     <input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contraseña" maxlength="10"/><br>
                    
                     <span class = "requiredFieldLabel">DUI:</span>
-                    <input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario" maxlength="11"/><br>               
+                    <input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario, solo n&uacute;meros xxxxxxxx-x" maxlength="11"/><br>               
                    
                     <span class = "requiredFieldLabel">NIT:</span>
-                    <input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria" maxlength="17"/><br>
+                    <input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria, solo n&uacute;meros xxxx-xxxxxx-xxx-x" maxlength="17"/><br>
                    
                     <span class = "requiredFieldLabel">ISSS:</span>
-                    <input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS" maxlength="9"/><br>
+                    <input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS, solo n&uacute;meros 9 en total" maxlength="9"/><br>
                    
                     <span class = "inputFieldLabel">NUP:</span>
-                    <input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP" maxlength="12"/><br>
+                    <input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP, solo n&uacute;meros, 12 en total" maxlength="12"/><br>
                    
                     <span class = "requiredFieldLabel">Departamento:</span>
                     <input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField" title = "Departamento universitario al que pertenece" maxlength="256"/><br>
@@ -117,7 +117,7 @@
                     <input id="txtUsuarioCargo" type="text"  value="" class = "inputField" title = "Cargo que desempeña en la universidad" maxlength="40"/><br>
                    
                     <span class = "inputFieldLabel">Carnet:</span>
-                    <input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA" maxlength="10"/><br>
+                    <input id="txtUsuarioCarnet" type="text"  value="" class = "inputField" title = "Carnet de estudiante UCA, solo n&uacute;meros / en total" maxlength="10"/><br>
                    
                     <span class = "inputFieldLabel">E-mail personal:</span>
                     <input id="txtUsuarioEmailPersonal" type="text"  value="" class = "inputField" title = "Dirección de correo electronico personal" maxlength="40"/><br>
@@ -126,10 +126,10 @@
                     <input id="txtUsuarioEmailInstitucional" type="text"  value="" class = "inputField" title = "Dirección de correo electronico institucional" maxlength="40"/><br>
                    
                     <span class = "inputFieldLabel">Teléfono contacto:</span>
-                    <input id="txtUsuarioTelefono" type="text"  value="" class = "inputField" title = "Teléfono de contacto personal" maxlength="8"/><br>
+                    <input id="txtUsuarioTelefono" type="text"  value="" class = "inputField" title = "Teléfono de contacto personal, solo numeros 8 en total" maxlength="8"/><br>
                    
                     <span class = "inputFieldLabel">Extensi&oacute;n:</span>
-                    <input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA" maxlength="5"/><br>
+                    <input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA, solo numeros, maximo 5" maxlength="5"/><br>
                    
                     <span class = "inputFieldLabel">Activo:</span>
                     <input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema" class="inputCHK"/><br>
