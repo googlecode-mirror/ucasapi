@@ -157,6 +157,7 @@ function save() {
 		formData += "&idEstado=" + $("#cbEstado").val();
 		formData += "&nombreProceso=" + $("#txtProcesoName").val();
 		formData += "&descripcion=" + $("#txtProcesoDesc").val();
+		formData += "&accionActual=" + $("#accionActual").val();
 
 		proc_rows = $("#tablaFases").jqGrid("getRowData");
 		var gridData = "";
@@ -181,7 +182,7 @@ function save() {
 				if (retrievedData.status != 0) {
 					alert("Mensaje de error: " + retrievedData.msg);
 				} else {
-					if ($("idProceso").val() == "") {
+					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Proceso agregado con \u00e9xito");
 					} else {
 						msgBoxSucces("Proceso actualizado con \u00e9xito");
@@ -202,6 +203,7 @@ function edit() {
 		if ($("#txtRecordsProc").val() != "") {
 			var formData = "idProceso=" + $("#idProceso").val();
 			lockAutocomplete();
+			$("#accionActual").val("editando");
 			$.ajax({
 				type : "POST",
 				url : "index.php/proceso/procesoRead",
