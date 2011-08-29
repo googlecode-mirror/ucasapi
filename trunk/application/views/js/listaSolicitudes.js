@@ -76,6 +76,7 @@ function mostrarSolicitud (idSolicitud) {
         		$("#cliente").html(retrievedData.data[0].cliente);
         		$("#txtSolicitudDesc").val(retrievedData.data[0].descripcion);
         		$("#fechaInicio").html(retrievedData.data[0].fechaAtencion);
+        		$("#fechaFin").html(retrievedData.data[0].fechaSalida);
         		$("#progreso").html(retrievedData.data[0].progreso);
         		
         		$("#dialogoSolicitud").css('visibility', 'visible').dialog('open');
