@@ -53,11 +53,11 @@ $(document).ready(function(){
 function projectAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/projectAutocomplete",
+        url:  "/ucasapi/actividada/projectAutocomplete",
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtProjectRecords").autocomplete({
@@ -107,11 +107,11 @@ function projectAutocomplete(){
 function processAutocomplete(idProyecto, processTextBox){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/processAutocomplete/"+idProyecto,
+        url:  "/ucasapi/actividada/processAutocomplete/"+idProyecto,
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$(processTextBox).autocomplete({
@@ -140,11 +140,11 @@ function processAutocomplete(idProyecto, processTextBox){
 function activityAutocomplete(idProyecto, idProceso){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/activityAutocomplete/"+idProyecto+"/"+idProceso,
+        url:  "/ucasapi/actividada/activityAutocomplete/"+idProyecto+"/"+idProceso,
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
@@ -172,11 +172,11 @@ function activityAutocomplete(idProyecto, idProceso){
 function priorityAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/priorityAutocomplete",
+        url:  "/ucasapi/actividada/priorityAutocomplete",
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtPriorityName").autocomplete({
@@ -201,11 +201,11 @@ function priorityAutocomplete(){
 function statusAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/statusAutocomplete",
+        url:  "/ucasapi/actividada/statusAutocomplete",
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtStatusName").autocomplete({
@@ -229,11 +229,11 @@ function statusAutocomplete(){
 function fileTypeAutocomplete(){
 	$.ajax({				
         type: "POST",
-        url:  "index.php/actividada/fileTypeAutocomplete",
+        url:  "/ucasapi/actividada/fileTypeAutocomplete",
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtFileType").autocomplete({
@@ -284,13 +284,13 @@ function save(){
 		
 		$.ajax({				
 	        type: "POST",
-	        url:  "index.php/actividada/activityValidateAndSave",
+	        url:  "/ucasapi/actividada/activityValidateAndSave",
 	        data: formData,
 	        dataType : "json",
 	        success: function(retrievedData){
 	        	if(retrievedData.status != 0){
 	        		msgBoxInfo(retrievedData.msg);
-	        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+	        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
 	        	}
 	        	else{
 	        		if($("#accionActual").val()==""){
@@ -298,7 +298,7 @@ function save(){
 	        		}
 	        		else{
 	        			msgBoxSucces("Registro actualizado con &eacute;xito");
-	        			//alert("Registro actualizado con éxito");
+	        			//alert("Registro actualizado con ï¿½xito");
 	        		}
 	        		clear();
 	        	}
@@ -321,12 +321,12 @@ function edit(){
 			lockAutocomplete();
 			$.ajax({				
 		        type: "POST",
-		        url:  "index.php/actividada/activityRead",
+		        url:  "/ucasapi/actividada/activityRead",
 		        data: formData,
 		        dataType : "json",
 		        success: function(retrievedData){
 		        	if(retrievedData.status != 0){
-		        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+		        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
 		        	}else{
 		        		$("#idProyecto").val(retrievedData.data.idProyecto);
 		        		$("#idProceso").val(retrievedData.data.idProceso);
@@ -343,16 +343,16 @@ function edit(){
 		        		$("#txtActivityDesc").val(retrievedData.data.descripcionActividad);
 		        		$("#txtActivityName").val(retrievedData.data.nombreActividad);
 		        		
-		        		$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
+		        		$('#gridDocuments').setGridParam({url : "/ucasapi/actividada/gridDocumentsLoad/"+$("#idActividad").val()}).trigger("reloadGrid");
 		        		$("#usersGrid").setGridParam({ datatype: 'json' });
-		   			    $('#usersGrid').setGridParam({url:"index.php/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $('#usersGrid').setGridParam({url:"/ucasapi/actividada/gridUsersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 		   			    $("#users1Grid").setGridParam({ datatype: 'json' });
-		   			    $('#users1Grid').setGridParam({url:"index.php/actividada/gridUsers1Read/"+$("#idActividad").val()}).trigger("reloadGrid");
-		   			    $("#responsibleUsersGrid").setGridParam({url:"index.php/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-					    $('#followersGrid').setGridParam({url:"index.php/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $('#users1Grid').setGridParam({url:"/ucasapi/actividada/gridUsers1Read/"+$("#idActividad").val()}).trigger("reloadGrid");
+		   			    $("#responsibleUsersGrid").setGridParam({url:"/ucasapi/actividada/gridResponsiblesRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $('#followersGrid').setGridParam({url:"/ucasapi/actividada/gridFollowersRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 					    $("#projectsGrid").setGridParam({ datatype: 'json' });
-					    $("#projectsGrid").setGridParam({url:"index.php/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
-					    $("#relatedProjectsGrid").setGridParam({url:"index.php/actividada/gridRProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $("#projectsGrid").setGridParam({url:"/ucasapi/actividada/gridProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
+					    $("#relatedProjectsGrid").setGridParam({url:"/ucasapi/actividada/gridRProjectsRead/"+$("#idActividad").val()}).trigger("reloadGrid");
 		        	}			       
 		      	}      
 			});
@@ -372,22 +372,22 @@ function deleteData(){
 	if($("#txtProjectRecords").val() != ""){		
 		if($("#txtRecords").val() != ""){	
 			var formData = "idActividad=" + $("#idActividad").val();	
-			var answer = confirm("Está seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
+			var answer = confirm("Estï¿½ seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
 			
 			if (answer){		
 				$.ajax({				
 			        type: "POST",
-			        url:  "index.php/actividada/activityDelete",
+			        url:  "/ucasapi/actividada/activityDelete",
 			        data: formData,
 			        dataType : "json",
 			        success: function(retrievedData){
 			        	if(retrievedData.status != 0){
 			        		msgBoxInfo(retrievedData.msg);
-			        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se está mostrando es técnico, para cuestiones de depuración
+			        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
 			        	}
 			        	else{
 			        		msgBoxSucces("Registro eliminado con &eacute;xito");
-			        		//alert("Registro eliminado con éxito");
+			        		//alert("Registro eliminado con ï¿½xito");
 			        		//departmentAutocomplete();
 			        		clear();
 			        	}
@@ -447,7 +447,7 @@ function clear(){
 
 function loadFollowersGrid(){	
 	 $("#followersGrid").jqGrid({
-		   	//url:  "index.php/departamento/gridRead/",
+		   	//url:  "/ucasapi/departamento/gridRead/",
 		    datatype: "json",
 		    mtype: "POST",
 		    colNames:["Id","Usuario","Departamento"],
@@ -480,7 +480,7 @@ function loadFollowersGrid(){
 
 function loadUsersGrid(){	
 	 $("#usersGrid").jqGrid({
-		   	url:  "index.php/actividada/gridUsersRead/",
+		   	url:  "/ucasapi/actividada/gridUsersRead/",
 		    datatype: "json",
 		    mtype: "POST",
 		    colNames:["Id","Usuario", "Departamento"],
@@ -511,7 +511,7 @@ function loadUsersGrid(){
 
 function loadProjectsGrid(){	
 	 $("#projectsGrid").jqGrid({
-		   	url:  "index.php/actividada/gridProjectsRead/",
+		   	url:  "/ucasapi/actividada/gridProjectsRead/",
 		    datatype: "json",
 		    mtype: "POST",
 		    colNames:["Id","Proyecto","Responsable"],
@@ -542,7 +542,7 @@ function loadProjectsGrid(){
 
 function loadRelatedProjectsGrid(){	
 	 $("#relatedProjectsGrid").jqGrid({
-		   //	url:  "index.php/actividada/gridUsersRead/",
+		   //	url:  "/ucasapi/actividada/gridUsersRead/",
 		    datatype: "json",
 		    mtype: "POST",
 		    colNames:["Id","Proyecto", "Responsable"],
@@ -572,7 +572,7 @@ function loadRelatedProjectsGrid(){
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function loadUsers1Grid(){	
 $("#users1Grid").jqGrid({
-	   	url:  "index.php/actividada/gridUsers1Read/",
+	   	url:  "/ucasapi/actividada/gridUsers1Read/",
 	    datatype: "json",
 	    mtype: "POST",
 	    colNames:["Id","Usuario","Departamento"],
@@ -601,7 +601,7 @@ $("#users1Grid").jqGrid({
 
 function loadResponsibleUsersGrid(){	
 $("#responsibleUsersGrid").jqGrid({
-	   	//url:  "index.php/actividada/gridUsersRead/",
+	   	//url:  "/ucasapi/actividada/gridUsersRead/",
 	    datatype: "json",
 	    mtype: "POST",
 	    colNames:["Id","Usuario", "Departamento"],
@@ -819,10 +819,10 @@ function ajaxUpload() {
 		debug : true,
 		autoSubmit : false,
 		responseType : "json",
-		action : "index.php/upload/do_upload/",
+		action : "/ucasapi/upload/do_upload/",
 		onSubmit : function(file, ext) {
 			if (!(ext && /^(txt|png|jpeg|docx|doc|rtf|ppt|pptx|bmp|gif|xls|xlsx|odt|ods|odp|odb|odf|odg|csv|pdf)$/.test(ext))) {
-				msgBoxInfo("El tipo de archivo no está perimitido");
+				msgBoxInfo("El tipo de archivo no estï¿½ perimitido");
 				return false;
 			}
 		},
@@ -845,7 +845,7 @@ function ajaxUpload() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Función asociada al botón "Agregar"
+//Funciï¿½n asociada al botï¿½n "Agregar"
 function uploadFile() {
 	if (upload == null) {
 		msgBoxInfo('Debe seleccionar un archivo');
@@ -855,7 +855,7 @@ function uploadFile() {
 		msgBoxInfo('El campo "Nombre" es requerido');
 		return false;
 	}
-	upload.setData({// Datos adicionales en el envío del archivo
+	upload.setData({// Datos adicionales en el envï¿½o del archivo
 		uploadIdName : "idActividad",
 		uploadIdValue : $("#idActividad").val()
 	});
@@ -864,8 +864,8 @@ function uploadFile() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Función desencadenada en el onComplete de la subida del archivo y asociada al
-//botón "Actualizar"
+//Funciï¿½n desencadenada en el onComplete de la subida del archivo y asociada al
+//botï¿½n "Actualizar"
 function saveFileData(fileName) {
 	idActividad = $("#idActividad").val();
 	var formData = "nombreArchivo=" + fileName;
@@ -878,7 +878,7 @@ function saveFileData(fileName) {
 		//alert($idProyecto);
 		$.ajax({
 			type : "POST",
-			url : "index.php/actividada/fileValidateAndSave",
+			url : "/ucasapi/actividada/fileValidateAndSave",
 			data : formData,
 			dataType : "json",
 			success : function(retrievedData) {
@@ -886,12 +886,12 @@ function saveFileData(fileName) {
 					msgBoxInfo(retrievedData.msg);
 	
 				} else {
-					$('#gridDocuments').setGridParam({url : "index.php/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
+					$('#gridDocuments').setGridParam({url : "/ucasapi/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
 					
 					if (idArchivo == "") {
-						msgBoxSucces("Documento agregado con éxito");
+						msgBoxSucces("Documento agregado con ï¿½xito");
 					} else {
-						msgBoxSucces("Documento actualizado con éxito");
+						msgBoxSucces("Documento actualizado con ï¿½xito");
 					}
 					clearFileForm();
 				}
@@ -909,13 +909,13 @@ function saveFileData(fileName) {
 //Inicializa el grid de documentos
 function loadGridDocuments() {
 	$("#gridDocuments").jqGrid({
-		/* url: "index.php/departamento/gridRead/", */
+		/* url: "/ucasapi/departamento/gridRead/", */
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion" ],
+		colNames : [ "Id", "Tipo", "Tï¿½tulo","Nombre", "Subido", "Descripcion" ],
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
-		             {name : "Título",index : "Título",width : 160}, 
+		             {name : "Tï¿½tulo",index : "Tï¿½tulo",width : 160}, 
 		             {name : "Nombre",index : "Nombre", hidden : true}, 
 		             {name : "Subido",index : "Subido",width : 160}, 
 		             {name : "Descripcion",index : "Descripcion",hidden : true} 
@@ -984,7 +984,7 @@ function openFile() {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Permite la edición de los datos del archivo seleccionado
+//Permite la ediciï¿½n de los datos del archivo seleccionado
 function editFileData() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if(rowId == null){
@@ -995,13 +995,13 @@ function editFileData() {
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
 		idArchivo = rowData["idArchivo"];
 		$("#txtFileDesc").val(rowData["Descripcion"]);
-		$("#txtFileName").val(rowData["Título"]);
+		$("#txtFileName").val(rowData["Tï¿½tulo"]);
 	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Permite la eliminación de los datos del archivo seleccionado
+//Permite la eliminaciï¿½n de los datos del archivo seleccionado
 function deleteFile() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if(rowId == null){
@@ -1011,12 +1011,12 @@ function deleteFile() {
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
 		idArchivo = rowData["idArchivo"];
 		var formData = "idArchivo=" + idArchivo;
-		var answer = confirm("Está seguro que quiere eliminar el documento?");
+		var answer = confirm("Estï¿½ seguro que quiere eliminar el documento?");
 		
 		if(answer){
 			$.ajax({
 				type : "POST",
-				url : "index.php/proyecto/fileDelete",
+				url : "/ucasapi/proyecto/fileDelete",
 				data : formData,
 				dataType : "json",
 				success : function(retrievedData) {
@@ -1025,8 +1025,8 @@ function deleteFile() {
 
 					} else {
 						$('#gridDocuments').setGridParam({
-							url : "index.php/proyecto/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
-							msgBoxSucces("Documento eliminado con éxito");
+							url : "/ucasapi/proyecto/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
+							msgBoxSucces("Documento eliminado con ï¿½xito");
 							clearFileForm();
 					}
 				}
