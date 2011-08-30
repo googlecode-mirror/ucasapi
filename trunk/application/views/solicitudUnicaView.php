@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>Test</title>
-		 <meta http-equiv="X-UA-Compatible" content="IE=8" >		
+		 <meta http-equiv="X-UA-Compatible" content="IE=8" >
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/style.css" rel="stylesheet" />
@@ -30,7 +30,7 @@
 				<?php echo $menu;?>
 			</ul>
 		</div>
-		
+
 		<div id="loading" style="display:none; text-align:center">
 			<span style = "color:white">Obteniendo datos ...</span>
 			<div style="clear:both"></div>
@@ -54,7 +54,7 @@
 			<div class="divActions" align="center">
 				<input type="hidden" id="anioSolicitud" value="<?php echo $anioSolicitud; ?>" />
 				<input type="hidden" id="correlAnio" value="<?php echo $correlAnio; ?>" />
-				
+
 				<span class = "inputFieldLabel"><b>Ingresada el:</b></span><br/>
 				<span class="cleanable" id="fecha"><?php echo $data[0]->fechaEntrada; ?></span><br/><br/>
 
