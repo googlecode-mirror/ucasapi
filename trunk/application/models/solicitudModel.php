@@ -120,11 +120,12 @@ class solicitudModel extends CI_Model {
 					INNER JOIN DEPARTAMENTO d ON (u.idDepto = d.idDepto)
 					INNER JOIN PRIORIDAD p ON (p.idPrioridad = s.idPrioridadCliente)
 					WHERE s.anioSolicitud = ? AND s.correlAnio = ?
-					AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (
+
+					ORDER BY esAutor DESC";
+		/*AND CONCAT_WS('-', s.anioSolicitud, s.correlAnio) NOT IN (
 						SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio)
 						FROM ACTIVIDAD a
-						WHERE a.anioSolicitud = ? AND a.correlAnio = ?)
-					ORDER BY esAutor DESC";
+						WHERE a.anioSolicitud = ? AND a.correlAnio = ?)*/
 
 		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1], $solicitudIds[0], $solicitudIds[1]));
 
