@@ -87,10 +87,11 @@ class actividadModel extends CI_Model{
 		
 		$query = $this->db->query($sql);
 		$row = $query->row();
+		$nombreActividad = $row->nombreActividad;
 		
 		//Si el progreso es igual a 100 notifico al coordinador de proyecto que la actividad fue terminada
 		if($progreso == 100){
-			$cadNotificacion = "La actividad <b>'" .$row->nombreActividad."' ha sido finalizada";
+			$cadNotificacion = "La actividad <b>'" .$nombreActividad."' ha sido finalizada";
 			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad finalizada',CURDATE())";
 			
 			$this->db->query($sql);
@@ -130,7 +131,7 @@ class actividadModel extends CI_Model{
 		
 		
 		$cadAsignaciones = "";		
-		$cadAsignaciones .= "<b>Actividad: '" .$row->nombreActividad."'</b><br />";
+		$cadAsignaciones .= "<b>Actividad: '" .$nombreActividad."'</b><br />";
 		
 		if($desasignar == 1){
 			$cadAsignaciones .= "Los siguientes usuarios fueron desasignados de la actividad: <br />";
@@ -142,7 +143,7 @@ class actividadModel extends CI_Model{
 		//Desasignando a los usuarios de la actividad
 		$id_array = explode(",",$remove_ids);
 		if($id_array[0] != 0){
-			$cadNotificacion = "Se le ha desasignado la actividad: <b>'" .$row->nombreActividad."'</b>";
+			$cadNotificacion = "Se le ha desasignado la actividad: <b>'" .$nombreActividad."'</b>";
 			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad desasignada',CURDATE())";
 			$this->db->query($sql);
 			
