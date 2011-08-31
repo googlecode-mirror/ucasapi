@@ -40,7 +40,7 @@ class buzonModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idNotificacion = $this->input->post("idNotificacion");
 		
-		$sql = "SELECT n.idNotificacion, n.subject, n.fechaNotificacion, uxn.idEstado, uxn.horaEntrada
+		$sql = "SELECT n.idNotificacion, n.subject, uxn.horaEntrada, uxn.idEstado
 				FROM NOTIFICACION n INNER JOIN USUARIO_NOTIFICACION uxn ON n.idNotificacion = uxn.idNotificacion
     				INNER JOIN USUARIO u ON uxn.idUsuario = u.idUsuario INNER JOIN ESTADO e ON uxn.idEstado = e.idEstado
     				INNER JOIN TIPO_ESTADO te ON e.idTipoEstado = te.idTipoEstado
@@ -58,7 +58,7 @@ class buzonModel extends CI_Model{
 				//$rowArray["idEstado"] = $row->idEstado;
 				//$retArray["data"][] = $rowArray;
 				$response->rows[$i]["id"] = $row->idNotificacion;
-				$response->rows[$i]["cell"] = array($row->subject, $row->fechaNotificacion, $row->idEstado);
+				$response->rows[$i]["cell"] = array($row->subject, $row->horaEntrada, $row->idEstado);
 				$i++;		
 			}							
 		}
