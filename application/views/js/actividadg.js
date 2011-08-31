@@ -6,6 +6,7 @@ $(document).ready(function(){
 	js_ini();
 	$("#actividadgButton").addClass("highlight");
 	loadGrid();
+	$("#tablaActividades").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
 });
 
 
@@ -36,7 +37,7 @@ function loadGrid(){
 				}, {
 					name : "fechaFinalizacionPlan",
 					index : "fechaFinalizacionPlan",
-					width : 70
+					width : 50
 					
 				}, {
 					name : "nombreProceso",
@@ -60,16 +61,17 @@ function loadGrid(){
 					
 				}],
 				pager : "#pager",
-				rowNum : 10,
-				rowList : [ 10, 20, 30 ],
+				rowNum : 20,
+				rowList : [ 20, 40, 60 ],
 				sortname : "id",
 				sortorder : "desc",
 				ajaxGridOptions: {cache: false},
 				loadonce : true,
 				viewrecords : true,
 				gridview : true,
-				width : 820,
-				height : 320,
+				width : 900,
+				height : 520,
+
 				caption : "Actividades asignadas:",
 				ondblClickRow: function(id) {
 					row_data = $("#tablaActividades").jqGrid("getRowData", id);
