@@ -332,7 +332,6 @@ function clear() {
 	$("#idProceso").val("0");
 	$("#tablaFases").GridUnload();
 	unlockAutocomplete();
-	loadGrid();
 	$("#tagBliblioteca").hide();
 	$("#tabs-2").hide();
 }
