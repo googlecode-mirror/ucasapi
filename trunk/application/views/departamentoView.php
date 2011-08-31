@@ -73,7 +73,7 @@
 					<span class = "requiredFieldLabel" >Nombre</span>
 					<input id="txtDepartmentName" type="text"  value="" class = "inputField" title="Nombre del departamento" maxlength="256"/><br>
 					
-					<span class = "requiredFieldLabel">Descripción</span>
+					<span class = "requiredFieldLabel">Descripci&oacute;n</span>
 					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea>
 				</div>
 				

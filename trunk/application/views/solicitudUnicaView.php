@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Test</title>
+		<title>PHOBOS - Solicitud</title>
 		 <meta http-equiv="X-UA-Compatible" content="IE=8" >
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />

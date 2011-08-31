@@ -72,7 +72,7 @@
 				
 			<div id="tabs" style = "height: auto;">
 				<ul>
-					<li><a href="#tabs-1">Informaci�n General</a></li>
+					<li><a href="#tabs-1">Informaci&oacute;n General</a></li>
 					<li><a href="#tabs-2">Proyectos relacionados</a></li>
 					<li><a href="#tabs-3">Seguidores</a></li>
 					<li id="tagBliblioteca"><a href="#tabs-4">Documentos</a></li>
@@ -104,7 +104,7 @@
 					<span class = "requiredFieldLabel" >Estado</span>
 					<input id="txtStatusName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
 					
-					<span class = "inputFieldLabel" >Planificaci�n</span>
+					<span class = "inputFieldLabel" >Planificaci&oacute;n</span>
 					<div class="divDateCombo">
 						<span>Inicio</span>
 						<input id="txtStartingDate" type="text"  value=""  title="Fecha de inicio planificada de la actividad" readonly/><br>
@@ -112,8 +112,8 @@
 						<input id="txtEndingDate" type="text"  value=""  title="Fecha fin planificada de la actividad" readonly/><br>
 					</div>
 
-					<span class = "requiredFieldLabel" style = "clear:both">Descripci�n</span>
-					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci�n del departamento" ></textArea><br>
+					<span class = "requiredFieldLabel" style = "clear:both">Descripci&oacute;n</span>
+					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci&oacute;n del departamento" ></textArea><br>
 					
 					<span style = "clear:both; margin-bottom:20px" class = "requiredFieldLabel" >Responsables</span><br>
 					<table align="center">
@@ -177,13 +177,13 @@
 						<button id="btnUpload">Seleccionar archivo</button><p></p>
 					</div>					
 				
-					<span class = "requiredFieldLabel">T�tulo: </span>
+					<span class = "requiredFieldLabel">T&iacute;tulo: </span>
 					<input id="txtFileName" type="text"  value="" class = "inputField"/><br>
 					
 					<span class = "inputFieldLabel">Tipo: </span>
 					<input id="txtFileType" type="text"  value="" class = "inputField"/><br>
 					
-					<span class = "inputFieldLabel">Descripci�n: </span>
+					<span class = "inputFieldLabel">Descripci&oacute;n: </span>
 					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>
 					
 					<div class="divAddButton">

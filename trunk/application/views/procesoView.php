@@ -83,19 +83,19 @@
 					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 							
 					<span class = "requiredFieldLabel">Nombre: </span>
-					<input id="txtProcesoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="40"/><br>
+					<input id="txtProcesoName" class = "inputFieldAC" type="text" title ="Nombre del proceso, solo letras y espacios" value="" class = "inputField" maxlength="40"/><br>
 					
 					<span class = "inputFieldLabel">Proyecto: </span>
-					<input id="txtProyectoName" class = "inputFieldAC" type="text"  value="" class = "inputField" maxlength="100"/>
+					<input id="txtProyectoName" class = "inputFieldAC" type="text" title ="Proyecto al que pertenece el proceso"  value="" class = "inputField" maxlength="100"/>
 					
 					<span class = "requiredFieldLabel">Estado: </span>
-					<select id="cbEstado" style="width: 256px; float: right; margin-right: 96px"></select>
+					<select id="cbEstado" style="width: 256px; float: right; margin-right: 96px" title ="Estado del proceso"></select>
 					
 					<span class = "inputFieldLabel">Fase: </span>
-					<select id="cbFases" style="width: 256px; float: right; margin-right: 96px"></select>
+					<select id="cbFases" style="width: 256px; float: right; margin-right: 96px" title ="Fase del proyecto a la que el proceso pertenece"></select>
 					
-					<span class = "requiredFieldLabel">Descripción: </span>
-					<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 class = "inputField"></textArea>				
+					<span class = "requiredFieldLabel">Descripci&oacute;n: </span>
+					<textArea id="txtProcesoDesc" class = "inputFieldTA" cols=20 rows=6 title ="Descripci&oacute; del proceso" class = "inputField"></textArea>				
 				</div>
 				
 				<div id="tabs-2"  class="divDataForm" style="height: auto">
@@ -109,7 +109,7 @@
 					<span class = "inputFieldLabel">Tipo: </span>
 					<input id="txtFileType" type="text"  value="" class = "inputField"/><br>
 					
-					<span class = "inputFieldLabel">Descripción: </span>
+					<span class = "inputFieldLabel">Descripci&oacute;n: </span>
 					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>
 					
 					<div class="divAddButton">

@@ -60,7 +60,7 @@
 				<input id="idAccion" type="hidden"  value="" class = "hiddenId"/>
 				<input id="accionActual" type="hidden"  value="" class = "hiddenId"/>
 				<span class = "inputFieldLabel" >Nombre: </span>
-				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la acción, sin números" maxlength="256"/>
+				<input id="txtAccionName" type="text"  value="" class = "inputField" title="Ingrese el nombre de la acci&oacute;n, sin números" maxlength="256"/>
 				
 			</div>
 			

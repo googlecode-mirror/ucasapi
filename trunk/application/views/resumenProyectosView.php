@@ -68,7 +68,7 @@
 				<span class = "inputFieldLabel"><b>Fecha de inicio:</b></span><br/>
 				<span class="cleanable" id="fechaInicio"></span><br/><br/>
 				
-				<span class = "inputFieldLabel"><b>Fecha de finalización:</b></span><br/>
+				<span class = "inputFieldLabel"><b>Fecha de finalizaci&oacute;n:</b></span><br/>
 				<span class="cleanable" id="fechaFin"></span><br/><br/>
 				
 				<span class = "inputFieldLabel"><b>Fase del proyecto:</b></span><br/>

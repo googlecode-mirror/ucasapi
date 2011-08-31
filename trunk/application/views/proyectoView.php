@@ -86,30 +86,30 @@
 					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 					
 					<span class = "requiredFieldLabel">Nombre:</span>
-					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" maxlength="100"/><br>
+					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" title="Nombre del proyecto, solo letras y espacios" maxlength="100"/><br>
 					
 					<span class = "requiredFieldLabel">Due&ntilde;o:</span>
-					<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField" maxlength="400"/><br>
+					<input id="txtProyectoNombreDuenho" type="text"  value="" class = "inputField" title="Usuario dueño del proyecto, solo letras y espacios" maxlength="400"/><br>
 					
 					<span class = "requiredFieldLabel">Coord. encargado:</span>
-					<input id="txtCoordinadorEnc" type="text" value="" class = "inputField" maxlength="400"/><br>
+					<input id="txtCoordinadorEnc" type="text" value="" class = "inputField" title="Coordinador de proyectos encargado, solo letras y espacios" maxlength="400"/><br>
 								
 					<span class = "inputFieldLabel">Inicio planificado:</span>
-					<input id="txtProyectoFechaPlanIni" type="text"  value="" class = "jqcalendario"/><br>
+					<input id="txtProyectoFechaPlanIni" type="text"  value="" title="Fecha inicio planificada del proyecto" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Fin planificado:</span>
-					<input id="txtProyectoFechaPlanFin" type="text"  value="" class = "jqcalendario"/><br>
+					<input id="txtProyectoFechaPlanFin" type="text"  value="" title="fecha fin planificada del proyecto" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Inicio real:</span>
-					<input id="txtProyectoFechaRealIni" type="text"  value="" class = "jqcalendario"/><br>
+					<input id="txtProyectoFechaRealIni" type="text"  value="" title="Fecha real en la que el proyecto inici&oacute;" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Fin real:</span>
-					<input id="txtProyectoFechaRealFin" type="text"  value="" class = "jqcalendario"/><br>
+					<input id="txtProyectoFechaRealFin" type="text"  value="" title="Fecha real en la que el proyecto finalizo" class = "jqcalendario"/><br>
 					
 					<span class = "inputFieldLabel">Activo</span>
 					<input id="chkProyectoActivo" type="checkbox" value="1" class= "inputCHK"/><br>				
 					
-					<span class = "inputFieldLabel">Descripción</span>
+					<span class = "inputFieldLabel">Descripci&oacute;n</span>
 					<textArea id="txtProyectoDescripcion" cols=20 rows=6 class = "inputFieldTA" title="Descripción del proyecto"></textArea><br>
 					<div class = "gridView" style = "width : 480px">
 						<table id="tablaFases" align="center"><tr><td/></tr></table>
@@ -129,13 +129,13 @@
 					</div>					
 				
 					<span class = "requiredFieldLabel">Título: </span>
-					<input id="txtFileName" type="text"  value="" class = "inputField"/><br>
+					<input id="txtFileName" type="text"  value=""  title="Titulo del archivo" class = "inputField"/><br>
 					
 					<span class = "inputFieldLabel">Tipo: </span>
-					<input id="txtFileType" type="text"  value="" class = "inputField"/><br>
+					<input id="txtFileType" type="text"  value=""  title="Tipo del archivo" class = "inputField"/><br>
 					
 					<span class = "inputFieldLabel">Descripción: </span>
-					<textArea id="txtFileDesc" cols=20 rows=6 class = "inputFieldTA"></textArea>
+					<textArea id="txtFileDesc" cols=20 rows=6 title="Descripci&oacute;n del archivo"  class = "inputFieldTA"></textArea>
 					
 					<div class="divAddButton">
 						<button id="btnAddFile" onClick = "uploadFile()">Agregar</button>

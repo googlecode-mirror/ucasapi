@@ -32,7 +32,7 @@
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
 			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
-			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<img id="logoutButton" title="Cerrar sesi&oacute;n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
 		
