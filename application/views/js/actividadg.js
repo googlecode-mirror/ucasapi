@@ -16,7 +16,7 @@ function loadGrid(){
 				url : "index.php/actividadg/actividadgRead/" + $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Cod.", "CodP.", "Actividad", "Fecha Fin Plan.", "Proceso", "Estado", "Prioridad" ],
+				colNames : [ "Cod.", "CodP.", "Actividad", "Fecha Fin Plan.", "Proceso", "Estado", "Prioridad", "Fecha Asignacion" ],
 				colModel : [ {
 					name : "idActividad",
 					index : "idActividad",
@@ -53,6 +53,11 @@ function loadGrid(){
 					index : "nombrePrioridad",
 					width : 50
 					
+				}, {
+					name : "horaAsignacion",
+					index : "horaAsignacion",
+					width : 110
+					
 				}],
 				pager : "#pager",
 				rowNum : 10,
@@ -63,7 +68,7 @@ function loadGrid(){
 				loadonce : true,
 				viewrecords : true,
 				gridview : true,
-				width : 700,
+				width : 820,
 				height : 320,
 				caption : "Actividades asignadas:",
 				ondblClickRow: function(id) {

@@ -42,12 +42,12 @@
 		<span id="pageTittle"></span>
 	</div>
 
-	<div class="container">
+	<div class="container" >
 		<div style="height: 20px"></div>
 		<div id="msgBox"></div>
 		<input id="idUsuario" type="hidden" value="" class="hiddenId" />
 
-		<div class="divDataForm">
+		<div class="divDataForm" style="width: 820">
 			<table id="tablaActividades"></table>
 			<div id="pager"></div>
 			<br>
