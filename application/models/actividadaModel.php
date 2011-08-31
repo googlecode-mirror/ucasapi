@@ -1178,7 +1178,7 @@ function update(){
 											    	$this->db->escape('1').")";
 											    	
 			
-				$sql[$i].="; INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(Se le ha asignado la actividad <b>".$this->db->escape($nombreActividad)."</b> ,'Actividad asignada',CURRENT_TIMESTAMP())";
+				$sql[$i].="; INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES('Se le ha asignado la actividad' <b>".$this->db->escape($nombreActividad)."</b> ,'Actividad asignada',CURRENT_TIMESTAMP())";
 		}
 		return  $sql;
 		
