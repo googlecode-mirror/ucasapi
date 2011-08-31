@@ -47,16 +47,16 @@
 		<div id="msgBox"></div>
 		<input id="idUsuario" type="hidden" value="" class="hiddenId" />
 
-		<div class="divDataForm" style="width: 820">
+		<div align = "center"">
 			<table id="tablaActividades"></table>
 			<div id="pager"></div>
 			<br>
 		</div>
 		<br> <br> <br>
-		<div align="center">
+		<!--  div align="center">
 			<button id="btnGet" onClick="load()">Ver Mensaje</button>
 			<button id="btnCancel" onClick="cancel()">Ocultar</button>
-		</div>
+		</div>-->
 
 		<br>
 
