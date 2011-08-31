@@ -102,7 +102,7 @@ class actividadaModel extends CI_Model{
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsables != ""){
 			$data_array1 = explode(",",$responsables);
-			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId);
+			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId, $nombreActividad);
 			foreach ($insert_statements as $queryResponsibles) {
 				$this->db->query($queryResponsibles);
 				if (!$query){
@@ -1164,7 +1164,7 @@ function update(){
 
 	}
 	
-	function getResponsiblesInsert($data_array,$idActividad){
+	function getResponsiblesInsert($data_array,$idActividad, $nombreActividad){
 		
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
@@ -1176,6 +1176,9 @@ function update(){
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),1,1,".
 											    	$this->db->escape('1').")";
+											    	
+			
+				$sql[$i].="; INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(Se le ha asignado la actividad <b>".$this->db->escape($nombreActividad)."</b> ,'Actividad asignada',CURRENT_TIMESTAMP())";
 		}
 		return  $sql;
 		
