@@ -47,23 +47,35 @@ class actividadaModel extends CI_Model{
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+			return $retArray;
+			die();
 	    }
 		
 		
 	    
 		$sql = "SELECT LAST_INSERT_ID() lastId FROM ACTIVIDAD";
-			$query = $this->db->query($sql);
-			if ($query->num_rows() > 0){
-				$row = $query->row();
-				$lastId = $row->lastId;
-			}
+		$query = $this->db->query($sql);
+		if (!$query){
+	     	$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = $this->db->_error_message();
+			return $retArray;
+			die();
+	    }
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$lastId = $row->lastId;
+		}
+		
+		
 			
-		$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1,".$idEstado.")";
+		/*$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1,".$idEstado.")";
 		$query = $this->db->query($sqlInsert);
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-	    }
+			return $retArray;
+			die();
+	    }*/
 	    
 		//$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
@@ -80,6 +92,8 @@ class actividadaModel extends CI_Model{
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
+			return $retArray;
+			die();
 	    }
 	    
 	   
@@ -98,29 +112,42 @@ class actividadaModel extends CI_Model{
 		   		}
 			}
 		}
-	    
+		
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsables != ""){
 			$data_array1 = explode(",",$responsables);
 			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId, $nombreActividad);
 			foreach ($insert_statements as $queryResponsibles) {
-				$this->db->query($queryResponsibles);
-				if (!$query){
+				$this->db->query($queryResponsibles[0]);
+				$this->db->query($queryResponsibles[1]);
+				$this->db->query($queryResponsibles[2]);
+				$this->db->query($queryResponsibles[3]);
+				if (!$queryResponsibles[0]){
 			     	$retArray["status"] = $this->db->_error_number();
 					$retArray["msg"] = $this->db->_error_message();
 					return $retArray;
 					die();
-		   		}
+	    		}
 			}
 		}
+	    
 		
 		
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidores != ""){
 			$data_array = explode(",",$seguidores);
-			$insert_statements = $this->getFollowersInsert($data_array, $lastId);
+			$insert_statements = $this->getFollowersInsert($data_array, $lastId, $nombreActividad);
 			foreach ($insert_statements as $queryFollowers) {
-				$this->db->query($queryFollowers);
+				$this->db->query($queryFollowers[0]);
+				$this->db->query($queryFollowers[1]);
+				$this->db->query($queryFollowers[2]);
+				$this->db->query($queryFollowers[3]);
+				if (!$queryFollowers[0]){
+			     	$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = $this->db->_error_message();
+					return $retArray;
+					die();
+	    		}
 			}
 		}
 	
@@ -132,7 +159,7 @@ class actividadaModel extends CI_Model{
 			$this->db->trans_commit();
 		}	    
 		
-
+$retArray["msg"] =count($queryResponsibles);
 	    
 		return $retArray;		
 	}
@@ -161,7 +188,7 @@ class actividadaModel extends CI_Model{
 		 				a.fechaFinalizacionPlan, a.descripcionActividad, a.activo, a.idFase, pry.idPrioridad, 
 		 				pry.nombrePrioridad, est.idEstado , est.estado, ps.idProceso, ps.nombreProceso
 					FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON (ap.idActividad = a.idActividad AND ap.proyectoPrincipal = '1')
-						INNER JOIN PROYECTO p ON (ap.idProyecto = p.idProyecto) INNER JOIN PROCESO ps ON (ps.idProceso = a.idProceso)
+						INNER JOIN PROYECTO p ON (ap.idProyecto = p.idProyecto) LEFT JOIN PROCESO ps ON (ps.idProceso = a.idProceso)
 						INNER JOIN PRIORIDAD pry ON (pry.idPrioridad = a.idPrioridad) INNER JOIN ESTADO est ON (est.idEstado = a.idEstado)
 						WHERE a.idActividad = ".$this->db->escape($idActividad);
 		
@@ -287,9 +314,12 @@ function update(){
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsablesI != ""){
 			$data_array1 = explode(",",$responsablesI);
-			$insert_statements = $this->getResponsiblesInsert($data_array1, $idActividad);
+			$insert_statements = $this->getResponsiblesInsert($data_array1, $idActividad, $nombreActividad);
 			foreach ($insert_statements as $queryResponsibles) {
-				$this->db->query($queryResponsibles);
+				$this->db->query($queryResponsibles[0]);
+				$this->db->query($queryResponsibles[1]);
+				$this->db->query($queryResponsibles[2]);
+				$this->db->query($queryResponsibles[3]);
 			}
 		}
 	    
@@ -297,10 +327,12 @@ function update(){
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidoresI != ""){
 			$data_array = explode(",",$seguidoresI);
-			$insert_statements = $this->getFollowersInsert($data_array, $idActividad);
+			$insert_statements = $this->getFollowersInsert($data_array, $idActividad, $nombreActividad);
 			foreach ($insert_statements as $queryFollowers) {
-				$this->db->query($queryFollowers);
-				$retArray["msg"] = $queryFollowers;
+				$this->db->query($queryFollowers[0]);
+				$this->db->query($queryFollowers[1]);
+				$this->db->query($queryFollowers[2]);
+				$this->db->query($queryFollowers[3]);
 			}
 		}
 	
@@ -313,7 +345,7 @@ function update(){
 			$this->db->trans_commit();
 		}	    
 		
-
+		//$retArray["msg"] = $queryResponsibles;
 	    
 		return $retArray;			
 	}
@@ -1147,18 +1179,25 @@ function update(){
 	
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	function getFollowersInsert($data_array,$idActividad){
-		//echo count($data_array);
+	function getFollowersInsert($data_array,$idActividad, $nombreActividad){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
+				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b>";
 				
-				$sql[$i] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna, activo)".
+				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna, activo)".
     										"VALUES(".
 													$this->db->escape($idUsuario).
 													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),2,".
 											    	$this->db->escape('1').",'1')";
+											    	
+				$sql[$i][1]="INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Seguidor de actividad',CURRENT_TIMESTAMP())";
+				
+				$sql[$i][2]="SET @lastId = (SELECT COUNT(LAST_INSERT_ID()) FROM NOTIFICACION)";
+				
+				$sql[$i][3]="INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$this->db->escape($idUsuario).",@lastId,18, CURRENT_TIMESTAMP())";											    	
+											
 		}
 		return  $sql;
 
@@ -1168,8 +1207,9 @@ function update(){
 		
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
+				$cadNotificacion = "Se le ha asignado la actividad <b>".$nombreActividad."</b>";
 				
-				$sql[$i] = "INSERT INTO USUARIO_ACTIVIDAD (idUsuario, correlVinculacion, idActividad, fechaVinculacion, activo, idTipoAsociacion, idUsuarioAsigna)
+				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD (idUsuario, correlVinculacion, idActividad, fechaVinculacion, activo, idTipoAsociacion, idUsuarioAsigna)
 							VALUES(".
 													$this->db->escape($idUsuario).
 													",(SELECT COALESCE((SELECT MAX(ua.correlVinculacion) + 1 correlVinculacion FROM USUARIO_ACTIVIDAD ua WHERE ua.idUsuario =".$this->db->escape($idUsuario)." AND ua.idActividad=".$this->db->escape($idActividad)." ), 1)),".
@@ -1178,7 +1218,11 @@ function update(){
 											    	$this->db->escape('1').")";
 											    	
 			
-				$sql[$i].="; INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES('Se le ha asignado la actividad' <b>".$this->db->escape($nombreActividad)."</b> ,'Actividad asignada',CURRENT_TIMESTAMP())";
+				$sql[$i][1]="INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURRENT_TIMESTAMP())";
+				
+				$sql[$i][2]="SET @lastId = (SELECT COUNT(LAST_INSERT_ID()) FROM NOTIFICACION)";
+				
+				$sql[$i][3]="INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$this->db->escape($idUsuario).",@lastId,18, CURRENT_TIMESTAMP())";
 		}
 		return  $sql;
 		
