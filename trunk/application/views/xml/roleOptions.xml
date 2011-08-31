@@ -31,6 +31,10 @@
 				<nombrePagina>Historial de Bitacora</nombrePagina>
 				<controller>actividadh</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Biblioteca</nombrePagina>
+				<controller>biblioteca</controller>
+			</pagina>
 		</paginas>		
 	</rol>
 	<rol id = "2">
@@ -64,6 +68,10 @@
 				<nombrePagina>Historial de Bitacora</nombrePagina>
 				<controller>actividadh</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Biblioteca</nombrePagina>
+				<controller>biblioteca</controller>
+			</pagina>
 		</paginas>
 	</rol>
 	<rol id = "3">
@@ -89,6 +97,10 @@
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Biblioteca</nombrePagina>
+				<controller>biblioteca</controller>
+			</pagina>
 		</paginas>
 	</rol>
 	<rol id = "4">
@@ -106,6 +118,10 @@
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
 			</pagina>
+			<pagina>
+				<nombrePagina>Biblioteca</nombrePagina>
+				<controller>biblioteca</controller>
+			</pagina>
 		</paginas>
 	</rol>
 	<rol id = "5">
@@ -122,6 +138,10 @@
 			<pagina>
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Biblioteca</nombrePagina>
+				<controller>biblioteca</controller>
 			</pagina>
 		</paginas>
 	</rol>
@@ -201,6 +221,10 @@
 			<pagina>
 				<nombrePagina>Resumen de mis proyetcos</nombrePagina>
 				<controller>cliente/resumenProyectos</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Biblioteca</nombrePagina>
+				<controller>biblioteca</controller>
 			</pagina>			
 		</paginas>
 	</rol>
