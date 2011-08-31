@@ -36,7 +36,7 @@
 				<span class = "inputFieldLabelL">Usuario</span>
 				<input id="txtUsername" type="text"  value="" class = "inputFieldL"/><br>
 				
-				<span class = "inputFieldLabelL">Contraseña</span>
+				<span class = "inputFieldLabelL">Contrase&nacute;a</span>
 				<input id="txtPassword" type="password"  value="" class = "inputFieldLPSW"/><br>
 							
 				<div id="sessionMsg"></div>

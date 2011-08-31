@@ -99,7 +99,7 @@
 				<span class = "requiredFieldLabel">Rol:</span>
 				<input id="txtHistoricoRol" type="text"  value="" class = "inputFieldAC" title = "Rol Desempeñado" maxlength="40"/><br>
 			
-				<span class = "requiredFieldLabel">Fecha asignación:</span>
+				<span class = "requiredFieldLabel">Fecha asignaci&oacute;n:</span>
 				<input id="txtFechaInicioRol" type="text"  value="" class = "jqcalendario" title = "Fecha en que se vinculo este rol" readonly/><br>
 											
 				<span class = "inputFieldLabel">Fecha fin:</span>

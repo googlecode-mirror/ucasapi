@@ -63,7 +63,7 @@
 				<span class = "inputFieldLabel">Nombre de la fase: </span>
 				<input id="txtFaseName" type="text"  value="" class = "inputField" title="Nombre de la fase" maxlength="40"/><br>
 
-				<span class = "inputFieldLabel">Descripcion: </span>
+				<span class = "inputFieldLabel">Descripci&oacute;n: </span>
 				<textArea id="txtFaseDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci&oacute;n de la fase" ></textArea>
 				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
