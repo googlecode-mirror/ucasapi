@@ -14,7 +14,7 @@ class procesoModel extends CI_Model{
 		
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
 				FROM PROYECTO p
-				WHERE p.idUsuarioEncargado = " .$idUsuario. " p.AND activo = '1'";
+				WHERE p.idUsuarioEncargado = " .$idUsuario. " AND p.activo = '1'";
 		}
 		$query = $this->db->query($sql);		
 	
