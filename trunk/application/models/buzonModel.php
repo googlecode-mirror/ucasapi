@@ -104,19 +104,9 @@ class buzonModel extends CI_Model{
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idUsuario = $this->input->post("idUsuario");
 		
-		$sql = "UPDATE USUARIO_NOTIFICACION SET idEstado = 17 WHERE idNotificacion = ".$idN." AND idUsuario = ".$idUsuario;
+		$sql = "UPDATE USUARIO_NOTIFICACION SET idEstado = 17, horaEntrada = horaEntrada WHERE idNotificacion = ".$idN." AND idUsuario = ".$idUsuario;
 		
 		$query = $this->db->query($sql);
-		
-		if($query) {
-			$row = $query->row_array();
-	    	$retArray["data"] = $row;	     	
-	    }
-	    else{
-	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-	    	
-	    }
 		
 		return $retArray;
 		
