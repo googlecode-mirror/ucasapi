@@ -20,6 +20,9 @@ $(document).ready(function() {
 	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
 	$("#txtProyectoName").focus(function(){$("#txtProyectoName").autocomplete('search', '');});	
 	$("#txtFileType").focus(function(){$("#txtFileType").autocomplete('search', '');});
+	
+	$("#tagBliblioteca").hide();
+	$("#tabs-2").hide();
 
 });
 
@@ -203,6 +206,8 @@ function edit() {
 		if ($("#txtRecordsProc").val() != "") {
 			var formData = "idProceso=" + $("#idProceso").val();
 			lockAutocomplete();
+			$("#tagBliblioteca").show();
+			$("#tabs-2").show();
 			$("#accionActual").val("editando");
 			$.ajax({
 				type : "POST",
@@ -328,6 +333,8 @@ function clear() {
 	$("#tablaFases").GridUnload();
 	unlockAutocomplete();
 	loadGrid();
+	$("#tagBliblioteca").hide();
+	$("#tabs-2").hide();
 }
 
 function validarCampos() {
