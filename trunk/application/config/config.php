@@ -1,5 +1,21 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+/*
+ |--------------------------------------------------------------------------
+ | Data Base Error Message
+ |--------------------------------------------------------------------------
+ |
+ |Es el mensaje de que se enviará desde el model cuando ocurra un error de la base de datos.
+ |Si tiene cadena vacía mostrará el mensaje que se recibe desde el gestor de base de datos.
+ |
+ |
+ |
+ |
+ | 
+ |
+ */
+$config['database_eror_msg']	= 'Ha ocurrido un error. Por favor contacte con el administrador del sistema.';
 /*
  |--------------------------------------------------------------------------
  | Base Site URL
