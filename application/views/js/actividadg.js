@@ -17,7 +17,7 @@ function loadGrid(){
 				url : "index.php/actividadg/actividadgRead/" + $("#idUsuario").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Cod.", "CodP.", "Actividad", "Fecha Fin Plan.", "Proceso", "Estado", "Prioridad", "Fecha Asignacion" ],
+				colNames : [ "Cod.", "CodP.", "Actividad", "Fecha Fin Plan.", "Proceso", "Proyecto", "Estado", "Prioridad", "Fecha Asignacion" ],
 				colModel : [ {
 					name : "idActividad",
 					index : "idActividad",
@@ -45,6 +45,11 @@ function loadGrid(){
 					width : 130
 					
 				}, {
+					name : "nombreProyecto",
+					index : "nombreProyecto",
+					width : 150
+					
+				}, {
 					name : "estado",
 					index : "estado",
 					width : 70
@@ -69,6 +74,7 @@ function loadGrid(){
 				loadonce : true,
 				viewrecords : true,
 				gridview : true,
+				autowidth : true,
 				width : 900,
 				height : 520,
 
