@@ -17,7 +17,7 @@ class departamentoModel extends CI_Model{
 		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_eror_msg()!="")?database_eror_msg():$this->db->_error_message();
 	    }
 	    
 		return $retArray;		
@@ -41,7 +41,7 @@ class departamentoModel extends CI_Model{
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_eror_msg()!="")?database_eror_msg():$this->db->_error_message();
 	    	
 	    }
 	    
@@ -67,7 +67,7 @@ class departamentoModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_eror_msg()!="")?database_eror_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;		
@@ -88,7 +88,7 @@ class departamentoModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$$retArray["msg"] = (database_eror_msg()!="")?database_eror_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;	
@@ -116,7 +116,7 @@ class departamentoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_eror_msg()!="")?database_eror_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
