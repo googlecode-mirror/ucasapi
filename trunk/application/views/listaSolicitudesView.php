@@ -38,7 +38,7 @@
 
 			<div id ="msgBox"></div>
 
-			<div class="divDataForm">
+			<div class="divDataForm" style="height: 650px">
 
 				<span class="inputFieldLabel">Solicitudes que he enviado:</span><br/><br/><br/>
 

@@ -32,6 +32,17 @@ $(document).ready(function(){
 	 loadUsersGrid();
 	 loadUsers1Grid();
 	 loadResponsibleUsersGrid();
+	 $("button").button();
+	 
+	 $("#txtProjectRecords").focus(function(){$("#txtProjectRecords").autocomplete('search', '');});
+	 $("#txtProjectName").focus(function(){$("#txtProjectName").autocomplete('search', '');});
+	 $("#txtProcessRecords").focus(function(){$("#txtProcessRecords").autocomplete('search', '');});
+	 $("#txtProcessName").focus(function(){$("#txtProcessName").autocomplete('search', '');});
+	 $("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	 $("#txtPriorityName").focus(function(){$("#txtPriorityName").autocomplete('search', '');});
+	 $("#txtStatusName").focus(function(){$("#txtStatusName").autocomplete('search', '');});
+	 $("#txtFileType").focus(function(){$("#txtFileType").autocomplete('search', '');});
+	 
 	 
 	 //$("#departamentoButton").addClass("highlight");
 	 //departmentAutocomplete();	
@@ -57,7 +68,7 @@ function projectAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtProjectRecords").autocomplete({
@@ -93,7 +104,16 @@ function projectAutocomplete(){
     			        $("#txtProcessName").val("");
     			        $("#idProceso").val("");
     			        processAutocomplete($("#idProyecto").val(), "#txtProcessName");
-    				}
+    				},
+    				change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtProjectName").val())){
+							$("#txtProjectName").val("");
+							$("#idProyecto").val("");
+							$("#txtProcessName").val("");
+							$("#idProceso").val("");
+						}
+					}
+    				
     			});
         		
         	}        	
@@ -111,7 +131,7 @@ function processAutocomplete(idProyecto, processTextBox){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$(processTextBox).autocomplete({
@@ -127,7 +147,15 @@ function processAutocomplete(idProyecto, processTextBox){
 			        		$("#txtRecords").val("");
 			        		activityAutocomplete($("#idProyecto").val(),$("#idProceso").val());
     			        }    			        
-    				}
+    				},
+    				change :function(){
+						if(!autocompleteMatch(retrievedData.data, $(processTextBox).val())){
+							$(processTextBox).val("");
+							$("#idProceso").val("");
+							$("#idActividad").val("");
+							$("#txtRecords").val("");
+						}
+					}
     			});        		
         	}        	
       }
@@ -144,7 +172,7 @@ function activityAutocomplete(idProyecto, idProceso){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtRecords").autocomplete({
@@ -156,7 +184,13 @@ function activityAutocomplete(idProyecto, idProceso){
     			        $("#idActividad").val(ui.item.id);
     			        $(this).blur();//Dedicado al IE
     			        //processAutocompleteRead($("#idDepto").val());
-    				}
+    				},
+    				change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecords").val())){
+							$("#txtRecords").val("");
+							$("#idActividad").val("");
+						}
+					}
     			});
         		
         	}        	
@@ -176,7 +210,7 @@ function priorityAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtPriorityName").autocomplete({
@@ -187,7 +221,13 @@ function priorityAutocomplete(){
     		        select: function(event, ui) {
     			        $("#idPrioridad").val(ui.item.id);
     			        $(this).blur();//Dedicado al IE
-    				}
+    				},
+    				change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtPriorityName").val())){
+							$("#txtPriorityName").val("");
+							$("#idPrioridad").val("");
+						}
+					}
     			});
         		
         	}        	
@@ -205,7 +245,7 @@ function statusAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtStatusName").autocomplete({
@@ -216,7 +256,13 @@ function statusAutocomplete(){
     		        select: function(event, ui) {
     			        $("#idEstado").val(ui.item.id);	
     			        $(this).blur();//Dedicado al IE
-    				}
+    				},
+    				change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtStatusName").val())){
+							$("#txtStatusName").val("");
+							$("#idEstado").val("");
+						}
+					}
     			});
         		
         	}        	
@@ -233,7 +279,7 @@ function fileTypeAutocomplete(){
         dataType : "json",
         success: function(retrievedData){        	
         	if(retrievedData.status != 0){
-        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
+        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se estï¿½ mostrando es tï¿½cnico, para cuestiones de depuraciï¿½n
         	}
         	else{        		
         		$("#txtFileType").autocomplete({
@@ -244,7 +290,14 @@ function fileTypeAutocomplete(){
     		        select: function(event, ui) {
     			        $("#idTipoArchivo").val(ui.item.id);
     			        $(this).blur();//Dedicado al IE
-    				}
+    				},
+    				change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtFileType").val())){
+							$("#txtFileType").val("");
+							$("#idTipoArchivo").val("");
+						}
+					}
+
     			});
         		
         	}        	
@@ -279,7 +332,7 @@ function save(){
 		formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
 		formData += "&accionActual=" + $("#accionActual").val();
 		
-		alert (formData);
+		//alert (formData);
 		
 		
 		$.ajax({				
@@ -441,6 +494,8 @@ function clear(){
 	numResponsiblesOnGrid = 0;
 	numProjectsOnGrid = 0;
 	numRProjectsOnGrid=0;
+	
+	$('#tabs').tabs({ selected: 0 }); 
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -912,10 +967,10 @@ function loadGridDocuments() {
 		/* url: "/ucasapi/departamento/gridRead/", */
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Tipo", "Tï¿½tulo","Nombre", "Subido", "Descripcion" ],
+		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion" ],
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
-		             {name : "Tï¿½tulo",index : "Tï¿½tulo",width : 160}, 
+		             {name : "Titulo",index : "Titulo",width : 160}, 
 		             {name : "Nombre",index : "Nombre", hidden : true}, 
 		             {name : "Subido",index : "Subido",width : 160}, 
 		             {name : "Descripcion",index : "Descripcion",hidden : true} 
@@ -984,7 +1039,7 @@ function openFile() {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Permite la ediciï¿½n de los datos del archivo seleccionado
+//Permite la edición de los datos del archivo seleccionado
 function editFileData() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if(rowId == null){
@@ -995,7 +1050,9 @@ function editFileData() {
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
 		idArchivo = rowData["idArchivo"];
 		$("#txtFileDesc").val(rowData["Descripcion"]);
-		$("#txtFileName").val(rowData["Tï¿½tulo"]);
+		$("#txtFileName").val(rowData["Titulo"]);
+		$("#txtFileType").val(rowData["Tipo"]);
+		$("#idTipoArchivo").val(rowData["idTipoArchivo"]);
 	}
 }
 

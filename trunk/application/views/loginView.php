@@ -32,9 +32,13 @@
 			<div style="height: 20px"></div>
 			
 			<div class="divLogin">		
+				<div align = "center">
+				<span style="text-align:center; font-size: 1.5em"><b>PHOBOS PLANNING</b></span>
+				</div>
+				
 				<input id="idRol" type="hidden"  value="" class = "hiddenID"/><br>
 				<span class = "inputFieldLabelL">Usuario</span>
-				<input id="txtUsername" type="text"  value="" class = "inputFieldL"/><br>
+				<input id="txtUsername" type="text"  value="" class = "inputFieldL"/>
 				
 				<span class = "inputFieldLabelL">Contrase&nacute;a</span>
 				<input id="txtPassword" type="password"  value="" class = "inputFieldLPSW"/><br>

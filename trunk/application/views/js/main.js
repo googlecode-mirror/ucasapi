@@ -52,7 +52,6 @@ function js_ini(){
 	$('#logoutButton').click(function() {
 		window.location = "/ucasapi/login/close";
 	});
-
 }
 
 

@@ -1,5 +1,8 @@
 $(document).ready(function(){
 	js_ini();
+	$("#sessionUser").text(($("#sessionUser").text()).replace(/%20/g, " "));
+
+
 	//$("button").button({icons: {primary: "ui-icon-locked"}});
 	$("#actividadgButton").addClass("highlight");
 	estadoAutocomplete();
@@ -169,7 +172,7 @@ function loadGrid() {
 				}, {
 					name : "nombre",
 					index : "nombre",
-					width : 200
+					width : 150
 				}],
 				pager : "#pager",
 				rowNum : 10,
@@ -206,7 +209,7 @@ function loadGridTR() {
 		}, {
 			name : "nombre",
 			index : "nombre",
-			width : 200
+			width : 150
 		}],
 		pager : "#pagerTR",
 		rowNum : 10,

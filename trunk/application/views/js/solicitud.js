@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	js_ini();
 	$("#solicitudButton").addClass("highlight");
+	$("#btnDelete").css("width", "160px");
 	usuarioAutocomplete();
 	llenarPrioridades();
 	
