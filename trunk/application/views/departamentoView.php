@@ -31,7 +31,6 @@
 			<div style="clear:both"></div>
 			<img  src="<?php echo base_url(); ?>application/views/css/img/loading.gif"/>
 		</div>
-		
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
 			<span id="systemName"><b>PHOBOS PLANNING</b></span> 	
@@ -60,13 +59,8 @@
 			<div id ="msgBox"></div>	
 				
 				
-			<div id="tabs">
-				<ul>
-					<li><a href="#tabs-1">Información General</a></li>
-					<li><a href="#tabs-2">Documentos</a></li>
-				</ul>
-				
-				<div id="tabs-1" class="divDataForm">
+			<div>
+				<div class="divDataForm">
 					<input id="idDepto" type="hidden"  value="" class = "hiddenId"/><br>
 					<input id="accionActual" type="hidden"  value="" class = "hiddenId"/><br>
 				
@@ -77,23 +71,10 @@
 					<textArea id="txtDepartmentDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripción del departamento" ></textArea>
 				</div>
 				
-				<div id="tabs-2">
-						<button id="btnUpload">Subir documento</button>
-				</div>
-				
 			</div>
 			<div >
 				
-			</div>
-			
-		</div>
-		<div>
-			
-		</div>
-		<div>
-			<table id="list"><tr><td/></tr></table> 
-			<div id="pager"></div>
-		</div>
-		
+			</div>			
+		</div>		
 	</body>
 </html>
