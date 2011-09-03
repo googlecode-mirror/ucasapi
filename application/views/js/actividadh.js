@@ -5,6 +5,7 @@
 $(document).ready(function() {
 	js_ini();
 	actividadhProyectoAutocomplete();
+	$("#actividadhButton").addClass("highlight");
 	$("#idActividad").val("0");
 	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
 	$("#txtRecordsAct").focus(function(){$("#txtRecordsAct").autocomplete('search', '');});

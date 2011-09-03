@@ -408,6 +408,7 @@ function clear() {
 	$("#txtProyectoDescripcion").val("");
 	$("#tablaFases").jqGrid("GridUnload");
 	loadGrid($("#idProyecto").val());
+	$('#tabs').tabs({ selected: 0 }); 
 	$("#tabs-2").hide();
 	$("#tagBliblioteca").hide();
 	unlockAutocomplete();

@@ -49,13 +49,13 @@
 			<div class="divActions" style = "height: 210px">				
 				<div class="divCRUDRecords">
 					<span class = "recordsLabel">Proyectos</span>
-					<input id="txtProjectRecords" type="text"  value="" title = "B�squeda por proyectos" class = "inputFieldAC"/><br>
+					<input id="txtProjectRecords" type="text"  value="" title = "B&uacute;squeda por proyectos" class = "inputFieldAC"/><br>
 					
 					<span class = "recordsLabel">Procesos</span>
-					<input id="txtProcessRecords" type="text"  value="" title = "B�esqueda por procesos" class = "inputFieldAC"/><br>
+					<input id="txtProcessRecords" type="text"  value="" title = "B&uacute;squeda por procesos" class = "inputFieldAC"/><br>
 					
 					<span class = "recordsLabel">Actividades</span>
-					<input id="txtRecords" type="text"  value="" title = "Selecci�n de actividad" class = "inputFieldAC"/><br>
+					<input id="txtRecords" type="text"  value="" title = "Selecci&oacute;n de actividad" class = "inputFieldAC"/><br>
 				</div>
 										
 				<div class="divCRUDButtons" style="margin-top: 110px">
@@ -93,10 +93,10 @@
 					<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
 					
 					<span class = "requiredFieldLabel" >Proyecto</span>
-					<input id="txtProjectName" type="text"  value="" class = "inputFieldAC" title="Proyecto al que la actividad est� asociada"/><br>
+					<input id="txtProjectName" type="text"  value="" class = "inputFieldAC" title="Proyecto al que la actividad est&aacute; asociada"/><br>
 					
 					<span class = "inputFieldLabel" >Proceso</span>
-					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad est� asociada"/><br>
+					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad est&aacute; asociada"/><br>
 										
 					<span class = "requiredFieldLabel" >Prioridad</span>
 					<input id="txtPriorityName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>

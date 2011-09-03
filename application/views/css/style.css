@@ -524,6 +524,10 @@ body {
 	font-size: 0.8em;	
 }
 
+.ui-jqgrid-title{
+	font-size : small;
+}
+
 #simplemodal-overlay {background-color:#000;}
 #simplemodal-container {background-color:#333; border:2px solid #444; padding:1px;}
 

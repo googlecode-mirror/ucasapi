@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	 js_ini();	
 	 $('.divActions').addClass("ui-corner-all");
+	 $('.divLogin').addClass("ui-corner-all");
 	 $('.divDataForm').addClass("ui-corner-all");
 	 $('.container').addClass("ui-corner-bottom");
 	 $("#txtRol").focus(function(){$("#txtRol").autocomplete('search', '');});

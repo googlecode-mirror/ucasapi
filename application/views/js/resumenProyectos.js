@@ -3,7 +3,10 @@ $(document).ready(function(){
 	loadGrid();
 	$("#cliente\\/resumenProyectosButton").addClass("highlight");
 	$("#dialogoProyecto").dialog({
-		width: 700,
+		buttons: { "Cerrar": function() { $(this).dialog("close"); }},
+		resizable : false,
+		modal : true,
+		width: 500,
 		autoOpen: false
 	});
 });

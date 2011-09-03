@@ -58,7 +58,7 @@
 
 			</div>
 
-			<div align="center" id="dialogoProyecto" style="visibility: hidden;">
+			<div align="center" id="dialogoProyecto" style="visibility: hidden;" title="Resumen del proyecto">
 				<span class = "inputFieldLabel"><b>Nombre del proyecto:</b></span><br/>
 				<span class="cleanable" id="nombreProyecto"></span><br/><br/>
 				

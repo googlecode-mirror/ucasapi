@@ -10,16 +10,16 @@
 **/
 $.jgrid = {
 	defaults : {
-		recordtext: "Mostrando {0} - {1} de {2}",
-	    emptyrecords: "Sin registros que mostrar",
+		recordtext: "{0} - {1} de {2}",
+	    emptyrecords: "Sin registros",
 		loadtext: "Cargando...",
-		pgtext : "Página {0} de {1}"
+		pgtext : "P&aacute;gina {0} de {1}"
 	},
 	search : {
-	    caption: "Búsqueda...",
+	    caption: "B&uacute;squeda...",
 	    Find: "Buscar",
 	    Reset: "Limpiar",
-	    odata : ['igual ', 'no igual a', 'menor que', 'menor o igual que','mayor que','mayor o igual a', 'empiece por','no empiece por','está en','no está en','termina por','no termina por','contiene','no contiene'],
+	    odata : ['igual ', 'no igual a', 'menor que', 'menor o igual que','mayor que','mayor o igual a', 'empiece por','no empiece por','est&aacute; en','no est&aacute; en','termina por','no termina por','contiene','no contiene'],
 	    groupOps: [	{ op: "AND", text: "todo" },	{ op: "OR",  text: "cualquier" }	],
 		matchText: " match",
 		rulesText: " reglas"
@@ -30,23 +30,23 @@ $.jgrid = {
 	    bSubmit: "Guardar",
 	    bCancel: "Cancelar",
 		bClose: "Cerrar",
-		saveData: "Se han modificado los datos, ¿guardar cambios?",
+		saveData: "Se han modificado los datos, �guardar cambios?",
 		bYes : "Si",
 		bNo : "No",
 		bExit : "Cancelar",
 	    msg: {
 	        required:"Campo obligatorio",
-	        number:"Introduzca un número",
+	        number:"Introduzca un n&uacute;mero",
 	        minValue:"El valor debe ser mayor o igual a ",
 	        maxValue:"El valor debe ser menor o igual a ",
-	        email: "no es una dirección de correo válida",
+	        email: "no es una direcci&oacute;n de correo válida",
 	        integer: "Introduzca un valor entero",
 			date: "Introduza una fecha correcta ",
-			url: "no es una URL válida. Prefijo requerido ('http://' or 'https://')",
-			nodefined : " no está definido.",
+			url: "no es una URL v&aacute;lida. Prefijo requerido ('http://' or 'https://')",
+			nodefined : " no est&aacute; definido.",
 			novalue : " valor de retorno es requerido.",
-			customarray : "La función personalizada debe devolver un array.",
-			customfcheck : "La función personalizada debe estar presente en el caso de validación personalizada."
+			customarray : "La funci&oacute;n personalizada debe devolver un array.",
+			customfcheck : "La funci&oacute;n personalizada debe estar presente en el caso de validaci&oacute;n personalizada."
 		}
 	},
 	view : {
@@ -55,7 +55,7 @@ $.jgrid = {
 	},
 	del : {
 	    caption: "Eliminar",
-	    msg: "¿Desea eliminar los registros seleccionados?",
+	    msg: "�Desea eliminar los registros seleccionados?",
 	    bSubmit: "Eliminar",
 	    bCancel: "Cancelar"
 	},
