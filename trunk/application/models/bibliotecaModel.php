@@ -147,7 +147,7 @@ class bibliotecaModel extends CI_Model{
 		if($query){
 			if($query->num_rows > 0){							
 				foreach ($query->result() as $row){		
-					$response->rows[$i]["id"] = $row->idActividad;
+					$response->rows[$i]["id"] = $i;
 					$response->rows[$i]["cell"] = array($row->idProyecto,$row->idProceso,$row->idActividad, $row->nombreActividad);
 					
 					$i++;				
