@@ -57,24 +57,26 @@ function loadProjectsGrid(){
 		gridview : true,
 		caption : "Proyectos",
 		onCellSelect: function(rowid,iCol,cellcontent,e) {
-			var qPData = queryProcesses(rowid, processesData);
+			projGridId = row_id = $("#projectsGrid").jqGrid("getGridParam","selrow");
+			projData = $("#projectsGrid").jqGrid("getRowData",projGridId);
+			projId = projData["idProyecto"];
+			
+			
+			var qPData = queryProcesses(projId, processesData);
 			$("#processesGrid").jqGrid("clearGridData", true);
 			$("#processesGrid").setGridParam({ data:qPData});
 			$("#processesGrid").trigger('reloadGrid');
 			
-			var activitiesParsedData = parseActivitiesGridData($("#activitiesGrid").jqGrid("getRowData"));
-			var qAData = queryActivitiesProj(rowid, activitiesData);
+			var qAData = queryActivitiesProj(projId, activitiesData);
 			$("#activitiesGrid").jqGrid("clearGridData", true);
 			$("#activitiesGrid").setGridParam({ data:qAData});
 			$("#activitiesGrid").trigger('reloadGrid');
 			
-			var qFData = queryFilesProj(rowid, filesData);
+			var qFData = queryFilesProj(projId, filesData);
 			$("#documentsGrid").jqGrid("clearGridData", true);
 			$("#documentsGrid").setGridParam({ data:qFData});
 			$("#documentsGrid").trigger('reloadGrid');
-			
-			
-			
+						
 			//Esto podría se últil alguna vez
 			//$("#gs_idProyecto2").val($("#projectsGrid").jqGrid("getRowData",rowid)["idProyecto"]);
 			//var processesGrid = $("#processesGrid")[0];
@@ -118,14 +120,25 @@ function loadProcessesGrid(){
 			
 		},
 		onCellSelect: function(rowid,iCol,cellcontent,e) {	
-			//var activitiesParsedData = parseActivitiesGridData($("#activitiesGrid").jqGrid("getRowData"));
-			var qAData = queryActivitiesProc($("#projectsGrid").jqGrid("getGridParam","selrow"),rowid, activitiesData);
+			projGridId = row_id = $("#projectsGrid").jqGrid("getGridParam","selrow");
+			procGridId = row_id = $("#processesGrid").jqGrid("getGridParam","selrow");
+			
+			projData = $("#projectsGrid").jqGrid("getRowData",projGridId);
+			procData = $("#processesGrid").jqGrid("getRowData",procGridId);
+			
+			qAData = queryActivitiesProc(projData["idProyecto"],procData["idProceso"], activitiesData);
+			
 			$("#activitiesGrid").jqGrid("clearGridData", true);
 			$("#activitiesGrid").setGridParam({ data:qAData});
 			$("#activitiesGrid").trigger('reloadGrid');
-		},
-		
-		
+			
+			
+			qFData = queryFilesProc(procData["idProceso"], filesData);
+			
+			$("#documentsGrid").jqGrid("clearGridData", true);
+			$("#documentsGrid").setGridParam({ data:qFData});
+			$("#documentsGrid").trigger('reloadGrid');
+		},		
 		rowNum : -1,
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
@@ -168,8 +181,17 @@ function loadActivitiesGrid(){
 			}
 			
 		},
-		
-		
+		onCellSelect: function(rowid,iCol,cellcontent,e) {	
+			actGridId = row_id = $("#activitiesGrid").jqGrid("getGridParam","selrow");
+			
+			actData = $("#activitiesGrid").jqGrid("getRowData",actGridId);			
+			
+			qFData = queryFilesAct(actData["idActividad"], filesData);
+			
+			$("#documentsGrid").jqGrid("clearGridData", true);
+			$("#documentsGrid").setGridParam({ data:qFData});
+			$("#documentsGrid").trigger('reloadGrid');
+		},	
 		rowNum : -1,
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
@@ -348,11 +370,12 @@ function queryActivitiesProj(id, arrayData){
     retArray.push(emptyArray)
     return retArray;
 }
-function queryActivitiesProc(id,idProc, arrayData){
+
+function queryActivitiesProc(idProj,idProc, arrayData){
     var retArray = new Array();
-    if(id!=null){
+    if(idProj!=null){
 	    for(var i = 0; i<arrayData.length; i++){
-	        if(arrayData[i].idProyecto3 == id && arrayData[i].idProceso2 == idProc){
+	        if(arrayData[i].idProyecto3 == idProj && arrayData[i].idProceso2 == idProc){
 	            retArray.push(arrayData[i]);
 	        }
 	    }
@@ -373,6 +396,30 @@ function queryFilesProj(id, arrayData){
     var retArray = new Array();
     for(var i = 0; i<arrayData.length; i++){
         if(arrayData[i].idProyectoA == id){
+            retArray.push(arrayData[i]);
+        }
+    }
+    var emptyArray = new Array();
+    retArray.push(emptyArray)
+    return retArray;
+}
+
+function queryFilesProc(id, arrayData){
+    var retArray = new Array();
+    for(var i = 0; i<arrayData.length; i++){
+        if(arrayData[i].idProcesoA == id){
+            retArray.push(arrayData[i]);
+        }
+    }
+    var emptyArray = new Array();
+    retArray.push(emptyArray)
+    return retArray;
+}
+
+function queryFilesAct(id, arrayData){
+    var retArray = new Array();
+    for(var i = 0; i<arrayData.length; i++){
+        if(arrayData[i].idActividadA == id){
             retArray.push(arrayData[i]);
         }
     }
