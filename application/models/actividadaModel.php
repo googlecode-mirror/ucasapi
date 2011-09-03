@@ -68,14 +68,14 @@ class actividadaModel extends CI_Model{
 		
 		
 			
-		/*$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1,".$idEstado.")";
+		$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1,".$idEstado.")";
 		$query = $this->db->query($sqlInsert);
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			return $retArray;
 			die();
-	    }*/
+	    }
 	    
 		//$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
