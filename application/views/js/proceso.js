@@ -95,7 +95,7 @@ function procesoProyectoAutocomplete() {
 					minLength : 0,
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
-						procesoAutocomplete($("#idProyecto").val());
+						procesoFaseAutocomplete($("#idProyecto").val());
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -112,10 +112,10 @@ function procesoProyectoAutocomplete() {
 	});
 }
 
-function procesoFaseAutocomplete() {
+function procesoFaseAutocomplete($idProyecto) {
 	$.ajax({
 		type : "POST",
-		url : "index.php/proceso/faseAutocompleteRead/" + $("#idProyecto").val(),
+		url : "index.php/proceso/faseAutocompleteRead/" + $idProyecto,
 		data : "procesoFaseAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
