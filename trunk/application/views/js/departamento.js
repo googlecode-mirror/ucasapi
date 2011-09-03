@@ -2,10 +2,6 @@ $(document).ready(function() {
 	js_ini();
 	$("#departamentoButton").addClass("highlight");
 	departmentAutocomplete();
-	loadGrid();
-	ajaxUpload();
-	
-	//Esto se debería hacer para cada autocomplete de la página, para que muestre todos los registro en el focus
 	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
 
 });
@@ -19,7 +15,7 @@ function departmentAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg); 
+				msgBoxError(retrievedData.msg);
 			} else {
 				$("#txtRecords").autocomplete({
 					minChars : 0,
@@ -64,7 +60,7 @@ function save() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					msgBoxInfo(retrievedData.msg);
+					msgBoxError(retrievedData.msg);
 				} else {
 					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Registro agregado con \u00E9xito");
@@ -94,7 +90,7 @@ function edit() {
 					dataType : "json",
 					success : function(retrievedData) {
 						if (retrievedData.status != 0) {
-							alert("Mensaje de error: " + retrievedData.msg); 
+							msgBoxError(retrievedData.msg);
 						} else {
 							$("#txtDepartmentName").val(
 									retrievedData.data.nombreDepto);
@@ -151,31 +147,6 @@ function deleteData() {
 	}
 }
 
-function loadGrid() {
-	$("#list").jqGrid({
-		url : "index.php/departamento/gridRead/",
-		datatype : "json",
-		mtype : "POST",
-		colNames : [ "Id", "Departamento" ],
-		colModel : [ {
-			name : "id",
-			index : "id",
-			width : 63
-		}, {
-			name : "value",
-			index : "value",
-			width : 190
-		} ],
-		pager : "#pager",
-		rowNum : 10,
-		rowList : [ 10, 20, 30 ],
-		sortname : "id",
-		sortorder : "desc",
-		viewrecords : true,
-		gridview : true,
-		caption : "Departamentos"
-	});
-}
 
 function cancel() {
 	// $("#btnCancel").toggleClass('ui-state-active');
@@ -191,31 +162,6 @@ function clear() {
 	unlockAutocomplete();
 }
 
-function ajaxUpload() {
-	new AjaxUpload("btnUpload", {
-		debug : true,
-		action : "index.php/upload/do_upload/",
-		onSubmit : function(file, ext) {
-			// Extensions allowed. You should add security check on the
-			// server-side.
-			if (ext && /^(txt|png|jpeg|docx)$/.test(ext)) {
-				/* Setting data */
-				this.setData({
-					"key" : 'This string will be send with the file'
-				});
-				// $('#example2.text').text('Uploading ' + file);
-			} else {
-				// extension is not allowed
-				// $('#example2.text').text('Error: only images are allowed');
-				// cancel upload
-				return false;
-			}
-		},
-		onComplete : function(file, response) {
-			alert(response);
-		}
-	});
-}
 
 function validarCampos() {
 
