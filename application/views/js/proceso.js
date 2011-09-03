@@ -26,6 +26,8 @@ $(document).ready(function() {
 
 });
 
+var idProyTemp;
+
 function procesoAutocomplete($idProyecto) {
 	$.ajax({
 		type : "POST",
@@ -78,6 +80,7 @@ function procesoProyectoAutocomplete() {
 						$("#idProyecto").val(ui.item.id);
 						$(this).blur();//Dedicado al IE
 						procesoAutocomplete($("#idProyecto").val());
+						idProyTemp = $("#idProyecto").val();
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -209,6 +212,7 @@ function edit() {
 			$("#tagBliblioteca").show();
 			$("#tabs-2").show();
 			$("#accionActual").val("editando");
+			procesoFaseAutocomplete($("#idProyecto").val());
 			$.ajax({
 				type : "POST",
 				url : "index.php/proceso/procesoRead",
@@ -218,7 +222,6 @@ function edit() {
 					if (retrievedData.status != 0) {
 						alert("Mensaje de error: " + retrievedData.msg);
 					} else {
-						procesoFaseAutocomplete();
 						$("#txtProcesoName").val(
 								retrievedData.data.nombreProceso);
 						$("#cbEstado").val(retrievedData.data.idEstado);
