@@ -4,12 +4,17 @@ class historicoUsuarioModel extends CI_Model{
 
 
 	function create(){
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
-
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
 
 		$fechaInicioContrato = $this->input->post("fechaInicioContrato");
 		$fechaFinContrato = $this->input->post("fechaFinContrato");
@@ -39,7 +44,7 @@ class historicoUsuarioModel extends CI_Model{
 			
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -48,14 +53,19 @@ class historicoUsuarioModel extends CI_Model{
 	}
 
 	function createRol(){
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 		$correlUsuarioHistorico = $this->input->post("correlUsuarioHistorico");
 		$idRol = $this->input->post("idRol");
-
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
 
 		$fechaInicio = $this->input->post("fechaInicio");
 		$fechaFin = $this->input->post("fechaFin");
@@ -82,7 +92,7 @@ class historicoUsuarioModel extends CI_Model{
 			
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -92,9 +102,15 @@ class historicoUsuarioModel extends CI_Model{
 
 
 	function read(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 
@@ -110,16 +126,22 @@ class historicoUsuarioModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 			
 		return $retArray;
 	}
 
 	function update(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 		$correlUsuarioHistorico = $this->input->post("correlUsuarioHistorico");
@@ -137,16 +159,22 @@ class historicoUsuarioModel extends CI_Model{
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function updateRol(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 		$correlUsuarioHistorico = $this->input->post("correlUsuarioHistorico");
@@ -174,17 +202,22 @@ class historicoUsuarioModel extends CI_Model{
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function delete(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
-
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idUsuario = $this->input->post("idUsuario");
 		$correlUsuarioHistorico = $this->input->post("correlUsuarioHistorico");
 
@@ -196,16 +229,22 @@ class historicoUsuarioModel extends CI_Model{
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function deleteRol(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idRolHistorico = $this->input->post("idRolHistorico");
 
@@ -216,7 +255,7 @@ class historicoUsuarioModel extends CI_Model{
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -224,9 +263,15 @@ class historicoUsuarioModel extends CI_Model{
 
 
 	function autocompleteRead(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,) nombreUsuario FROM USUARIO WHERE activo='1'";
 		$query = $this->db->query($sql);
@@ -244,7 +289,7 @@ class historicoUsuarioModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
