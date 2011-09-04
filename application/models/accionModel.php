@@ -3,9 +3,16 @@ class accionModel extends CI_Model{
 	
 	
 	function create(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
 		
 		$nombreAccion = $this->input->post("nombreAccion");				
 		
@@ -16,16 +23,23 @@ class accionModel extends CI_Model{
 		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }	    
 		return $retArray;		
 	}
 	
 	
 	function read(){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
 		
 		$idAccion = $this->input->post("idAccion");		
 		
@@ -39,8 +53,8 @@ class accionModel extends CI_Model{
 	    	$retArray["data"] = $row;	     	
 	    }
 	    else{
-	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+    		$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    	
 	    }
 	    
@@ -49,14 +63,21 @@ class accionModel extends CI_Model{
 	
 
 	function update(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
 		
 		$idAccion = $this->input->post("idAccion");
 		$nombreAccion = $this->input->post("nombreAccion");				
 		
-		$sql = "UPDATE ACCION 
+		$sql = "UPDATE ACCION
 				SET nombreAccion = ".$this->db->escape($nombreAccion)."				    
 				WHERE idAccion = ". $idAccion; 
 		
@@ -64,7 +85,7 @@ class accionModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;		
@@ -72,9 +93,15 @@ class accionModel extends CI_Model{
 	
 
 	function delete(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}		
 		
 		$idAccion = $this->input->post("idAccion");
 		
@@ -85,7 +112,7 @@ class accionModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;	
@@ -93,9 +120,16 @@ class accionModel extends CI_Model{
 	
 	
 	function autocompleteRead(){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
 		
 		$sql = "SELECT idAccion, nombreAccion FROM ACCION";
 		$query = $this->db->query($sql);		
@@ -113,7 +147,7 @@ class accionModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
