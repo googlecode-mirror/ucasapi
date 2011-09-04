@@ -30,6 +30,7 @@ function usuarioAutocomplete() {
 								$("#cbxInteresados").append(
 										'<option value="' + ui.item.id + '">'
 												+ ui.item.value + '</option>');
+								$("#txtRecords").val("");
 							},
 							//Esto es para el esperado mustMatch o algo parecido
 							change :function(){

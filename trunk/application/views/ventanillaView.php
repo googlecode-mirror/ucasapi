@@ -92,7 +92,7 @@
 				<span class = "requiredFieldLabel" style="margin-left:56px">Proyecto principal</span>
 				<input id="txtProjectName" type="text"  value="" class = "inputField"  maxlength="100"/><br/>
 
-				<span class="inputFieldLabel" style="margin-left:56px">Proyectos secundarios</span>
+				<span class="inputFieldLabel" style="margin-left:56px">Proyectos Relacionados</span>
 				<input id="txtProjectRecords" type="text"  value="" class="inputField" /><br/>
 
 
@@ -117,6 +117,7 @@
 				<span class = "requiredFieldLabel" style="margin-left:56px">Estado</span>
 				<input id="txtStatusName" type="text"  value="" class = "inputField"  maxlength="40"/><br/>
 
+				<!--
 				<span class = "inputFieldLabel" style="margin-left:56px">Planificaci&oacute;n</span>
 				<div class="divDateCombo">
 
@@ -125,6 +126,7 @@
 					<span>Fin</span>
 					<input id="txtEndingDate" type="text"  value=""   readonly/><br/>
 				</div><br/><br/>
+				 -->
 
 				<span class = "requiredFieldLabel" style = "clear:both; margin-left:56px">Descripci&oacute;n</span>
 				<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" ></textArea>
