@@ -3,9 +3,15 @@
 class faseModel extends CI_Model{
 
 	function autocompleteRead(){
-		$this->load->database();
-
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$faseList = array();
 		$minFase = 0;
 
@@ -45,7 +51,7 @@ class faseModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -53,9 +59,15 @@ class faseModel extends CI_Model{
 	}
 	
 	function getNextFase($idFasePrev) {
-		$this->load->database();
-
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$faseList = array();
 		$minFase = 0;
 
@@ -78,16 +90,22 @@ class faseModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function delete(){
-		$this->load->database();
-
-		$retArray = array("status" => "0", "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idFase = $this->input->post("idFase");
 
 		// ---------------------------------------------------------------------
@@ -118,7 +136,7 @@ class faseModel extends CI_Model{
 
 		if($this->db->trans_status() == FALSE){
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		} else {
 			$this->db->trans_commit();
 		}
@@ -146,9 +164,15 @@ class faseModel extends CI_Model{
 	}
 
 	function create(){
-		$this->load->database();
-
-		$retArray = array("status" => 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$nombreFase = $this->input->post("nombreFase");
 		$descripcion = $this->input->post("descripcion");
@@ -163,7 +187,7 @@ class faseModel extends CI_Model{
 
 			if(!$query){
 				$retArray["status"] = $this->db->_error_number();
-				$retArray["msg"] = $this->db->_error_message();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			}
 		} else if ($faseSiguiente == "0") {
 			$sql = "INSERT INTO FASE (nombreFase, descripcion, idFaseSiguiente)
@@ -196,7 +220,7 @@ class faseModel extends CI_Model{
 
 			if($this->db->trans_status() == FALSE) {
 		     	$retArray["status"] = $this->db->_error_number();
-				$retArray["msg"] = $this->db->_error_message();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 				$this->db->trans_rollback();
 		    } else {
 		    	$this->db->trans_commit();
@@ -207,9 +231,15 @@ class faseModel extends CI_Model{
 	}
 
 	function read(){
-		$this->load->database();
-
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idFase = $this->input->post("idFase");
 
 		$sql = 	"select ant.idFase anterior, f.idFase, f.nombreFase, f.descripcion, f.idFaseSiguiente siguiente
@@ -225,7 +255,7 @@ class faseModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -233,9 +263,15 @@ class faseModel extends CI_Model{
 	}
 
 	function update(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idFase = $this->input->post("idFase");
 		$nombreFase = $this->input->post("nombreFase");
@@ -247,7 +283,7 @@ class faseModel extends CI_Model{
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 
 		return $retArray;
