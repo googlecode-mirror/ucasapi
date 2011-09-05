@@ -3,9 +3,15 @@ class tipoAsociacionModel extends CI_Model{
 	
 	
 	function create(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$nombreAsociacion = $this->input->post("nombreAsociacion");
 				
@@ -17,7 +23,7 @@ class tipoAsociacionModel extends CI_Model{
 		
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 	    
 		return $retArray;		
@@ -25,9 +31,15 @@ class tipoAsociacionModel extends CI_Model{
 	
 	
 	function read(){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idTipoAsociacion = $this->input->post("idTipoAsociacion");			
 		
@@ -41,7 +53,7 @@ class tipoAsociacionModel extends CI_Model{
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    	
 	    }
 	    
@@ -50,9 +62,15 @@ class tipoAsociacionModel extends CI_Model{
 	
 
 	function update(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idTipoAsociacion = $this->input->post("idTipoAsociacion");
 		$nombreAsociacion = $this->input->post("nombreAsociacion");				
@@ -65,7 +83,7 @@ class tipoAsociacionModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;		
@@ -73,9 +91,15 @@ class tipoAsociacionModel extends CI_Model{
 	
 
 	function delete(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idTipoAsociacion = $this->input->post("idTipoAsociacion");
 		
@@ -86,7 +110,7 @@ class tipoAsociacionModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;	
@@ -94,9 +118,15 @@ class tipoAsociacionModel extends CI_Model{
 	
 	
 	function autocompleteRead(){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$sql = "SELECT idTipoAsociacion, nombreAsociacion FROM TIPO_ASOCIACION";
 		$query = $this->db->query($sql);		
@@ -114,7 +144,7 @@ class tipoAsociacionModel extends CI_Model{
 		}
 		else{			
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
