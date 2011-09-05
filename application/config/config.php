@@ -6,16 +6,20 @@
  | Data Base Error Message
  |--------------------------------------------------------------------------
  |
- |Es el mensaje de que se enviará desde el model cuando ocurra un error de la base de datos.
+ |Es el mensaje de que se enviará desde el model cuando ocurra un error de base de datos.
  |Si tiene cadena vacía mostrará el mensaje que se recibe desde el gestor de base de datos.
- |
- |
- |
- |
- | 
- |
  */
-$config['database_eror_msg']	= 'Ha ocurrido un error. Por favor contacte con el administrador del sistema.';
+$config['database_error_msg']	= 'Ha ocurrido un error. Por favor contacte con el administrador del sistema.';
+/*
+ |--------------------------------------------------------------------------
+ | Data Base Connection Error Message
+ |--------------------------------------------------------------------------
+ |
+ |Es el mensaje de que se enviará desde el model cuando ocurra un error de conexión a la base de datos.
+ */
+$config['database_cn_error_msg']	= 'Ha ocurrido un error de conexion a la base de datos. Por favor contacte con el administrador del sistema.';
+
+
 /*
  |--------------------------------------------------------------------------
  | Base Site URL
