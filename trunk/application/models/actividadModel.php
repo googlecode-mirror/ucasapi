@@ -3,13 +3,24 @@
 class actividadModel extends CI_Model{
 	
 	function readEstados(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array();
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1 AND activo = '1' ";
 		
 		$query = $this->db->query($sql);
+		
+		if(!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
 		
 		if($query->num_rows > 0){			
 			foreach ($query->result() as $row){		
@@ -24,9 +35,15 @@ class actividadModel extends CI_Model{
 	}
 	
 	function read(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status" => 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idActividad = $this->input->post("idActividad");
 		$idProyecto = $this->input->post("idProyecto");
@@ -52,7 +69,7 @@ class actividadModel extends CI_Model{
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    	
 	    }
 		
@@ -61,10 +78,16 @@ class actividadModel extends CI_Model{
 	}
 	
 	function update(){
-		$this->load->database();
-		$idProyTemp = $this->input->post("idProyecto");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		$idProyTemp = $this->input->post("idProyecto");
 		
 		$idEstado = $this->input->post("idEstado");
 		$idUsuario = $this->input->post("idUsuario");
