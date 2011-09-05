@@ -73,8 +73,15 @@ class buzonModel extends CI_Model{
 	}
 	
 	function readMensaje(){
-		$this->load->database();
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idNotificacion = $this->input->post("idNotificacion");
 		$idUsuario = $this->input->post("idUsuario");
 		
@@ -91,7 +98,7 @@ class buzonModel extends CI_Model{
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    	
 	    }
 		
@@ -100,13 +107,24 @@ class buzonModel extends CI_Model{
 	}
 	
 	function updateMessage($idN){
-		$this->load->database();
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idUsuario = $this->input->post("idUsuario");
 		
 		$sql = "UPDATE USUARIO_NOTIFICACION SET idEstado = 17, horaEntrada = horaEntrada WHERE idNotificacion = ".$idN." AND idUsuario = ".$idUsuario;
 		
 		$query = $this->db->query($sql);
+		if(!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
 		
 		return $retArray;
 		
