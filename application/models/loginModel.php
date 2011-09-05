@@ -3,9 +3,15 @@ class loginModel extends CI_Model{
 	
 	
 	function validateUser(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array(), "roleData"=>array());
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$username = $this->input->post("username");
 		$password = $this->input->post("password");	
@@ -46,14 +52,14 @@ class loginModel extends CI_Model{
 				}
 				else{
 					$retArray["status"] = $this->db->_error_number();
-					$retArray["msg"] = $this->db->_error_message();
+					$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 				}    		
 	    		
 	    	}
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    	
 	    }
 	       
@@ -64,9 +70,15 @@ class loginModel extends CI_Model{
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function readRolesAutocomplete(){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+			
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$sql = "SELECT idRol, nombreRol FROM ROL";
 		$query = $this->db->query($sql);		
@@ -83,7 +95,7 @@ class loginModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
