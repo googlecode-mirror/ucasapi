@@ -82,7 +82,7 @@
 					<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
 					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 							
-					<span class = "requiredFieldLabel">Nombre: </span>
+					<span class = "requiredFieldLabel">Proceso: </span>
 					<input id="txtProcesoName" class = "inputFieldAC" type="text" title ="Nombre del proceso, solo letras y espacios" value="" class = "inputField" maxlength="40"/><br>
 					
 					<span class = "inputFieldLabel">Proyecto: </span>

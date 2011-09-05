@@ -417,6 +417,7 @@ function clear() {
 function addFase(){
 	if(validarCamposFases()){
 		$("#tablaFases").jqGrid('addRowData',faseCorrel,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan:'2011-01-01',fechaFinPlan:'2011-01-01'},'last');
+		jQuery("#tablaFases").jqGrid('editGridRow',faseCorrel,{height:280,reloadAfterSubmit:false}); 
 		faseCorrel++;
 	}
 }
