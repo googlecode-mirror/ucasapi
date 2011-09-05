@@ -3,9 +3,15 @@ class proyectoModel extends CI_Model{
 
 
 	function create(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idUsuarioEnc = $this->input->post("idUsuario");
 		$idUsuarioDuenho = $this->input->post("idUsuarioDuenho");
@@ -30,10 +36,20 @@ class proyectoModel extends CI_Model{
    				, ".$this->db->escape($activo).", ".$this->db->escape($descripcion).")";
 
 		$query = $this->db->query($sql);
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			//return $retArray;
+	    }
 		
 		$this->db->select_max('idProyecto');
 		
 		$query = $this->db->get('PROYECTO');
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			//return $retArray;
+	    }
 		
 		foreach ($query->result() as $row){
    			$idProyecto = $row->idProyecto;
@@ -41,15 +57,15 @@ class proyectoModel extends CI_Model{
 		
 		$insert_statements = $this->getFPInsert($data_array, $idProyecto);
 		foreach ($insert_statements as $queryRoles) {
-			$this->db->query($queryRoles);
+			$query = $this->db->query($queryRoles);
+			if (!$query) {
+				$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				//return $retArray;
+		    }
 		}
 		
 		$this->db->trans_complete();
-
-		if (!$query) {
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-	    }
 
 		return $retArray;
 	}
@@ -113,9 +129,15 @@ class proyectoModel extends CI_Model{
 	}
 
 	function faseRead(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idFase, nombreFase FROM FASE WHERE activo = '1' ";
 		$query = $this->db->query($sql);
@@ -133,16 +155,22 @@ class proyectoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function readUsuariosEnc(){
-	$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT u.idUsuario, CONCAT_WS(' ',u.primerNombre, u.primerApellido) AS nombreUsuario
 				FROM USUARIO u INNER JOIN ROL_USUARIO rxu ON (u.idUsuario = rxu.idUsuario AND u.activo = '1')
@@ -164,16 +192,22 @@ class proyectoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
 	}
 	
 	function read(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idProyecto = $this->input->post("idProyecto");
 
@@ -202,7 +236,7 @@ class proyectoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 
 		}
 
@@ -212,9 +246,15 @@ class proyectoModel extends CI_Model{
 	// ------------------------------------------------------------------------
 
 	function faseProyectoRead(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idProyecto = $this->input->post("idProyecto");
 
@@ -241,7 +281,7 @@ class proyectoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 
 		}
 
@@ -311,9 +351,15 @@ class proyectoModel extends CI_Model{
 	// ------------------------------------------------------------------------
 
 	function update(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idProyecto = $this->input->post("idProyecto");
 	
@@ -333,7 +379,12 @@ class proyectoModel extends CI_Model{
 		$this->db->trans_begin();
 		$sql = "DELETE FROM FASE_PROYECTO WHERE idProyecto = " .$idProyecto;
 
-		$this->db->query($sql); 
+		$query = $this->db->query($sql);
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			//return $retArray;
+	    } 
 		
 		$insert_statements = $this->getFPInsert($data_array, $idProyecto);
 		foreach ($insert_statements as $queryRoles) {
@@ -353,14 +404,15 @@ class proyectoModel extends CI_Model{
 					WHERE idProyecto = ". $idProyecto;
 		
 		$query = $this->db->query($sql);
-
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			//return $retArray;
 	    }
+	    
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -411,29 +463,40 @@ class proyectoModel extends CI_Model{
 
 
 	function delete(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
-
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idProyecto = $this->input->post("idProyecto");
 		$this->db->trans_begin();
 		
 		$sql = "UPDATE PROYECTO
 				SET activo = '0'
 				WHERE idProyecto = ". $idProyecto;
-		$this->db->query($sql);
+		$query = $this->db->query($sql);
+		if (!$query) {
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			//return $retArray;
+	    }
+		
 		
 		$sql = "DELETE FROM FASE_PROYECTO WHERE idProyecto = " .$idProyecto;
 
 		$query = $this->db->query($sql);
-
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			//return $retArray;
 	    }
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -444,9 +507,15 @@ class proyectoModel extends CI_Model{
 
 
 	function autocompleteRead($idUsuario,$idRol){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		if($idRol == 1){
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
@@ -473,7 +542,7 @@ class proyectoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -481,9 +550,15 @@ class proyectoModel extends CI_Model{
 
 	// Buscar usuarios
 	function autocompleteUsuarioProyectoRead(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos) nombreUsuario FROM USUARIO WHERE activo = '1'";
 		$query = $this->db->query($sql);
@@ -501,7 +576,7 @@ class proyectoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -548,8 +623,15 @@ class proyectoModel extends CI_Model{
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
 	function createProjectFile(){
-		$this->load->database();
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idProyecto = $this->input->post("idProyecto");
 		$idTipoArchivo = $this->input->post("idTipoArchivo");
@@ -569,7 +651,7 @@ class proyectoModel extends CI_Model{
 		
 		if (!$query){
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -577,9 +659,15 @@ class proyectoModel extends CI_Model{
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function updateProjectFile(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idArchivo = $this->input->post("idArchivo");
 		$idActividad   = $this->input->post("idActividad");
 		$idTipoArchivo = $this->input->post("idTipoArchivo");
@@ -599,7 +687,7 @@ function updateProjectFile(){
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
@@ -608,8 +696,15 @@ function updateProjectFile(){
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function fileDataDelete(){
-		$this->load->database();
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idArchivo = $this->input->post("idArchivo");
 		$sql = "DELETE FROM ARCHIVOS
 			WHERE idArchivo = ". $idArchivo;
@@ -617,7 +712,7 @@ function updateProjectFile(){
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		return $retArray;
 	}
@@ -682,9 +777,15 @@ function updateProjectFile(){
 	} 
 
 function autocompleteReadActividada(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idProyecto, nombreProyecto FROM PROYECTO WHERE activo = '1'";		
 		$query = $this->db->query($sql);
@@ -702,7 +803,7 @@ function autocompleteReadActividada(){
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
