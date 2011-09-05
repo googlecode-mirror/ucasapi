@@ -24,10 +24,16 @@ class solicitudModel extends CI_Model {
 	}
 
 	function create() {
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$this->load->library('session');
-
-		$retArray = array("status"=> 0, "msg" => "");
 
 		$asunto = $this->input->post("asunto");
 		$prioridad = $this->input->post("prioridad");
@@ -37,6 +43,11 @@ class solicitudModel extends CI_Model {
 
 		$queryId = "SELECT MAX(s.anioSolicitud) maxAnio FROM SOLICITUD s";
 		$result = $this->db->query($queryId);
+		
+		if(!$result){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
 
 		if($result->num_rows() > 0) {
 			$maxAnio = 0;
@@ -87,13 +98,23 @@ class solicitudModel extends CI_Model {
 
 		$this->db->trans_begin();
 		//$query = $this->db->query($sql);
-		$this->db->query($sql);
-		$this->db->query($sql2);
+		$query = $this->db->query($sql);
+		if(!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			return $retArray;
+		}		
+		$query = $this->db->query($sql2);
+		if(!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			return $retArray;
+		}
 
 		//if (!$query){
 		if($this->db->trans_status() == FALSE) {
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 	    } else {
 	    	$this->db->trans_commit();
@@ -103,8 +124,15 @@ class solicitudModel extends CI_Model {
 	}
 
 	function getSolicitud ($idPeticion=NULL) {
-		$this->load->database();
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		//array con la clave de la solicitud -> anioSolicitud-correlAnio
 		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
@@ -141,7 +169,7 @@ class solicitudModel extends CI_Model {
 			}
 		} else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -149,8 +177,15 @@ class solicitudModel extends CI_Model {
 	}
 
 	function getSolicitudCliente ($idPeticion=NULL) {
-		$this->load->database();
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		//array con la clave de la solicitud -> anioSolicitud-correlAnio
 		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
@@ -187,7 +222,7 @@ class solicitudModel extends CI_Model {
 			}
 		} else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -343,7 +378,7 @@ class solicitudModel extends CI_Model {
 			}
 		} else {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -372,7 +407,7 @@ class solicitudModel extends CI_Model {
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -404,7 +439,7 @@ class solicitudModel extends CI_Model {
 
 		if($this->db->trans_status() == FALSE) {
 	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 	    } else {
 	    	$this->db->trans_commit();
