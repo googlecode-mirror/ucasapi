@@ -3,8 +3,15 @@
 class tipoEstadoModel extends CI_Model{
 
 	function autocompleteRead(){
-		$this->load->database();
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idTipoEstado, nombreTipoEstado FROM TIPO_ESTADO";
 		$query = $this->db->query($sql);
@@ -22,7 +29,7 @@ class tipoEstadoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -46,9 +53,15 @@ class tipoEstadoModel extends CI_Model{
 	}
 
 	function delete(){
-		$this->load->database();
-
-		$retArray = array("status" => "0", "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idTipo = $this->input->post("idTipo");
 
 		$sql = "DELETE FROM TIPO_ESTADO WHERE idTipoEstado = " .$idTipo;
@@ -77,9 +90,15 @@ class tipoEstadoModel extends CI_Model{
 	}
 
 	function update(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idTipo = $this->input->post("idTipo");
 		$nombreTipo = $this->input->post("nombreTipo");
@@ -90,16 +109,22 @@ class tipoEstadoModel extends CI_Model{
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function create(){
-		$this->load->database();
-
-		$retArray = array("status" => 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$nombreTipo = $this->input->post("nombreTipo");
 
@@ -109,16 +134,22 @@ class tipoEstadoModel extends CI_Model{
 
 		if(!$query){
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
 	}
 
 	function read(){
-		$this->load->database();
-
-		$retArray = array("status" => 0, "msg" => "", "data" => array());
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idTipo = $this->input->post("idTipo");
 
 		$sql = 	"SELECT nombreTipoEstado FROM TIPO_ESTADO WHERE idTipoEstado = " .$idTipo;
@@ -131,7 +162,7 @@ class tipoEstadoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
