@@ -7,9 +7,15 @@ class UsuarioModel extends CI_Model{
 
 		$idUsuario;
 
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		// tomando la data del post
 		$username = $this->input->post("username");
@@ -54,6 +60,11 @@ class UsuarioModel extends CI_Model{
 			// tomar el id del usuario que estoy guardando, preguntando por el username
 			$sql = "SELECT idUsuario FROM USUARIO WHERE username = '".$username."'";
 			$query = $this->db->query($sql);
+			if(!$query){
+					$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+			}
+			
 			if ($query->num_rows() > 0)
 			{
 				$row = $query->row();
@@ -63,14 +74,18 @@ class UsuarioModel extends CI_Model{
 			$data_array = explode("|",$rol_rows);
 			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
 			foreach ($insert_statements as $queryRoles) {
-				$this->db->query($queryRoles);
+				$query = $this->db->query($queryRoles);
+				if(!$query){
+					$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				}
 			}
 		}
 
 		//controlando la transaccion
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -116,9 +131,15 @@ class UsuarioModel extends CI_Model{
 	}
 
 	function read(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 
@@ -135,7 +156,7 @@ class UsuarioModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 
 		}
 			
@@ -143,9 +164,15 @@ class UsuarioModel extends CI_Model{
 	}
 
 	function update(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 		$username = $this->input->post("username");
@@ -199,10 +226,18 @@ class UsuarioModel extends CI_Model{
 		$this->db->trans_begin();
 
 		$query = $this->db->query($sql);
+		if(!$query){
+					$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
 
 		//eliminar los roles que actualmente estan asignados al usuario, primer paso para sobreescribir
 		$sql = "DELETE FROM ROL_USUARIO WHERE idUsuario =".$idUsuario;
 		$query = $this->db->query($sql);
+		if(!$query){
+					$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
 
 		if($rol_rows != ""){
 
@@ -210,14 +245,18 @@ class UsuarioModel extends CI_Model{
 			$data_array = explode("|",$rol_rows);
 			$insert_statements = $this->getRolInsert($data_array, $idUsuario);
 			foreach ($insert_statements as $queryRoles) {
-				$this->db->query($queryRoles);
+				$query = $this->db->query($queryRoles);
+				if(!$query){
+					$retArray["status"] = $this->db->_error_number();
+					$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				}
 			}
 		}
 
 		//controlando la transaccion
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
@@ -231,9 +270,15 @@ class UsuarioModel extends CI_Model{
 	}
 
 	function delete(){
-		$this->load->database();
-
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$idUsuario = $this->input->post("idUsuario");
 
@@ -245,7 +290,7 @@ class UsuarioModel extends CI_Model{
 
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -253,9 +298,15 @@ class UsuarioModel extends CI_Model{
 
 	// Buscar usuarios
 	function autocompleteRead(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', if(OtrosNombres=null,'',OtrosNombres),' ',primerApellido,' ',if(otrosApellidos=null,'',otrosApellidos),' ',if(activo=1,'(ACTIVO)','(INACTIVO)')) nombreUsuario FROM USUARIO";
 		$query = $this->db->query($sql);
@@ -273,7 +324,7 @@ class UsuarioModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -281,9 +332,15 @@ class UsuarioModel extends CI_Model{
 	
 	// Buscar usuarios para solicitud
 	function autocompleteSolicitudRead(){
-		$this->load->database();
-
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 
 		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', if(OtrosNombres=null,'',OtrosNombres),' ',primerApellido,' ',if(otrosApellidos=null,'',otrosApellidos)) nombreUsuario FROM USUARIO WHERE activo = '1' ";
 		$query = $this->db->query($sql);
@@ -301,7 +358,7 @@ class UsuarioModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
