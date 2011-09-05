@@ -2,9 +2,15 @@
 class procesoModel extends CI_Model{
 	
 	function proyectoAutocompleteRead($idUsuario, $idRol){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		if($idRol == 1){
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
@@ -31,16 +37,22 @@ class procesoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}		
 		return $retArray;
 	}
 	
 	
 	function create(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$nombreProceso = $this->input->post("nombreProceso");	
 		$descripcion = $this->input->post("descripcion");
@@ -75,7 +87,7 @@ class procesoModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		/*if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
@@ -90,9 +102,15 @@ class procesoModel extends CI_Model{
 	
 	
 	function read(){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idProceso = $this->input->post("idProceso");		
 		
@@ -110,7 +128,7 @@ class procesoModel extends CI_Model{
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    	
 	    }
 	    
@@ -118,9 +136,15 @@ class procesoModel extends CI_Model{
 	}
 	
 	function faseRead($idProyecto){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array());		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}	
 		
 		$sql = "SELECT f.idFase, f.nombreFase FROM FASE f INNER JOIN FASE_PROYECTO fp ON (f.idFase = fp.idFase) AND fp.idProyecto = ".$this->db->escape($idProyecto);
 		
@@ -139,7 +163,7 @@ class procesoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}		
 		return $retArray;
 	}
@@ -202,9 +226,15 @@ class procesoModel extends CI_Model{
 	}
 
 	function update(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idEstado = $this->input->post("idEstado");
 		$idProceso = $this->input->post("idProceso");
@@ -235,7 +265,7 @@ class procesoModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		/*if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
@@ -302,9 +332,15 @@ class procesoModel extends CI_Model{
 	
 
 	function delete(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idProceso = $this->input->post("idProceso");
 		
@@ -314,7 +350,7 @@ class procesoModel extends CI_Model{
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 	    }
 		
 		return $retArray;	
@@ -322,9 +358,15 @@ class procesoModel extends CI_Model{
 	
 	
 	function autocompleteRead($idProyecto){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$sql = "SELECT p.nombreProceso, p.idProceso
 				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
@@ -344,7 +386,7 @@ class procesoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}		
 		return $retArray;
 	}
@@ -371,9 +413,15 @@ class procesoModel extends CI_Model{
 	}
 	
 	function estadoAutocomplete($idTipo){
-		$this->load->database();
-		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$sql = "select e.idEstado, e.estado
 				from ESTADO e INNER JOIN TIPO_ESTADO tp ON e.idTipoEstado = tp.idTipoEstado
@@ -394,7 +442,7 @@ class procesoModel extends CI_Model{
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}		
 		return $retArray;
 	}
@@ -416,8 +464,15 @@ class procesoModel extends CI_Model{
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
 	function createProcessFile(){
-		$this->load->database();
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		
 		$idProceso = $this->input->post("idProceso");
 		$idTipoArchivo = $this->input->post("idTipoArchivo");
@@ -437,7 +492,7 @@ class procesoModel extends CI_Model{
 		
 		if (!$query){
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 
 		return $retArray;
@@ -445,9 +500,15 @@ class procesoModel extends CI_Model{
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function updateProcessFile(){
-		$this->load->database();
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
-		$retArray = array("status"=> 0, "msg" => "");
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idArchivo = $this->input->post("idArchivo");
 		$idActividad   = $this->input->post("idActividad");
 		$idTipoArchivo = $this->input->post("idTipoArchivo");
@@ -467,7 +528,7 @@ function updateProcessFile(){
 		
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		
 		return $retArray;
@@ -476,8 +537,15 @@ function updateProcessFile(){
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function fileDataDelete(){
-		$this->load->database();
-		$retArray = array("status"=> 0, "msg" => "");
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
 		$idArchivo = $this->input->post("idArchivo");
 		$sql = "DELETE FROM ARCHIVOS
 			WHERE idArchivo = ". $idArchivo;
@@ -485,7 +553,7 @@ function updateProcessFile(){
 		$query = $this->db->query($sql);
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
 		return $retArray;
 	}
