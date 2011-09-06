@@ -8,6 +8,22 @@ $(document).ready(function(){
 	//$(".button").button();
 	$("input[type=button]").button();
 	roleSelectionIni();
+	
+	$("#browsers").bt(
+			  {
+			    fill: '#FFF',
+			    cornerRadius: 10,
+			    strokeWidth: 0,
+			    shadow: true,
+			    shadowOffsetX: 3,
+			    shadowOffsetY: 3,
+			    shadowBlur: 8,
+                              width : 256,
+			    shadowColor: 'rgba(0,0,0,.9)',
+			    shadowOverlap: false,
+			    noShadowOpts: {strokeStyle: '#999', strokeWidth: 2},
+			    positions: ['top', 'top']
+	  });	
 
 });	
 
