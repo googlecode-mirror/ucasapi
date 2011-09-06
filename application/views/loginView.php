@@ -49,13 +49,16 @@
 					<input id = "btnLogin" type="button" value="Iniciar sesión" onClick="userLogin()"/>
 					<input id = "btnCancel" type="button" value="Cancelar" onClick="cancel()"/>
 				</div>
+				
+				
 			</div>
+			<img  id ="browsers" src="<?php echo base_url(); ?>application/views/css/img/browsers.png" style="margin-top:128px" title="<b>Navegadores soportados:</b><br> Mozilla Firefox 4.0 o superior.<br> Google Chrome 12.0 o superior.<br> Internet Explorer 8.0 o superior."/>	
 			
 		</div>
 		
 		<div id="roleSelection" style="display:none">
-			<span class = "inputFieldLabelL">Rol</span>
-			<input id="txtRol" type="text"  value="" class = "inputFieldLAC"/><br>
+			<span class = "inputFieldLabelL" style="width:30px">Rol</span>
+			<input id="txtRol" type="text"  value="" class = "inputFieldLAC" style="width:280px"/><br>
 		</div>
 	
 		
