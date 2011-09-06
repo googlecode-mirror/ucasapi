@@ -89,22 +89,22 @@
 					<input id="anioSolicitud" type="hidden"  value="<?php echo $anioSolicitud; ?>" class = "hiddenId"/>
 					<input id="correlAnio" type="hidden"  value="<?php echo $correlAnio; ?>" class = "hiddenId"/>
 					
-					<span class = "requiredFieldLabel" >Nombre</span>
+					<span class = "requiredFieldLabel" >Actividad:</span>
 					<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
 					
-					<span class = "requiredFieldLabel" >Proyecto</span>
+					<span class = "requiredFieldLabel" >Proyecto:</span>
 					<input id="txtProjectName" type="text"  value="" class = "inputFieldAC" title="Proyecto al que la actividad est&aacute; asociada"/><br>
 					
-					<span class = "inputFieldLabel" >Proceso</span>
+					<span class = "inputFieldLabel" >Proceso:</span>
 					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad est&aacute; asociada"/><br>
 										
-					<span class = "requiredFieldLabel" >Prioridad</span>
+					<span class = "requiredFieldLabel" >Prioridad:</span>
 					<input id="txtPriorityName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
 					
-					<span class = "requiredFieldLabel" >Estado</span>
+					<span class = "requiredFieldLabel" >Estado>:</span>
 					<input id="txtStatusName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
 					
-					<span class = "inputFieldLabel" >Planificaci&oacute;n</span>
+					<span class = "inputFieldLabel" >Planificaci&oacute;n:</span>
 					<div class="divDateCombo">
 						<span>Inicio</span>
 						<input id="txtStartingDate" type="text"  value=""  title="Fecha de inicio planificada de la actividad" readonly/><br>
