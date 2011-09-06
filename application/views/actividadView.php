@@ -71,18 +71,16 @@
 					<input id="idProyecto" type="hidden" value="<?php echo $idProyecto; ?>" class="hiddenId" /> 
 					<input id="idUsuario" type="hidden" value="<?php echo $idUsuario; ?>" class="hiddenId" /> <br> 
 		
-					<span class="inputFieldLabel">Proyecto: </span> <input
-						id="txtProyectoName" type="text" readonly="readonly" value=""
-						class="inputField" /><br> <span class="inputFieldLabel">Actividad: </span>
-					<input id="txtActividadName" type="text" readonly="readonly"
-						class="inputField"></input> <span class="inputFieldLabel">Asignada
-						por: </span> 
-					<input id="txtAsignada" type="text" readonly="readonly"
-						class="inputField"></input> 
+					<span class="inputFieldLabel">Proyecto: </span> 
+						<input id="txtProyectoName" type="text" readonly="readonly" value="" class="inputField" title="Proyecto al que pertenece la actividad"/><br> 
+					<span class="inputFieldLabel">Actividad: </span>
+						<input id="txtActividadName" type="text" readonly="readonly" class="inputField" title="Nombre de la actividad"></input> 
+					<span class="inputFieldLabel">Asignada por: </span> 
+						<input id="txtAsignada" type="text" readonly="readonly" class="inputField" title="Persona que le asigno la actividad"></input> 
 					<span class="inputFieldLabel">Estado: </span>
-					<select id="cbEstado"></select>
+					<select id="cbEstado" title="Estado de la actividad"></select>
 					<span class="inputFieldLabel">Progreso:
-					</span> <select id="cbProgreso">
+					</span> <select id="cbProgreso" title="Progreso de la actividad">
 						<option value="0">--Progreso--</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
@@ -97,10 +95,10 @@
 					</select>
 					<!--  <input id="txtProgreso" type="text" class = "inputField"></input> -->
 		
-					<span class="inputFieldLabel">Comentarios: </span> <input
-						id="txtComentarios" type="text" class="inputField"></input> <span
-						class="inputFieldLabel">Descripcion: </span>
-					<textArea id="txtDescripcion" class = "inputFieldTA" readonly="readonly"  cols="20" rows="4" ></textArea>
+					<span class="inputFieldLabel">Comentarios: </span> 
+						<textArea id="txtComentarios" class = "inputFieldTA" cols="20" rows="3" title="Comentarios sobre lo que se hizo"></textArea>
+					<span class="inputFieldLabel">Descripcion: </span>
+						<textArea id="txtDescripcion" class = "inputFieldTA" readonly="readonly"  cols="20" rows="4" title="Descripcion de la actividad"></textArea>
 					<br><br>
 				</div>
 				

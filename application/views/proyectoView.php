@@ -85,7 +85,7 @@
 					<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
 					<input id="idUsuario" type="hidden"  value=<?php echo $idUsuario;?> />
 					
-					<span class = "requiredFieldLabel">Nombre:</span>
+					<span class = "requiredFieldLabel">Proyecto:</span>
 					<input id="txtProyectoNombre" type="text"  value="" class = "inputField" title="Nombre del proyecto, solo letras y espacios" maxlength="100"/><br>
 					
 					<span class = "requiredFieldLabel">Due&ntilde;o:</span>

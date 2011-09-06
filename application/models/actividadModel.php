@@ -225,8 +225,12 @@ class actividadModel extends CI_Model{
 		
 		//Insertando la notificacion a los seguidores
 		if($asignar == 1 || $desasignar == 1){
-			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadAsignaciones).",'Asignaciones ocurridas en actividad',CURRENT_TIMESTAMP())";
+			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadAsignaciones).",'Asignaciones ocurridas en una actividad',CURRENT_TIMESTAMP())";
 			$this->db->query($sql);
+			
+			//Insertando notificacion de asignaciones en bitacora
+			$sql = "CALL sp_insert_bitacora(".$idActividad.",".$idUsuario.",".$progreso.",'Asignaciones ocurridas en la actividad',1,1,".$idEstado.")";
+			$query = $this->db->query($sql);			
 			
 			//Obteniendo el ultimo ID
 			$sql = "SELECT MAX(idNotificacion) lastId FROM NOTIFICACION";
@@ -271,7 +275,16 @@ class actividadModel extends CI_Model{
 				WHERE idActividad = " .$idActividad;
 		$query = $this->db->query($sql);
 		$row = $query->row();
-		$cadNotificacion = "Se le ha asignado la actividad <b>'" .$row->nombreActividad. "'</b>";
+		$cadNotificacion = "Se le ha asignado la actividad <b>'" .$row->nombreActividad. "'</b>, ";
+		
+		//Obteniendo el nombre del proyecto
+		$sql = "SELECT nombreProyecto
+				FROM ACTIVIDAD_PROYECTO axp INNER JOIN PROYECTO p 
+					ON axp.idProyecto = p.idProyecto
+				WHERE axp.idActividad = " .$idActividad;
+		$query = $this->db->query($sql);
+		$row = $query->row();
+		$cadNotificacion += "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
 		
 		//Insertando la notificacion de actividad asignada al usuario
 		$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURRENT_TIMESTAMP())";
