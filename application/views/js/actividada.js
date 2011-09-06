@@ -634,7 +634,7 @@ $("#users1Grid").jqGrid({
 	    colModel :[ 
         {name:"id", index:"id", hidden:true}, 
 	      {name:"usuario", index:"usuario", width:22},
-		  {name:"depto", index:"depto", width:64}
+		  {name:"depto", index:"depto", hidden:true}
 	    ],
 	    pager: "#pagerU",
 	    rowNum:10,
@@ -663,7 +663,7 @@ $("#responsibleUsersGrid").jqGrid({
 	    colModel :[ 
 	      {name:"id", index:"id", hidden:true}, 
 	      {name:"usuario", index:"usuario", width:22},
-	      {name:"depto", index:"depto", width:64}
+	      {name:"depto", index:"depto", hidden:true}
 	    ],
 	    pager: "#pagerAU",
 	    rowNum:10,
