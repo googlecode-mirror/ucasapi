@@ -67,7 +67,7 @@
 				<span class = "inputFieldLabel"><b>Por:</b></span><br/>
 				<span class="cleanable" id="cliente"></span><br/><br/>
 
-				<span class = "inputFieldLabel"><b>Descripci&oacute;n:</b></span><br/>
+				<span class = "inputFieldLabel"><b>Descripci&oacute;n de la solicitud:</b></span><br/>
 				<textArea readonly="readonly" id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>
 				<br><br>
 

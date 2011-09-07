@@ -53,6 +53,12 @@ $(document).ready(function() {
 	
 });
 
+function remove() {
+	$('#cbxRelacionados option:selected').each(function(i, selected) {
+		$(selected).remove();
+	});
+}
+
 function loadGrid() {
 
 	$("#listPeticion").jqGrid({
@@ -102,7 +108,7 @@ function proyectoAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
+				msgBoxError("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtProjectRecords").autocomplete(
 						{
@@ -115,7 +121,9 @@ function proyectoAutocomplete() {
 								$("#cbxRelacionados").append(
 										'<option value="' + ui.item.id + '">'
 												+ ui.item.value + '</option>');
+								$("#txtProjectRecords").val("");
 								$(this).blur();//Dedicado al IE
+								$("#txtProjectRecords").val("");
 							},
 							// Esto es para el esperado mustMatch o algo
 							// parecido
@@ -141,7 +149,7 @@ function empleadosAutocomplete() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				alert("Mensaje de error: " + retrievedData.msg);
+				msgBoxError("Mensaje de error: " + retrievedData.msg);
 			} else {
 				$("#txtRecords").autocomplete(
 						{
@@ -177,7 +185,7 @@ function mostrarSolicitud(idSolicitud) {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				msgBoxInfo(retrievedData.msg);
+				msgBoxError(retrievedData.msg);
 				// alert("Mensaje de error: " + retrievedData.msg); //Por el
 				// momento, el mensaje que se est� mostrando es t�cnico,
 				// para cuestiones de depuraci�n
@@ -197,7 +205,11 @@ function mostrarSolicitud(idSolicitud) {
 							+ retrievedData.data[i].depto + "<br/>";
 				}
 
-				$("#interesados").html(interesados);
+				if (interesados == "") {
+					$("#interesados").html("(Ninguno)");
+				} else {
+					$("#interesados").html(interesados);
+				}
 
 				$("#dialogoSolicitud").css('visibility', 'visible').dialog(
 						'open');
@@ -233,7 +245,7 @@ function transferirSolicitud() {
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
-				msgBoxInfo(retrievedData.msg);
+				msgBoxError(retrievedData.msg);
 				// alert("Mensaje de error: " + retrievedData.msg); //Por el
 				// momento, el mensaje que se est� mostrando es t�cnico,
 				// para cuestiones de depuraci�n
@@ -268,7 +280,7 @@ function asignarSolicitud() {
 		formData += "&idActividad=" + $("#idActividad").val();
 		formData += "&idPrioridad=" + $("#idPrioridad").val();
 		formData += "&idEstado=" + $("#idEstado").val();
-		formData += "&responsables=" + $("#idUsuarioResponsable").val();
+		formData += "&responsablesI=" + $("#idUsuarioResponsable").val();
 		formData += "&idUsuarioAsigna=" + $("#idUsuarioAsigna").val();
 		formData += "&nombreActividad=" + $("#txtActivityName").val();
 		formData += "&fechaInicioPlan=" + $("#txtStartingDate").val();
@@ -285,14 +297,12 @@ function asignarSolicitud() {
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
-					msgBoxInfo(retrievedData.msg);
+					msgBoxError(retrievedData.msg);
 					// alert("Mensaje de error: " + retrievedData.msg); //Por el
 					// momento, el mensaje que se est� mostrando es t�cnico,
 					// para cuestiones de depuraci�n
 				} else {
 					if ($("#idActividad").val() == "") {
-						msgBoxSucces("Registro agregado con �xito");
-					} else {
 						$("div#dialogoAsignar > input:text").val("");
 						$("#txtActivityDesc").val("");
 
@@ -301,10 +311,8 @@ function asignarSolicitud() {
 
 						$("#dialogoAsignar").dialog("close");
 						$("#dialogoSolicitud").dialog("close");
-						
-						msgBoxSucces("Registro actualizado con �xito");
+						msgBoxSucces("Registro agregado con &eacute;xito");
 					}
-
 				}
 			}
 

@@ -45,6 +45,8 @@
 		<div class="container">
 			<div style="height: 20px"></div>
 
+			<div id ="msgBox" style="width:500px"></div>
+
 			<div  align="center">
 				<table id="listPeticion"><tr><td/></tr></table>
 				<div id="pager"></div>
@@ -85,7 +87,6 @@
 			</div>
 
 			<div align="center" id="dialogoAsignar" style="visibility: hidden;" class="divDataForm">
-				<div id ="msgBox" style="width:500px"></div>
 				<span class = "requiredFieldLabel" style="margin-left:56px">Nombre</span>
 				<input id="txtActivityName" type="text"  value="" class = "inputField"  maxlength="40"/><br/><br/>
 
@@ -104,7 +105,7 @@
 				<div style="clear:both"></div>
 
 				<div align="center" style="margin-top:20px">
-					<button id="btnRemoveProject" onClick="asignarSolicitud()" >Quitar</button>
+					<button id="btnRemoveProject" onClick="remove()" >Quitar</button>
 				</div>
 
 
@@ -112,7 +113,7 @@
 				<input id="txtResponsibleName" type="text"  value="" class = "inputField"  maxlength="40"/><br/>
 
 				<span class = "requiredFieldLabel" style="margin-left:56px">Prioridad</span>
-				<input id="txtPriorityName" type="text"  value="" class = "inputField"  maxlength="40"/><br/>
+				<input id="txtPriorityName" type="text"  value="" class = "inputField"  maxlength="40"/><br/><br/><br/><br/><br/>
 
 				<span class = "requiredFieldLabel" style="margin-left:56px">Estado</span>
 				<input id="txtStatusName" type="text"  value="" class = "inputField"  maxlength="40"/><br/>
