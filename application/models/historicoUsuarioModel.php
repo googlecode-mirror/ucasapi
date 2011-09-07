@@ -19,7 +19,6 @@ class historicoUsuarioModel extends CI_Model{
 		$fechaInicioContrato = $this->input->post("fechaInicioContrato");
 		$fechaFinContrato = $this->input->post("fechaFinContrato");
 		$tiempoContrato = $this->input->post("tiempoContrato");
-		$salario = $this->input->post("salario");
 		$nuevoCorrel = 1;
 
 		$sqlCorrel = "SELECT MAX(correlUsuarioHistorico)+1 lastCorrel FROM USUARIO_HISTORICO WHERE idUsuario = '".$idUsuario."'";
@@ -34,12 +33,12 @@ class historicoUsuarioModel extends CI_Model{
 
 		$this->db->trans_begin();
 
-		$sql = "INSERT INTO USUARIO_HISTORICO (idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, salario, activo)
+		$sql = "INSERT INTO USUARIO_HISTORICO (idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo)
 				VALUES (".$this->db->escape($idUsuario)."
 				, ".$this->db->escape($nuevoCorrel)."
 				, ".$this->db->escape($fechaInicioContrato)."
 				, ".$this->db->escape($fechaFinContrato)."
-				, ".$this->db->escape($salario).", 1)";
+				, ".$this->db->escape($tiempoContrato).", 1)";
 
 		$this->db->query($sql);
 			
@@ -73,7 +72,7 @@ class historicoUsuarioModel extends CI_Model{
 		if($fechaFin == ""){
 			$fechaFin = null;
 		}
-		//$salario = $this->input->post("salario");
+		$salario = $this->input->post("salario");
 		if($salario == ""){
 			$salario = null;
 		}
@@ -81,8 +80,9 @@ class historicoUsuarioModel extends CI_Model{
 
 		$this->db->trans_begin();
 
-		$sql = "INSERT INTO ROL_HISTORICOS (idRolHistorico, fechaInicio, fechaFin, correlUsuarioHistorico, idUsuario, idRol)
-				VALUES (DEFAULT,".$this->db->escape($fechaInicio)."
+		$sql = "INSERT INTO ROL_HISTORICOS (idRolHistorico, salario, fechaInicio, fechaFin, correlUsuarioHistorico, idUsuario, idRol)
+				VALUES (DEFAULT,".$this->db->escape($salario)."
+				, ".$this->db->escape($fechaInicio)."
 				, ".$this->db->escape($fechaFin)."
 				, ".$this->db->escape($correlUsuarioHistorico)."
 				, ".$this->db->escape($idUsuario)."
@@ -114,7 +114,7 @@ class historicoUsuarioModel extends CI_Model{
 
 		$idUsuario = $this->input->post("idUsuario");
 
-		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, salario, activo
+		$sql = "SELECT idUsuario, correlUsuarioHistorico, fechaInicioContrato, fechaFinContrato, tiempoContrato, activo
 				FROM USUARIO_HISTORICO 
 				WHERE idUsuario = ".$idUsuario." AND activo='1'";
 
@@ -148,12 +148,12 @@ class historicoUsuarioModel extends CI_Model{
 		$idRol = $this->input->post("idRol");
 		$fechaInicioContrato = $this->input->post("fechaInicioContrato");
 		$fechaFinContrato = $this->input->post("fechaFinContrato");
-		$salario = $this->input->post("salario");
+		$tiempoContrato = $this->input->post("tiempoContrato");
 
 		$sql = "UPDATE USUARIO_HISTORICO
 				SET fechaInicioContrato=".$this->db->escape($fechaInicioContrato).",
 				    fechaFinContrato=".$this->db->escape($fechaFinContrato).",
-				    salario=".$this->db->escape($salario)." 			    
+				    tiempoContrato=".$this->db->escape($tiempoContrato)." 			    
 				     WHERE idUsuario = ". $idUsuario." AND correlUsuarioHistorico=".$correlUsuarioHistorico;	
 
 		$query = $this->db->query($sql);
@@ -376,7 +376,7 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		$sql = "SELECT fechaInicioContrato, if(fechaFinContrato=null,'',fechaFinContrato) fechaFinContrato, salario, correlUsuarioHistorico, idUsuario  FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario)." AND activo='1'";
+		$sql = "SELECT fechaInicioContrato, if(fechaFinContrato=null,'',fechaFinContrato) fechaFinContrato, tiempoContrato, correlUsuarioHistorico, idUsuario  FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario)." AND activo='1'";
 		$query = $this->db->query($sql);
 
 		$i = 0;
@@ -384,7 +384,7 @@ class historicoUsuarioModel extends CI_Model{
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i+1;// de esto no estoy del todo seguro
-					$response->rows[$i]["cell"] = array($row->fechaInicioContrato,$row->fechaFinContrato,$row->salario, $row->correlUsuarioHistorico, $row->idUsuario);
+					$response->rows[$i]["cell"] = array($row->fechaInicioContrato,$row->fechaFinContrato,$row->tiempoContrato, $row->correlUsuarioHistorico, $row->idUsuario);
 					$i++;
 				}
 			}
@@ -427,7 +427,7 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		$sql = "SELECT fechaInicio, fechaFin, nombreRol, correlUsuarioHistorico, idRolHistorico, idUsuario, ROL_HISTORICOS.idRol  FROM ROL_HISTORICOS, ROL WHERE ROL_HISTORICOS.idRol = ROL.idRol AND idUsuario = ".$this->db->escape($idUsuario)." AND correlUsuarioHistorico=".$this->db->escape($correlUsuarioHistorico);
+		$sql = "SELECT fechaInicio, fechaFin, salario, nombreRol, correlUsuarioHistorico, idRolHistorico, idUsuario, ROL_HISTORICOS.idRol  FROM ROL_HISTORICOS, ROL WHERE ROL_HISTORICOS.idRol = ROL.idRol AND idUsuario = ".$this->db->escape($idUsuario)." AND correlUsuarioHistorico=".$this->db->escape($correlUsuarioHistorico);
 		$query = $this->db->query($sql);
 
 		$i = 0;
