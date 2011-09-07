@@ -25,6 +25,7 @@
 		
 		<div class="sessionBar">
 			<span id="sessionUser"></span>
+			<img id="aboutButton" title="Acerca de..." src="<?php echo base_url(); ?>application/views/css/img/about.jpg" />
 		</div>
 		
 		<div><span id="pageTittle"></span></div>
@@ -60,6 +61,9 @@
 			<span class = "inputFieldLabelL" style="width:30px">Rol</span>
 			<input id="txtRol" type="text"  value="" class = "inputFieldLAC" style="width:280px"/><br>
 		</div>
+			<div id="aboutScreen" style="display: none">
+				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />		
+		</div>	
 	
 		
 	</body>

@@ -34,6 +34,7 @@
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />	
 			<span id="systemName"><b>PHOBOS PLANING</b></span> 	
+			<img id="aboutButton" title="Acerca de..." src="<?php echo base_url(); ?>application/views/css/img/about.jpg" />
 			<img id="logoutButton" title="Cerrar sesi�n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />			
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span> 
 		</div>
@@ -198,6 +199,8 @@
 				</div>				
 			</div>			
 		</div>	
-		
+		<div id="aboutScreen" style="display: none">
+				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />		
+		</div>	
 	</body>
 </html>
