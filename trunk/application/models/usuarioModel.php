@@ -47,7 +47,7 @@ class UsuarioModel extends CI_Model{
 				VALUES (".$this->db->escape($username).", ".$this->db->escape($password).", ".$this->db->escape($primerNombre).", ".$this->db->escape($primerApellido)."
 				, ".$this->db->escape($otrosNombres).", ".$this->db->escape($otrosApellidos).", ".$this->db->escape($codEmp).", ".$this->db->escape($dui).", ".$this->db->escape($nit)."
 				, ".$this->db->escape($isss).", ".$this->db->escape($emailPersonal).", ".$this->db->escape($emailInstitucional).", ".$this->db->escape($nup)."
-				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).",".$this->db->escape($fechaNacimiento).",'".$this->db->escape($telefonoContacto)."',".$this->db->escape($extension).")";
+				, ".$this->db->escape($carnet).", ".$this->db->escape($idDepto).", ".$this->db->escape($idCargo).",".$this->db->escape($activo).",".$this->db->escape($fechaNacimiento).",".$this->db->escape($telefonoContacto).",".$this->db->escape($extension).")";
 
 
 		/*********************************************************************************/
