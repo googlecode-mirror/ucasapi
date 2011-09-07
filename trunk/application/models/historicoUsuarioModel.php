@@ -273,7 +273,7 @@ class historicoUsuarioModel extends CI_Model{
 			return $retArray;
 		}
 
-		$sql = "SELECT idUsuario, CONCAT(primerNombre,' ', OtrosNombres,' ',primerApellido,' ',otrosApellidos,) nombreUsuario FROM USUARIO WHERE activo='1'";
+		$sql = "SELECT DISTINCT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) nombreUsuario FROM USUARIO u INNER JOIN ROL_USUARIO ur ON ur.idUsuario = u.idUsuario WHERE u.activo='1' AND ur.idRol !=8";
 		$query = $this->db->query($sql);
 
 		if($query){
