@@ -645,7 +645,7 @@ $("#users1Grid").jqGrid({
 	    viewrecords: true,
 	    loadonce: true,
 	    gridview: true,
-	    caption: "Usuarios asginables",
+	    caption: "Usuarios asignables",
 	    loadComplete: function(){
 			if(numUsers1OnGrid==0){
 				numUsers1OnGrid = $("#users1Grid").jqGrid("getGridParam","records");
