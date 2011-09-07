@@ -130,4 +130,27 @@ class buzonModel extends CI_Model{
 		
 	}
 	
+	function deleteMessage($idU,$idN){
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
+		$sql = "DELETE FROM USUARIO_NOTIFICACION WHERE idUsuario = " .$idU." AND idNotificacion = " .$idN;
+		
+		$query = $this->db->query($sql);
+		if(!$query){
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
+		
+		return $retArray;
+		
+	}
+	
 }

@@ -52,4 +52,9 @@ class Buzon extends CI_Controller{
 		echo json_encode($this->buzonModel->updateMessage($idN));
 	}
 	
+	function buzonDeleteMessage($idU,$idN){
+		$this->load->model("buzonModel");
+		echo json_encode($this->buzonModel->deleteMessage($idU,$idN));
+	}
+	
 }
