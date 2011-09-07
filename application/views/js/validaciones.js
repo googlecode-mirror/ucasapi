@@ -90,8 +90,7 @@ function validarAlfa(campo){
 			return true;
 		} else {
 			return false;
-		}   
-		
+		}
 }
 
 function validarAlfaEsp(campo){
@@ -100,8 +99,7 @@ function validarAlfaEsp(campo){
 			return true;
 		} else {
 			return false;
-		}   
-		
+		} 		
 }
 
 function validarAlfaEspNum(campo){
@@ -110,12 +108,11 @@ function validarAlfaEspNum(campo){
 			return true;
 		} else {
 			return false;
-		}  
-		
+		}
 }
 
 function validarSalario(campo) {
-	var RegExPattern = /^\d{1,4}.\d{2}$/
+	var RegExPattern = /^\d|\.$/
 		if ((campo.match(RegExPattern)) && (campo.value != '')) {
 			return true;
 		} else {
