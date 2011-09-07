@@ -88,7 +88,7 @@ function loadGridUsuarioHistorico() {
 				datatype : "json",
 				mtype : "POST",
 				colNames : [ "Inicio contrato", "Fin contrato",
-						"Meses contrato", "CorrelContrato", "idUsuario" ],
+						"Salario", "CorrelContrato", "idUsuario" ],
 				colModel : [ {
 					name : "fechaInicioContrato",
 					index : "fechaInicioContrato",
@@ -98,8 +98,8 @@ function loadGridUsuarioHistorico() {
 					index : "fechaFinContrato",
 					width : 130
 				}, {
-					name : "tiempoContrato",
-					index : "tiempoContrato",
+					name : "salario",
+					index : "salario",
 					width : 130
 				}, {
 					name : "correlUsuarioHistorico",
@@ -133,7 +133,7 @@ function loadGridRolHistorico() {
 						+ $("#correlUsuarioHistorico").val(),
 				datatype : "json",
 				mtype : "POST",
-				colNames : [ "Ejercido desde", "Hasta", "Salario", "Rol",
+				colNames : [ "Ejercido desde", "Hasta", "Rol",
 						"idRolHistorico", "idUsuario", "CorrelContrato",
 						"idRol" ],
 				colModel : [ {
@@ -144,10 +144,6 @@ function loadGridRolHistorico() {
 					name : "fechaFin",
 					index : "fechaFin",
 					width : 110
-				}, {
-					name : "salario",
-					index : "salario",
-					width : 80
 				}, {
 					name : "nombreRol",
 					index : "nombreRol",
@@ -200,6 +196,7 @@ function saveContrato() {
 					+ $("#txtFechaInicioContrato").val();
 			formData += "&fechaFinContrato=" + $("#txtFechaFinContrato").val();
 			formData += "&tiempoContrato=" + $("#txtTiempoContrato").val();
+			formData += "&salario=" + $("#txtSalario").val();
 			
 			$
 					.ajax({
@@ -346,7 +343,7 @@ function editContrato() {
 				$("#txtFechaInicioContrato").val(
 						row_data["fechaInicioContrato"]);
 				$("#txtFechaFinContrato").val(row_data["fechaFinContrato"]);
-				$("#txtTiempoContrato").val(row_data["tiempoContrato"]);
+				$("#txtSalario").val(row_data["salario"]);
 				$("#correlUsuarioHistorico").val(
 						row_data["correlUsuarioHistorico"]);
 				$("#idUsuario").val(row_data["idUsuario"]);
@@ -356,7 +353,7 @@ function editContrato() {
 			msgBoxSucces("Debe seleccionar un contrato a editar");
 		}
 	} else {
-		msgBoxSucces("Debe seleccionar la opcion \"CONTRATOS\" para este usuario");
+		msgBoxSucces("Debe seleccionar la opci&oacute;n \"CONTRATOS\" para este usuario");
 	}
 
 }
@@ -369,8 +366,7 @@ function editRol() {
 			$("#accionActualRol").val("editando");
 
 			$("#txtFechaInicioRol").val(row_data["fechaInicio"]);
-			$("#txtFechaFinRol").val(row_data["fechaFin"]);
-			$("#txtSalarioRol").val(row_data["salario"]);
+			$("#txtFechaFinRol").val(row_data["fechaFin"]);			
 			$("#txtHistoricoRol").val(row_data["nombreRol"]);
 			$("#correlUsuarioHistorico")
 					.val(row_data["correlUsuarioHistorico"]);
@@ -436,7 +432,7 @@ function deleteContrato() {
 				msgBoxInfo("Debe seleccionar un contrato a eliminar");
 			}
 		} else {
-			msgBoxInfo("Debe seleccionar la opcion \"CONTRATOS\" para este usuario");
+			msgBoxInfo("Debe seleccionar la opci&oacute;n \"CONTRATOS\" para este usuario");
 		}
 	} else {
 		msgBoxInfo("Debe seleccionar un usuario");
@@ -485,7 +481,7 @@ function deleteRol() {
 						});
 			}
 		} else {
-			msgBoxInfo01("Debe seleccionar un rola eliminar de el contrato");
+			msgBoxInfo01("Debe seleccionar un rol eliminar de el contrato");
 		}
 	} else {
 		msgBoxInfo01("Debe seleccionar un usuario");
@@ -544,14 +540,14 @@ function cancelContrato() {
 	}).trigger("reloadGrid");
 	$("#msgBox").hide();
 	$("#contratosPressed").val("no")
+	$("#txtSalario").val("");
 	unlockAutocomplete();
 }
 
 function cancelRol() {
 	$("#txtHistoricoRol").val("");
 	$("#txtFechaInicioRol").val("");
-	$("#txtFechaFinRol").val("");
-	$("#txtSalarioRol").val("");
+	$("#txtFechaFinRol").val("");	
 	$("#accionActualRol").val("");
 	$("#idRol").val("");
 	$('#rolesHist')
@@ -593,7 +589,7 @@ function clear() {
 	$(".jqcalendario").val("");
 	$(".hiddenId").val("");
 	$("#txtRecords").val("");
-	$("#txtTiempoContrato").val("");
+	$("#txtSalario").val("");
 	$("#correlUsuarioHistorico").val("");
 	$("#accionActual").val("");
 	unlockAutocomplete();
@@ -605,6 +601,7 @@ function clearSaveContrato() {
 	$(".jqcalendario").val("");
 	$("#accionActual").val("");
 	$("#idRowEdit").val("");
+	$("#txtSalario").val("");
 	// $("#txtRecords").val("");
 	$("#txtTiempoContrato").val("");
 	// $("#correlUsuarioHistorico").val("");
@@ -617,7 +614,7 @@ function clearSaveRol() {
 	$("#txtHistoricoRol").val("");
 	$("#txtFechaInicioRol").val("");
 	$("#txtFechaFinRol").val("");
-	$("#txtSalarioRol").val("");
+	//$("#txtSalarioRol").val("");
 	$("#accionActualRol").val("");	
 }
 
@@ -629,7 +626,7 @@ function clearRol() {
 	$("#txtFechaInicioRol").val("");
 	$("#txtHistoricoRol").val("");
 	$("#txtFechaFinRol").val("");
-	$("#txtSalarioRol").val("");
+	//$("#txtSalarioRol").val("");
 	$("#accionActualRol").val("");
 }
 
@@ -653,14 +650,12 @@ function validarCampos() {
 		}
 	}	
 	
-	if ($("#txtTiempoContrato").val() != "") {
-		if (!validarNUM($("#txtTiempoContrato").val())) {
-			camposFallan += "<p><dd> El campo TIEMPO DE CONTRATO contiene caracteres no validos </dd><br/></p>";
+	/*if ($("#txtSalarioRol").val() != "") {
+		if (!validarSalario($("#txtSalarioRol").val())) {
+			camposFallan += "<p><dd> El formato de SALARIO es incorrecto o contiene caracteres no validos </dd><br/></p>"
 		}
-	}else {
-		camposFallan += "<p><dd> El campo TIEMPO DE CONTRATO es requerido </dd><br/></p>";
 	}	
-	
+	*/
 	if(camposFallan == ""){
 		return true;
 	}else{
@@ -680,13 +675,7 @@ function validarCamposRol() {
 	if ($("#txtFechaInicioRol").val() == "") {
 		camposFallan += "<p><dd> El campo FECHA ASIGNACION es requerido </dd><br/></p>"		
 	}
-	
-	if ($("#txtSalarioRol").val() != "") {
-		if (!validarSalario($("#txtSalarioRol").val())) {
-			camposFallan += "<p><dd> El formato de SALARIO es incorrecto o contiene caracteres no validos </dd><br/></p>"
-		}
-	}
-	
+		
 	if ($("#txtFechaFinRol").val() != "" &&	 $("#txtFechaInicioRol").val() != "") { 
 		if(!validateOverlapFechas($("#txtFechaFinRol").val(),$("#txtFechaInicioRol").val())) {
 			 camposFallan += "<p><dd> El campo FECHA ASIGNACION debe ser menor o igual a FECHA FIN </dd><br/></p>";
