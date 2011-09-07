@@ -51,6 +51,8 @@
 		<div align = "center">
 			<table id="todosMensajes"></table>
 			<div id="pager"></div>
+			<br>
+			<button id="btnCancel" onClick="deleteMessage()">Eliminar Mensaje</button>
 		</div>
 		<br>
 

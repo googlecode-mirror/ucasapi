@@ -166,7 +166,17 @@ class actividadModel extends CI_Model{
 		//Desasignando a los usuarios de la actividad
 		$id_array = explode(",",$remove_ids);
 		if($id_array[0] != 0){
-			$cadNotificacion = "Se le ha desasignado la actividad: <b>'" .$nombreActividad."'</b>";
+			$cadNotificacion = "Se le ha desasignado la actividad: <b>'" .$nombreActividad."'</b>, ";
+			
+			//Obteniendo el nombre del proyecto
+			$sql = "SELECT nombreProyecto
+					FROM ACTIVIDAD_PROYECTO axp INNER JOIN PROYECTO p 
+						ON axp.idProyecto = p.idProyecto
+					WHERE axp.idActividad = " .$idActividad;
+			$query = $this->db->query($sql);
+			$row = $query->row();
+			$cadNotificacion .= "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
+			
 			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad desasignada',CURRENT_TIMESTAMP())";
 			$this->db->query($sql);
 			
@@ -284,7 +294,7 @@ class actividadModel extends CI_Model{
 				WHERE axp.idActividad = " .$idActividad;
 		$query = $this->db->query($sql);
 		$row = $query->row();
-		$cadNotificacion += "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
+		$cadNotificacion .= "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
 		
 		//Insertando la notificacion de actividad asignada al usuario
 		$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURRENT_TIMESTAMP())";

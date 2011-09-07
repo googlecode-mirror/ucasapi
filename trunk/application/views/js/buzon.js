@@ -29,8 +29,8 @@ function loadBuzon() {
 				}],
 				pager : "#pager",
 				rowNum : 20,
-				width : 900,
-				height : 500,
+				width : 800,
+				height : 400,
 				rowList : [20, 40, 60],
 				sortname : "id",
 				sortorder : "desc",
@@ -48,7 +48,6 @@ function loadBuzon() {
 			    	load();
 			    }
 			});
-	
 }
 
 function load(){
@@ -105,6 +104,34 @@ function updateStatus(idN){
 		}
 
 	});
+}
+
+function deleteMessage(){
+	var idUsuario = $("#idUsuario").val();
+	var idNotificacion = $("#todosMensajes").jqGrid('getGridParam','selrow');
+	if(idNotificacion==null){
+		msgBoxInfo("Debe seleccionar un mensaje a eliminar");
+	}
+	else{
+		var resp = confirm("¿Está seguro que desea eliminar la notificación?");
+		if(resp){
+			$.ajax({				
+				type: "POST",
+				url:  "index.php/buzon/buzonDeleteMessage/" + idUsuario + "/" + idNotificacion,
+				data: "deleteMessage",
+				dataType : "json",
+				success: function(retrievedData){        	 
+					if(retrievedData.status != 0){
+						msgBoxError("Ocurrió un error, por favor contacte al Administrador");
+					}
+					msgBoxSucces("La notificación fué eliminada con éxito");
+					$("#todosMensajes").GridUnload("#todosMensajes");
+					loadBuzon();
+				}
+
+			});
+		}
+	}
 }
 
 function cancel(){
