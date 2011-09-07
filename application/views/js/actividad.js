@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	js_ini();
+	if(navigator.appName == "Microsoft Internet Explorer"){$("#txtStartingDate,#txtEndingDate").css("height", "16px");};
+	//$("#cbEstado, #cbProgreso").css("width", "");
 	$("#sessionUser").text(($("#sessionUser").text()).replace(/%20/g, " "));
 
 

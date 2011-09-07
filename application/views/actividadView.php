@@ -79,9 +79,9 @@
 					<span class="inputFieldLabel">Asignada por: </span> 
 						<input id="txtAsignada" type="text" readonly="readonly" class="inputField" title="Persona que le asigno la actividad"></input> 
 					<span class="inputFieldLabel">Estado: </span>
-					<select id="cbEstado" title="Estado de la actividad"></select>
+					<select id="cbEstado" title="Estado de la actividad"></select><br>
 					<span class="inputFieldLabel">Progreso:
-					</span> <select id="cbProgreso" title="Progreso de la actividad">
+					</span> <select id="cbProgreso" title="Progreso de la actividad"><br>
 						<option value="0">--Progreso--</option>
 						<option value="10">10</option>
 						<option value="20">20</option>
@@ -97,8 +97,8 @@
 					<!--  <input id="txtProgreso" type="text" class = "inputField"></input> -->
 		
 					<span class="inputFieldLabel">Comentarios: </span> 
-						<textArea id="txtComentarios" class = "inputFieldTA" cols="20" rows="3" title="Comentarios sobre lo que se hizo"></textArea>
-					<span class="inputFieldLabel">Descripcion: </span>
+						<textArea id="txtComentarios" class = "inputFieldTA" cols="20" rows="3" title="Comentarios sobre lo que se hizo" style="margin-bottom: -1px"></textArea><br>
+					<span class="inputFieldLabel"  style="clear:both">Descripcion: </span>
 						<textArea id="txtDescripcion" class = "inputFieldTA" readonly="readonly"  cols="20" rows="4" title="Descripcion de la actividad"></textArea>
 					<br><br>
 				</div>
