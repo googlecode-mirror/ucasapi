@@ -52,6 +52,12 @@ function js_ini(){
 	$('#logoutButton').click(function() {
 		window.location = "/ucasapi/login/close";
 	});
+	
+	aboutScreenInit();
+	
+	$('#aboutButton').click(function() {
+		$("#aboutScreen").dialog("open");
+	});
 }
 
 
@@ -120,7 +126,7 @@ function setTooltips(){
 	browserName = navigator.appName;
 	
 	if(browserName != "Microsoft Internet Explorer"){		
-		$(".inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario, #logoutButton").bt(
+		$(".inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario, #logoutButton, #aboutButton").bt(
 				  {
 				    fill: '#FFF',
 				    cornerRadius: 10,
@@ -186,6 +192,23 @@ function ajaxLoading(){
 		$("<div></div>").ajaxStop(function(){
 			$.modal.close();
 	 }); 
+}
+
+function aboutScreenInit(){
+	$("#aboutScreen").dialog({
+			autoOpen: false,
+			modal: true,
+			title: "Acerca de PHOBOS",
+			resizable: false,
+			height:350,
+			width: 390,
+			buttons: {
+				"Cerrar": function() {
+					$("#aboutScreen").dialog("close");
+				}
+			}
+
+		});	
 }
 
 //Permite que todos los autocompletes muestren todos sus elementos en el evento focus, todos deben tener en sus parámetros minLength: 0.
