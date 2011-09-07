@@ -18,14 +18,23 @@ $(document).ready(function(){
 			    shadowOffsetX: 3,
 			    shadowOffsetY: 3,
 			    shadowBlur: 8,
-                              width : 256,
+			    width : 256,
 			    shadowColor: 'rgba(0,0,0,.9)',
 			    shadowOverlap: false,
 			    noShadowOpts: {strokeStyle: '#999', strokeWidth: 2},
 			    positions: ['top', 'top']
-	  });	
+	  });
+	
+	$("#txtPassword").bind("keypress", function(e){
+	    if(e.keyCode==13){
+	        userLogin();
+	    }
+	});
 
 });	
+
+
+
 
 function userLogin(){			
 	var formData= "";
@@ -45,19 +54,25 @@ function userLogin(){
         		if(retrievedData.data.length ==0){//Si los datos del usuario son inválidos
         			$("#sessionMsg").html("Usuario o contraseña incorrectos");
         		}
-        		else{//Si los datos del usuario son correctos se redirrecciona a la url proveída en la variable msg
-        			$("#txtRol").autocomplete({
-                		minChars: 0,
-                		matchContains: true,
-        		        source: retrievedData.roleData,
-        		        minLength: 0,
-        		        select: function(event, ui) {
-        			        $("#idRol").val(ui.item.id);					
-        				}
-        			});
+        		else{//Si los datos del usuario son correctos
         			
-        			$("#roleSelection").dialog("open");
-        			
+        			if(retrievedData.roleData.length ==1){//Si el usuario solo posee un rol        				
+        				start(retrievedData.roleData[0].id,retrievedData.roleData[0].value);
+        			}
+        			else{
+        				$("#txtRol").autocomplete({
+                    		minChars: 0,
+                    		matchContains: true,
+            		        source: retrievedData.roleData,
+            		        minLength: 0,
+            		        select: function(event, ui) {
+            			        $("#idRol").val(ui.item.id);					
+            				}
+            			});
+            			
+            			$("#roleSelection").dialog("open");    				
+        				
+        			}        			
         		}
         	}
       	}
@@ -77,7 +92,7 @@ function roleSelectionIni(){
 		width: 420,
 		buttons: {
 			"Aceptar": function(event) {
-				start();
+				start($("#idRol").val(),$("#txtRol").val());
 			},
 			"Cancelar": function() {
 				$("#roleSelection").dialog("close");
@@ -87,8 +102,6 @@ function roleSelectionIni(){
 	});
 	
 }
-
-
 
 function cancel(){
 	clear();
@@ -101,10 +114,10 @@ function clear(){
 	$("#sessionMsg").html("");
 }
 
-function start(){
-	if($("#idRol").val()!=""){
+function start(idRol, nombreRol){
+	if(idRol!=""){
 		$("#roleSelection").dialog("close");
-		window.location = "login/home/"+$("#idRol").val()+"/"+$("#txtRol").val();
+		window.location = "login/home/"+idRol+"/"+nombreRol;
 	}
 	
 }
