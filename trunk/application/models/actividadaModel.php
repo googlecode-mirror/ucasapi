@@ -1055,6 +1055,8 @@ function update(){
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
 		
+		if($idTipoArchivo=="")$idTipoArchivo=null;
+		
 		$sql = "INSERT INTO ARCHIVOS (idActividad, nombreArchivo, tituloArchivo, descripcion, idTipoArchivo, fechaSubida)
     			VALUES (".$this->db->escape($idActividad).", ".
 						$this->db->escape($nombreArchivo).", ".
@@ -1086,6 +1088,8 @@ function update(){
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
 		
+		if($idTipoArchivo=="")$idTipoArchivo=null;
+		
 		$sql = "UPDATE ARCHIVOS
 				SET descripcion = ".$this->db->escape($descripcion).
 				" , tituloArchivo = ".$this->db->escape($tituloArchivo).
@@ -1108,6 +1112,9 @@ function update(){
 		
 		$retArray = array("status"=> 0, "msg" => "");
 		$idArchivo = $this->input->post("idArchivo");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		
+		$filePath = './uploads/'.$nombreArchivo;
 		
 		$sql = "DELETE FROM ARCHIVOS
 				WHERE idArchivo = ". $idArchivo;
@@ -1118,6 +1125,10 @@ function update(){
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
+		else{
+			unlink($filePath);
+		}
+
 		return $retArray;
 	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
