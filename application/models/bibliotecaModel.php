@@ -202,7 +202,7 @@ function gridArchivosRead(){
 			if($query->num_rows > 0){							
 				foreach ($query->result() as $row){		
 					$response->rows[$i]["id"] = $i;
-					$response->rows[$i]["cell"] = array($row->idProyecto,$row->idProceso,$row->idActividad, $row->nombreTipo,$row->nombreArchivo, $row->tituloArchivo,$row->descripcion, $row->fechaSubida );
+					$response->rows[$i]["cell"] = array($row->idProyecto,$row->idProceso,$row->idActividad, $row->nombreTipo, $row->tituloArchivo,$row->descripcion,$row->fechaSubida, $row->nombreArchivo );
 					
 					$i++;				
 				}										
