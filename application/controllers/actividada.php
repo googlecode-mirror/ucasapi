@@ -226,6 +226,14 @@ class Actividada extends CI_Controller{
 		//echo json_encode($this->proyectoModel->createProjectFile());
 	}
 	
+	function fileDelete(){
+		$this->load->model("actividadaModel");
+
+		$deleteInfo = $this->actividadaModel->fileDataDelete();
+
+		echo json_encode($deleteInfo);
+	}
+	
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	function gridDocumentsLoad($idActividad){
