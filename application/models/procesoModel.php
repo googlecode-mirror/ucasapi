@@ -480,6 +480,8 @@ class procesoModel extends CI_Model{
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
 		
+		if($idTipoArchivo=="")$idTipoArchivo=null;
+		
 		$sql = "INSERT INTO ARCHIVOS (idProceso, nombreArchivo, tituloArchivo, descripcion, idTipoArchivo, fechaSubida)
     			VALUES (".$this->db->escape($idProceso).", ".
 						$this->db->escape($nombreArchivo).", ".
@@ -547,6 +549,11 @@ function updateProcessFile(){
 			return $retArray;
 		}
 		$idArchivo = $this->input->post("idArchivo");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		
+		$filePath = './uploads/'.$nombreArchivo;
+		
+		
 		$sql = "DELETE FROM ARCHIVOS
 			WHERE idArchivo = ". $idArchivo;
 
@@ -554,6 +561,9 @@ function updateProcessFile(){
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
+		else{
+			unlink($filePath);
 		}
 		return $retArray;
 	}
