@@ -664,7 +664,7 @@ function loadGridDocuments() {
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
 		             {name : "Título",index : "Título",width : 160}, 
-		             {name : "Nombre",index : "Nombre", hidden : true}, 
+		             {name : "Nombre",index : "Nombre", width : 160}, 
 		             {name : "Subido",index : "Subido",width : 160}, 
 		             {name : "Descripcion",index : "Descripcion",hidden : true},
 		             {name : "idTipoArchivo",index : "idTipoArchivo",hidden : true}
@@ -678,6 +678,8 @@ function loadGridDocuments() {
 		sortorder : "desc",
 		viewrecords : true,
 		gridview : true,
+		shrinkToFit: false,
+
 		caption : "Documentos"
 	});
 
@@ -759,7 +761,9 @@ function deleteFile() {
 	} else {
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
 		idArchivo = rowData["idArchivo"];
+		nombreArchivo = rowData["Nombre"];
 		var formData = "idArchivo=" + idArchivo;
+		formData+="&nombreArchivo="+nombreArchivo;
 		var answer = confirm("Está seguro que quiere eliminar el documento?");
 		if(answer){
 			$.ajax({
