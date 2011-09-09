@@ -639,6 +639,8 @@ class proyectoModel extends CI_Model{
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
 		
+		if($idTipoArchivo=="")$idTipoArchivo=null;
+		
 		$sql = "INSERT INTO ARCHIVOS (idProyecto, nombreArchivo, tituloArchivo, descripcion, idTipoArchivo, fechaSubida)
     			VALUES (".$this->db->escape($idProyecto).", ".
 						$this->db->escape($nombreArchivo).", ".
@@ -675,6 +677,7 @@ function updateProjectFile(){
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
 		
+		
 		if($idTipoArchivo=="")$idTipoArchivo=null;
 		
 		$sql = "UPDATE ARCHIVOS
@@ -706,6 +709,11 @@ function updateProjectFile(){
 			return $retArray;
 		}
 		$idArchivo = $this->input->post("idArchivo");
+		$nombreArchivo = $this->input->post("nombreArchivo");
+		
+		$filePath = './uploads/'.$nombreArchivo;
+		
+		
 		$sql = "DELETE FROM ARCHIVOS
 			WHERE idArchivo = ". $idArchivo;
 
@@ -714,6 +722,10 @@ function updateProjectFile(){
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
+		else{
+			unlink($filePath);
+		}
+		
 		return $retArray;
 	}
 	//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
