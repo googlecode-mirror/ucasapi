@@ -444,8 +444,8 @@ function ajaxUpload() {
 		action : "index.php/upload/do_upload/",
 		onSubmit : function(file, ext) {
 			if (!(ext && /^(txt|png|jpeg|docx|doc|rtf|ppt|pptx|bmp|gif|xls|xlsx|odt|ods|odp|odb|odf|odg|csv|pdf)$/.test(ext))) {
-				msgBoxInfo("El tipo de archivo no está perimitido");
-				return false;
+				//msgBoxInfo("El tipo de archivo no está perimitido");
+				//return false;
 			}
 		},
 		onChange : function(file, response) {

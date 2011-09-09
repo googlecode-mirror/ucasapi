@@ -316,6 +316,7 @@ function save(){
 		var gridRelatedProjectsData = $("#relatedProjectsGrid").jqGrid("getRowData");
 		var formData= "";
 		formData += "idProyecto=" + $("#idProyecto").val();
+		formData += "&nombreProyecto=" + $("#txtProjectName").val();
 		formData += "&idProceso=" + $("#idProceso").val();
 		formData += "&idActividad=" + $("#idActividad").val();
 		formData += "&idPrioridad=" + $("#idPrioridad").val();
@@ -877,8 +878,8 @@ function ajaxUpload() {
 		action : "/ucasapi/upload/do_upload/",
 		onSubmit : function(file, ext) {
 			if (!(ext && /^(txt|png|jpeg|docx|doc|rtf|ppt|pptx|bmp|gif|xls|xlsx|odt|ods|odp|odb|odf|odg|csv|pdf)$/.test(ext))) {
-				msgBoxInfo("El tipo de archivo no estï¿½ perimitido");
-				return false;
+				//msgBoxInfo("El tipo de archivo no estï¿½ perimitido");
+				//return false;
 			}
 		},
 		onChange : function(file, response) {
@@ -903,11 +904,11 @@ function ajaxUpload() {
 //Funciï¿½n asociada al botï¿½n "Agregar"
 function uploadFile() {
 	if (upload == null) {
-		msgBoxInfo('Debe seleccionar un archivo');
+		msgBoxInfo("Debe seleccionar un archivo");
 		return false;
 	}
 	if ($("#txtFileName").val() == "") {
-		msgBoxInfo('El campo "Nombre" es requerido');
+		msgBoxInfo("El campo Nombre es requerido");
 		return false;
 	}
 	upload.setData({// Datos adicionales en el envï¿½o del archivo
@@ -944,9 +945,9 @@ function saveFileData(fileName) {
 					$('#gridDocuments').setGridParam({url : "/ucasapi/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
 					
 					if (idArchivo == "") {
-						msgBoxSucces("Documento agregado con ï¿½xito");
+						msgBoxSucces("Documento agregado con éxito");
 					} else {
-						msgBoxSucces("Documento actualizado con ï¿½xito");
+						msgBoxSucces("Documento actualizado con éxito");
 					}
 					clearFileForm();
 				}

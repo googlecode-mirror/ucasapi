@@ -11,6 +11,7 @@ class actividadaModel extends CI_Model{
 		$fechaInicioPlan = $this->input->post("fechaInicioPlan");
 		$fechaFinalizacionPlan = $this->input->post("fechaFinalizacionPlan");
 		$descripcionActividad = $this->input->post("descripcion");
+		$nombreProyecto = $this->input->post("nombreProyecto");
 		
 		$anioSolicitud = ($this->input->post("anioSolicitud")!="")?$this->input->post("anioSolicitud"):null;
 		$correlAnio = ($this->input->post("correlAnio")!="")?$this->input->post("correlAnio"):null;
@@ -116,7 +117,7 @@ class actividadaModel extends CI_Model{
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsables != ""){
 			$data_array1 = explode(",",$responsables);
-			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId, $nombreActividad);
+			$insert_statements = $this->getResponsiblesInsert($data_array1, $lastId, $nombreActividad, $nombreProyecto);
 			foreach ($insert_statements as $queryResponsibles) {
 				$this->db->query($queryResponsibles[0]);
 				$this->db->query($queryResponsibles[1]);
@@ -136,7 +137,7 @@ class actividadaModel extends CI_Model{
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidores != ""){
 			$data_array = explode(",",$seguidores);
-			$insert_statements = $this->getFollowersInsert($data_array, $lastId, $nombreActividad);
+			$insert_statements = $this->getFollowersInsert($data_array, $lastId, $nombreActividad, $nombreProyecto);
 			foreach ($insert_statements as $queryFollowers) {
 				$this->db->query($queryFollowers[0]);
 				$this->db->query($queryFollowers[1]);
@@ -218,6 +219,8 @@ function update(){
 		$fechaInicioPlan = $this->input->post("fechaInicioPlan");
 		$fechaFinalizacionPlan = $this->input->post("fechaFinalizacionPlan");
 		$descripcionActividad = $this->input->post("descripcion");
+		
+		$nombreProyecto = $this->input->post("nombreProyecto");
 		
 		$anioSolicitud = ($this->input->post("anioSolicitud")!="")?$this->input->post("anioSolicitud"):null;
 		$correlAnio = ($this->input->post("correlAnio")!="")?$this->input->post("correlAnio"):null;
@@ -314,7 +317,7 @@ function update(){
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsablesI != ""){
 			$data_array1 = explode(",",$responsablesI);
-			$insert_statements = $this->getResponsiblesInsert($data_array1, $idActividad, $nombreActividad);
+			$insert_statements = $this->getResponsiblesInsert($data_array1, $idActividad, $nombreActividad, $nombreProyecto);
 			foreach ($insert_statements as $queryResponsibles) {
 				$this->db->query($queryResponsibles[0]);
 				$this->db->query($queryResponsibles[1]);
@@ -327,7 +330,7 @@ function update(){
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidoresI != ""){
 			$data_array = explode(",",$seguidoresI);
-			$insert_statements = $this->getFollowersInsert($data_array, $idActividad, $nombreActividad);
+			$insert_statements = $this->getFollowersInsert($data_array, $idActividad, $nombreActividad, $nombreProyecto);
 			foreach ($insert_statements as $queryFollowers) {
 				$this->db->query($queryFollowers[0]);
 				$this->db->query($queryFollowers[1]);
@@ -1179,7 +1182,7 @@ function update(){
 	
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	function getFollowersInsert($data_array,$idActividad, $nombreActividad){
+	function getFollowersInsert($data_array,$idActividad, $nombreActividad, $nombreProyecto){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
 				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b>";
@@ -1203,7 +1206,7 @@ function update(){
 
 	}
 	
-	function getResponsiblesInsert($data_array,$idActividad, $nombreActividad){
+	function getResponsiblesInsert($data_array,$idActividad, $nombreActividad, $nombreProyecto){
 		
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];

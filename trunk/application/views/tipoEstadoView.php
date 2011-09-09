@@ -15,7 +15,7 @@
 	</head>
 	
 	<body>
-		<div class="menuBar">
+		<div class="menuBar" style="height:52px">
 			<ul>
 				<li><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
 				<li class="highlight"><span class="menu_button_to"><a href="http://www.google.com"><span class="menu_button_text">Dinamic</span></a></span></li>
