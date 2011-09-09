@@ -175,7 +175,7 @@ class proyectoModel extends CI_Model{
 		$sql = "SELECT u.idUsuario, CONCAT_WS(' ',u.primerNombre, u.primerApellido) AS nombreUsuario
 				FROM USUARIO u INNER JOIN ROL_USUARIO rxu ON (u.idUsuario = rxu.idUsuario AND u.activo = '1')
     				INNER JOIN ROL r ON rxu.idRol = r.idRol
-				WHERE r.idRol = 2
+				WHERE r.idRol = 2 OR r.idRol = 3 
 				ORDER BY nombreUsuario";
 		$query = $this->db->query($sql);
 
