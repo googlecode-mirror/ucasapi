@@ -90,7 +90,7 @@
 					<button id="btnSaveContrato" onClick="saveContrato()" >Guardar</button>					
 					<button id="btnEditContrato" onClick="editContrato()" >Editar</button>
 					<button id="btnDeleteContrato" onClick="deleteContrato()">Eliminar</button>
-					<button id="btnEditarContrato" onClick="editarContrato()">Editar roles</button>
+					<button id="btnEditarContrato" onClick="editarContrato()">Editar contratos</button>
 					<button id="btnCancelContrato" onClick="cancelContrato()" >Cancelar</button>
 				</div>
 				<div align="center" class = "gridView" style = "width : 480px">

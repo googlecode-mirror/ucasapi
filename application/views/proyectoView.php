@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="<?php echo base_url(); ?>application/views/js/proyecto.js"></script>
 	</head>	
 	<body>
-		<div class="menuBar">
+		<div class="menuBar" style="height:52px">
 			<ul>
 				<?php echo $menu;?>
 			</ul>			

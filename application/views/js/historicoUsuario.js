@@ -197,6 +197,7 @@ function saveContrato() {
 			formData += "&fechaFinContrato=" + $("#txtFechaFinContrato").val();
 			formData += "&tiempoContrato=" + $("#txtTiempoContrato").val();
 			formData += "&salario=" + $("#txtSalario").val();
+			//alert(formData);
 			
 			$
 					.ajax({

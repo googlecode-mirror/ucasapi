@@ -25,7 +25,7 @@
 
 	<body>
 
-		<div class="menuBar">
+		<div class="menuBar" style="height:52px">
 			<ul>
 				<?php echo $menu;?>
 			</ul>

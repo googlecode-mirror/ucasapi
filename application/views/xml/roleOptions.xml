@@ -28,6 +28,10 @@
 				<controller>solicitud</controller>
 			</pagina>
 			<pagina>
+				<nombrePagina>Lista de solicitudes</nombrePagina>
+				<controller>cliente/listaSolicitudes</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Historial de Bitacora</nombrePagina>
 				<controller>actividadh</controller>
 			</pagina>
@@ -51,6 +55,10 @@
 			<pagina>
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Lista de solicitudes</nombrePagina>
+				<controller>cliente/listaSolicitudes</controller>
 			</pagina>
 			<pagina>
 				<nombrePagina>Proyectos</nombrePagina>
@@ -98,6 +106,10 @@
 				<controller>solicitud</controller>
 			</pagina>
 			<pagina>
+				<nombrePagina>Lista de solicitudes</nombrePagina>
+				<controller>cliente/listaSolicitudes</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Biblioteca</nombrePagina>
 				<controller>biblioteca</controller>
 			</pagina>
@@ -119,6 +131,10 @@
 				<controller>solicitud</controller>
 			</pagina>
 			<pagina>
+				<nombrePagina>Lista de solicitudes</nombrePagina>
+				<controller>cliente/listaSolicitudes</controller>
+			</pagina>
+			<pagina>
 				<nombrePagina>Biblioteca</nombrePagina>
 				<controller>biblioteca</controller>
 			</pagina>
@@ -138,6 +154,10 @@
 			<pagina>
 				<nombrePagina>Solicitud</nombrePagina>
 				<controller>solicitud</controller>
+			</pagina>
+			<pagina>
+				<nombrePagina>Lista de solicitudes</nombrePagina>
+				<controller>cliente/listaSolicitudes</controller>
 			</pagina>
 			<pagina>
 				<nombrePagina>Biblioteca</nombrePagina>
