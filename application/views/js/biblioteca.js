@@ -28,6 +28,10 @@ $(document).ready(function() {
 	$("#processesGrid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
 	$("#activitiesGrid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
 	$("#documentsGrid").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false})
+	
+	//$("#gs_fechaSubida").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true});
+	
+	
 
 });
 
@@ -49,7 +53,7 @@ function loadProjectsGrid(){
 			width : 300
 		} ],
 		loadonce: true,
-		rowNum : -1,
+		rowNum : 1000,
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
 		sortorder : "desc",
@@ -139,7 +143,7 @@ function loadProcessesGrid(){
 			$("#documentsGrid").setGridParam({ data:qFData});
 			$("#documentsGrid").trigger('reloadGrid');
 		},		
-		rowNum : -1,
+		rowNum : 1000,
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
 		loadonce: true,
@@ -192,7 +196,7 @@ function loadActivitiesGrid(){
 			$("#documentsGrid").setGridParam({ data:qFData});
 			$("#documentsGrid").trigger('reloadGrid');
 		},	
-		rowNum : -1,
+		rowNum : 1000,
 		rowList : [ 10, 20, 30 ],
 		sortname : "id",
 		sortorder : "desc",
@@ -208,7 +212,7 @@ function loadDocumentsGrid(){
 		url : "index.php/biblioteca/gridArchivoRead/",
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "idProyectoA", "idProcesoA","idActividadA",  "Tipo","nombreArchivo", "Nombre", "Descripción", "Subido"],
+		colNames : [ "idProyectoA", "idProcesoA","idActividadA",  "Tipo", "Título", "Descripción", "Subido","Nombre"],
 		colModel : [{
 			name : "idProyectoA",
 			index : "idProyectoA",
@@ -228,26 +232,27 @@ function loadDocumentsGrid(){
 			index : "nombreTipo",
 			with : 100
 		},
-		{
-			name : "nombreArchivo",
-			index : "nombreArchivo",
-			hidden : true
-		} ,
+		
 		{
 			name : "tituloArchivo",
 			index : "tituloArchivo",
-			width : 225
+			width : 210
 		} ,
 		{
 			name : "descripcion",
 			index : "descripcion",
-			width : 420
+			width : 300
 		},
 		{
 			name : "fechaSubida",
 			index : "fechaSubida",
-			width : 100
-		} ],
+			width : 85
+		},
+		{
+			name : "nombreArchivo",
+			index : "nombreArchivo",
+			width : 180
+		}],
 		
 		 ondblClickRow: function(id) {
 			 	rowId = $("#documentsGrid").jqGrid("getGridParam", "selrow");
@@ -267,13 +272,15 @@ function loadDocumentsGrid(){
 			
 		},
 		
-		rowNum : -1,
+		rowNum : 1000,
 		rowList : [ 10, 20, 30 ],
 		loadonce:true,
 		sortname : "id",
 		sortorder : "desc",
 		viewrecords : true,
 		height : 400,
+		width:920,
+		shrinkToFit: false,
 		gridview : true,
 		caption : "Documentos"
 	});
