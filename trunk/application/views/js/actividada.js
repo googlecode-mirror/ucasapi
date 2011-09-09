@@ -908,7 +908,7 @@ function uploadFile() {
 		return false;
 	}
 	if ($("#txtFileName").val() == "") {
-		msgBoxInfo("El campo Nombre es requerido");
+		msgBoxInfo("El campo Título es requerido");
 		return false;
 	}
 	upload.setData({// Datos adicionales en el envï¿½o del archivo
@@ -972,7 +972,7 @@ function loadGridDocuments() {
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
 		             {name : "Titulo",index : "Titulo",width : 160}, 
-		             {name : "Nombre",index : "Nombre", hidden : true}, 
+		             {name : "Nombre",index : "Nombre", width:160}, 
 		             {name : "Subido",index : "Subido",width : 160}, 
 		             {name : "Descripcion",index : "Descripcion",hidden : true} 
 		             
@@ -985,6 +985,7 @@ function loadGridDocuments() {
 		sortorder : "desc",
 		viewrecords : true,
 		gridview : true,
+		shrinkToFit: false,
 		caption : "Documentos"
 	});
 
@@ -1068,13 +1069,15 @@ function deleteFile() {
 	}else{
 		rowData = $("#gridDocuments").jqGrid("getRowData", rowId);
 		idArchivo = rowData["idArchivo"];
+		nombreArchivo = rowData["Nombre"];
 		var formData = "idArchivo=" + idArchivo;
-		var answer = confirm("Estï¿½ seguro que quiere eliminar el documento?");
+		formData += "&nombreArchivo=" + nombreArchivo;
+		var answer = confirm("Está seguro que quiere eliminar el documento?");
 		
 		if(answer){
 			$.ajax({
 				type : "POST",
-				url : "/ucasapi/proyecto/fileDelete",
+				url : "/ucasapi/actividada/fileDelete",
 				data : formData,
 				dataType : "json",
 				success : function(retrievedData) {
@@ -1083,8 +1086,8 @@ function deleteFile() {
 
 					} else {
 						$('#gridDocuments').setGridParam({
-							url : "/ucasapi/proyecto/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
-							msgBoxSucces("Documento eliminado con ï¿½xito");
+							url : "/ucasapi/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
+							msgBoxSucces("Documento eliminado con éxito");
 							clearFileForm();
 					}
 				}
@@ -1094,12 +1097,14 @@ function deleteFile() {
 }
 
 function clearFileForm() {
-	idArchivo = "";
-	$("#txtFileDesc").val("");
-	$("#txtFileType").val("");
 	$("#txtFileName").val("");
+	$("#txtFileType").val("");
+	$("#idTipoArchivo").val("");	
+	$("#txtFileDesc").val("");
 	$("#btnAddFile").show();
 	$("#btnUpdateFile").hide();
+	$(".divUploadButton p").text("");	
+	idArchivo = "";
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
