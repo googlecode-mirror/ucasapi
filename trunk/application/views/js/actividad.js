@@ -140,6 +140,7 @@ function actividadData(){
 			}
 			else{        		
 				$("#txtProyectoName").val(retrievedData.data.nombreProyecto);
+				$("#txtProcesoName").val(retrievedData.data.nombreProceso);
 				$("#txtActividadName").val(retrievedData.data.nombreActividad);
 				$("#txtAsignada").val(retrievedData.data.nombreAsigna);
 				$("#cbEstado").val(retrievedData.data.idEstado);

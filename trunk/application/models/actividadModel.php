@@ -50,10 +50,11 @@ class actividadModel extends CI_Model{
 		$idUsuario = $this->input->post("idUsuario");
 		
 		
-		$sql = "SELECT DISTINCT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, a.nombreActividad, a.descripcionActividad, 
+		$sql = "SELECT DISTINCT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, pr.nombreProceso, a.nombreActividad, a.descripcionActividad, 
 					e.idEstado, b.progreso, b.comentario
 				FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto 
 					INNER JOIN ACTIVIDAD a ON axp.idActividad = a.idActividad 
+					INNER JOIN PROCESO pr ON a.idProceso = pr.idProceso
 					INNER JOIN ESTADO e ON a.idEstado = e.idEstado 
 					INNER JOIN BITACORA b ON a.idActividad = b.idActividad 
 					INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad

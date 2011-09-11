@@ -382,7 +382,13 @@ function validarCamposFases() {
 	if ($("#cbFases").val() == "") {
 		camposFallan += "Debe seleccionar una FASE <br />";
 	}
-	
+	if($("#txtFaseIni").val() == ""){
+		camposFallan += "Debe ingresar la fecha Inicial de la fase<br />";
+	}
+	if($("#txtFaseFin").val() == ""){
+		camposFallan += "Debe ingresar la fecha Final de la fase<br />";
+	}
+			
 	if(camposFallan == ""){
 		return true;
 	}else{
@@ -416,7 +422,7 @@ function clear() {
 
 function addFase(){
 	if(validarCamposFases()){
-		$("#tablaFases").jqGrid('addRowData',faseCorrel,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan:'2011-01-01',fechaFinPlan:'2011-01-01'},'last');
+		$("#tablaFases").jqGrid('addRowData',faseCorrel,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan: $("#txtFaseIni").val(),fechaFinPlan:$("#txtFaseFin").val()},'last');
 		jQuery("#tablaFases").jqGrid('editGridRow',faseCorrel,{height:280,reloadAfterSubmit:false}); 
 		faseCorrel++;
 	}
