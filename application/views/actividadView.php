@@ -73,7 +73,9 @@
 					<input id="idUsuario" type="hidden" value="<?php echo $idUsuario; ?>" class="hiddenId" /> <br> 
 		
 					<span class="inputFieldLabel">Proyecto: </span> 
-						<input id="txtProyectoName" type="text" readonly="readonly" value="" class="inputField" title="Proyecto al que pertenece la actividad"/><br> 
+						<input id="txtProyectoName" type="text" readonly="readonly" value="" class="inputField" title="Proyecto al que pertenece la actividad"/><br>
+					<span class="inputFieldLabel">Proceso:</span>
+						<input id="txtProcesoName" type="text" readonly="readonly" value="" class="inputField" title="Proceso al que pertenece la actividad"/><br> 
 					<span class="inputFieldLabel">Actividad: </span>
 						<input id="txtActividadName" type="text" readonly="readonly" class="inputField" title="Nombre de la actividad"></input> 
 					<span class="inputFieldLabel">Asignada por: </span> 

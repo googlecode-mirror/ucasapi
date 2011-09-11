@@ -74,7 +74,7 @@
 					<li id="tagBliblioteca"><a href="#tabs-2">Documentos</a></li>
 				</ul>
 				
-				<div id="tabs-1" class="divDataForm" style="height: 850px;">					
+				<div id="tabs-1" class="divDataForm" style="height: 900px;">					
 
 					<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
 					<input id="idUsuarioProy" type="hidden"  value="" class = "hiddenId"/>
@@ -116,12 +116,21 @@
 						<table id="tablaFases" align="center"><tr><td/></tr></table>
 						<div id="pager"></div>
 					</div> 
-					<span class = "inputFieldLabel">Elegir Fase: </span>
-					<select id="cbFases"></select>
+
+					<span class = "inputFieldLabel">Fase:</span>
+						<select id="cbFases"></select>
+					<span class = "inputFieldLabel">Inicio:</span>
+						<input id="txtFaseIni" type="text"  value=""  title="Fecha de inicio de la fase" class = "jqcalendario"/><br>
+					<span class = "inputFieldLabel">Fin:</span>
+						<input id="txtFaseFin" type="text"  value=""  title="Fecha de fin de la fase" class = "jqcalendario"/><br>
+					<br><br><br>
 					<div class = "divCRUDButtons">
 						<button id="btnSave" onClick="addFase()">Añadir Fase</button>
 						<button id="btnEdit" onClick="editFase()">Editar Fase</button>
 					</div>
+					
+					
+					
 				</div>
 				
 				<div id="tabs-2"  class="divDataForm" style="height: 600px">
