@@ -287,7 +287,6 @@ function save() {
 	formData += "&fechaNacimiento=" + $("#txtProyectoFechaNacimiento").val();
 	formData += "&accionActual=" + $("#accionActual").val();
 	
-
 	rol_rows = $("#list").jqGrid("getRowData");
 	var gridData = "";
 	for ( var Elemento in rol_rows) {
@@ -473,8 +472,6 @@ function validar_campos() {
 		if(!validarAlfa($("#txtUsuarioPrimerApellido").val())){
 			camposFallan += "<p><dd>El campo PRIMER APELLIDO contiene caracteres no validos </dd><br/></p>";
 		}
-	}else{
-		camposFallan += "<p><dd>El campo PRIMER APELLIDO es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioOtrosApellidos").val()!=""){
@@ -507,24 +504,18 @@ function validar_campos() {
 		if(!validarDUI($("#txtUsuarioDUI").val())){
 			camposFallan += "<p><dd>Formato de DUI es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
-	}else{
-		camposFallan += "<p><dd>El campo DUI es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioNIT").val()!=""){
 		if(!validarNIT($("#txtUsuarioNIT").val())){
 			camposFallan += "<p><dd>Formato de NIT es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
-	}else{
-		camposFallan += "<p><dd>El campo NIT es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioISSS").val()!=""){
 		if(!validarISSS($("#txtUsuarioISSS").val())){
 			camposFallan += "<p><dd>Formato de ISSS es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
-	}else{
-		camposFallan += "<p><dd>El campo ISSS es requerido </dd><br/></p>";
 	}
 	
 	if($("#txtUsuarioNUP").val()!=""){
@@ -535,10 +526,6 @@ function validar_campos() {
 	
 	if($("#txtUsuarioDepartamento").val()=="" || $("#txtUsuarioDepartamento").val()==""){
 		camposFallan += "<p><dd>El campos DEPARTAMENTO es requerido </dd><br/></p>";
-	}
-	
-	if($("#txtUsuarioCargo").val()=="" && $("#idCargo").val()==""){
-		camposFallan += "<p><dd>El campos CARGO es requerido </dd><br/></p>";
 	}
 	
 	
@@ -552,8 +539,6 @@ function validar_campos() {
 		if(!validarCodEmpleado($("#txtUsuarioCodigo").val())){
 			camposFallan += "<p><dd>Formato de CODIGO es incorrecto o contiene caracteres no validos </dd><br/></p>";
 		}
-	}else{
-		camposFallan += "<p><dd>El campo C\u00d3DIGO es requerido </dd><br/></p>";
 	}
 	
 	
