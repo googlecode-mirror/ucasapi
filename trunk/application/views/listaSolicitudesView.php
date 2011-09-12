@@ -28,7 +28,7 @@
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />
 			<span id="systemName"><b>PHOBOS PLANING</b></span>
 			<img id="aboutButton" title="Acerca de..." src="<?php echo base_url(); ?>application/views/css/img/about.jpg" />
-			<img id="logoutButton" title="Cerrar sesión" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<img id="logoutButton" title="Cerrar sesiï¿½n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
 			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span>
 		</div>
 
@@ -75,6 +75,9 @@
 				<span class = "inputFieldLabel"><b>Fecha de inicio:</b></span><br/>
 				<span class="cleanable" id="fechaInicio"></span><br/><br/>
 
+				<span class = "inputFieldLabel"><b>Fecha esperada de resoluci&oacute;n:</b></span><br/>
+				<span class="cleanable" id="fechaFinEsperada"></span><br/><br/>
+
 				<span class = "inputFieldLabel"><b>Fecha de resoluci&oacute;n:</b></span><br/>
 				<span class="cleanable" id="fechaFin"></span><br/><br/>
 
@@ -83,12 +86,14 @@
 
 				<input type="hidden" value="" id="idSolicitud"/>
 
+				<button id="btnEdit" onClick="goToEdit()">Editar</button>
+
 			</div>
 
 		</div>
 			<div id="aboutScreen" style="display: none">
-				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />		
-		</div>	
+				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />
+		</div>
 
 	</body>
 </html>

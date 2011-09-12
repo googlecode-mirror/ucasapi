@@ -6,13 +6,45 @@ $(document).ready(function() {
 	llenarPrioridades();
 	
 	$("#txtRecords").focus(function(){$("#txtRecords").autocomplete('search', '');});
+	$("#txtEndingDate").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
+	
+	if($("#edit").val() != "") {
+		$.ajax({
+			type : "POST",
+			url : "/ucasapi/solicitud/getSolicitud",
+			data : "idSolicitud=" + $("#edit").val(),
+			dataType : "json",
+			success : function(retrievedData) {
+				if (retrievedData.status != 0) {
+					msgBoxError(retrievedData.msg);
+				} else {
+					
+					$("#txtSolicitudAsunto").val(retrievedData.data[0].titulo);
+					$("#cbxPrioridades").attr("selectedIndex", retrievedData.data[0].prioridad);
+					$("#txtEndingDate").val(retrievedData.data[0].fechaSalida.substring(0,10));
+					$("#txtSolicitudDesc").val(retrievedData.data[0].descripcion);
+					
+					
+					for (i = 1; i < retrievedData.data.length; i++) {
+						$("#cbxInteresados").append(
+								'<option value="' + retrievedData.data[i].idCliente + '">'
+										+ retrievedData.data[i].cliente + '</option>');
+					}
+					
+					
+				}
+
+			}
+
+		});
+	}
 	
 });
 
 function usuarioAutocomplete() {
 	$.ajax({
 		type : "POST",
-		url : "index.php/usuario/usuarioSolicitudAutocompleteRead",
+		url : "/ucasapi/usuario/usuarioSolicitudAutocompleteRead",
 		data : "usuarioAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
@@ -50,7 +82,7 @@ function usuarioAutocomplete() {
 function llenarPrioridades() {
 	$.ajax({
 		type : "POST",
-		url : "index.php/solicitud/cargarPrioridades",
+		url : "/ucasapi/solicitud/cargarPrioridades",
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
@@ -78,6 +110,7 @@ function crearSolicitud() {
 		formData += "asunto=" + $("#txtSolicitudAsunto").val();
 		formData += "&prioridad=" + $("#cbxPrioridades").val();
 		formData += "&descripcion=" + $("#txtSolicitudDesc").val();
+		formData += "&fechaFinEsperada=" + $("#txtEndingDate").val();
 		formData += "&observadores=" + interesados;
 
 		$.ajax({
@@ -88,14 +121,8 @@ function crearSolicitud() {
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
-					// alert("Mensaje de error: " + retrievedData.msg); //Por el
-					// momento, el mensaje que se est� mostrando es t�cnico,
-					// para cuestiones de depuraci�n
 				} else {
-
 					msgBoxSucces("Solicitud creada con &eacute;xito");
-					// alert("Registro actualizado con �xito");
-
 					clear();
 				}
 			}
@@ -131,10 +158,10 @@ function validarCampos() {
 		camposFallan += "El campo ASUNTO es requerido <br />";
 	}
 
-	/*if ($("#cbxPrioridades").val() == 0) {
+	if ($("#cbxPrioridades").val() == 0) {
 		camposFallan += "Debe seleccionar una PRIORIDAD <br />";
 	}
-	*/
+	
 
 	if ($("#txtSolicitudDesc").val() != "") {
 		if ($("#txtSolicitudDesc").val().length > 256) {

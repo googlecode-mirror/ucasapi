@@ -29,7 +29,7 @@ function loadGrid() {
 	    gridview: true,
 	    caption: "Solicitudes",
 	    ondblClickRow: function(id) {
-	    	mostrarSolicitud(id);
+	    	mostrarSolicitud(id, true);
 	    	$("#idSolicitud").val(id);
 	    }
   });
@@ -53,13 +53,13 @@ function loadGrid() {
 	    gridview: true,
 	    caption: "Solicitudes",
 	    ondblClickRow: function(id) {
-	    	mostrarSolicitud(id);
+	    	mostrarSolicitud(id, false);
 	    	$("#idSolicitud").val(id);
 	    }
   });
 }
 
-function mostrarSolicitud (idSolicitud) {
+function mostrarSolicitud (idSolicitud, autor) {
 	$.ajax({				
         type: "POST",
         url:  "/ucasapi/index.php/solicitud/getSolicitudCliente",
@@ -68,16 +68,35 @@ function mostrarSolicitud (idSolicitud) {
         success: function(retrievedData){
         	if(retrievedData.status != 0){
         		msgBoxInfo(retrievedData.msg);
-        		//alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
         	}
         	else{
         		$("#tituloSolicitud").html(retrievedData.data[0].titulo);
         		$("#fecha").html(retrievedData.data[0].fechaIngreso);
         		$("#cliente").html(retrievedData.data[0].cliente);
         		$("#txtSolicitudDesc").val(retrievedData.data[0].descripcion);
-        		$("#fechaInicio").html(retrievedData.data[0].fechaAtencion);
+        		
+        		if(retrievedData.data[0].fechaAtencion == null) {
+            		$("#fechaInicio").html("(Solicitud no asignada)");
+        		} else if (retrievedData.data[0].fechaAtencion == "0000-00-00") {
+        			$("#fechaInicio").html("(Asignada sin fecha de inicio)");
+        		} else {
+        			$("#fechaInicio").html(retrievedData.data[0].fechaAtencion);
+        		}
+        		
+        		$("#fechaFinEsperada").html(retrievedData.data[0].fechaFinEsperada.substring(0,10));
         		$("#fechaFin").html(retrievedData.data[0].fechaSalida);
-        		$("#progreso").html(retrievedData.data[0].progreso);
+        		
+        		if(retrievedData.data[0].progreso == null) {
+        			$("#progreso").html("(Solicitud no asignada)");
+        		} else {
+        			$("#progreso").html(retrievedData.data[0].progreso);
+        		}
+        		
+        		if(autor) {
+        			$("#btnEdit").css('visibility', 'visible');
+        		} else {
+        			$("#btnEdit").css('visibility', 'hidden');
+        		}
         		
         		$("#dialogoSolicitud").css('visibility', 'visible').dialog('open');
         	}
@@ -85,4 +104,8 @@ function mostrarSolicitud (idSolicitud) {
       	}
       
 	});
+}
+
+function goToEdit() {
+	window.location = "/ucasapi/solicitud/index/" + $("#idSolicitud").val();
 }

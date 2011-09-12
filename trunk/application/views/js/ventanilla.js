@@ -191,6 +191,13 @@ function mostrarSolicitud(idSolicitud) {
 				// para cuestiones de depuraci�n
 			} else {
 				$("#fecha").html(retrievedData.data[0].fechaEntrada);
+				
+				if(retrievedData.data[0].fechaSalida == "0000-00-00 00:00:00") {
+					$("#fechaFinEsperada").html("(No especificada)");
+				} else {
+					$("#fechaFinEsperada").html(retrievedData.data[0].fechaSalida.substring(0,10));
+				}
+				
 				$("#cliente").html(
 						retrievedData.data[0].cliente + "<br/>"
 								+ retrievedData.data[0].cargo + "<br/>"
@@ -276,7 +283,7 @@ function asignarSolicitud() {
 		var solicitud = $("#idSolicitud").val().split("-");
 		var formData = "";
 		formData += "idProyecto=" + $("#idProyecto").val();
-		//formData += "&idProceso=" + $("#idProceso").val();
+		formData += "&idProceso=" + $("#idProceso").val();
 		formData += "&idActividad=" + $("#idActividad").val();
 		formData += "&idPrioridad=" + $("#idPrioridad").val();
 		formData += "&idEstado=" + $("#idEstado").val();
@@ -298,9 +305,6 @@ function asignarSolicitud() {
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					msgBoxError(retrievedData.msg);
-					// alert("Mensaje de error: " + retrievedData.msg); //Por el
-					// momento, el mensaje que se est� mostrando es t�cnico,
-					// para cuestiones de depuraci�n
 				} else {
 					if ($("#idActividad").val() == "") {
 						$("div#dialogoAsignar > input:text").val("");
@@ -317,7 +321,7 @@ function asignarSolicitud() {
 			}
 
 		});
-	}
+	} 
 }
 
 // -----------------------------------------------------------------------------
@@ -395,19 +399,8 @@ function processAutocomplete(idProyecto, processTextBox) {
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
 				alert("Mensaje de error: " + retrievedData.msg); // Por el
-				// momento,
-				// el
-				// mensaje
-				// que se
-				// est�
-				// mostrando
-				// es
-				// t�cnico,
-				// para
-				// cuestiones
-				// de
-				// depuraci�n
-			} else {
+			} 
+			else {
 				$(processTextBox).autocomplete(
 						{
 							minChars : 0,

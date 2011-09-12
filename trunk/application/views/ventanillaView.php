@@ -66,6 +66,9 @@
 				<span class = "inputFieldLabel"><b>Prioridad:</b></span><br/>
 				<span class="cleanable" id="prioridad"></span><br/><br/>
 
+				<span class = "inputFieldLabel"><b>Fecha esperada de resoluci&oacute;n:</b></span><br/>
+				<span class="cleanable" id="fechaFinEsperada"></span><br/><br/>
+
 				<span class = "inputFieldLabel"><b>Descripci&oacute;n:</b></span><br/>
 				<textArea readonly="readonly" id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>
 				<br><br>
@@ -88,11 +91,16 @@
 			</div>
 
 			<div align="center" id="dialogoAsignar" style="visibility: hidden;" class="divDataForm">
+				<div id ="msgBox" style="width:500px"></div>
+
 				<span class = "requiredFieldLabel" style="margin-left:56px">Nombre</span>
 				<input id="txtActivityName" type="text"  value="" class = "inputField"  maxlength="40"/><br/><br/>
 
 				<span class = "requiredFieldLabel" style="margin-left:56px">Proyecto principal</span>
-				<input id="txtProjectName" type="text"  value="" class = "inputField"  maxlength="100"/><br/>
+				<input id="txtProjectName" type="text"  value="" class = "inputField"  maxlength="100"/><br/><br/>
+
+				<span class="inputFieldLabel">Proceso</span>
+				<input id="txtProcessName" type="text"  value="" class = "inputField"/><br>
 
 				<span class="inputFieldLabel" style="margin-left:56px">Proyectos Relacionados</span>
 				<input id="txtProjectRecords" type="text"  value="" class="inputField" /><br/>
@@ -153,8 +161,8 @@
 
 		</div>
 		<div id="aboutScreen" style="display: none">
-				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />		
-		</div>	
+				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />
+		</div>
 
 	</body>
 </html>
