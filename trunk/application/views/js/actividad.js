@@ -16,6 +16,9 @@ var idUsuariosQuitar = new Array();
 var idUsuariosAdd = new Array();
 var arrayUserSet = new Array();
 var arrayUserUnset = new Array();
+var estadoActual;
+var progresoActual;
+var comentarioActual;
 var aBand = 0; //Bandera para ver si ha asignado a alguien
 var dBand = 0; //Bandera para ver si ha desasignado a alguien
 
@@ -147,6 +150,9 @@ function actividadData(){
 				$("#cbProgreso").val(retrievedData.data.progreso);
 				$("#txtComentarios").val(retrievedData.data.comentario);
 				$("#txtDescripcion").val(retrievedData.data.descripcionActividad);
+				estadoActual = $("#cbEstado").val();
+				progresoActual = $("#cbProgreso").val();
+				comentarioActual = $("#txtComentarios").val();
 			}        	
 		}	
 
@@ -286,9 +292,9 @@ function cancel() {
 }
 
 function clear() {
-	$(".inputField").val("");
-	$(".jqcalendario").val("");
-	$(".hiddenId").val("");
+	$("#cbEstado").val(estadoActual);
+	$("#cbProgreso").val(progresoActual);
+	$("#txtComentarios").val(comentarioActual);
 }
 
 
