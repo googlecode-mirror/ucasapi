@@ -25,9 +25,9 @@ class solicitudModel extends CI_Model {
 
 	function create() {
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
@@ -38,12 +38,13 @@ class solicitudModel extends CI_Model {
 		$asunto = $this->input->post("asunto");
 		$prioridad = $this->input->post("prioridad");
 		$descripcion = $this->input->post("descripcion");
+		$fechaFinEsperada = ($this->input->post("fechaFinEsperada")=='')? '0000-00-00 00:00:00' : $this->input->post("fechaFinEsperada");
 		$anioSolicitud = strftime('%Y');
 		$correlAnio = 1;
 
 		$queryId = "SELECT MAX(s.anioSolicitud) maxAnio FROM SOLICITUD s";
 		$result = $this->db->query($queryId);
-		
+
 		if(!$result){
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
@@ -70,12 +71,13 @@ class solicitudModel extends CI_Model {
 		$idInteresados = explode(',', $this->input->post("observadores"));
 
 
-		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, activo, idPrioridadCliente, idPrioridadInterna)
+		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, fechaSalida, activo, idPrioridadCliente, idPrioridadInterna)
    				VALUES (" .
 						$this->db->escape(intval($anioSolicitud)) . ", " .
 						$this->db->escape($correlAnio).", ".
 						$this->db->escape($asunto) . ", " .
 						$this->db->escape($descripcion) . ", " .
+						$this->db->escape($fechaFinEsperada) . ", " .
 						$this->db->escape(1) . ", " .
 						$this->db->escape(intval($prioridad)) . ", " .
 						$this->db->escape(intval($prioridad)) . ")";
@@ -103,7 +105,7 @@ class solicitudModel extends CI_Model {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			return $retArray;
-		}		
+		}
 		$query = $this->db->query($sql2);
 		if(!$query){
 			$retArray["status"] = $this->db->_error_number();
@@ -125,9 +127,9 @@ class solicitudModel extends CI_Model {
 
 	function getSolicitud ($idPeticion=NULL) {
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
@@ -138,8 +140,8 @@ class solicitudModel extends CI_Model {
 		$solicitudIds = is_null($idPeticion)? explode("-", $this->input->post("idSolicitud")) : explode("-", $idPeticion);
 
 		$query = "SELECT
-						s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, p.nombrePrioridad prioridadCliente,
-						CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente,
+						s.tituloSolicitud titulo, s.descripcionSolicitud descripcion, s.fechaEntrada fechaEntrada, s.fechaSalida fechaSalida, s.idPrioridadCliente prioridad,
+						p.nombrePrioridad prioridadCliente,	CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente, us.idUsuario idCliente,
 						c.nombreCargo cargo, d.nombreDepto depto
 					FROM SOLICITUD s
 					INNER JOIN USUARIO_SOLICITUD us ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)
@@ -178,9 +180,9 @@ class solicitudModel extends CI_Model {
 
 	function getSolicitudCliente ($idPeticion=NULL) {
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
@@ -193,17 +195,18 @@ class solicitudModel extends CI_Model {
 		$query = "SELECT
 					s.tituloSolicitud titulo,
 					s.fechaEntrada fechaIngreso,
+					date_format(s.fechaSalida, '%Y-%m-%d') fechaFinEsperada,
 					CONCAT_WS(' ', u.primerNombre, u.otrosNombres, u.primerApellido, u.otrosApellidos) cliente,
 					s.descripcionSolicitud descripcion,
 					a.fechaInicioPlan fechaAtencion,
-					date_format(s.fechaSalida, '%Y-%m-%d') fechaSalida,
+					date_format(s.fechaRealConclusion, '%Y-%m-%d') fechaSalida,
 					MAX(b.progreso) progreso
 				FROM SOLICITUD s
-				INNER JOIN ACTIVIDAD a ON (a.anioSolicitud = s.anioSolicitud AND a.correlAnio = s.correlAnio)
-				INNER JOIN BITACORA b ON (b.idActividad = a.idActividad)
+				LEFT JOIN ACTIVIDAD a ON (a.anioSolicitud = s.anioSolicitud AND a.correlAnio = s.correlAnio)
+				LEFT JOIN BITACORA b ON (b.idActividad = a.idActividad)
 				INNER JOIN USUARIO_SOLICITUD us ON (us.anioSolicitud = s.anioSolicitud AND us.correlAnio = s.correlAnio)
 				INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario)
-				WHERE a.anioSolicitud = ? AND a.correlAnio = ? AND esAutor = 1
+				WHERE s.anioSolicitud = ? AND s.correlAnio = ? AND esAutor = 1
 				GROUP BY s.tituloSolicitud, s.fechaEntrada, s.descripcionSolicitud, a.fechaInicioPlan";
 
 		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1]));

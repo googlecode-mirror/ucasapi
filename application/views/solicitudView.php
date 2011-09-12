@@ -52,7 +52,9 @@
 			 </div>
 			<div id ="msgBox"></div>
 
-			<div class="divDataForm" style="height: 250px">
+			<input type="hidden" id="edit" value="<?php echo $edit; ?>" />
+
+			<div class="divDataForm">
 
 				<span class = "requiredFieldLabel">Asunto:</span>
 				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField" title = "Titulo de la peticion" maxlength="40"/><br>
@@ -60,7 +62,10 @@
 				<span class = "requiredFieldLabel">Prioridad:</span>
 				<select name="prioridades" id="cbxPrioridades" class = "selectList" >
 				</select>
-				<br>
+				<br><br/><br/><br/>
+
+				<span class = "inputFieldLabel" >Fecha de resoluci&oacute;n:</span>
+				<input id="txtEndingDate" type="text"  value="" class = "inputField"  title="Fecha esperada de resoluci&oacute;n" readonly/>
 
 				<span class = "requiredFieldLabel">Descripci&oacute;n:</span>
 				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>
@@ -87,8 +92,8 @@
 
 		</div>
 			<div id="aboutScreen" style="display: none">
-				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />		
-		</div>	
+				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />
+		</div>
 
 	</body>
 </html>
