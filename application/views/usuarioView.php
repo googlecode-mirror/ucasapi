@@ -72,7 +72,7 @@
                     <input id="idDepto" type="hidden"  value="" class = "hiddenId"/>
                     <input id="accionActual" type="hidden"  value="" class = "hiddenId"/>               
                    
-                    <span class = "requiredFieldLabel">Código empleado:</span>
+                    <span class = "inputFieldLabel">Código empleado:</span>
                     <input id="txtUsuarioCodigo" type="text"  value="" class = "inputField" title = "Codigo empleado UCA: Dos letras mayusculas seguidos de 5 n&uacute;meros" maxlength="7"/><br>
                                
                     <span class = "requiredFieldLabel">Primer nombre:</span>
@@ -81,13 +81,13 @@
                     <span class = "inputFieldLabel">Otros nombres:</span>
                     <input id="txtUsuarioOtrosNombres" type="text"  value="" class = "inputField" title = "Otros nombres del usuario" maxlength="80"/><br>
                    
-                    <span class = "requiredFieldLabel">Primer apellido:</span>
+                    <span class = "inputFieldLabel">Primer apellido:</span>
                     <input id="txtUsuarioPrimerApellido" type="text"  value="" class = "inputField" title = "Primer apellido del usuario " maxlength="80"/><br>
                    
                     <span class = "inputFieldLabel">Otros apellidos:</span>
                     <input id="txtUsuarioOtrosApellidos" type="text"  value="" class = "inputField" title = "Otros apellidos del usuario" maxlength="80"/><br>
                    
-                    <span class = "requiredFieldLabel">Fecha nacimiento:</span>
+                    <span class = "inputFieldLabel">Fecha nacimiento:</span>
                     <input id="txtProyectoFechaNacimiento" type="text"  value="" class = "jqcalendario" title = "Fecha nacimiento del usuario" readonly/><br>
                    
                     <span class = "requiredFieldLabel">Usuario sistema:</span>
@@ -99,13 +99,13 @@
                     <span class = "requiredFieldLabel">Confirmar:</span>
                     <input id="txtUsuarioConfirmar" type="password"  value="" class = "inputFieldPSW" title = "Confirmación de contraseña" maxlength="10"/><br>
                    
-                    <span class = "requiredFieldLabel">DUI:</span>
+                    <span class = "inputFieldLabel">DUI:</span>
                     <input id="txtUsuarioDUI" type="text"  value="" class = "inputField" title = "Documento Unico de Identidad del usuario, solo n&uacute;meros xxxxxxxx-x" maxlength="11"/><br>               
                    
-                    <span class = "requiredFieldLabel">NIT:</span>
+                    <span class = "inputFieldLabel">NIT:</span>
                     <input id="txtUsuarioNIT" type="text"  value="" class = "inputField" title = "Número de identificación tributaria, solo n&uacute;meros xxxx-xxxxxx-xxx-x" maxlength="17"/><br>
                    
-                    <span class = "requiredFieldLabel">ISSS:</span>
+                    <span class = "inputFieldLabel">ISSS:</span>
                     <input id="txtUsuarioISSS" type="text"  value="" class = "inputField" title = "Número de afiliacion al ISSS, solo n&uacute;meros 9 en total" maxlength="9"/><br>
                    
                     <span class = "inputFieldLabel">NUP:</span>
@@ -114,7 +114,7 @@
                     <span class = "requiredFieldLabel">Departamento:</span>
                     <input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField" title = "Departamento universitario al que pertenece" maxlength="256"/><br>
                    
-                    <span class = "requiredFieldLabel">Cargo:</span>
+                    <span class = "inputFieldLabel">Cargo:</span>
                     <input id="txtUsuarioCargo" type="text"  value="" class = "inputField" title = "Cargo que desempeña en la universidad" maxlength="40"/><br>
                    
                     <span class = "inputFieldLabel">Carnet:</span>
