@@ -38,6 +38,13 @@ class UsuarioModel extends CI_Model{
 		$fechaNacimiento = $this->input->post("fechaNacimiento");
 		$telefonoContacto = $this->input->post("telefonoContacto");
 		$extension = $this->input->post("extension");
+		
+		if($idDepto == "")
+			$idDepto = null;
+		if($idCargo == "")
+			$idCargo = null;
+		if($fechaNacimiento == "")
+			$fechaNacimiento = null;
 
 
 		$rol_rows = $this->input->post("rol_data");
@@ -143,10 +150,11 @@ class UsuarioModel extends CI_Model{
 
 		$idUsuario = $this->input->post("idUsuario");
 
-		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, U.activo, D.nombreDepto nombreDepto, C.nombreCargo nombreCargo, D.idDepto, C.idCargo, fechaNacimiento, telefonoContacto, extension
-				FROM DEPARTAMENTO D, USUARIO U, CARGO C
-				WHERE D.idDepto = U.idDepto AND U.idCargo = C.idCargo AND 
-				idUsuario = ".$idUsuario;
+		$sql = "select idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, R.activo activo, fechaNacimiento, telefonoContacto, extension, C.nombreCargo nombreCargo, C.idCargo idCargo,  R.idDepto idDepto, R.nombreDepto nombreDepto
+				from (SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, U.activo, fechaNacimiento, telefonoContacto, extension, U.idCargo, U.idDepto, DEP.nombreDepto,  U.idCargo idCargoa
+					FROM USUARIO U , (SELECT D.nombreDepto FROM DEPARTAMENTO D, USUARIO S WHERE S.idDepto = D.idDepto AND S.idUsuario = 10) DEP
+					WHERE U.idUsuario = ".$idUsuario.") R left join CARGO C ON (R.idCargoa = C.idCargo) 
+					WHERE R.idUsuario = ".$idUsuario;
 
 		$query = $this->db->query($sql);
 
@@ -374,31 +382,17 @@ class UsuarioModel extends CI_Model{
 		//Colocando las reglas para los campos, el segundo parámetro es el nombre del campo que aparecerá en el mensaje
 		//Habrá que reemplazar los mensajes, pues por el momento están en inglés
 		$this->form_validation->set_rules("primerNombre", "Primer Nombre", 'required');
-		$this->form_validation->set_rules("primerApellido", "Apellidos", 'required');
 		$this->form_validation->set_rules("username", "username", 'required');
 		$this->form_validation->set_rules("password", "password", 'required');
-		$this->form_validation->set_rules("dui", "DUI", 'required');
-		$this->form_validation->set_rules("nit", "NIT", 'required');
-		$this->form_validation->set_rules("isss", "ISSS", 'required');
-		$this->form_validation->set_rules("codEmp", "Codigo Empleado", 'required');
-		$this->form_validation->set_rules("isss", "ISSS", 'required');
-
 		$this->form_validation->set_message('required', 'El campo "%s" es requerido');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumplió...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 
-			$retArray["msg"] .= form_error("primerNombre");
-			$retArray["msg"] .= form_error("primerApellido");
+			$retArray["msg"] .= form_error("primerNombre");		
 			$retArray["msg"] .= form_error("username");
-			$retArray["msg"] .= form_error("password");
-			$retArray["msg"] .= form_error("dui");
-			$retArray["msg"] .= form_error("nit");
-			$retArray["msg"] .= form_error("isss");
-			$retArray["msg"] .= form_error("codEmp");
-			$retArray["msg"] .= form_error("isss");
-
+			$retArray["msg"] .= form_error("password");		
 		}
 
 		return $retArray;
