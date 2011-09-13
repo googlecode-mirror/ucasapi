@@ -211,52 +211,57 @@ function saveContrato() {
 						break;						
 					}
 				}				
-			};			
-			alert(gridData);
+			}
+			//alert(gridData = gridData.substring(0,gridData.length-1));
 			
-			if(validarTrasTodos($("#txtFechaInicioContrato").val(),$("#txtFechaFinContrato").val(),gridData)){
+			if(gridData != ""){
+				gridData = gridData.substring(0,gridData.length-1);
+			}
+			//alert("GRID DATA : " + gridData);
 			
-				$	.ajax({
-							type : "POST",
-							url : "index.php/historicoUsuario/historicoUsuarioValidateAndSave",
-							data : formData,
-							dataType : "json",
-							success : function(retrievedData) {
-								if (retrievedData.status != 0) {
-									msgBoxInfo(retrievedData.msg);
+			if(gridData == "" || validarTrasTodos($("#txtFechaInicioContrato").val(),$("#txtFechaFinContrato").val(),gridData)){
+			
+				$.ajax({
+						type : "POST",
+						url : "index.php/historicoUsuario/historicoUsuarioValidateAndSave",
+						data : formData,
+						dataType : "json",
+						success : function(retrievedData) {
+							if (retrievedData.status != 0) {
+								msgBoxInfo(retrievedData.msg);
+							} else {
+								if ($("#accionActual").val() == "") {
+									msgBoxSucces("Registro agregado con \u00e9xito");
+									/* LIMPIANDO EL GRID */
+									$('#usuarioHist')
+											.setGridParam(
+													{
+														url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
+																+ $(
+																		"#idUsuario")
+																		.val()
+													})
+											.trigger("reloadGrid");
 								} else {
-									if ($("#accionActual").val() == "") {
-										msgBoxSucces("Registro agregado con \u00e9xito");
-										/* LIMPIANDO EL GRID */
-										$('#usuarioHist')
-												.setGridParam(
-														{
-															url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
-																	+ $(
-																			"#idUsuario")
-																			.val()
-														})
-												.trigger("reloadGrid");
-									} else {
-										/* Recargando el grid */
-										$('#usuarioHist')
-												.setGridParam(
-														{
-															url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
-																	+ $(
-																			"#idUsuario")
-																			.val()
-														})
-												.trigger("reloadGrid");
-	
-										msgBoxSucces("Registro actualizado con \u00e9xito");
-									}
-									usuarioAutocomplete();
-									clearSaveContrato();
+									/* Recargando el grid */
+									$('#usuarioHist')
+											.setGridParam(
+													{
+														url : "index.php/historicoUsuario/gridContratoUsuarioRead/"
+																+ $(
+																		"#idUsuario")
+																		.val()
+													})
+											.trigger("reloadGrid");
+
+									msgBoxSucces("Registro actualizado con \u00e9xito");
 								}
+								usuarioAutocomplete();
+								clearSaveContrato();
 							}
-	
-						});
+						}
+
+					});
 				}else{
 					msgBoxInfo("Las fechas que intenta ingresar se traslapan con otras");
 				}
