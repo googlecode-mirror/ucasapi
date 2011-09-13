@@ -332,6 +332,8 @@ function save(){
 		formData += "&responsablesD=" +(aNewElements(dynamicResponsibles,currentResponsibles)).toString();
 		formData += "&proyRelacionados=" +parseGridDataIds(gridRelatedProjectsData);
 		formData += "&accionActual=" + $("#accionActual").val();
+		formData += "&anioSolicitud=" + $("#anioSolicitud").val();
+		formData += "&correlAnio=" + $("#correlAnio").val();
 		
 		//alert (formData);
 		
@@ -908,7 +910,7 @@ function uploadFile() {
 		return false;
 	}
 	if ($("#txtFileName").val() == "") {
-		msgBoxInfo("El campo Título es requerido");
+		msgBoxInfo("El campo Tï¿½tulo es requerido");
 		return false;
 	}
 	upload.setData({// Datos adicionales en el envï¿½o del archivo
@@ -945,9 +947,9 @@ function saveFileData(fileName) {
 					$('#gridDocuments').setGridParam({url : "/ucasapi/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
 					
 					if (idArchivo == "") {
-						msgBoxSucces("Documento agregado con éxito");
+						msgBoxSucces("Documento agregado con ï¿½xito");
 					} else {
-						msgBoxSucces("Documento actualizado con éxito");
+						msgBoxSucces("Documento actualizado con ï¿½xito");
 					}
 					clearFileForm();
 				}
@@ -968,7 +970,7 @@ function loadGridDocuments() {
 		/* url: "/ucasapi/departamento/gridRead/", */
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion" ],
+		colNames : [ "Id", "Tipo", "Tï¿½tulo","Nombre", "Subido", "Descripcion" ],
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
 		             {name : "Titulo",index : "Titulo",width : 160}, 
@@ -1041,7 +1043,7 @@ function openFile() {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Permite la edición de los datos del archivo seleccionado
+//Permite la ediciï¿½n de los datos del archivo seleccionado
 function editFileData() {
 	rowId = $("#gridDocuments").jqGrid("getGridParam", "selrow");
 	if(rowId == null){
@@ -1072,7 +1074,7 @@ function deleteFile() {
 		nombreArchivo = rowData["Nombre"];
 		var formData = "idArchivo=" + idArchivo;
 		formData += "&nombreArchivo=" + nombreArchivo;
-		var answer = confirm("Está seguro que quiere eliminar el documento?");
+		var answer = confirm("Estï¿½ seguro que quiere eliminar el documento?");
 		
 		if(answer){
 			$.ajax({
@@ -1087,7 +1089,7 @@ function deleteFile() {
 					} else {
 						$('#gridDocuments').setGridParam({
 							url : "/ucasapi/actividada/gridDocumentsLoad/"+ $("#idActividad").val()}).trigger("reloadGrid");
-							msgBoxSucces("Documento eliminado con éxito");
+							msgBoxSucces("Documento eliminado con ï¿½xito");
 							clearFileForm();
 					}
 				}

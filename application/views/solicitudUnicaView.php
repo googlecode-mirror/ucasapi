@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>PHOBOS - Solicitud</title>
+		<title>Solicitudes entrantes</title>
 		 <meta http-equiv="X-UA-Compatible" content="IE=8" >
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/horus/jquery-ui-1.8.14.custom.css" rel="stylesheet" />
 		<link type="text/css" href="<?php echo base_url(); ?>application/views/css/ui.jqgrid.css" rel="stylesheet" />
@@ -39,10 +39,10 @@
 
 		<div class="sessionBar">
 			<img id="systemIcon" src="<?php echo base_url(); ?>application/views/css/img/gears.png" />
-			<span id="systemName"><b>SKY PROJECT??</b></span>
+			<span id="systemName"><b>PHOBOS PLANING</b></span>
 			<img id="aboutButton" title="Acerca de..." src="<?php echo base_url(); ?>application/views/css/img/about.jpg" />
-			<img id="logoutButton" title="Cerrar sesion" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
-			<span id="sessionUser"><?php echo  utf8_decode($userName); ?></span>
+			<img id="logoutButton" title="Cerrar sesi�n" src="<?php echo base_url(); ?>application/views/css/img/logout_button.png" />
+			<span id="sessionUser"><?php echo  utf8_decode($userName."/".$roleName); ?></span>
 		</div>
 
 		<div><span id="pageTittle"></span></div>
@@ -89,8 +89,8 @@
 
 		</div>
 			<div id="aboutScreen" style="display: none">
-				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />		
-		</div>	
+				<img src="<?php echo base_url(); ?>application/views/css/img/aboutScreen.png" />
+		</div>
 
 	</body>
 </html>
