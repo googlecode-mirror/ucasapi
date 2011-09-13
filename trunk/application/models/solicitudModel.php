@@ -249,16 +249,17 @@ class solicitudModel extends CI_Model {
 					s.descripcionSolicitud descripcion,
 					a.fechaInicioPlan fechaAtencion,
 					date_format(s.fechaRealConclusion, '%Y-%m-%d') fechaSalida,
-					MAX(b.progreso) progreso
+					P.progreso progreso
 				FROM SOLICITUD s
 				LEFT JOIN ACTIVIDAD a ON (a.anioSolicitud = s.anioSolicitud AND a.correlAnio = s.correlAnio)
 				LEFT JOIN BITACORA b ON (b.idActividad = a.idActividad)
 				INNER JOIN USUARIO_SOLICITUD us ON (us.anioSolicitud = s.anioSolicitud AND us.correlAnio = s.correlAnio)
 				INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario)
+				INNER JOIN (select TRUNCATE(AVG(progreso), 0) progreso from BITACORA where idActividad in (select idActividad from ACTIVIDAD where anioSolicitud = ? and correlAnio = ?)) P
 				WHERE s.anioSolicitud = ? AND s.correlAnio = ? AND esAutor = 1
 				GROUP BY s.tituloSolicitud, s.fechaEntrada, s.descripcionSolicitud, a.fechaInicioPlan";
 
-		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1]));
+		$result = $this->db->query($query, array($solicitudIds[0], $solicitudIds[1], $solicitudIds[0], $solicitudIds[1]));
 
 		$solicitudes = array();
 
@@ -330,6 +331,67 @@ class solicitudModel extends CI_Model {
 										SELECT CONCAT_WS('-', a.anioSolicitud, a.correlAnio)
 										FROM ACTIVIDAD a
 										WHERE a.anioSolicitud IS NOT NULL AND a.correlAnio IS NOT NULL);";
+		$query = $this->db->query($sql);
+
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $row->anio . "-" . $row->correl;
+					$response->rows[$i]["cell"] = array($row->fechaPeticion, $row->titulo, $row->usuarioSolicitante);
+					$i++;
+				}
+			}
+		}
+
+		return $response;
+	}
+
+	function gridAllSolicitudRead($id=null){
+		$this->load->database();
+
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+
+		// $idDepto = is_null($idDepto) ? -1 : $idDepto;
+
+
+		$sql = "SELECT COUNT(*) AS count " .
+				"FROM USUARIO u " .
+				"INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario " .
+				"INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)";
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+
+		//-------------------------
+
+		$sql = "SELECT s.anioSolicitud anio, s.correlAnio correl, s.tituloSolicitud titulo, CONCAT(u.primerNombre, ' ', u.primerApellido) usuarioSolicitante, s.fechaEntrada fechaPeticion
+				FROM USUARIO u
+				INNER JOIN USUARIO_SOLICITUD us ON u.idUsuario = us.idUsuario
+				INNER JOIN SOLICITUD s ON (s.anioSolicitud = us.anioSolicitud AND s.correlAnio = us.correlAnio)
+				WHERE us.esAutor=1";
 		$query = $this->db->query($sql);
 
 		$i = 0;
