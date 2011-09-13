@@ -21,6 +21,9 @@ $(document).ready(function(){
 	 
 	 ajaxUpload();
 	 projectAutocomplete();
+	 processAutocomplete("", "#txtProcessRecords");
+	 processAutocomplete("", "#txtProcessName");
+	 activityAutocomplete("","");
 	 priorityAutocomplete();
 	 statusAutocomplete();
 	 fileTypeAutocomplete();
@@ -125,6 +128,8 @@ function projectAutocomplete(){
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function processAutocomplete(idProyecto, processTextBox){
+	var idProyectoZ = $("#idProyecto").val();
+	if(idProyectoZ=="")idProyectoZ=0;
 	$.ajax({				
         type: "POST",
         url:  "/ucasapi/actividada/processAutocomplete/"+idProyecto,
@@ -142,10 +147,10 @@ function processAutocomplete(idProyecto, processTextBox){
     		        select: function(event, ui) {
     			        $("#idProceso").val(ui.item.id);
     			        $(this).blur();//Dedicado al IE
-    			        $("#idActividad").val("");
+    			        //$("#idActividad").val("");
     			        if(processTextBox=="#txtProcessRecords"){
 			        		$("#txtRecords").val("");
-			        		activityAutocomplete($("#idProyecto").val(),$("#idProceso").val());
+			        		activityAutocomplete(idProyectoZ,$("#idProceso").val());
     			        }    			        
     				},
     				change :function(){
@@ -368,8 +373,7 @@ function save(){
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function edit(){			
-	var formData = "idActividad=" + $("#idActividad").val();	
-	if($("#txtProjectRecords").val() != ""){		
+	var formData = "idActividad=" + $("#idActividad").val();			
 		if($("#txtRecords").val() != ""){	
 			$("#accionActual").val("editando");
 			$("#tabs-4").show();
@@ -385,6 +389,12 @@ function edit(){
 		        		alert("Mensaje de error: " + retrievedData.msg); //Por el momento, el mensaje que se est� mostrando es t�cnico, para cuestiones de depuraci�n
 		        	}else{
 		        		$("#idProyecto").val(retrievedData.data.idProyecto);
+		        		
+		        		if ($("#idProyecto").val()!=""){
+		        			processAutocomplete($("#idProyecto").val(), "#txtProcessName");
+		        			
+		        		}
+		        		
 		        		$("#idProceso").val(retrievedData.data.idProceso);
 		        		$("#idPrioridad").val(retrievedData.data.idPrioridad);
 		        		$("#idEstado").val(retrievedData.data.idEstado);
@@ -415,9 +425,6 @@ function edit(){
 		}else{
 			msgBoxInfo("Debe seleccionar una ACTIVIDAD ");
 		}
-	}else{
-		msgBoxInfo("Debe seleccionar un PROYECTO ");
-	}
 	
 }
 
@@ -462,6 +469,9 @@ function deleteData(){
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function cancel(){
+	processAutocomplete("", "#txtProcessRecords");
+	processAutocomplete("", "#txtProcessName");
+	activityAutocomplete("","");
 	//$("#btnCancel").toggleClass('ui-state-active');
 	clear();
 	$("#msgBox").hide();
@@ -1120,10 +1130,6 @@ function validarCampos() {
 		}
 	}else{
 		camposFallan += "<p><dd>El campo NOMBRE es requerido </dd><br /></p>";
-	}
-	
-	if($("#txtProjectName").val()==""){		
-		camposFallan += "<p><dd>El campo PROYECTO es requerido </dd><br /></p>";
 	}
 	
 	if($("#txtPriorityName").val()==""){		
