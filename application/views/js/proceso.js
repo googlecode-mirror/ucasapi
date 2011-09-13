@@ -230,8 +230,10 @@ function save() {
 				} else {
 					if ($("#accionActual").val() == "") {
 						msgBoxSucces("Proceso agregado con \u00e9xito");
+						procesoNullProyectoAutocomplete();
 					} else {
 						msgBoxSucces("Proceso actualizado con \u00e9xito");
+						procesoNullProyectoAutocomplete();
 					}
 					procesoProyectoAutocomplete();
 					procesoEstadoAutocomplete();

@@ -126,7 +126,7 @@ function setTooltips(){
 	browserName = navigator.appName;
 	
 	if(browserName != "Microsoft Internet Explorer"){		
-		$(".inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario, #logoutButton, #aboutButton").bt(
+		$(".hasDatepicker, select, .inputField, .inputFieldAC, .inputFieldPSW, .inputFieldTA, .inputCHK, .jqcalendario, #logoutButton, #aboutButton").bt(
 				  {
 				    fill: '#FFF',
 				    cornerRadius: 10,

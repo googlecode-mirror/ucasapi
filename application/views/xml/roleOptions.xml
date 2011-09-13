@@ -234,14 +234,6 @@
 				<controller>rol</controller>
 			</pagina>
 			<pagina>
-				<nombrePagina>Tipo de estado</nombrePagina>
-				<controller>tipoEstado</controller>
-			</pagina>
-			<pagina>
-				<nombrePagina>Tipo de archivo</nombrePagina>
-				<controller>tipoArchivo</controller>
-			</pagina>
-			<pagina>
 				<nombrePagina>Usuarios</nombrePagina>
 				<controller>usuario</controller>
 			</pagina>		

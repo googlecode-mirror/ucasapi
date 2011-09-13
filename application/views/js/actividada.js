@@ -356,9 +356,15 @@ function save(){
 	        	else{
 	        		if($("#accionActual").val()==""){
 	        			msgBoxSucces("Registro agregado con &eacute;xito");
+	        			processAutocomplete("", "#txtProcessRecords");
+	        			processAutocomplete("", "#txtProcessName");
+	        			activityAutocomplete("","");
 	        		}
 	        		else{
 	        			msgBoxSucces("Registro actualizado con &eacute;xito");
+	        			processAutocomplete("", "#txtProcessRecords");
+	        			processAutocomplete("", "#txtProcessName");
+	        			activityAutocomplete("","");
 	        			//alert("Registro actualizado con ï¿½xito");
 	        		}
 	        		clear();
@@ -920,7 +926,7 @@ function uploadFile() {
 		return false;
 	}
 	if ($("#txtFileName").val() == "") {
-		msgBoxInfo("El campo Tï¿½tulo es requerido");
+		msgBoxInfo("El campo Título es requerido");
 		return false;
 	}
 	upload.setData({// Datos adicionales en el envï¿½o del archivo
@@ -932,8 +938,8 @@ function uploadFile() {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Funciï¿½n desencadenada en el onComplete de la subida del archivo y asociada al
-//botï¿½n "Actualizar"
+//Funcn desencadenada en el onComplete de la subida del archivo y asociada al
+//botn "Actualizar"
 function saveFileData(fileName) {
 	idActividad = $("#idActividad").val();
 	var formData = "nombreArchivo=" + fileName;
@@ -980,7 +986,7 @@ function loadGridDocuments() {
 		/* url: "/ucasapi/departamento/gridRead/", */
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Tipo", "Tï¿½tulo","Nombre", "Subido", "Descripcion" ],
+		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion" ],
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
 		             {name : "Titulo",index : "Titulo",width : 160}, 
