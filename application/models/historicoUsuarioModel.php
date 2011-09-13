@@ -374,7 +374,7 @@ class historicoUsuarioModel extends CI_Model{
 		$response->total = $total_pages;
 		$response->records = $count;
 
-		$sql = "SELECT fechaInicioContrato, if(fechaFinContrato=null,'',fechaFinContrato) fechaFinContrato, salario, correlUsuarioHistorico, idUsuario  FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario)." AND activo='1'";
+		$sql = "SELECT fechaInicioContrato, if(fechaFinContrato=null,'',fechaFinContrato) fechaFinContrato, salario, correlUsuarioHistorico, idUsuario  FROM USUARIO_HISTORICO WHERE idUsuario = ".$this->db->escape($idUsuario)." AND activo='1' ORDER BY fechaInicioContrato, salario";
 		$query = $this->db->query($sql);
 
 		$i = 0;
