@@ -41,8 +41,8 @@ class actividadgModel extends CI_Model{
 
 		$sql = "SELECT DISTINCT a.idActividad, axp.idProyecto, a.nombreActividad, a.fechaFinalizacionPlan, p.nombreProceso, pt.nombreProyecto, e.estado, pr.nombrePrioridad, uxa.horaAsignacion
 				FROM ACTIVIDAD a LEFT JOIN PROCESO p ON a.idProceso = p.idProceso
-					INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
-					INNER JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
+					LEFT JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
+					LEFT JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
 					INNER JOIN PRIORIDAD pr ON a.idPrioridad = pr.idPrioridad
 					INNER JOIN ESTADO e ON  a.idEstado = e.idEstado
 					INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
