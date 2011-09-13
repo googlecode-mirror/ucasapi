@@ -77,9 +77,11 @@
 					<span class="inputFieldLabel">Proceso:</span>
 						<input id="txtProcesoName" type="text" readonly="readonly" value="" class="inputField" title="Proceso al que pertenece la actividad"/><br> 
 					<span class="inputFieldLabel">Actividad: </span>
-						<input id="txtActividadName" type="text" readonly="readonly" class="inputField" title="Nombre de la actividad"></input> 
+						<input id="txtActividadName" type="text" readonly="readonly" class="inputField" title="Nombre de la actividad"></input>
+					<!--  
 					<span class="inputFieldLabel">Asignada por: </span> 
-						<input id="txtAsignada" type="text" readonly="readonly" class="inputField" title="Persona que le asigno la actividad"></input> 
+						<input id="txtAsignada" type="text" readonly="readonly" class="inputField" title="Persona que le asigno la actividad"></input>
+						 --> 
 					<span class="inputFieldLabel">Estado: </span>
 					<select id="cbEstado" title="Estado de la actividad"></select><br>
 					<span class="inputFieldLabel">Progreso:

@@ -116,7 +116,7 @@
 					<span class = "requiredFieldLabel" style = "clear:both">Descripci&oacute;n</span>
 					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci&oacute;n de la actividad" ></textArea><br>
 					
-					<span style = "clear:both; margin-bottom:20px" class = "requiredFieldLabel" >Responsables</span><br>
+					<span style = "clear:both; margin-bottom:20px" class = "inputFieldLabel" >Responsables</span><br>
 					<table align="center">
                     	<tr>
                         	<td>

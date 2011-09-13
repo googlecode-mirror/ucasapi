@@ -3,6 +3,8 @@ var faseCorrel = 0;
 $(document).ready(function() {
 	js_ini();
 	$("#proyectoButton").addClass("highlight");
+	$("#btnSave, #btnEdit").button();
+	$("#txtFaseFin").css("margin-bottom", "20px");
 	idArchivo = "";
 	upload = null;
 	proyectoAutocomplete();	
@@ -380,18 +382,25 @@ function validarCamposFases() {
 	var camposFallan = "";
 
 	if ($("#cbFases").val() == "") {
-		camposFallan += "Debe seleccionar una FASE <br />";
+		camposFallan += "<p><dd>Debe seleccionar una FASE </dd><br/></p>";
 	}
 	if($("#txtFaseIni").val() == ""){
-		camposFallan += "Debe ingresar la fecha Inicial de la fase<br />";
+		camposFallan += "<p><dd>Debe ingresar la fecha Inicial de la fase</dd><br/></p>";
 	}
 	if($("#txtFaseFin").val() == ""){
-		camposFallan += "Debe ingresar la fecha Final de la fase<br />";
+		camposFallan += "<p><dd>Debe ingresar la fecha Final de la fase</dd><br/></p>";
+	}
+	
+	if ($("#txtFaseIni").val() != "" &&	 $("#txtFaseFin").val() != "") { 
+		if(!validateOverlapFechas($("#txtFaseFin").val(),$("#txtFaseIni").val())) {
+			 camposFallan += "<p><dd> El campo FECHA INICIO debe ser menor o igual a FECHA FIN para las fases</dd><br/></p>";
+		}
 	}
 			
 	if(camposFallan == ""){
 		return true;
 	}else{
+		camposFallan = "Se encontraron los siguientes problemas:<br/>" + camposFallan;
 		msgBoxInfo(camposFallan);
 		return false;
 	}
@@ -425,13 +434,16 @@ function addFase(){
 		$("#tablaFases").jqGrid('addRowData',faseCorrel,{nombreFase:$("#cbFases :selected").text(),fechaIniPlan: $("#txtFaseIni").val(),fechaFinPlan:$("#txtFaseFin").val()},'last');
 		jQuery("#tablaFases").jqGrid('editGridRow',faseCorrel,{height:280,reloadAfterSubmit:false}); 
 		faseCorrel++;
+		$("#txtFaseIni, #txtFaseFin").val("");
 	}
 }
 
-function editFase(){
+function editFase(){	
 	var gr = jQuery("#tablaFases").jqGrid('getGridParam','selrow'); 
-	if( gr != null ) 
+	if( gr != null ){
 		jQuery("#tablaFases").jqGrid('editGridRow',gr,{height:280,reloadAfterSubmit:false}); 
+		$("#fechaIniPlan, #fechaFinPlan").datepicker({ dateFormat: 'yy-mm-dd', changeMonth: true , changeYear: true, yearRange: '1920:c+5'});
+	}
 	else msgBoxInfo("Por favor seleccione una FASE a editar");
 }
 
