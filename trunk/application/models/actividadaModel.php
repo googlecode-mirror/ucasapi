@@ -1222,7 +1222,7 @@ function update(){
 	function getFollowersInsert($data_array,$idActividad, $nombreActividad, $nombreProyecto){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
-				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b> del proyecto <b>".$nombreProyecto."</b>";
+				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b>";
 				
 				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna, activo)".
     										"VALUES(".
@@ -1247,7 +1247,7 @@ function update(){
 		
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
-				$cadNotificacion = "Se le ha asignado la actividad <b>".$nombreActividad."</b> del proyecto <b>".$nombreProyecto."</b>";
+				$cadNotificacion = "Se le ha asignado la actividad <b>".$nombreActividad."</b>";
 				
 				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD (idUsuario, correlVinculacion, idActividad, fechaVinculacion, activo, idTipoAsociacion, idUsuarioAsigna)
 							VALUES(".

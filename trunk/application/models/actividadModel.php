@@ -49,18 +49,32 @@ class actividadModel extends CI_Model{
 		$idProyecto = $this->input->post("idProyecto");
 		$idUsuario = $this->input->post("idUsuario");
 		
+		if($idProyecto=="")
+			$idProyecto = -1;
 		
-		$sql = "SELECT DISTINCT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, pr.nombreProceso, a.nombreActividad, a.descripcionActividad, 
+		
+		$sql = /*"SELECT DISTINCT CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, p.nombreProyecto, pr.nombreProceso, a.nombreActividad, a.descripcionActividad, 
 					e.idEstado, b.progreso, b.comentario
-				FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto 
-					INNER JOIN ACTIVIDAD a ON axp.idActividad = a.idActividad 
-					INNER JOIN PROCESO pr ON a.idProceso = pr.idProceso
+				FROM PROYECTO p LEFT JOIN ACTIVIDAD_PROYECTO axp ON p.idProyecto = axp.idProyecto AND p.idProyecto = " .$idProyecto." 
+					LEFT JOIN ACTIVIDAD a ON axp.idActividad = a.idActividad 
+					LEFT JOIN PROCESO pr ON a.idProceso = pr.idProceso
 					INNER JOIN ESTADO e ON a.idEstado = e.idEstado 
 					INNER JOIN BITACORA b ON a.idActividad = b.idActividad 
 					INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
     			 	INNER JOIN USUARIO u ON uxa.idUsuarioAsigna = u.idUsuario
 				WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM BITACORA WHERE idActividad = ".$idActividad.") 
-					AND a.idActividad = " .$idActividad. " AND p.idProyecto = " .$idProyecto." AND uxa.idUsuario = ".$idUsuario;
+					AND a.idActividad = " .$idActividad. " AND uxa.idUsuario = ".$idUsuario;*/
+		
+		"SELECT nombreAsigna, nombreActividad, descripcionActividad, r.idEstado, progreso, comentario, r.idProceso, pr.nombreProceso, p.idProyecto, p.nombreProyecto
+				FROM (SELECT DISTINCT a.idActividad idActividad, CONCAT(u.primerNombre, ' ', u.primerApellido) nombreAsigna, a.nombreActividad nombreActividad, a.descripcionActividad descripcionActividad, e.idEstado idEstado, b.progreso progreso, b.comentario comentario, a.idProceso idProceso
+					FROM 
+							ACTIVIDAD a INNER JOIN ESTADO e ON a.idEstado = e.idEstado 
+							INNER JOIN BITACORA b ON a.idActividad = b.idActividad 
+							INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
+							INNER JOIN USUARIO u ON uxa.idUsuarioAsigna = u.idUsuario
+					WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM BITACORA WHERE idActividad = ".$idActividad.")
+						AND a.idActividad = ".$idActividad." AND uxa.idUsuario = ".$idUsuario.") R LEFT JOIN PROCESO pr ON R.idProceso = pr.idProceso  LEFT JOIN ACTIVIDAD_PROYECTO axp ON (axp.idActividad = r.idActividad) LEFT JOIN PROYECTO p ON p.idProyecto = axp.idProyecto"
+						;
 		
 		$query = $this->db->query($sql);
 
