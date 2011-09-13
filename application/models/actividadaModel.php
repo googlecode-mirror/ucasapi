@@ -80,22 +80,19 @@ class actividadaModel extends CI_Model{
 	    
 		//$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
-		$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo) 
-				VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", '1', '1')";
+		if($idProyecto!=""){
+			$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo) 
+					VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", '1', '1')";
+			
+			$query = $this->db->query($sql);		
+			if (!$query){
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+				return $retArray;
+				die();
+		    }		
+		}
 		
-		/*foreach ($idProyectoRelacionado as $idProy){
-			if($idProy != '') {
-				$sql2 .= ",(" . $this->db->escape($idProy) . ", " .
-						$this->db->escape($lastId) . ", 0)";
-			}
-		}*/		
-		$query = $this->db->query($sql);		
-		if (!$query){
-	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
-			return $retArray;
-			die();
-	    }
 	    
 	   
 	    
@@ -188,8 +185,8 @@ $retArray["msg"] =count($queryResponsibles);
 		$sql = "SELECT p.idProyecto, p.nombreProyecto, a.nombreActividad, a.fechaInicioPlan,
 		 				a.fechaFinalizacionPlan, a.descripcionActividad, a.activo, a.idFase, pry.idPrioridad, 
 		 				pry.nombrePrioridad, est.idEstado , est.estado, ps.idProceso, ps.nombreProceso
-					FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON (ap.idActividad = a.idActividad AND ap.proyectoPrincipal = '1')
-						INNER JOIN PROYECTO p ON (ap.idProyecto = p.idProyecto) LEFT JOIN PROCESO ps ON (ps.idProceso = a.idProceso)
+					FROM ACTIVIDAD a LEFT JOIN ACTIVIDAD_PROYECTO ap ON (ap.idActividad = a.idActividad AND ap.proyectoPrincipal = '1')
+						LEFT JOIN PROYECTO p ON (ap.idProyecto = p.idProyecto) LEFT JOIN PROCESO ps ON (ps.idProceso = a.idProceso)
 						INNER JOIN PRIORIDAD pry ON (pry.idPrioridad = a.idPrioridad) INNER JOIN ESTADO est ON (est.idEstado = a.idEstado)
 						WHERE a.idActividad = ".$this->db->escape($idActividad);
 		
@@ -269,15 +266,43 @@ function update(){
 			$retArray["msg"] = $sql;
 	    }
 	    
-	    
-		//Actualizando en ACTIVIDAD_PROYECTO
-		$sql = "UPDATE ACTIVIDAD_PROYECTO SET idProyecto =".$this->db->escape($idProyecto)." WHERE idActividad = ".$this->db->escape($idActividad)." AND proyectoPrincipal = 1";
+		$sql = "SELECT COUNT(*) AS count FROM ACTIVIDAD_PROYECTO WHERE proyectoPrincipal=1 AND idActividad=".$this->db->escape($idActividad);
 		
-		$query = $this->db->query($sql);		
-		if (!$query){
-	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = $this->db->_error_message();
+		$query = $this->db->query($sql);
+		
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+
+		}
+	    
+	    if($idProyecto!=""){
+		    //Actualizando en ACTIVIDAD_PROYECTO
+		    if($count>0){
+		    	$sql = "UPDATE ACTIVIDAD_PROYECTO SET idProyecto =".$this->db->escape($idProyecto)." WHERE idActividad = ".$this->db->escape($idActividad)." AND proyectoPrincipal = 1";
+		    }
+		    else{
+		    	$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo) ".
+					"VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($idActividad).", '1', '1')";
+		    }
+			
+			
+			$query = $this->db->query($sql);		
+			if (!$query){
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+		    }	    
+	    }else{
+	    	$sql = "DELETE FROM ACTIVIDAD_PROYECTO WHERE idActividad = ".$this->db->escape($idActividad)." AND proyectoPrincipal = 1";
+			
+			$query = $this->db->query($sql);		
+			if (!$query){
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+		    }
+	    	
 	    }
+		
 	    
  		//Eliminado en ACTIVIDAD_PROYECTO
 		$sqlDP = "DELETE FROM ACTIVIDAD_PROYECTO WHERE proyectoPrincipal = 0 AND idActividad = ".$this->db->escape($idActividad);
@@ -510,11 +535,13 @@ function update(){
 		
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 				
-		$sql = "SELECT a.idActividad, a.nombreActividad 
-				FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON a.idActividad = ap.idActividad
-				WHERE ap.proyectoPrincipal = '1' AND a.activo = '1' AND ap.idProyecto =". $this->db->escape($idProyecto);
+		$sql = "SELECT a.idActividad, a.nombreActividad ".
+				"FROM ACTIVIDAD a LEFT JOIN ACTIVIDAD_PROYECTO ap ON a.idActividad = ap.idActividad AND ap.proyectoPrincipal = '1'".
+				" WHERE a.activo = '1' ";
 		
-		$sql.=($idProceso!='')?"	 AND a.idProceso = " .$this->db->escape($idProceso):"";
+		$sql.=($idProyecto!=0)?" AND ap.idProyecto = " .$this->db->escape($idProyecto):"";
+		
+		$sql.=($idProceso!='')?" AND a.idProceso = " .$this->db->escape($idProceso):"";
 		
 		$query = $this->db->query($sql);		
 	
@@ -534,6 +561,7 @@ function update(){
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
 		}		
+		$retArray["msg"] = "proyecto=".$idProyecto." proceso=".$idProceso;
 		return $retArray;
 	}
 	
@@ -639,12 +667,10 @@ function update(){
 		//Habr� que reemplazar los mensajes, pues por el momento est�n en ingl�s
 		$this->form_validation->set_rules("nombreActividad", "Nombre", 'required');
 		$this->form_validation->set_rules("descripcion", "Descripcion", 'required');
-		$this->form_validation->set_rules("idProyecto", "Proyecto", 'required');
 
 		if ($this->form_validation->run() == false){//Si al menos una de las reglas no se cumpli�...
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
-			$retArray["msg"] .= form_error("idProyecto");
 			$retArray["msg"] .= form_error("nombreActividad");
 			$retArray["msg"] .= form_error("descripcion");			
 		}
@@ -1196,7 +1222,7 @@ function update(){
 	function getFollowersInsert($data_array,$idActividad, $nombreActividad, $nombreProyecto){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
-				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b>";
+				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b> del proyecto <b>".$nombreProyecto."</b>";
 				
 				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna, activo)".
     										"VALUES(".
@@ -1221,7 +1247,7 @@ function update(){
 		
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
-				$cadNotificacion = "Se le ha asignado la actividad <b>".$nombreActividad."</b>";
+				$cadNotificacion = "Se le ha asignado la actividad <b>".$nombreActividad."</b> del proyecto <b>".$nombreProyecto."</b>";
 				
 				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD (idUsuario, correlVinculacion, idActividad, fechaVinculacion, activo, idTipoAsociacion, idUsuarioAsigna)
 							VALUES(".
