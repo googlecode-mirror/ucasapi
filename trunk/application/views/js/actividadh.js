@@ -5,12 +5,48 @@
 $(document).ready(function() {
 	js_ini();
 	actividadhProyectoAutocomplete();
+	procesoNullProyectoAutocomplete();
 	$("#actividadhButton").addClass("highlight");
 	$("#idActividad").val("0");
 	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
+	$("#txtRecordsProc").focus(function(){$("#txtRecordsProc").autocomplete('search', '');});
 	$("#txtRecordsAct").focus(function(){$("#txtRecordsAct").autocomplete('search', '');});
 	ver();
 });
+
+function procesoNullProyectoAutocomplete(){
+	$.ajax({
+		type : "POST",
+		url : "index.php/proceso/procesoNPAutocompleteRead",
+		data : "statusAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				$("#txtRecordsProc").autocomplete({
+					minChars : 0,
+					source : retrievedData.data,
+					minLength : 0,
+					select : function(event, ui) {
+						$("#idProceso").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
+						loadActividadesProc($("#idProceso").val());
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProc").val())){
+							$("#txtRecordsProc").val("");
+							$("#idProceso").val("0");
+						}
+					}
+				});
+
+			}
+		}
+
+	});
+}
 
 function actividadhProyectoAutocomplete(){
 	$.ajax({
@@ -30,7 +66,8 @@ function actividadhProyectoAutocomplete(){
 					select : function(event, ui) {
 						$("#idProyecto").val(ui.item.id);
 						$(this).blur();//Dedicado al IE
-						loadActividades($("#idProyecto").val());
+						loadProceso($("#idProyecto").val());
+						loadActividadesProy($("#idProyecto").val());
 					},
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
@@ -48,15 +85,86 @@ function actividadhProyectoAutocomplete(){
 	});
 }
 
-function loadActividades($idProyecto){
+function loadProceso($idProyecto){
 	$.ajax({
 		type : "POST",
-		url : "index.php/actividadh/actividadhActividades/" + $idProyecto,
+		url : "index.php/actividadh/actividadhProcAutocompleteRead/" + $idProyecto,
 		data : "proyectoAutocomplete",
 		dataType : "json",
 		success : function(retrievedData) {
 			if (retrievedData.status != 0) {
 				msgBoxSucces("Ocurrio un problema: " + retrievedData.msg);				
+			} else {
+				$("#txtRecordsProc").autocomplete({
+					minChars : 0,
+					matchContains : true,
+					source : retrievedData.data,
+					minLength : 0,
+					select : function(event, ui) {
+						$("#idProceso").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
+						loadActividadesProc($("#idProceso").val());
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProc").val())){
+							$("#txtRecordsProc").val("");
+							$("#idProceso").val("");
+						}
+					}
+				});
+
+			}
+
+		}
+
+	});
+}
+
+function loadActividadesProy($idProyecto){
+	$.ajax({
+		type : "POST",
+		url : "index.php/actividadh/actividadhProyActividades/" + $idProyecto,
+		data : "proyectoAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				msgBoxError("Ocurrio un problema: " + retrievedData.msg);				
+			} else {
+				$("#txtRecordsAct").autocomplete({
+					minChars : 0,
+					matchContains : true,
+					source : retrievedData.data,
+					minLength : 0,
+					select : function(event, ui) {
+						$("#idActividad").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsAct").val())){
+							$("#txtRecordsAct").val("");
+							$("#idActividad").val("");
+						}
+					}
+				});
+
+			}
+		}
+
+	});
+}
+
+
+function loadActividadesProc($idProceso){
+	$.ajax({
+		type : "POST",
+		url : "index.php/actividadh/actividadhProcActividades/" + $idProceso,
+		data : "proyectoAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				msgBoxError("Ocurrio un problema: " + retrievedData.msg);				
 			} else {
 				$("#txtRecordsAct").autocomplete({
 					minChars : 0,

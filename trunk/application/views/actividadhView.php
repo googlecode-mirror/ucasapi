@@ -30,6 +30,7 @@
 			<img  src="<?php echo base_url(); ?>application/views/css/img/loading.gif"/>
 		</div>
 		<input id="idProyecto" type="hidden"  value="" class = "hiddenId"/>
+		<input id="idProceso" type="hidden"  value="" class = "hiddenId"/>
 		<input id="idActividad" type="hidden"  value="" class = "hiddenId"/>
 		
 		<input id="idRol" type="hidden"  value=<?php echo $idRol;?> />
@@ -55,10 +56,13 @@
 					<span class = "recordsLabel">Buscar proyecto: </span>
 					<input id="txtRecordsProy" class = "inputFieldAC" type="text"  value="" title = "Proyectos encontrados"/><br>
 					
-					<span class = "recordsLabel">Actividades: </span>
-					<input id="txtRecordsAct" class = "inputFieldAC" type="text"  value="" title = "Actividades encontrados"/><br><br>
+					<span class = "recordsLabel">Buscar proceso: </span>
+					<input id="txtRecordsProc" class = "inputFieldAC" type="text"  value="" title = "Procesos encontrados"/><br>
+					
+					<span class = "recordsLabel">Buscar actividad: </span>
+					<input id="txtRecordsAct" class = "inputFieldAC" type="text"  value="" title = "Actividades encontradas"/><br><br>
 				</div>
-							
+				<br><br>	
 				<div class="divCRUDButtons">
 					<button id="btnSave" onClick="ver()">Ver Bitacora</button>
 					<button id="btnCancel" onClick="cancel()">Cancelar</button>
