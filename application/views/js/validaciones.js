@@ -141,53 +141,71 @@ function validateOverlapFechas(fecha1, fecha2){
 
 
 function validarTrasTodos(d1,d2,data){
+	//alert(getDateFromFormat(d1,"yyyy-MM-dd"));
+	//alert(getDateFromFormat(d2,"yyyy-MM-dd"));
+	//alert("cadenota : " + data);
 	var datos = data.split("|");
+	//alert(datos);
 	var f1;
 	var f2;
 	var cont = 1;
 	for (var Elemento in datos) {
-		alert(Elemento);
+		//alert(Elemento);
 		if(cont == 1){
-			f1 = Elemento;
+			f1 = datos[Elemento];
 			cont++;
 			continue;
 		}
 		if(cont == 2){
-			f2 = Elemento;			
+			f2 = datos[Elemento];			
 			cont = 1;
-			//alert(f1);
-			//alert(f2);
+			//alert("NEW: " + d1);
+			//alert("NEW: " + d2);
+			//alert("OLD: " + f1);
+			//alert("OLD: " + f2);
 			if(!validarFechasContratos(d1,d2,f1,f2))
 				return false;
 		}	
-	}	
+	}
+	return true;
 }
 
 
 function validarFechasContratos(f1,f2,cf1,cf2){
-	alert(f1);
-	alert(f2);
-	alert(cf1);
-	alert(cf2);
+	//alert(f1);
+	//alert(f2);
+	//alert(cf1);
+	//alert(cf2);
 	var format = "yyyy-MM-dd";
-	var d1=formatDate(f1,format);// nueva
-	var d2=formatDate(f2,format);
-	var cd1=formatDate(cf1,format);// bases
-	var cd2=formatDate(cf2,format);
+	var d1=getDateFromFormat(f1,format);// nueva
+	var d2=getDateFromFormat(f2,format);
+	var cd1=getDateFromFormat(cf1,format);// bases
+	var cd2=getDateFromFormat(cf2,format);
 	//alert(d1,d2,cd1,cd2);
+	//alert("d1 " + d1);
+	//alert("d2 " + d2);
+	//alert("cd1 " + cd1);
+	//alert("cd2 " + cd2);
 	
 	if(cd1 < d1 && d2 < cd2){
 		//alert(0);
 		return false;		
 	}
-	if(cd1 < d1 && cd2 < d2){
+	if(cd1 < d1 && cd2 < d2 && d1 < cd2){
 		//alert(1);
 		return false;		
 	}
-	if(d1 < cd1 && d2 < cd2){
+	
+	if(d1 < cd1 && d2 < cd2 && cd1 < d2){
 		//alert(2);
 		return false;		
 	}
+	
+	if(cd1 == d1 && d2 == cd2){
+		//alert(3);
+		return false
+	}
+	
 	return true;	
 }
 
