@@ -140,4 +140,54 @@ function validateOverlapFechas(fecha1, fecha2){
 }
 
 
-/* El rollercoaster de la vida, abroche sus cinturones y disfrute del viaje */
+function validarTrasTodos(d1,d2,data){
+	var datos = data.split("|");
+	var f1;
+	var f2;
+	var cont = 1;
+	for (var Elemento in datos) {
+		alert(Elemento);
+		if(cont == 1){
+			f1 = Elemento;
+			cont++;
+			continue;
+		}
+		if(cont == 2){
+			f2 = Elemento;			
+			cont = 1;
+			//alert(f1);
+			//alert(f2);
+			if(!validarFechasContratos(d1,d2,f1,f2))
+				return false;
+		}	
+	}	
+}
+
+
+function validarFechasContratos(f1,f2,cf1,cf2){
+	alert(f1);
+	alert(f2);
+	alert(cf1);
+	alert(cf2);
+	var format = "yyyy-MM-dd";
+	var d1=formatDate(f1,format);// nueva
+	var d2=formatDate(f2,format);
+	var cd1=formatDate(cf1,format);// bases
+	var cd2=formatDate(cf2,format);
+	//alert(d1,d2,cd1,cd2);
+	
+	if(cd1 < d1 && d2 < cd2){
+		//alert(0);
+		return false;		
+	}
+	if(cd1 < d1 && cd2 < d2){
+		//alert(1);
+		return false;		
+	}
+	if(d1 < cd1 && d2 < cd2){
+		//alert(2);
+		return false;		
+	}
+	return true;	
+}
+
