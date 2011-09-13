@@ -39,88 +39,137 @@ class solicitudModel extends CI_Model {
 		$prioridad = $this->input->post("prioridad");
 		$descripcion = $this->input->post("descripcion");
 		$fechaFinEsperada = ($this->input->post("fechaFinEsperada")=='')? '0000-00-00 00:00:00' : $this->input->post("fechaFinEsperada");
+		$editSolicitud = ($this->input->post("edit")!='')? explode("-", $this->input->post("edit")) : NULL;
 		$anioSolicitud = strftime('%Y');
 		$correlAnio = 1;
 
-		$queryId = "SELECT MAX(s.anioSolicitud) maxAnio FROM SOLICITUD s";
-		$result = $this->db->query($queryId);
+		// ---------------------------------------------------------------------
 
-		if(!$result){
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-		}
+		if($editSolicitud != NULL) {
+			$sqlUpdate = "UPDATE SOLICITUD SET
+							tituloSolicitud = ?,
+							descripcionSolicitud = ?,
+							fechaSalida = ?,
+							idPrioridadCliente = ?
+						WHERE anioSolicitud = ? and correlAnio = ?";
 
-		if($result->num_rows() > 0) {
-			$maxAnio = 0;
+			$this->db->trans_begin();
 
-			$row = $result->row();
-			$maxAnio = $row->maxAnio;
+			$this->db->query($sqlUpdate, array($asunto, $descripcion, $fechaFinEsperada, $prioridad, $editSolicitud[0], $editSolicitud[1]));
 
-			if (intval($anioSolicitud) == $maxAnio) {
+			$sqlDeleteSeguidores = "DELETE FROM USUARIO_SOLICITUD WHERE anioSolicitud = ? and correlAnio = ?";
+			$this->db->query($sqlDeleteSeguidores, array($editSolicitud[0], $editSolicitud[1]));
 
-				$queryId = "SELECT MAX(s.correlAnio) + 1 correlAnio FROM SOLICITUD s " .
-							"WHERE s.anioSolicitud = " . $this->db->escape(intval($anioSolicitud));
-				$result2 = $this->db->query($queryId);
-				if($result2->num_rows() > 0) {
-					$row = $result2->row();
-					$correlAnio = $row->correlAnio;
+			$idInteresados = explode(',', $this->input->post("observadores"));
+
+			$sql2 = "INSERT INTO USUARIO_SOLICITUD (idUsuario, anioSolicitud, correlAnio, esAutor) VALUES (" .
+						$this->db->escape($this->session->userdata("idUsuario")) . ", " .
+						$this->db->escape(intval($editSolicitud[0])) . ", " .
+						$this->db->escape(intval($editSolicitud[1])) . "," .
+						$this->db->escape(1) . ")";
+
+			foreach ($idInteresados as $idUser){
+				if($idUser != '') {
+				$sql2 .= ",(" . $this->db->escape($idUser) . ", " .
+						$this->db->escape(intval($editSolicitud[0])) . ", " .
+						$this->db->escape(intval($editSolicitud[1])) . "," .
+						$this->db->escape(0) . ")";
 				}
 			}
-		}
 
-		$idInteresados = explode(',', $this->input->post("observadores"));
+			$this->db->query($sql2);
+
+			if($this->db->trans_status() == FALSE) {
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				$this->db->trans_rollback();
+		    } else {
+		    	$this->db->trans_commit();
+		    }
 
 
-		$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, fechaSalida, activo, idPrioridadCliente, idPrioridadInterna)
-   				VALUES (" .
-						$this->db->escape(intval($anioSolicitud)) . ", " .
-						$this->db->escape($correlAnio).", ".
-						$this->db->escape($asunto) . ", " .
-						$this->db->escape($descripcion) . ", " .
-						$this->db->escape($fechaFinEsperada) . ", " .
-						$this->db->escape(1) . ", " .
-						$this->db->escape(intval($prioridad)) . ", " .
-						$this->db->escape(intval($prioridad)) . ")";
+		} else {
 
-		$sql2 = "INSERT INTO USUARIO_SOLICITUD (idUsuario, anioSolicitud, correlAnio, esAutor) VALUES (" .
-					$this->db->escape($this->session->userdata("idUsuario")) . ", " .
-					$this->db->escape(intval($anioSolicitud)) . ", " .
-					$this->db->escape($correlAnio) . "," .
-					$this->db->escape(1) . ")";
+			$queryId = "SELECT MAX(s.anioSolicitud) maxAnio FROM SOLICITUD s";
+			$result = $this->db->query($queryId);
 
-		foreach ($idInteresados as $idUser){
-			if($idUser != '') {
-			$sql2 .= ",(" . $this->db->escape($idUser) . ", " .
-					$this->db->escape($anioSolicitud) . ", " .
-					$this->db->escape($correlAnio) . "," .
-					$this->db->escape(0) . ")";
+			if(!$result){
+				$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 			}
-		}
+
+			if($result->num_rows() > 0) {
+				$maxAnio = 0;
+
+				$row = $result->row();
+				$maxAnio = $row->maxAnio;
+
+				if (intval($anioSolicitud) == $maxAnio) {
+
+					$queryId = "SELECT MAX(s.correlAnio) + 1 correlAnio FROM SOLICITUD s " .
+								"WHERE s.anioSolicitud = " . $this->db->escape(intval($anioSolicitud));
+					$result2 = $this->db->query($queryId);
+					if($result2->num_rows() > 0) {
+						$row = $result2->row();
+						$correlAnio = $row->correlAnio;
+					}
+				}
+			}
+
+			$idInteresados = explode(',', $this->input->post("observadores"));
 
 
-		$this->db->trans_begin();
-		//$query = $this->db->query($sql);
-		$query = $this->db->query($sql);
-		if(!$query){
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-			return $retArray;
-		}
-		$query = $this->db->query($sql2);
-		if(!$query){
-			$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-			return $retArray;
-		}
+			$sql = "INSERT INTO SOLICITUD (anioSolicitud, correlAnio, tituloSolicitud, descripcionSolicitud, fechaSalida, activo, idPrioridadCliente, idPrioridadInterna)
+	   				VALUES (" .
+							$this->db->escape(intval($anioSolicitud)) . ", " .
+							$this->db->escape($correlAnio).", ".
+							$this->db->escape($asunto) . ", " .
+							$this->db->escape($descripcion) . ", " .
+							$this->db->escape($fechaFinEsperada) . ", " .
+							$this->db->escape(1) . ", " .
+							$this->db->escape(intval($prioridad)) . ", " .
+							$this->db->escape(intval($prioridad)) . ")";
 
-		//if (!$query){
-		if($this->db->trans_status() == FALSE) {
-	     	$retArray["status"] = $this->db->_error_number();
-			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-			$this->db->trans_rollback();
-	    } else {
-	    	$this->db->trans_commit();
-	    }
+			$sql2 = "INSERT INTO USUARIO_SOLICITUD (idUsuario, anioSolicitud, correlAnio, esAutor) VALUES (" .
+						$this->db->escape($this->session->userdata("idUsuario")) . ", " .
+						$this->db->escape(intval($anioSolicitud)) . ", " .
+						$this->db->escape($correlAnio) . "," .
+						$this->db->escape(1) . ")";
+
+			foreach ($idInteresados as $idUser){
+				if($idUser != '') {
+				$sql2 .= ",(" . $this->db->escape($idUser) . ", " .
+						$this->db->escape($anioSolicitud) . ", " .
+						$this->db->escape($correlAnio) . "," .
+						$this->db->escape(0) . ")";
+				}
+			}
+
+
+			$this->db->trans_begin();
+			//$query = $this->db->query($sql);
+			$query = $this->db->query($sql);
+			if(!$query){
+				$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				return $retArray;
+			}
+			$query = $this->db->query($sql2);
+			if(!$query){
+				$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				return $retArray;
+			}
+
+			//if (!$query){
+			if($this->db->trans_status() == FALSE) {
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+				$this->db->trans_rollback();
+		    } else {
+		    	$this->db->trans_commit();
+		    }
+		}
 
 		return $retArray;
 	}

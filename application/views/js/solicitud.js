@@ -112,17 +112,23 @@ function crearSolicitud() {
 		formData += "&descripcion=" + $("#txtSolicitudDesc").val();
 		formData += "&fechaFinEsperada=" + $("#txtEndingDate").val();
 		formData += "&observadores=" + interesados;
+		formData += "&edit=" + $("#edit").val();
 
 		$.ajax({
 			type : "POST",
-			url : "index.php/solicitud/solicitudSave",
+			url : "/ucasapi/solicitud/solicitudSave",
 			data : formData,
 			dataType : "json",
 			success : function(retrievedData) {
 				if (retrievedData.status != 0) {
 					msgBoxInfo(retrievedData.msg);
 				} else {
-					msgBoxSucces("Solicitud creada con &eacute;xito");
+					if($("#edit").val() == "") {
+						msgBoxSucces("Solicitud creada con &eacute;xito");
+					} else {
+						msgBoxSucces("Solicitud modificada con &eacute;xito");
+					}
+					
 					clear();
 				}
 			}
