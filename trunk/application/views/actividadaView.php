@@ -93,17 +93,17 @@
 					<span class = "requiredFieldLabel" >Actividad:</span>
 					<input id="txtActivityName" type="text"  value="" class = "inputField" title="Nombre de la actividad"/><br>
 					
-					<span class = "requiredFieldLabel" >Proyecto:</span>
+					<span class = "inputFieldLabel" >Proyecto:</span>
 					<input id="txtProjectName" type="text"  value="" class = "inputFieldAC" title="Proyecto al que la actividad est&aacute; asociada"/><br>
 					
 					<span class = "inputFieldLabel" >Proceso:</span>
 					<input id="txtProcessName" type="text"  value="" class = "inputFieldAC" title="Proceso al que la actividad est&aacute; asociada"/><br>
 										
 					<span class = "requiredFieldLabel" >Prioridad:</span>
-					<input id="txtPriorityName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
+					<input id="txtPriorityName" type="text"  value="" class = "inputFieldAC" title="Prioridad definida para la actividad"/><br>
 					
-					<span class = "requiredFieldLabel" >Estado>:</span>
-					<input id="txtStatusName" type="text"  value="" class = "inputFieldAC" title="Usuario responsable de la actividad"/><br>
+					<span class = "requiredFieldLabel" >Estado:</span>
+					<input id="txtStatusName" type="text"  value="" class = "inputFieldAC" title="Estado de la actividad"/><br>
 					
 					<span class = "inputFieldLabel" >Planificaci&oacute;n:</span>
 					<div class="divDateCombo">
@@ -114,7 +114,7 @@
 					</div>
 
 					<span class = "requiredFieldLabel" style = "clear:both">Descripci&oacute;n</span>
-					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci&oacute;n del departamento" ></textArea><br>
+					<textArea id="txtActivityDesc" cols=20 rows=6 class = "inputFieldTA" title="Descripci&oacute;n de la actividad" ></textArea><br>
 					
 					<span style = "clear:both; margin-bottom:20px" class = "requiredFieldLabel" >Responsables</span><br>
 					<table align="center">
