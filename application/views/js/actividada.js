@@ -157,8 +157,8 @@ function processAutocomplete(idProyecto, processTextBox){
 						if(!autocompleteMatch(retrievedData.data, $(processTextBox).val())){
 							$(processTextBox).val("");
 							$("#idProceso").val("");
-							$("#idActividad").val("");
-							$("#txtRecords").val("");
+							//$("#idActividad").val("");
+							//$("#txtRecords").val("");
 						}
 					}
     			});        		
