@@ -298,7 +298,7 @@ function parseProjectsGridData(gridData){
         retArray[i]["nombreProyecto"] = gridData[i].nombreProyecto;
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -313,7 +313,7 @@ function parseProcessesGridData(gridData){
         retArray[i]["nombreProceso"] = gridData[i].nombreProceso;
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -329,7 +329,7 @@ function parseActivitiesGridData(gridData){
         retArray[i]["nombreActividad"] = gridData[i].nombreActividad;
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -349,7 +349,7 @@ function parseFilesGridData(gridData){
         retArray[i]["fechaSubida"] = gridData[i].fechaSubida;
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -362,7 +362,7 @@ function queryProcesses(id, arrayData){
         }
     }
      var emptyArray = new Array();
-     retArray.push(emptyArray)
+     //retArray.push(emptyArray)
      return retArray;
 }
 
@@ -374,7 +374,7 @@ function queryActivitiesProj(id, arrayData){
         }
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -395,7 +395,7 @@ function queryActivitiesProc(idProj,idProc, arrayData){
 	    }
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -407,7 +407,7 @@ function queryFilesProj(id, arrayData){
         }
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -419,7 +419,7 @@ function queryFilesProc(id, arrayData){
         }
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
@@ -431,7 +431,7 @@ function queryFilesAct(id, arrayData){
         }
     }
     var emptyArray = new Array();
-    retArray.push(emptyArray)
+    //retArray.push(emptyArray)
     return retArray;
 }
 
