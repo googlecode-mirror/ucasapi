@@ -45,6 +45,11 @@ class Proceso extends CI_Controller{
 		$this->load->model("procesoModel");
 		echo json_encode($this->procesoModel->faseRead($idProyecto));
 	}
+	
+	function procesoNPAutocompleteRead(){
+		$this->load->model("procesoModel");
+		echo json_encode($this->procesoModel->procesoNPRead());
+	}
 
 	function procesoRead(){
 		$this->load->model("procesoModel");

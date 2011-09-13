@@ -104,6 +104,8 @@ class procesoModel extends CI_Model{
 	function read(){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
+		$flag = $this->input->post("flag");
+		
 		$this->load->database();		
 		//Verificando correcta conexión a la base de datos
 		if (!$this->db->conn_id) {
@@ -112,13 +114,21 @@ class procesoModel extends CI_Model{
 			return $retArray;
 		}
 		
-		$idProceso = $this->input->post("idProceso");		
+		$idProceso = $this->input->post("idProceso");
+
+		if($flag==1){
 		
-		$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto, f.idFase, pr.idProyecto 
+			$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado, pr.nombreProyecto, f.idFase, pr.idProyecto 
     			FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
     			INNER JOIN ESTADO e ON p.idEstado = e.idEstado INNER JOIN FASE f
     			ON p.idFase = f.idFase
 				WHERE p.idProceso = " .$idProceso;
+		}
+		else{
+			$sql = "SELECT e.idEstado, p.nombreProceso, p.descripcion, e.estado
+					FROM PROCESO p INNER JOIN ESTADO e ON p.idEstado = e.idEstado
+					WHERE p.idProceso = " .$idProceso;
+		}
 		
 		$query = $this->db->query($sql);
 		
@@ -371,6 +381,40 @@ class procesoModel extends CI_Model{
 		$sql = "SELECT p.nombreProceso, p.idProceso
 				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
 				WHERE p.idProyecto = " .$idProyecto. " AND p.activo = '1'";
+		$query = $this->db->query($sql);		
+	
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["id"] = $row->idProceso;
+					$rowArray["value"] = $row->nombreProceso;
+										
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}		
+		return $retArray;
+	}
+	
+	function procesoNPRead(){
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
+		$sql = "SELECT nombreProceso, idProceso
+				FROM PROCESO 
+				WHERE idProyecto IS NULL AND activo = '1'";
 		$query = $this->db->query($sql);		
 	
 		if($query){

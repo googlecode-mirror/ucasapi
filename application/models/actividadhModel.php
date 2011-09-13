@@ -43,6 +43,40 @@ class ActividadhModel extends CI_Model{
 		return $retArray;
 	}
 	
+	function procRead($idProyecto){
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
+		$sql = "SELECT p.nombreProceso, p.idProceso
+				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
+				WHERE p.idProyecto = " .$idProyecto. " AND p.activo = '1'";
+		$query = $this->db->query($sql);		
+	
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["id"] = $row->idProceso;
+					$rowArray["value"] = $row->nombreProceso;
+										
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}		
+		return $retArray;
+	}
+	
 	function actProyRead($idProyecto){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 		
@@ -57,7 +91,42 @@ class ActividadhModel extends CI_Model{
 		$sql = "SELECT DISTINCT a.idActividad, a.nombreActividad
 				FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
 					INNER JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
-				WHERE pt.idProyecto = ".$idProyecto;
+				WHERE pt.idProyecto = ".$idProyecto. " AND a.idProceso IS NULL";
+		
+		$query = $this->db->query($sql);		
+	
+		if($query){
+			if($query->num_rows > 0){			
+				foreach ($query->result() as $row){		
+					$rowArray = array();
+					$rowArray["id"] = $row->idActividad;
+					$rowArray["value"] = $row->nombreActividad;
+										
+					$retArray["data"][] = $rowArray;				
+				}							
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}		
+		return $retArray;
+	}
+	
+	function actProcRead($idProceso){
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+		
+		$this->load->database();		
+		//Verificando correcta conexión a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+		
+		$sql = "SELECT DISTINCT a.idActividad, a.nombreActividad
+				FROM ACTIVIDAD a INNER JOIN PROCESO p ON a.idProceso = p.idProceso
+				WHERE p.idProceso = ".$idProceso;
 		
 		$query = $this->db->query($sql);		
 	

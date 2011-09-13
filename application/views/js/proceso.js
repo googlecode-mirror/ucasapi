@@ -11,6 +11,7 @@ $(document).ready(function() {
 	
 	$("#procesoButton").addClass("highlight");
 	procesoProyectoAutocomplete();
+	procesoNullProyectoAutocomplete();
 	procesoEstadoAutocomplete();
 	//procesoFaseAutocomplete();
 	$("#idProceso").val("0");
@@ -27,6 +28,39 @@ $(document).ready(function() {
 });
 
 var idProyTemp;
+
+function procesoNullProyectoAutocomplete(){
+	$.ajax({
+		type : "POST",
+		url : "index.php/proceso/procesoNPAutocompleteRead",
+		data : "statusAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				alert("Mensaje de error: " + retrievedData.msg);
+			} else {
+				$("#txtRecordsProc").autocomplete({
+					minChars : 0,
+					source : retrievedData.data,
+					minLength : 0,
+					select : function(event, ui) {
+						$("#idProceso").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsProc").val())){
+							$("#txtRecordsProc").val("");
+							$("#idProceso").val("0");
+						}
+					}
+				});
+
+			}
+		}
+
+	});
+}
 
 function procesoAutocomplete($idProyecto) {
 	$.ajax({
@@ -158,8 +192,14 @@ function save() {
 	if (validarCampos()) {
 
 		formData += "idProceso=" + $("#idProceso").val();
-		formData += "&idProyecto=" + $("#idProyecto").val();
-		formData += "&idFase=" + $("#cbFases").val();
+		if($("#idProyecto").val() == ""){
+			formData += "&idProyecto=null";
+			formData += "&idFase=null";
+		}
+		else{
+			formData += "&idProyecto=" + $("#idProyecto").val();
+			formData += "&idFase=" + $("#cbFases").val();
+		}
 		formData += "&idEstado=" + $("#cbEstado").val();
 		formData += "&nombreProceso=" + $("#txtProcesoName").val();
 		formData += "&descripcion=" + $("#txtProcesoDesc").val();
@@ -205,9 +245,15 @@ function save() {
 
 function edit() {
 
-	if ($("#txtRecordsProy").val() != "") {
+
 		if ($("#txtRecordsProc").val() != "") {
 			var formData = "idProceso=" + $("#idProceso").val();
+			if($("#idProyecto").val() == ""){
+				formData += "&flag=0";
+			}
+			else{
+				formData += "&flag=1";
+			}
 			lockAutocomplete();
 			$("#tagBliblioteca").show();
 			$("#tabs-2").show();
@@ -237,9 +283,7 @@ function edit() {
 		}else{
 			msgBoxInfo("Debe seleccionar un PROCESO a editar");
 		}
-	}else{
-		msgBoxInfo("Debe seleccionar un PROYECTO al que pertenece el proceso");
-	}
+
 
 }
 
@@ -324,14 +368,15 @@ function isDate(string) { // string estará en formato yyyy-mm-dd
 
 function cancel() {
 	clear();
+	procesoNullProyectoAutocomplete();
 }
 
 function clear() {
 	$(".inputFieldAC").val("");
 	$(".inputFieldTA").val("");
 	$(".hiddenId").val("");
-	$("#cbEstado").val("--Estado--");
-	$("#cbEstado").val("Seleccione una fase");
+	$("#cbEstado").val(null);
+	$("#cbFases").html("");
 	$("#idProceso").val("0");
 	$("#tablaFases").GridUnload();
 	unlockAutocomplete();

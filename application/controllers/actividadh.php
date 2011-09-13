@@ -45,7 +45,18 @@ class Actividadh extends CI_Controller{
 		echo json_encode($this->actividadhModel->proyRead($idUsuario,$idRol));
 	}
 	
-	function actividadhActividades($idProyecto){
+	function actividadhProcAutocompleteRead($idProyecto){
+		$this->load->model("actividadhModel");
+		echo json_encode($this->actividadhModel->procRead($idProyecto));
+	}
+	
+	function actividadhProcActividades($idProceso){
+		$this->load->model("actividadhModel");
+		echo json_encode($this->actividadhModel->actProcRead($idProceso));
+		
+	}
+	
+	function actividadhProyActividades($idProyecto){
 		$this->load->model("actividadhModel");
 		echo json_encode($this->actividadhModel->actProyRead($idProyecto));
 		
