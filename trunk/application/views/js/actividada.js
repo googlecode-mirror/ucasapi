@@ -91,6 +91,7 @@ function projectAutocomplete(){
 					//Esto es para el esperado mustMatch o algo parecido
 					change :function(){
 						if(!autocompleteMatch(retrievedData.data, $("#txtProjectRecords").val())){
+							 processAutocomplete("", "#txtProcessRecords");
 							$("#txtProjectRecords").val("");
 							$("#idProyecto").val("");
 						}
@@ -110,6 +111,7 @@ function projectAutocomplete(){
     				},
     				change :function(){
 						if(!autocompleteMatch(retrievedData.data, $("#txtProjectName").val())){
+							 processAutocomplete("", "#txtProcessName");
 							$("#txtProjectName").val("");
 							$("#idProyecto").val("");
 							$("#txtProcessName").val("");
@@ -441,7 +443,7 @@ function deleteData(){
 	if($("#txtProjectRecords").val() != ""){		
 		if($("#txtRecords").val() != ""){	
 			var formData = "idActividad=" + $("#idActividad").val();	
-			var answer = confirm("Estï¿½ seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
+			var answer = confirm("Est&aacute; seguro que quiere eliminar el registro: "+ $("#txtRecords").val()+ " ?");
 			
 			if (answer){		
 				$.ajax({				
@@ -1090,7 +1092,7 @@ function deleteFile() {
 		nombreArchivo = rowData["Nombre"];
 		var formData = "idArchivo=" + idArchivo;
 		formData += "&nombreArchivo=" + nombreArchivo;
-		var answer = confirm("Estï¿½ seguro que quiere eliminar el documento?");
+		var answer = confirm("¿Está seguro que quiere eliminar el documento?");
 		
 		if(answer){
 			$.ajax({
@@ -1131,7 +1133,7 @@ function clearFileForm() {
 function validarCampos() {
 	var camposFallan = "";
 	if($("#txtActivityName").val()!=""){
-		if(!validarAlfaEsp($("#txtActivityName").val())){
+		if(!validarAlfaEspNum($("#txtActivityName").val())){
 			camposFallan += "<p><dd>El campo NOMBRE contiene caracteres no validos </dd><br /></p>";
 		}
 	}else{

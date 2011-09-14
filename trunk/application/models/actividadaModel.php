@@ -503,9 +503,16 @@ function update(){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
 				
 		$sql = "SELECT p.nombreProceso, p.idProceso 
-				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto";
+				FROM PROCESO p LEFT JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto";
+	
 		
-		$sql.=($idProyecto!=null)?"	 WHERE p.activo = '1' AND p.idProyecto = " .$this->db->escape($idProyecto):"";
+		if($idProyecto!=null){
+		 	$sql .="	 WHERE p.activo = '1' AND p.idProyecto = " .$this->db->escape($idProyecto);		
+		}
+		else{
+			$sql .="	 WHERE p.idProyecto is null";	
+		
+		}
 		
 		$query = $this->db->query($sql);		
 	
@@ -539,9 +546,26 @@ function update(){
 				"FROM ACTIVIDAD a LEFT JOIN ACTIVIDAD_PROYECTO ap ON a.idActividad = ap.idActividad AND ap.proyectoPrincipal = '1'".
 				" WHERE a.activo = '1' ";
 		
-		$sql.=($idProyecto!=0)?" AND ap.idProyecto = " .$this->db->escape($idProyecto):"";
+		//$sql.=($idProyecto!=0)?" AND ap.idProyecto = " .$this->db->escape($idProyecto):"";
 		
 		$sql.=($idProceso!='')?" AND a.idProceso = " .$this->db->escape($idProceso):"";
+
+			
+		if($idProyecto!=null && $idProyecto!=0){
+		 	$sql .=" AND ap.idProyecto = " .$this->db->escape($idProyecto);		
+		}
+		else{
+			$sql .="	 AND ap.idProyecto is null";	
+		
+		}
+		
+		if($idProceso!=null){
+		 	$sql .=" AND a.idProceso = " .$this->db->escape($idProceso);		
+		}
+		else{
+			$sql .=" AND a.idProceso is null";	
+		
+		}
 		
 		$query = $this->db->query($sql);		
 	
@@ -561,7 +585,7 @@ function update(){
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
 		}		
-		$retArray["msg"] = "proyecto=".$idProyecto." proceso=".$idProceso;
+		$retArray["msg"] = $sql;
 		return $retArray;
 	}
 	

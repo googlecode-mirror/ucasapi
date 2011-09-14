@@ -73,7 +73,7 @@ class actividadModel extends CI_Model{
 							INNER JOIN USUARIO_ACTIVIDAD uxa ON a.idActividad = uxa.idActividad
 							INNER JOIN USUARIO u ON uxa.idUsuarioAsigna = u.idUsuario
 					WHERE b.ultimoRegistro = (SELECT MAX(ultimoRegistro) FROM BITACORA WHERE idActividad = ".$idActividad.")
-						AND a.idActividad = ".$idActividad." AND uxa.idUsuario = ".$idUsuario.") R LEFT JOIN PROCESO pr ON R.idProceso = pr.idProceso  LEFT JOIN ACTIVIDAD_PROYECTO axp ON (axp.idActividad = r.idActividad) LEFT JOIN PROYECTO p ON p.idProyecto = axp.idProyecto"
+						AND a.idActividad = ".$idActividad." AND uxa.idUsuario = ".$idUsuario.") R LEFT JOIN PROCESO pr ON R.idProceso = pr.idProceso  LEFT JOIN ACTIVIDAD_PROYECTO axp ON (axp.idActividad = r.idActividad AND axp.proyectoPrincipal = 1) LEFT JOIN PROYECTO p ON p.idProyecto = axp.idProyecto"
 						;
 		
 		$query = $this->db->query($sql);
@@ -183,14 +183,16 @@ class actividadModel extends CI_Model{
 		if($id_array[0] != 0){
 			$cadNotificacion = "Se le ha desasignado la actividad: <b>'" .$nombreActividad."'</b>, ";
 			
-			//Obteniendo el nombre del proyecto
-			$sql = "SELECT nombreProyecto
-					FROM ACTIVIDAD_PROYECTO axp INNER JOIN PROYECTO p 
-						ON axp.idProyecto = p.idProyecto
-					WHERE axp.idActividad = " .$idActividad;
-			$query = $this->db->query($sql);
-			$row = $query->row();
-			$cadNotificacion .= "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
+			if($idProyTemp!=""){
+				//Obteniendo el nombre del proyecto
+				$sql = "SELECT nombreProyecto
+						FROM ACTIVIDAD_PROYECTO axp INNER JOIN PROYECTO p 
+							ON axp.idProyecto = p.idProyecto
+						WHERE axp.idActividad = " .$idActividad. " AND axp.proyectoPrincipal=1";
+				$query = $this->db->query($sql);
+				$row = $query->row();
+				$cadNotificacion .= "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
+			}
 			
 			$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad desasignada',CURRENT_TIMESTAMP())";
 			$this->db->query($sql);
@@ -285,6 +287,7 @@ class actividadModel extends CI_Model{
 	
 	function execUAInsert($data_array, $idUsuarioAsigna){
 		$idActividad = $this->input->post("idActividad");
+		$idProyTemp = $this->input->post("idProyecto");
 		$idNotificacion;
 		$idUsuarioInsert;
 		$indexTrippin = 0;
@@ -302,14 +305,16 @@ class actividadModel extends CI_Model{
 		$row = $query->row();
 		$cadNotificacion = "Se le ha asignado la actividad <b>'" .$row->nombreActividad. "'</b>, ";
 		
-		//Obteniendo el nombre del proyecto
-		$sql = "SELECT nombreProyecto
-				FROM ACTIVIDAD_PROYECTO axp INNER JOIN PROYECTO p 
-					ON axp.idProyecto = p.idProyecto
-				WHERE axp.idActividad = " .$idActividad;
-		$query = $this->db->query($sql);
-		$row = $query->row();
-		$cadNotificacion .= "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
+		if($idProyTemp!=""){
+		//	Obteniendo el nombre del proyecto
+			$sql = "SELECT nombreProyecto
+					FROM ACTIVIDAD_PROYECTO axp INNER JOIN PROYECTO p 
+						ON axp.idProyecto = p.idProyecto
+					WHERE axp.idActividad = " .$idActividad." AND axp.proyectoPrincipal=1";
+			$query = $this->db->query($sql);
+			$row = $query->row();
+			$cadNotificacion .= "del Proyecto <b>'" .$row->nombreProyecto. "'</b>.";
+		}
 		
 		//Insertando la notificacion de actividad asignada al usuario
 		$sql = "INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURRENT_TIMESTAMP())";
@@ -402,6 +407,12 @@ class actividadModel extends CI_Model{
         		WHERE (r.idRol = 1 OR r.idRol = 2 OR r.idRol = 3 OR r.idRol = 4 OR r.idRol = 5)
             		AND u.idUsuario NOT IN (SELECT u.idUsuario FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD uxa
                 ON u.idUsuario = uxa.idUsuario WHERE uxa.idActividad = " . $idActividad ." AND uxa.activo = '1')";
+		
+		$sql = "SELECT DISTINCT u.idUsuario, u.codEmp, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombre".
+			   " FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
+               " LEFT JOIN CARGO c ON c.idCargo = u.idCargo ";
+		
+		if($idActividad != NULL)$sql.= 	" WHERE uh.activo = '1' AND u.idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad)." AND idTipoAsociacion = 1)";
 		
 		
 		$query = $this->db->query($sql);

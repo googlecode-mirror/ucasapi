@@ -335,7 +335,7 @@ function validarCampos() {
 	var camposFallan = "";
 	
 	if($("#txtProyectoNombre").val()!=""){
-		if(!validarAlfaEsp($("#txtProyectoNombre").val())){
+		if(!validarAlfaEspNum($("#txtProyectoNombre").val())){
 			camposFallan += "El campo NOMBRE contiene caracteres no validos <br/>";
 		}
 	}else{

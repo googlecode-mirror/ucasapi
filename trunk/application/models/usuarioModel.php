@@ -150,11 +150,11 @@ class UsuarioModel extends CI_Model{
 
 		$idUsuario = $this->input->post("idUsuario");
 
-		$sql = "select idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, R.activo activo, fechaNacimiento, telefonoContacto, extension, C.nombreCargo nombreCargo, C.idCargo idCargo,  R.idDepto idDepto, R.nombreDepto nombreDepto
-				from (SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, U.activo, fechaNacimiento, telefonoContacto, extension, U.idCargo, U.idDepto, DEP.nombreDepto,  U.idCargo idCargoa
-					FROM USUARIO U , (SELECT D.nombreDepto FROM DEPARTAMENTO D, USUARIO S WHERE S.idDepto = D.idDepto AND S.idUsuario = 10) DEP
-					WHERE U.idUsuario = ".$idUsuario.") R left join CARGO C ON (R.idCargoa = C.idCargo) 
-					WHERE R.idUsuario = ".$idUsuario;
+		$sql = "SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, R.activo, fechaNacimiento, telefonoContacto, extension, R.idCargo, R.idDepto, R.nombreDepto,  R.idCargo idCargoa, C.nombreCargo
+				FROM
+				(SELECT idUsuario, username, password, primerNombre, otrosNombres, primerApellido, otrosApellidos, codEmp, dui, nit, isss, emailPersonal, emailInstitucional, nup, carnet, U.activo, fechaNacimiento, telefonoContacto, extension, U.idCargo, U.idDepto, D.nombreDepto,  U.idCargo idCargoa
+					FROM USUARIO U LEFT JOIN DEPARTAMENTO D ON U.idDepto = D.idDepto 
+					WHERE U.idUsuario = ".$idUsuario.") R LEFT JOIN CARGO C ON (R.idCargoa = C.idCargo) ";
 
 		$query = $this->db->query($sql);
 
@@ -203,6 +203,13 @@ class UsuarioModel extends CI_Model{
 		$fechaNacimiento = $this->input->post("fechaNacimiento");
 		$telefonoContacto = $this->input->post("telefonoContacto");
 		$extension = $this->input->post("extension");
+		
+		if($idDepto==""){
+			$idDepto = null;
+		}
+		if($idCargo==""){
+			$idCargo = null;
+		}
 
 		$rol_rows = $this->input->post("rol_data");
 

@@ -191,12 +191,12 @@ function validarFechasContratos(f1,f2,cf1,cf2){
 		//alert(0);
 		return false;		
 	}
-	if(cd1 < d1 && cd2 < d2 && d1 < cd2){
+	if(cd1 <= d1 && cd2 <= d2 && d1 <= cd2){
 		//alert(1);
 		return false;		
 	}
 	
-	if(d1 < cd1 && d2 < cd2 && cd1 < d2){
+	if(d1 <= cd1 && d2 <= cd2 && cd1 <= d2){
 		//alert(2);
 		return false;		
 	}
