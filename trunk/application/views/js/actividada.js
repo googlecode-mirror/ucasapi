@@ -58,6 +58,11 @@ $(document).ready(function(){
 	
 		$("#tagBliblioteca").hide();	
 		
+		if($("#triggerEdit").val() != "") {
+			$("#txtRecords").val(" ");
+			$("#idActividad").val($("#triggerEdit").val());
+			edit();
+		}
 		
 	 
 });	
@@ -928,7 +933,7 @@ function uploadFile() {
 		return false;
 	}
 	if ($("#txtFileName").val() == "") {
-		msgBoxInfo("El campo Título es requerido");
+		msgBoxInfo("El campo Tï¿½tulo es requerido");
 		return false;
 	}
 	upload.setData({// Datos adicionales en el envï¿½o del archivo
@@ -988,7 +993,7 @@ function loadGridDocuments() {
 		/* url: "/ucasapi/departamento/gridRead/", */
 		datatype : "json",
 		mtype : "POST",
-		colNames : [ "Id", "Tipo", "Título","Nombre", "Subido", "Descripcion" ],
+		colNames : [ "Id", "Tipo", "Tï¿½tulo","Nombre", "Subido", "Descripcion" ],
 		colModel : [ {name : "idArchivo",index : "idArchivo",width : 20,hidden : true},
 		             {name : "Tipo",index : "Tipo",width : 160}, 
 		             {name : "Titulo",index : "Titulo",width : 160}, 
@@ -1092,7 +1097,7 @@ function deleteFile() {
 		nombreArchivo = rowData["Nombre"];
 		var formData = "idArchivo=" + idArchivo;
 		formData += "&nombreArchivo=" + nombreArchivo;
-		var answer = confirm("¿Está seguro que quiere eliminar el documento?");
+		var answer = confirm("ï¿½Estï¿½ seguro que quiere eliminar el documento?");
 		
 		if(answer){
 			$.ajax({

@@ -29,12 +29,19 @@ $(document).ready(function() {
 						$("#cbxInteresados").append(
 								'<option value="' + retrievedData.data[i].idCliente + '">'
 										+ retrievedData.data[i].cliente + '</option>');
+					}// for
+					
+					if($("#editable").val() == '0') {
+						$("#txtSolicitudAsunto").attr("disabled", "disabled");
+						$("#cbxPrioridades").attr("disabled", "disabled");
+						$("#txtEndingDate").attr("disabled", "disabled");
+						$("#txtSolicitudDesc").attr("disabled", "disabled");
 					}
 					
 					
-				}
+				}// else
 
-			}
+			}// success
 
 		});
 	}

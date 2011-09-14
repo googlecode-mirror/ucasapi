@@ -1,59 +1,59 @@
 <?php
 class actividadaModel extends CI_Model{
-	
-	
+
+
 	function create(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
-		$nombreActividad = $this->input->post("nombreActividad");	
+
+		$nombreActividad = $this->input->post("nombreActividad");
 		$fechaInicioPlan = $this->input->post("fechaInicioPlan");
 		$fechaFinalizacionPlan = $this->input->post("fechaFinalizacionPlan");
 		$descripcionActividad = $this->input->post("descripcion");
 		$nombreProyecto = $this->input->post("nombreProyecto");
-		
+
 		$anioSolicitud = ($this->input->post("anioSolicitud")!="")?$this->input->post("anioSolicitud"):null;
 		$correlAnio = ($this->input->post("correlAnio")!="")?$this->input->post("correlAnio"):null;
 		$idProyecto = $this->input->post("idProyecto");
 		$idPrioridad = $this->input->post("idPrioridad");
 		$idProceso = ($this->input->post("idProceso")!="")?$this->input->post("idProceso"):null;
 		$idEstado = $this->input->post("idEstado");
-		
+
 		//$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
-		
+
 		$seguidores = $this->input->post("seguidoresI");
 		$responsables = $this->input->post("responsablesI");
 		$proyectosRelacionados = $this->input->post("proyRelacionados");
-		
-		
+
+
 		//Si no se est� en sesi�n
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
-		
+
 		$lastId  = -1;
-				
+
 		//Iniciando transacci�n
 		$this->db->trans_begin();
-		
-		
+
+
 		//Insertando en ACTIVIDAD
 		$sql = "INSERT INTO ACTIVIDAD (nombreActividad, fechaInicioPlan, fechaFinalizacionPlan, descripcionActividad, anioSolicitud, correlAnio, idPrioridad, idProceso,activo, idEstado)".
 				"VALUES (".$this->db->escape($nombreActividad).", ".$this->db->escape($fechaInicioPlan).",".$this->db->escape($fechaFinalizacionPlan).",".$this->db->escape($descripcionActividad).",".
 						  $this->db->escape($anioSolicitud).",".$this->db->escape($correlAnio).",".$this->db->escape($idPrioridad).",".$this->db->escape($idProceso).", 1, ".
 						  $this->db->escape($idEstado).")";
-						 
-		
-		$query = $this->db->query($sql);		
+
+
+		$query = $this->db->query($sql);
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			return $retArray;
 			die();
 	    }
-		
-		
-	    
+
+
+
 		$sql = "SELECT LAST_INSERT_ID() lastId FROM ACTIVIDAD";
 		$query = $this->db->query($sql);
 		if (!$query){
@@ -66,9 +66,9 @@ class actividadaModel extends CI_Model{
 			$row = $query->row();
 			$lastId = $row->lastId;
 		}
-		
-		
-			
+
+
+
 		$sqlInsert = "CALL sp_insert_bitacora(".$this->db->escape($lastId).",".$idUsuarioAsigna.",10,NULL,1,1,".$idEstado.")";
 		$query = $this->db->query($sqlInsert);
 		if (!$query){
@@ -77,27 +77,27 @@ class actividadaModel extends CI_Model{
 			return $retArray;
 			die();
 	    }
-	    
+
 		//$idProyectoRelacionado = explode(",", $this->input->post("proyRelacionados"));
 		//Insertando en PROYECTO
 		if($idProyecto!=""){
-			$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo) 
+			$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo)
 					VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($lastId).", '1', '1')";
-			
-			$query = $this->db->query($sql);		
+
+			$query = $this->db->query($sql);
 			if (!$query){
 		     	$retArray["status"] = $this->db->_error_number();
 				$retArray["msg"] = $this->db->_error_message();
 				return $retArray;
 				die();
-		    }		
+		    }
 		}
-		
-	    
-	   
-	    
+
+
+
+
 		//Insertando los datos en ACTIVIDAD_PROYECTO de los proyectos relacionados
-		if($proyectosRelacionados != ""){			
+		if($proyectosRelacionados != ""){
 			$data_array12 = explode("|",$proyectosRelacionados);
 			$insert_statements = $this->getRProjectsInsert($data_array12, $lastId);
 			foreach ($insert_statements as $queryRProjects) {
@@ -110,7 +110,7 @@ class actividadaModel extends CI_Model{
 		   		}
 			}
 		}
-		
+
 		//Insertando los datos en USUARIO_ACTIVIDAD de los usuario responsables
 		if($responsables != ""){
 			$data_array1 = explode(",",$responsables);
@@ -128,9 +128,9 @@ class actividadaModel extends CI_Model{
 	    		}
 			}
 		}
-	    
-		
-		
+
+
+
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidores != ""){
 			$data_array = explode(",",$seguidores);
@@ -148,33 +148,33 @@ class actividadaModel extends CI_Model{
 	    		}
 			}
 		}
-	
+
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
-		}	    
-		
+		}
+
 $retArray["msg"] =count($queryResponsibles);
-	    
-		return $retArray;		
+
+		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 	function read(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
-		$idActividad = $this->input->post("idActividad");		
-		
+
+		$idActividad = $this->input->post("idActividad");
+
 		/*$sql = "SELECT a.nombreActividad, a.fechaInicioPlan, a.fechaFinalizacionPlan, a.descripcionActividad, ".
 						"a.activo,prio.idPrioridad,prio.nombrePrioridad,e.idEstado,e.estado, a.idFase, proc.idProceso, ".
 						"proc.nombreProceso, proy.idProyecto, proy.nombreProyecto ".
-		
+
 				" FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO ap ON ap.idActividad = a.idActividad".
 								" INNER JOIN PROYECTO proy ON  proy.idProyecto = ap.idProyecto".
 								" LEFT JOIN PROCESO proc ON proc.idProceso = a.idProceso".
@@ -183,99 +183,161 @@ $retArray["msg"] =count($queryResponsibles);
 
 				" WHERE a.idActividad =".$this->db->escape($idActividad);*/
 		$sql = "SELECT p.idProyecto, p.nombreProyecto, a.nombreActividad, a.fechaInicioPlan,
-		 				a.fechaFinalizacionPlan, a.descripcionActividad, a.activo, a.idFase, pry.idPrioridad, 
-		 				pry.nombrePrioridad, est.idEstado , est.estado, ps.idProceso, ps.nombreProceso
+		 				a.fechaFinalizacionPlan, a.descripcionActividad, a.activo, a.idFase, pry.idPrioridad,
+		 				pry.nombrePrioridad, est.idEstado , est.estado, ps.idProceso, ps.nombreProceso, a.anioSolicitud, a.correlAnio
 					FROM ACTIVIDAD a LEFT JOIN ACTIVIDAD_PROYECTO ap ON (ap.idActividad = a.idActividad AND ap.proyectoPrincipal = '1')
 						LEFT JOIN PROYECTO p ON (ap.idProyecto = p.idProyecto) LEFT JOIN PROCESO ps ON (ps.idProceso = a.idProceso)
 						INNER JOIN PRIORIDAD pry ON (pry.idPrioridad = a.idPrioridad) INNER JOIN ESTADO est ON (est.idEstado = a.idEstado)
 						WHERE a.idActividad = ".$this->db->escape($idActividad);
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if($query) {
 			$row = $query->row_array();
-	    	$retArray["data"] = $row;	     	
+	    	$retArray["data"] = $row;
 	    }
 	    else{
 	    	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
-			 return $retArray;	    
+			 return $retArray;
 	    }
-	    
+
 	    return $retArray;
 	}
 
+	function actividadSolicitudRead($anioSolicitud, $correlAnio){
+		$this->load->database();
+
+		$page = $this->input->post("page");
+		$limit = $this->input->post("rows");
+		$sidx = $this->input->post("sidx");
+		$sord = $this->input->post("sord");
+		$count = 0;
+		if(!$sidx) $sidx =1;
+
+		$sql = "SELECT COUNT(*) FROM ACTIVIDAD WHERE anioSolicitud = ? AND correlAnio = ?";
+
+		$query = $this->db->query($sql, array($anioSolicitud, $correlAnio));
+
+		if ($query->num_rows() > 0){
+			$row = $query->row();
+			$count  = $row->count;
+		}
+
+		if( $count >0 ){
+			$total_pages = ceil($count/$limit);
+		}
+		else{
+			$total_pages = 0;
+		}
+
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+
+		$response->page = $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+
+		//------------------------------------------------------------------------------------------------------
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$sql = "SELECT a.idActividad, axp.idProyecto, a.nombreActividad, a.fechaFinalizacionPlan, p.nombreProceso,
+						pt.nombreProyecto, e.estado, pr.nombrePrioridad, a.fechaInicioPlan
+				FROM ACTIVIDAD a LEFT JOIN PROCESO p ON a.idProceso = p.idProceso
+					LEFT JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
+					LEFT JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
+					INNER JOIN PRIORIDAD pr ON a.idPrioridad = pr.idPrioridad
+					INNER JOIN ESTADO e ON  a.idEstado = e.idEstado
+				WHERE a.anioSolicitud = ? and a.correlAnio = ?";
+
+		$query = $this->db->query($sql, array($anioSolicitud, $correlAnio));
+
+		$i = 0;
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$response->rows[$i]["id"] = $row->idActividad;
+					$response->rows[$i]["cell"] = array($row->idActividad, $row->idProyecto, $row->nombreActividad, $row->fechaInicioPlan, $row->fechaFinalizacionPlan, $row->nombreProceso, $row->nombreProyecto, $row->estado, $row->nombrePrioridad);
+					$i++;
+				}
+			}
+		}
+
+		return $response;
+	}
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 function update(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
-		$nombreActividad = $this->input->post("nombreActividad");	
+
+		$nombreActividad = $this->input->post("nombreActividad");
 		$fechaInicioPlan = $this->input->post("fechaInicioPlan");
 		$fechaFinalizacionPlan = $this->input->post("fechaFinalizacionPlan");
 		$descripcionActividad = $this->input->post("descripcion");
-		
+
 		$nombreProyecto = $this->input->post("nombreProyecto");
-		
+
 		$anioSolicitud = ($this->input->post("anioSolicitud")!="")?$this->input->post("anioSolicitud"):null;
 		$correlAnio = ($this->input->post("correlAnio")!="")?$this->input->post("correlAnio"):null;
-		
+
 		$idActividad = $this->input->post("idActividad");
 		$idProyecto = $this->input->post("idProyecto");
 		$idPrioridad = $this->input->post("idPrioridad");
 		$idProceso = ($this->input->post("idProceso")!="")?$this->input->post("idProceso"):null;
 		$idEstado = $this->input->post("idEstado");
-		
+
 		$idUsuarioResponsable = $this->input->post("idUsuarioResponsable");
 		$idUsuarioAsigna = $this->input->post("idUsuarioAsigna");
-		
+
 		$seguidoresI = $this->input->post("seguidoresI");
 		$seguidoresD = $this->input->post("seguidoresD");
 		$responsablesI = $this->input->post("responsablesI");
 		$responsablesD = $this->input->post("responsablesD");
 		$proyectosRelacionados = $this->input->post("proyRelacionados");
-		
+
 		//Si no se esta en sesion
 		if ($idUsuarioAsigna == "")$idUsuarioAsigna=1;
 		//$idUsuarioResponsable = 1;
-		
+
 		$lastId  = -1;
-				
+
 		//Iniciando transaccion
 		$this->db->trans_begin();
-		
-		
+
+
 		//Actualizando en ACTIVIDAD
-		$sql = "UPDATE ACTIVIDAD ". 
+		$sql = "UPDATE ACTIVIDAD ".
 				"SET nombreActividad = ".$this->db->escape($nombreActividad).
 					 ",fechaInicioPlan = ".$this->db->escape($fechaInicioPlan).
-					 ", fechaFinalizacionPlan = ".$this->db->escape($fechaFinalizacionPlan). 
+					 ", fechaFinalizacionPlan = ".$this->db->escape($fechaFinalizacionPlan).
 					 ", descripcionActividad = ".$this->db->escape($descripcionActividad).
 					 ", anioSolicitud = ".$this->db->escape($anioSolicitud).
 					 ", correlAnio = ".$this->db->escape($correlAnio).
 					 ", idPrioridad = ".$this->db->escape($idPrioridad).
 					 ", idProceso = ".$this->db->escape($idProceso).
 					 ", idEstado =". $this->db->escape($idEstado).
-				" WHERE idActividad = ".$this->db->escape($idActividad);						 
-		
-		$query = $this->db->query($sql);		
+				" WHERE idActividad = ".$this->db->escape($idActividad);
+
+		$query = $this->db->query($sql);
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $sql;
 	    }
-	    
+
 		$sql = "SELECT COUNT(*) AS count FROM ACTIVIDAD_PROYECTO WHERE proyectoPrincipal=1 AND idActividad=".$this->db->escape($idActividad);
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
 			$row = $query->row();
 			$count  = $row->count;
 
 		}
-	    
+
 	    if($idProyecto!=""){
 		    //Actualizando en ACTIVIDAD_PROYECTO
 		    if($count>0){
@@ -285,29 +347,29 @@ function update(){
 		    	$sql = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal,activo) ".
 					"VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($idActividad).", '1', '1')";
 		    }
-			
-			
-			$query = $this->db->query($sql);		
-			if (!$query){
-		     	$retArray["status"] = $this->db->_error_number();
-				$retArray["msg"] = $this->db->_error_message();
-		    }	    
-	    }else{
-	    	$sql = "DELETE FROM ACTIVIDAD_PROYECTO WHERE idActividad = ".$this->db->escape($idActividad)." AND proyectoPrincipal = 1";
-			
-			$query = $this->db->query($sql);		
+
+
+			$query = $this->db->query($sql);
 			if (!$query){
 		     	$retArray["status"] = $this->db->_error_number();
 				$retArray["msg"] = $this->db->_error_message();
 		    }
-	    	
+	    }else{
+	    	$sql = "DELETE FROM ACTIVIDAD_PROYECTO WHERE idActividad = ".$this->db->escape($idActividad)." AND proyectoPrincipal = 1";
+
+			$query = $this->db->query($sql);
+			if (!$query){
+		     	$retArray["status"] = $this->db->_error_number();
+				$retArray["msg"] = $this->db->_error_message();
+		    }
+
 	    }
-		
-	    
+
+
  		//Eliminado en ACTIVIDAD_PROYECTO
 		$sqlDP = "DELETE FROM ACTIVIDAD_PROYECTO WHERE proyectoPrincipal = 0 AND idActividad = ".$this->db->escape($idActividad);
-                		
-		$query = $this->db->query($sqlDP);		
+
+		$query = $this->db->query($sqlDP);
 		if (!$query){
 	     	$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
@@ -319,8 +381,8 @@ function update(){
 			foreach ($insert_statements as $queryRProjects) {
 				$query = $this->db->query($queryRProjects);
 			}
-		}	    
-	    	    
+		}
+
 	    //Eliminado en USUARIO_ACTIVIDAD de responsables
 		if($responsablesD != ""){
 			$data_array1 = explode(",",$responsablesD);
@@ -329,7 +391,7 @@ function update(){
 				$this->db->query($queryResponsibles);
 			}
 		}
-		
+
 		//Eliminado en USUARIO_ACTIVIDAD de seguidores
 		if($seguidoresD != ""){
 			$data_array1 = explode(",",$seguidoresD);
@@ -350,8 +412,8 @@ function update(){
 				$this->db->query($queryResponsibles[3]);
 			}
 		}
-	    
-		
+
+
 		//Insertando los datos en USUARIO_ACTIVIDAD de los seguidores
 		if($seguidoresI != ""){
 			$data_array = explode(",",$seguidoresI);
@@ -363,58 +425,58 @@ function update(){
 				$this->db->query($queryFollowers[3]);
 			}
 		}
-	
-	
+
+
 		if($this->db->trans_status() == FALSE) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$this->db->trans_rollback();
 		} else {
 			$this->db->trans_commit();
-		}	    
-		
+		}
+
 		//$retArray["msg"] = $queryResponsibles;
-	    
-		return $retArray;			
+
+		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 
 	function delete(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		$idActividad= $this->input->post("idActividad");
-		
+
 		$sql = "DELETE FROM ACTIVIDAD
 				WHERE idActividad = ". $idActividad;
-   				
+
 		$query = $this->db->query($sql);
-		
+
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $sql;
 	    }
-		
-		return $retArray;	
+
+		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 	function readGrid($idProceso){
 		$this->load->database();
-		
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
 		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) FROM Fase";
-		
+
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0){
@@ -435,15 +497,15 @@ function update(){
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
-		
+
 		//------------------------------------------
-		
-		$retArray = array("status"=> 0, "msg" => "", "data"=>array());	
-		
+
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
 		$sql = 	"SELECT p.idProceso, f.nombreFase, fxp.fechaIniPlan, fxp.fechaFinPlan, fxp.fechaIniReal, fxp.fechaFinReal " .
-			   	"FROM FASE f INNER JOIN FASE_PROCESO fxp ON f.idFase = fxp.idFase INNER JOIN PROCESO p " . 
+			   	"FROM FASE f INNER JOIN FASE_PROCESO fxp ON f.idFase = fxp.idFase INNER JOIN PROCESO p " .
 				"ON fxp.idProceso = p.idProceso WHERE p.idProceso = ".$idProceso;
-		
+
 		$query = $this->db->query($sql);
 
 		$i = 0;
@@ -464,7 +526,7 @@ function update(){
 
 		return $response;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function userAutocompleteRead(){
 		$this->load->database();
@@ -475,7 +537,7 @@ function update(){
 			   "FROM USUARIO u INNER JOIN ROL_USUARIO ru ON ru.idUsuario = u.idUsuario ".
 			   " WHERE ru.idRol IN (1,2,3,4)";
 		$query = $this->db->query($sql);
- 
+
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
@@ -494,199 +556,199 @@ function update(){
 
 		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 	function processAutocompleteRead($idProyecto=null){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-				
-		$sql = "SELECT p.nombreProceso, p.idProceso 
+
+		$sql = "SELECT p.nombreProceso, p.idProceso
 				FROM PROCESO p LEFT JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto";
-	
-		
+
+
 		if($idProyecto!=null){
-		 	$sql .="	 WHERE p.activo = '1' AND p.idProyecto = " .$this->db->escape($idProyecto);		
+		 	$sql .="	 WHERE p.activo = '1' AND p.idProyecto = " .$this->db->escape($idProyecto);
 		}
 		else{
-			$sql .="	 WHERE p.idProyecto is null";	
-		
+			$sql .="	 WHERE p.idProyecto is null";
+
 		}
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idProceso;
 					$rowArray["value"] = $row->nombreProceso;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
-		}		
+		}
 		return $retArray;
 	}
-	
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
-	
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 	function activityAutocompleteRead($idProyecto, $idProceso){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-				
+
 		$sql = "SELECT a.idActividad, a.nombreActividad ".
 				"FROM ACTIVIDAD a LEFT JOIN ACTIVIDAD_PROYECTO ap ON a.idActividad = ap.idActividad AND ap.proyectoPrincipal = '1'".
 				" WHERE a.activo = '1' ";
-		
+
 		//$sql.=($idProyecto!=0)?" AND ap.idProyecto = " .$this->db->escape($idProyecto):"";
-		
+
 		$sql.=($idProceso!='')?" AND a.idProceso = " .$this->db->escape($idProceso):"";
 
-			
+
 		if($idProyecto!=null && $idProyecto!=0){
-		 	$sql .=" AND ap.idProyecto = " .$this->db->escape($idProyecto);		
+		 	$sql .=" AND ap.idProyecto = " .$this->db->escape($idProyecto);
 		}
 		else{
-			$sql .="	 AND ap.idProyecto is null";	
-		
+			$sql .="	 AND ap.idProyecto is null";
+
 		}
-		
+
 		if($idProceso!=null){
-		 	$sql .=" AND a.idProceso = " .$this->db->escape($idProceso);		
+		 	$sql .=" AND a.idProceso = " .$this->db->escape($idProceso);
 		}
 		else{
-			$sql .=" AND a.idProceso is null";	
-		
+			$sql .=" AND a.idProceso is null";
+
 		}
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idActividad;
 					$rowArray["value"] = $row->nombreActividad;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
-		}		
+		}
 		$retArray["msg"] = $sql;
 		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function priorityAutocompleteRead(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-				
+
 		$sql = "SELECT idPrioridad, nombrePrioridad FROM PRIORIDAD WHERE activo = '1' ";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idPrioridad;
 					$rowArray["value"] = $row->nombrePrioridad;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
-		}		
+		}
 		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function statusAutocompleteRead(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-				
+
 		$sql = "SELECT idEstado, estado FROM ESTADO WHERE idTipoEstado = 1 AND activo = '1' ";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idEstado;
 					$rowArray["value"] = $row->estado;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
-		}		
+		}
 		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function fileTypeAutocompleteRead(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-				
+
 		$sql = "SELECT idTipoArchivo, nombreTipo FROM TIPO_ARCHIVO";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idTipoArchivo;
 					$rowArray["value"] = $row->nombreTipo;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 			$retArray["msg"] = $sql;
-		}		
+		}
 		return $retArray;
 	}
-	
+
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 	//Devuelve en la variable $msg, los mensajes para los errores detectados por no cumplir las validaciones aplicadas usando la librer�a form_validation
 	function saveValidation(){
 		$this->load->library('form_validation');
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		//Colocando las reglas para los campos, el segundo par�metro es el nombre del campo que aparecer� en el mensaje
 		//Habr� que reemplazar los mensajes, pues por el momento est�n en ingl�s
 		$this->form_validation->set_rules("nombreActividad", "Nombre", 'required');
@@ -696,386 +758,386 @@ function update(){
 			//Concatenamos en $msg los mensajes de errores generados para cada campo, lo tenga o no
 			$retArray["status"] = 1;
 			$retArray["msg"] .= form_error("nombreActividad");
-			$retArray["msg"] .= form_error("descripcion");			
+			$retArray["msg"] .= form_error("descripcion");
 		}
-		
+
 		return $retArray;
 	}
-	
+
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function gridUsuariosRead($idActividad){
-		$this->load->database();		
-		
+		$this->load->database();
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
-		$count = 0;		
+		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) as count FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ".
 				"WHERE u.activo = '1' AND u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
-			$row = $query->row();				
+			$row = $query->row();
 			$count  = $row->count;
-		} 
-		
+		}
+
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
 		}
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
-		
+
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
 		$response->sql = $sql;
-		
+
 		//-------------------------
-		
+
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario, d.nombreDepto ".
-				"FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ";		
-		
+				"FROM USUARIO u INNER JOIN DEPARTAMENTO d ON u.idDepto = d.idDepto ";
+
 		if($idActividad != NULL)$sql.="WHERE u.idUsuario NOT IN (SELECT idUsuario FROM USUARIO_ACTIVIDAD WHERE idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).")";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		$i = 0;
 		if($query){
-			if($query->num_rows > 0){							
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $row->idUsuario;
 					$response->rows[$i]["cell"] = array($row->idUsuario, $row->nombreUsuario, $row->nombreDepto);
-					$i++;				
-				}										
-			}			
+					$i++;
+				}
+			}
 		}
-		
+
 		return $response;
 	}
-	
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function gridSeguidoresRead($idActividad){
-		$this->load->database();		
-		
+		$this->load->database();
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
-		$count = 0;		
+		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) as count ".
 				"FROM USUARIO_ACTIVIDAD ua INNER JOIN USUARIO u ON u.idUsuario = ua.idUsuario LEFT JOIN DEPARTAMENTO d ON d.idDepto = u.idDepto ".
 				"WHERE  ua.idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad);
-	
-		
+
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
-			$row = $query->row();				
+			$row = $query->row();
 			$count  = $row->count;
-		} 
-		
+		}
+
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
 		}
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
-		
+
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
-		
+
 		//-------------------------
-		
+
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario, d.nombreDepto ".
 				"FROM USUARIO_ACTIVIDAD ua INNER JOIN USUARIO u ON u.idUsuario = ua.idUsuario LEFT JOIN DEPARTAMENTO d ON d.idDepto = u.idDepto ".
 				"WHERE  ua.idTipoAsociacion = 2 AND idActividad = ".$this->db->escape($idActividad).
 				" GROUP BY u.idUsuario, nombreUsuario, d.nombreDepto";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		$i = 0;
 		if($query){
-			if($query->num_rows > 0){							
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $row->idUsuario;
 					$response->rows[$i]["cell"] = array($row->idUsuario, $row->nombreUsuario, $row->nombreDepto);
-					$i++;				
-				}										
-			}			
+					$i++;
+				}
+			}
 		}
-		
+
 		return $response;
 	}
-	
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function gridUsuarios1Read($idActividad=NULL){
-		$this->load->database();		
-		
+		$this->load->database();
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
-		$count = 0;		
+		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) AS count ".
 				"FROM (SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
 					  "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
 					  "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
 					  "GROUP BY u.idUsuario) AS BLAH ";
-		
-		
+
+
 		if($idActividad != NULL)$sql.=  "WHERE idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad).")";
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
-			$row = $query->row();				
+			$row = $query->row();
 			$count  = $row->count;
-		} 
-		
+		}
+
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
 		}
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
-		
+
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
 		$response->sql = $sql;
-		
+
 		//-------------------------
-		
+
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
 			   "FROM USUARIO u INNER JOIN USUARIO_HISTORICO uh ON uh.idUsuario = u.idUsuario ".
                "LEFT JOIN CARGO c ON c.idCargo = u.idCargo ";
-			   
-		
+
+
 		if($idActividad != NULL)$sql.= 	"WHERE uh.activo = '1' AND u.idUsuario NOT IN (SELECT ua.idUsuario FROM USUARIO_ACTIVIDAD ua WHERE ua.idActividad =".$this->db->escape($idActividad)." AND idTipoAsociacion = 1)";
-		
+
 		$sql.=" GROUP BY u.idUsuario ";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		$i = 0;
 		if($query){
-			if($query->num_rows > 0){							
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i;
 					$response->rows[$i]["cell"] = array($row->idUsuario, $row->nombreUsuario, $row->nombreCargo);
-					$i++;				
-				}										
-			}			
+					$i++;
+				}
+			}
 		}
 		$response->sql = $sql;
 		return $response;
 	}
-	
-	
+
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function gridResponsablesRead($idActividad){
-		$this->load->database();		
-		
+		$this->load->database();
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
-		$count = 0;		
+		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) FROM (SELECT 1 ".
-				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario AND ua.idTipoAsociacion = 1 ". 
-								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ". 
+				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario AND ua.idTipoAsociacion = 1 ".
+								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
             	" WHERE ua.idActividad = ".$this->db->escape($idActividad).
 				" GROUP BY u.idUsuario) AS BLAH" ;
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
-			$row = $query->row();				
+			$row = $query->row();
 			$count  = $row->count;
-		} 
-		
+		}
+
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
 		}
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
-		
+
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
 		//$response->sql = $sql;
-		
+
 		//-------------------------
-		
+
 		$sql = "SELECT u.idUsuario, CONCAT(u.primerNombre,' ',u.primerApellido) AS nombreUsuario, c.nombreCargo ".
-				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario AND ua.idTipoAsociacion = 1 ". 
-								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ". 
+				"FROM USUARIO u INNER JOIN USUARIO_ACTIVIDAD ua ON ua.idUsuario = u.idUsuario AND ua.idTipoAsociacion = 1 ".
+								"LEFT JOIN CARGO c ON c.idCargo = u.idCargo ".
             	" WHERE ua.idActividad = ".$this->db->escape($idActividad).
 				" GROUP BY u.idUsuario" ;
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		$i = 0;
 		if($query){
-			if($query->num_rows > 0){							
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i;
 					$response->rows[$i]["cell"] = array($row->idUsuario, $row->nombreUsuario, $row->nombreCargo);
-					$i++;				
-				}										
-			}			
+					$i++;
+				}
+			}
 		}
-		
+
 		return $response;
 	}
-	
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function gridProyectosRead($idActividad=NULL){
-		$this->load->database();		
-		
+		$this->load->database();
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
-		$count = 0;		
+		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario " ;
-		
+
 		if($idActividad != NULL) $sql.= "WHERE p.activo = '1' AND idProyecto NOT IN (SELECT ap.idProyecto FROM ACTIVIDAD_PROYECTO ap WHERE ap.idActividad =".$this->db->escape($idActividad).")";
-		
-		$query = $this->db->query($sql);		
-		
+
+		$query = $this->db->query($sql);
+
 		if ($query->num_rows > 0){
-			$row = $query->row();				
+			$row = $query->row();
 			$count  = $row->count;
-		} 
-		
+		}
+
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
 		}
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
-		
+
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
 		$response->sql = $sql;
-		
+
 		//-------------------------
-		
+
 		$sql = "SELECT p.idProyecto, p.nombreProyecto, CONCAT(u.primerNombre, ' ', u.primerApellido) as nombreUsuario ".
 				"FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuario = u.idUsuario ";
-		
+
 		if($idActividad != NULL)$sql.=  "WHERE idProyecto NOT IN (SELECT ap.idProyecto FROM ACTIVIDAD_PROYECTO ap WHERE ap.idActividad =".$this->db->escape($idActividad).")";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		$i = 0;
 		if($query){
-			if($query->num_rows > 0){							
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i;
 					$response->rows[$i]["cell"] = array($row->idProyecto, $row->nombreProyecto, $row->nombreUsuario);
-					$i++;				
-				}										
-			}			
+					$i++;
+				}
+			}
 		}
-		
+
 		return $response;
 	}
-	
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function gridRProyectosRead($idActividad){
-		$this->load->database();		
-		
+		$this->load->database();
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
-		$count = 0;		
+		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) as count ".
 				"FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO ap ON ap.idProyecto = p.idProyecto AND ap.proyectoPrincipal = 0 AND ap.idActividad =". $this->db->escape($idActividad).
                 " INNER JOIN USUARIO u ON u.idUsuario = p.idUsuario" ;
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
-			$row = $query->row();				
+			$row = $query->row();
 			$count  = $row->count;
-		} 
-		
+		}
+
 		if( $count >0 ){
 			$total_pages = ceil($count/$limit);
 		}
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
-		
+
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
 		//$response->sql = $sql;
-		
+
 		//-------------------------
-		
+
 		$sql = "SELECT p.idProyecto, p.nombreProyecto, CONCAT(u.primerNombre,' ', u.primerApellido) as nombreUsuario ".
 				"FROM PROYECTO p INNER JOIN ACTIVIDAD_PROYECTO ap ON ap.idProyecto = p.idProyecto  AND ap.proyectoPrincipal = 0 AND ap.idActividad =".$this->db->escape($idActividad).
                 " INNER JOIN USUARIO u ON u.idUsuario = p.idUsuario" ;
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		$i = 0;
 		if($query){
-			if($query->num_rows > 0){							
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$response->rows[$i]["id"] = $i;
 					$response->rows[$i]["cell"] = array($row->idProyecto, $row->nombreProyecto, $row->nombreUsuario);
-					$i++;				
-				}										
-			}			
+					$i++;
+				}
+			}
 		}
-		
+
 		return $response;
 	}
-	
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 /*-------------------------- FUNCIONES PARA ARCHIVOS -------------------------------*/
@@ -1092,21 +1154,21 @@ function update(){
 		}
 		return $retArray;
 	}
-	
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function createActivityFile(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
-		
+
 		$idActividad   = $this->input->post("idActividad");
 		$idTipoArchivo = $this->input->post("idTipoArchivo");
 		$nombreArchivo = $this->input->post("nombreArchivo");
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
-		
+
 		if($idTipoArchivo=="")$idTipoArchivo=null;
-		
+
 		$sql = "INSERT INTO ARCHIVOS (idActividad, nombreArchivo, tituloArchivo, descripcion, idTipoArchivo, fechaSubida)
     			VALUES (".$this->db->escape($idActividad).", ".
 						$this->db->escape($nombreArchivo).", ".
@@ -1114,14 +1176,14 @@ function update(){
 						$this->db->escape($descripcion).", ".
 						$this->db->escape($idTipoArchivo).
 						",DATE(NOW()))";
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if (!$query){
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
-			
+
 		return $retArray;
 	}
 
@@ -1129,7 +1191,7 @@ function update(){
 
 	function updateActivityFile(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
 		$idArchivo = $this->input->post("idArchivo");
 		$idActividad   = $this->input->post("idActividad");
@@ -1137,40 +1199,40 @@ function update(){
 		$nombreArchivo = $this->input->post("nombreArchivo");
 		$tituloArchivo = $this->input->post("tituloArchivo");
 		$descripcion = $this->input->post("descripcion");
-		
+
 		if($idTipoArchivo=="")$idTipoArchivo=null;
-		
+
 		$sql = "UPDATE ARCHIVOS
 				SET descripcion = ".$this->db->escape($descripcion).
 				" , tituloArchivo = ".$this->db->escape($tituloArchivo).
 				" , idTipoArchivo = ".$this->db->escape($idTipoArchivo).
-				" WHERE idArchivo = ". $idArchivo; 
-		
+				" WHERE idArchivo = ". $idArchivo;
+
 		$query = $this->db->query($sql);
-		
+
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
 		}
-		
+
 		return $retArray;
 	}
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	function fileDataDelete(){
 		$this->load->database();
-		
+
 		$retArray = array("status"=> 0, "msg" => "");
 		$idArchivo = $this->input->post("idArchivo");
 		$nombreArchivo = $this->input->post("nombreArchivo");
-		
+
 		$filePath = './uploads/'.$nombreArchivo;
-		
+
 		$sql = "DELETE FROM ARCHIVOS
 				WHERE idArchivo = ". $idArchivo;
-			
+
 		$query = $this->db->query($sql);
-		
+
 		if (!$query) {
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = $this->db->_error_message();
@@ -1184,23 +1246,23 @@ function update(){
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	function activityFilesRead($idActividad=null){
 		$this->load->database();
-		
+
 		$this->load->helper(array('url'));
-		
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
 		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$idActividad = is_null($idActividad) ? -1 : $idActividad;
-		
+
 		$sql = "SELECT COUNT(*) AS count FROM ARCHIVOS a LEFT JOIN TIPO_ARCHIVO ta ON ta.idTipoArchivo = a.idTipoArchivo ".
 			   "WHERE idActividad = ".$this->db->escape($idActividad);
-		
+
 		$query = $this->db->query($sql);
-		
+
 		if ($query->num_rows() > 0){
 			$row = $query->row();
 			$count  = $row->count;
@@ -1211,24 +1273,24 @@ function update(){
 		else{
 			$total_pages = 0;
 		}
-		
+
 		if ($page > $total_pages) $page=$total_pages;
-		
+
 		$start = $limit*$page - $limit;
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
-		
+
 		//-------------------------
 		$sql = "SELECT a.idArchivo, a.tituloArchivo ,a.nombreArchivo, a.descripcion, a.fechaSubida, ta.nombreTipo ".
 				"FROM ARCHIVOS a LEFT JOIN TIPO_ARCHIVO ta on ta.idTipoArchivo = a.idTipoArchivo ".
 				"WHERE idActividad = ".$this->db->escape($idActividad);
-		
+
 		$response->sql = $sql;
-		
-		$query = $this->db->query($sql);		
+
+		$query = $this->db->query($sql);
 		$i = 0;
-		
+
 		if($query){
 			if($query->num_rows > 0){
 				foreach ($query->result() as $row){
@@ -1240,14 +1302,14 @@ function update(){
 		}
 		return $response;
 	}
-	
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
+
 	function getFollowersInsert($data_array,$idActividad, $nombreActividad, $nombreProyecto){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
 				$cadNotificacion = "Se le ha asignado como seguidor de la actividad <b>".$nombreActividad."</b>";
-				
+
 				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD(idUsuario, correlVinculacion, idActividad, fechaVinculacion, idTipoAsociacion, idUsuarioAsigna, activo)".
     										"VALUES(".
 													$this->db->escape($idUsuario).
@@ -1255,24 +1317,24 @@ function update(){
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),2,".
 											    	$this->db->escape('1').",'1')";
-											    	
+
 				$sql[$i][1]="INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Seguidor de actividad',CURRENT_TIMESTAMP())";
-				
+
 				$sql[$i][2]="SET @lastId = (SELECT COUNT(LAST_INSERT_ID()) FROM NOTIFICACION)";
-				
-				$sql[$i][3]="INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$this->db->escape($idUsuario).",@lastId,18, CURRENT_TIMESTAMP())";											    	
-											
+
+				$sql[$i][3]="INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$this->db->escape($idUsuario).",@lastId,18, CURRENT_TIMESTAMP())";
+
 		}
 		return  $sql;
 
 	}
-	
+
 	function getResponsiblesInsert($data_array,$idActividad, $nombreActividad, $nombreProyecto){
-		
+
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
 				$cadNotificacion = "Se le ha asignado la actividad <b>".$nombreActividad."</b>";
-				
+
 				$sql[$i][0] = "INSERT INTO USUARIO_ACTIVIDAD (idUsuario, correlVinculacion, idActividad, fechaVinculacion, activo, idTipoAsociacion, idUsuarioAsigna)
 							VALUES(".
 													$this->db->escape($idUsuario).
@@ -1280,37 +1342,37 @@ function update(){
 												    $this->db->escape($idActividad).",".
 												    "DATE(NOW()),1,1,".
 											    	$this->db->escape('1').")";
-											    	
-			
+
+
 				$sql[$i][1]="INSERT INTO NOTIFICACION(notificacion,subject,fechaNotificacion) VALUES(".$this->db->escape($cadNotificacion).",'Actividad asignada',CURRENT_TIMESTAMP())";
-				
+
 				$sql[$i][2]="SET @lastId = (SELECT COUNT(LAST_INSERT_ID()) FROM NOTIFICACION)";
-				
+
 				$sql[$i][3]="INSERT INTO USUARIO_NOTIFICACION(idUsuario,idNotificacion,idEstado,horaEntrada) VALUES(".$this->db->escape($idUsuario).",@lastId,18, CURRENT_TIMESTAMP())";
 		}
 		return  $sql;
-		
+
 	}
-	
+
 	function getUsersDelete($data_array,$idActividad){
-		
+
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idUsuario = $data_array[$i];
-				
+
 				$sql[$i] = "DELETE FROM USUARIO_ACTIVIDAD WHERE idActividad = ". $this->db->escape($idActividad)." AND idUsuario = ".$this->db->escape($idUsuario);
 		}
 		return  $sql;
-		
+
 	}
-	
-	function getRProjectsInsert($data_array,$idActividad){		
+
+	function getRProjectsInsert($data_array,$idActividad){
 		for($i = 0 ; $i< (count($data_array)); $i++){
 				$idProyecto = $data_array[$i];
-			
+
 				$sql[$i] = "INSERT INTO ACTIVIDAD_PROYECTO (idProyecto, idActividad, proyectoPrincipal) VALUES (".$this->db->escape($idProyecto).",".$this->db->escape($idActividad).", 0)";
 				//echo $sql[$i];
 		}
 		return  $sql;
 	}
-	
+
 }

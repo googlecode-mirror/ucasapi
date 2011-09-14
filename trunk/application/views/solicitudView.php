@@ -55,9 +55,9 @@
 			<input type="hidden" id="edit" value="<?php echo $edit; ?>" />
 
 			<div class="divDataForm">
-
+				<input type="hidden" value="<?php echo $editable;?>" id="editable"/>
 				<span class = "requiredFieldLabel">Asunto:</span>
-				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField" title = "Titulo de la peticion" maxlength="40"/><br>
+				<input id="txtSolicitudAsunto" type="text"  value="" class = "inputField" title = "Titulo de la peticion" maxlength="40" /><br>
 
 				<span class = "requiredFieldLabel">Prioridad:</span>
 				<select name="prioridades" id="cbxPrioridades" class = "selectList" >
@@ -68,7 +68,7 @@
 				<input id="txtEndingDate" type="text"  value="" class = "inputField"  title="Fecha esperada de resoluci&oacute;n" readonly/>
 
 				<span class = "requiredFieldLabel">Descripci&oacute;n:</span>
-				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA"></textArea><br>
+				<textArea id="txtSolicitudDesc" cols=20 rows=6 class = "inputFieldTA" ></textArea><br>
 				<br><br><br><br><br><br><br><br><br><br>
 			</div>
 

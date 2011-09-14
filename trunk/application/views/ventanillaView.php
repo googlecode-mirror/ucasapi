@@ -96,7 +96,7 @@
 				<span class = "requiredFieldLabel" style="margin-left:56px">Nombre</span>
 				<input id="txtActivityName" type="text"  value="" class = "inputField"  maxlength="40"/><br/><br/>
 
-				<span class = "requiredFieldLabel" style="margin-left:56px">Proyecto principal</span>
+				<span class = "inputFieldLabel" style="margin-left:56px">Proyecto principal</span>
 				<input id="txtProjectName" type="text"  value="" class = "inputField"  maxlength="100"/><br/><br/>
 
 				<span class="inputFieldLabel">Proceso</span>

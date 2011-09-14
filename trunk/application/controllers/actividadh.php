@@ -1,7 +1,7 @@
 <?php
 
 class Actividadh extends CI_Controller{
-	
+
 	function index(){
 	$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
@@ -12,59 +12,64 @@ class Actividadh extends CI_Controller{
 		$previousPage = $this->session->userdata("currentPage");
 		$previousPage = ($previousPage!="")?$previousPage:"buzon";
 
-		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesión
+		$idRol = $this->session->userdata("idRol");//Se agrega en $idRol el dato correspondiente de la sesiï¿½n
 
-		if($idRol != ""){//Si está en sesión
+		if($idRol != ""){//Si estï¿½ en sesiï¿½n
 			$allowedPage = $this->roleOptionsModel->validatePage($idRol, $controllerName);
-				
-			if($allowedPage){//Si el usuario según rol tiene permiso para acceder a la página
+
+			if($allowedPage){//Si el usuario segï¿½n rol tiene permiso para acceder a la pï¿½gina
 				$this->session->set_userdata("previousPage", $previousPage);
 				$this->session->set_userdata("currentPage", $controllerName);
 
-				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menú
-				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesión
+				$menu = $this->roleOptionsModel->showMenu($idRol);//Se genera el menï¿½
+				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesiï¿½n
 				$roleName = $this->session->userdata("roleName");
 				$idRol = $this->session->userdata("idRol");
 				$idUsuario = $this->session->userdata("idUsuario");
 
-				$this->load->view("actividadhView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "idUsuario" => $idUsuario));//Se agrega el código del menú y el nombre del usuario como variables al view
+				$this->load->view("actividadhView", array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "idRol" => $idRol, "idUsuario" => $idUsuario));//Se agrega el cï¿½digo del menï¿½ y el nombre del usuario como variables al view
 
 			}
-			else{//Si el usuario no tiene permiso para acceder a la página se redirige a la anterior
+			else{//Si el usuario no tiene permiso para acceder a la pï¿½gina se redirige a la anterior
 				redirect($previousPage,"refresh");
 			}
 
 		}
-		else{//Si no existe usuario en sesión se redirige al login
+		else{//Si no existe usuario en sesiï¿½n se redirige al login
 			redirect("login", "refresh");
 		}
 	}
-	
+
 	function actividadhAutocompleteRead($idUsuario, $idRol){
 		$this->load->model("actividadhModel");
 		echo json_encode($this->actividadhModel->proyRead($idUsuario,$idRol));
 	}
-	
+
 	function actividadhProcAutocompleteRead($idProyecto){
 		$this->load->model("actividadhModel");
 		echo json_encode($this->actividadhModel->procRead($idProyecto));
 	}
-	
+
 	function actividadhProcActividades($idProceso){
 		$this->load->model("actividadhModel");
 		echo json_encode($this->actividadhModel->actProcRead($idProceso));
-		
+
 	}
-	
+
 	function actividadhProyActividades($idProyecto){
 		$this->load->model("actividadhModel");
 		echo json_encode($this->actividadhModel->actProyRead($idProyecto));
-		
+
 	}
-	
+
 	function actividadhBitacora($idActividad){
 		$this->load->model("actividadhModel");
 		echo json_encode($this->actividadhModel->actividadBitacora($idActividad));
 	}
-	
+
+	function actividadhNoProyProcActividades() {
+		$this->load->model("actividadhModel");
+		echo json_encode($this->actividadhModel->actividadhNoProyProcActividades());
+	}
+
 }

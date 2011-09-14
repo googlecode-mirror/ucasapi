@@ -6,6 +6,7 @@ class Solicitud extends CI_Controller {
 		$this->load->library('session');
 		$this->load->helper(array('form', 'url'));
 		$this->load->model("roleOptionsModel");
+		$this->load->model("solicitudModel");
 
 		$controllerName = strtolower(get_class($this));
 
@@ -25,8 +26,17 @@ class Solicitud extends CI_Controller {
 				$userName = $this->session->userdata("username");//Se obtiene el nombre de usuario de la sesi�n
 				$roleName = $this->session->userdata("roleName");
 
+				$editable = 1;
+
+				if( $edit != "" ) {
+
+					if($this->solicitudModel->esSolicitudAsignada($edit)) {
+						$editable = 0;
+					}
+				}
+
 				//Se agrega el c�digo del men� y el nombre del usuario como variables al view
-				$data = array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "edit" => $edit);
+				$data = array("menu"=> $menu, "userName" => $userName, "roleName" => str_replace("%20", " ", $roleName), "edit" => $edit, "editable" => $editable);
 				$this->load->view("solicitudView", $data);
 
 			}
