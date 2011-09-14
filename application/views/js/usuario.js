@@ -524,11 +524,6 @@ function validar_campos() {
 		}
 	}
 	
-	if($("#txtUsuarioDepartamento").val()=="" || $("#txtUsuarioDepartamento").val()==""){
-		camposFallan += "<p><dd>El campos DEPARTAMENTO es requerido </dd><br/></p>";
-	}
-	
-	
 	if($("#txtUsuarioCarnet").val()!=""){
 		if(!validarCarnet($("#txtUsuarioCarnet").val())){
 			camposFallan += "<p><dd>Formato de CARNET es incorrecto o contiene caracteres no validos </dd><br/></p>";

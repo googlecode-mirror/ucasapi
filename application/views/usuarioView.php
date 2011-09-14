@@ -111,7 +111,7 @@
                     <span class = "inputFieldLabel">NUP:</span>
                     <input id="txtUsuarioNUP" type="text"  value="" class = "inputField" title = "Número de afiliación de AFP, solo n&uacute;meros, 12 en total" maxlength="12"/><br>
                    
-                    <span class = "requiredFieldLabel">Departamento:</span>
+                    <span class = "inputFieldLabel">Departamento:</span>
                     <input id="txtUsuarioDepartamento" type="text"  value="" class = "inputField" title = "Departamento universitario al que pertenece" maxlength="256"/><br>
                    
                     <span class = "inputFieldLabel">Cargo:</span>
@@ -133,7 +133,7 @@
                     <input id="txtUsuarioExtension" type="text"  value="" class = "inputField" title = "Extensión UCA, solo numeros, maximo 5" maxlength="5"/><br>
                    
                     <span class = "inputFieldLabel">Activo:</span>
-                    <input id="chkUsuarioActivo" type="checkbox" value="1" title = "Checkear si el usuario esta activo en el sistema" class="inputCHK"/><br>
+                    <input id="chkUsuarioActivo" type="checkbox" value="1" title = "Chequear si el usuario esta activo en el sistema" class="inputCHK"/><br>
                 </div>
                 <div id="tabs-2" style="height: 260px" align="center">
                     <input id="idRol" type="hidden" value="" class = "hiddenId"/>
