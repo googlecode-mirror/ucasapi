@@ -558,8 +558,6 @@ function validarCampos() {
 		if (!validarAlfaEsp($("#txtProjectName").val())) {
 			camposFallan += "El campos PROYECTO contiene caracteres no validos <br />";
 		}
-	} else {
-		camposFallan += "El campo PROYETCO es requerido <br />";
 	}
 
 	/*if ($("#txtProcessName").val() != "") {

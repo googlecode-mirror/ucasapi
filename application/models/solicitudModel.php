@@ -255,7 +255,9 @@ class solicitudModel extends CI_Model {
 				LEFT JOIN BITACORA b ON (b.idActividad = a.idActividad)
 				INNER JOIN USUARIO_SOLICITUD us ON (us.anioSolicitud = s.anioSolicitud AND us.correlAnio = s.correlAnio)
 				INNER JOIN USUARIO u ON (u.idUsuario = us.idUsuario)
-				INNER JOIN (select TRUNCATE(AVG(progreso), 0) progreso from BITACORA where idActividad in (select idActividad from ACTIVIDAD where anioSolicitud = ? and correlAnio = ?)) P
+				INNER JOIN ((select TRUNCATE(AVG(progreso), 0) progreso from (
+							select progreso from BITACORA b inner join (select idActividad, max(ultimoRegistro) ultimo from BITACORA where idActividad IN (select idActividad from ACTIVIDAD where anioSolicitud = ? and correlAnio = ?) group by idActividad) pro
+							on b.idActividad = pro.idActividad and b.ultimoRegistro = pro.ultimo) progress)) P
 				WHERE s.anioSolicitud = ? AND s.correlAnio = ? AND esAutor = 1
 				GROUP BY s.tituloSolicitud, s.fechaEntrada, s.descripcionSolicitud, a.fechaInicioPlan";
 
@@ -560,5 +562,19 @@ class solicitudModel extends CI_Model {
 	    }
 
 		return $retArray;
+	}
+
+	function esSolicitudAsignada($idSolicitud) {
+		$solicitud = explode("-", $idSolicitud);
+		$this->load->database();
+		$asignada = FALSE;
+		$sql = "select * from ACTIVIDAD WHERE anioSolicitud = ? and correlAnio = ?";
+		$query = $this->db->query($sql, $solicitud);
+
+		if ($query->num_rows() > 0) {
+			$asignada = TRUE;
+		}
+		return $asignada;
+
 	}
 }

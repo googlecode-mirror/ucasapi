@@ -1,18 +1,18 @@
 <?php
 
 class ActividadhModel extends CI_Model{
-	
+
 	function proyRead($idUsuario,$idRol){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
 			return $retArray;
 		}
-		
+
 		if($idRol == 1){
 			$sql = "SELECT nombreProyecto, idProyecto
 					FROM PROYECTO";
@@ -20,146 +20,146 @@ class ActividadhModel extends CI_Model{
 		}
 		else{
 			$sql = "SELECT p.nombreProyecto, p.idProyecto
-					FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuarioEncargado = u.idUsuario 
+					FROM PROYECTO p INNER JOIN USUARIO u ON p.idUsuarioEncargado = u.idUsuario
 					WHERE u.idUsuario = " .$idUsuario;
 			$query = $this->db->query($sql);
-		}	
-	
+		}
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idProyecto;
 					$rowArray["value"] = $row->nombreProyecto;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-		}		
+		}
 		return $retArray;
 	}
-	
+
 	function procRead($idProyecto){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
 			return $retArray;
 		}
-		
+
 		$sql = "SELECT p.nombreProceso, p.idProceso
-				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto 
+				FROM PROCESO p INNER JOIN PROYECTO pr ON p.idProyecto = pr.idProyecto
 				WHERE p.idProyecto = " .$idProyecto. " AND p.activo = '1'";
-		$query = $this->db->query($sql);		
-	
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idProceso;
 					$rowArray["value"] = $row->nombreProceso;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-		}		
+		}
 		return $retArray;
 	}
-	
+
 	function actProyRead($idProyecto){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
 			return $retArray;
 		}
-		
+
 		$sql = "SELECT DISTINCT a.idActividad, a.nombreActividad
 				FROM ACTIVIDAD a INNER JOIN ACTIVIDAD_PROYECTO axp ON a.idActividad = axp.idActividad
 					INNER JOIN PROYECTO pt ON axp.idProyecto = pt.idProyecto
 				WHERE pt.idProyecto = ".$idProyecto. " AND a.idProceso IS NULL";
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idActividad;
 					$rowArray["value"] = $row->nombreActividad;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-		}		
+		}
 		return $retArray;
 	}
-	
+
 	function actProcRead($idProceso){
 		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
-		
-		$this->load->database();		
-		//Verificando correcta conexión a la base de datos
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
 		if (!$this->db->conn_id) {
 			$retArray["status"] = 2;
 			$retArray["msg"] = database_cn_error_msg();
 			return $retArray;
 		}
-		
+
 		$sql = "SELECT DISTINCT a.idActividad, a.nombreActividad
 				FROM ACTIVIDAD a INNER JOIN PROCESO p ON a.idProceso = p.idProceso
 				WHERE p.idProceso = ".$idProceso;
-		
-		$query = $this->db->query($sql);		
-	
+
+		$query = $this->db->query($sql);
+
 		if($query){
-			if($query->num_rows > 0){			
-				foreach ($query->result() as $row){		
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
 					$rowArray = array();
 					$rowArray["id"] = $row->idActividad;
 					$rowArray["value"] = $row->nombreActividad;
-										
-					$retArray["data"][] = $rowArray;				
-				}							
+
+					$retArray["data"][] = $rowArray;
+				}
 			}
 		}
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
-		}		
+		}
 		return $retArray;
 	}
-	
+
 	function actividadBitacora($idActividad){
 		$this->load->database();
-		
+
 		$page = $this->input->post("page");
 		$limit = $this->input->post("rows");
 		$sidx = $this->input->post("sidx");
 		$sord = $this->input->post("sord");
 		$count = 0;
 		if(!$sidx) $sidx =1;
-		
+
 		$sql = "SELECT COUNT(*) AS count FROM BITACORA WHERE idActividad = " .$idActividad;
-		
+
 		$query = $this->db->query($sql);
 
 		if ($query->num_rows() > 0){
@@ -180,23 +180,23 @@ class ActividadhModel extends CI_Model{
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $count;
-		
+
 		//-------------------------------------------------------------------
-		
+
 		$retArray = array("status" => 0, "msg" => "", "data" => array());
 		$idNotificacion = $this->input->post("idNotificacion");
-		
+
 		$sql = "SELECT CONCAT_WS(' ',u.primerNombre,u.primerApellido) AS nombre, b.comentario, b.progreso, e.estado, b.fechaReg
 				FROM BITACORA b INNER JOIN USUARIO u ON b.idUsuario = u.idUsuario
 					INNER JOIN ESTADO e ON b.idEstado = e.idEstado
 				WHERE b.idActividad = " .$idActividad.
 				" ORDER BY b.ultimoRegistro DESC";
-		
+
 		$query = $this->db->query($sql);
-		
+
 		$i = 0;
-		if($query->num_rows > 0){			
-			foreach ($query->result() as $row){		
+		if($query->num_rows > 0){
+			foreach ($query->result() as $row){
 				//$rowArray = array();
 				//$rowArray["subject"] = $row->subject;
 				//$rowArray["fechaNotificacion"] = $row->fechaNotificacion;
@@ -204,17 +204,50 @@ class ActividadhModel extends CI_Model{
 				//$retArray["data"][] = $rowArray;
 				$response->rows[$i]["id"] = i;
 				$response->rows[$i]["cell"] = array($row->nombre, $row->comentario, $row->progreso, $row->estado, $row->fechaReg);
-				$i++;		
-			}							
+				$i++;
+			}
 		}
-		
+
 		else{
 			$retArray["status"] = $this->db->_error_number();
 			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
 		}
-		
+
 		//return $retArray;
 		return $response;
 	}
-	
+
+	function actividadhNoProyProcActividades() {
+		$retArray = array("status"=> 0, "msg" => "", "data"=>array());
+
+		$this->load->database();
+		//Verificando correcta conexiï¿½n a la base de datos
+		if (!$this->db->conn_id) {
+			$retArray["status"] = 2;
+			$retArray["msg"] = database_cn_error_msg();
+			return $retArray;
+		}
+
+		$sql = "select idActividad, nombreActividad from ACTIVIDAD where idActividad not in (select idActividad from ACTIVIDAD_PROYECTO) AND idProceso IS NULL";
+
+		$query = $this->db->query($sql);
+
+		if($query){
+			if($query->num_rows > 0){
+				foreach ($query->result() as $row){
+					$rowArray = array();
+					$rowArray["id"] = $row->idActividad;
+					$rowArray["value"] = $row->nombreActividad;
+
+					$retArray["data"][] = $rowArray;
+				}
+			}
+		}
+		else{
+			$retArray["status"] = $this->db->_error_number();
+			$retArray["msg"] = (database_error_msg()!="")?database_error_msg():$this->db->_error_message();
+		}
+		return $retArray;
+	}
+
 }

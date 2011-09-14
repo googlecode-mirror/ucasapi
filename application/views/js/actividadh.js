@@ -6,6 +6,7 @@ $(document).ready(function() {
 	js_ini();
 	actividadhProyectoAutocomplete();
 	procesoNullProyectoAutocomplete();
+	loadActividadNoProyProc();
 	$("#actividadhButton").addClass("highlight");
 	$("#idActividad").val("0");
 	$("#txtRecordsProy").focus(function(){$("#txtRecordsProy").autocomplete('search', '');});
@@ -13,6 +14,40 @@ $(document).ready(function() {
 	$("#txtRecordsAct").focus(function(){$("#txtRecordsAct").autocomplete('search', '');});
 	ver();
 });
+
+function loadActividadNoProyProc() {
+	$.ajax({
+		type : "POST",
+		url : "index.php/actividadh/actividadhNoProyProcActividades/",
+		data : "proyectoAutocomplete",
+		dataType : "json",
+		success : function(retrievedData) {
+			if (retrievedData.status != 0) {
+				msgBoxError("Ocurrio un problema: " + retrievedData.msg);				
+			} else {
+				$("#txtRecordsAct").autocomplete({
+					minChars : 0,
+					matchContains : true,
+					source : retrievedData.data,
+					minLength : 0,
+					select : function(event, ui) {
+						$("#idActividad").val(ui.item.id);
+						$(this).blur();//Dedicado al IE
+					},
+					//Esto es para el esperado mustMatch o algo parecido
+					change :function(){
+						if(!autocompleteMatch(retrievedData.data, $("#txtRecordsAct").val())){
+							$("#txtRecordsAct").val("");
+							$("#idActividad").val("");
+						}
+					}
+				});
+
+			}
+		}
+
+	});
+}
 
 function procesoNullProyectoAutocomplete(){
 	$.ajax({

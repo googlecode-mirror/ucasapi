@@ -20,6 +20,10 @@
 		function asignarSolicitud() {
 			window.location = "/ucasapi/actividada/index/" + $("#anioSolicitud").val() + "/" + $("#correlAnio").val();
 		}
+
+		function verActividades() {
+			window.location = "/ucasapi/actividada/actividadesSolicitud/" + $("#anioSolicitud").val() + "/" + $("#correlAnio").val();
+		}
 		</script>
 	</head>
 
@@ -75,15 +79,20 @@
 				<span class = "inputFieldLabel"><b>Otros interesados:</b></span><br/>
 				<span class="cleanable" id="interesados">
 					<?php
-						$i=1;
-						for($i=1 ; $i < count($data) ; $i++) {
-							echo $data[$i]->cliente . " - " . $data[$i]->cargo . "<br/>";
+						if(count($data) >= 2 ){
+							$i=1;
+							for($i=1 ; $i < count($data) ; $i++) {
+								echo $data[$i]->cliente . " - " . $data[$i]->cargo . "<br/>";
+							}
+						} else {
+							echo "(Ninguno)";
 						}
 					?>
 				</span><br><br><br>
 
 				<div class="divCRUDButtons">
 					<button id="btnSave" onClick="asignarSolicitud()">Asignar esta solicitud</button>
+					<button id="btnEdit" onClick="verActividades()">Mostrar actividades</button>
 				</div>
 			</div>
 
