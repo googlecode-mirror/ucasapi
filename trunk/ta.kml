@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+	<Document>
+		<name>KML Example file</name>
+		<description>Simple markers</description>
+		
+		<Placemark>
+			<name>TACA International Airlines</name>
+			<description>Oficinas de TACA en <b>SAL</b></description>
+			<Point>
+				<coordinates>-89.255776,13.660671,0</coordinates>
+			</Point>
+		</Placemark>
+	</Document>
+</kml>
