@@ -6,7 +6,7 @@
 		
 		<Placemark>
 			<name>TACA International Airlines</name>
-			<description>Oficinas de TACA en <b>SAL</b></description>
+			<description><![CDATA[Oficinas de TACA en <b>SAL</b>]]></description>
 			<Point>
 				<coordinates>-89.255776,13.660671,0</coordinates>
 			</Point>
