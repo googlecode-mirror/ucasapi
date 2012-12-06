@@ -8,7 +8,7 @@
 			<name>TACA International Airlines</name>
 			<description><![CDATA[Oficinas de TACA en <b>SAL</b> http://www.taca.com ]]></description>
 			<Point>
-				<coordinates>-89.255776,13.660671,0</coordinates>
+				<coordinates>-89.255776,13.660671</coordinates>
 			</Point>
 		</Placemark>
 	</Document>
