@@ -230,7 +230,7 @@ function loadDocumentsGrid(){
 		}, {
 			name : "nombreTipo",
 			index : "nombreTipo",
-			with : 100
+			width : 100
 		},
 		
 		{
