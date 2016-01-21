@@ -1,0 +1,1 @@
+Este sistema permitira a la Direccion de Sistemas y Gestion de Informacion de la UCA administrar y dar seguimiento a los proyectos informaticos que se vayan desarrollando e implementando.
